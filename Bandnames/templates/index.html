@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Example of Django message passing -->
+    <!-- <center>
+        <h1 style="color:blue">{{ name.1 }}</h1>
+        <h1 style="color:blue">{{ name.0 }}</h1>
+        <p style="font-size:20px; color:red"></p>
+      </center> -->
+
+
+    <center>
+        <h2></h2>
+        <form id="post-form">
+            {% csrf_token %}
+
+            Bandname: <input type="text" id="bandname" , name="bandname" /><br><br>
+            Username: <input type="text" id="username" , name="username" /><br><br>
+            <button id="button1">Submit Bandname</button>
+        </form>
+    </center>
+</body>
+<script type="text/javascript">
+    $(document).on('submit', '#post-form', function (e) {
+        e.preventDefault(); // Stop page from refreshing
+        $.blockUI();
+        $.ajax({
+            type: 'POST',
+            url: '/create',
+            data: {
+                bandname: $('#bandname').val(),
+                username: $('#username').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                $.unblockUI();
+                $('h2').html(data);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
