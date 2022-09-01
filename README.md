@@ -1,4 +1,4 @@
-# BandnamesWebsite 
+# Bandnames Website 
 
 `$ pip3 freeze` output:
 ```bash
