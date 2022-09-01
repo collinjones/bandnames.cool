@@ -14,9 +14,9 @@ def create(request):
                                 downvotes=0,
                                 username=username)
         new_bandname.save()
-        success = 'Bandname ' + bandname + ' created.'
+        success = 'The bandname ' + bandname + ' !submitted successfully by ' + username
         return HttpResponse(success)
 
 
 def index(request):
-    return render(request, "index.html")
+    return render(request, "../templates/Bandnames/index.html")

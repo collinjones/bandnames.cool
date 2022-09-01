@@ -1,0 +1,16 @@
+h1 {
+    color: black;
+    font-family: 'Pixelated';
+} 
+
+input[type="text"]
+{
+    font-family: 'Pixelated';
+    font-size:24px;
+}
+
+@font-face {
+    font-family: 'Pixelated';
+    src: url('PixeloidSans-nR3g1.ttf');
+  }
+  
