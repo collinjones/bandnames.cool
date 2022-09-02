@@ -23,11 +23,16 @@ $(document).ready(function() {
         $.ajax({
             type: 'GET',
             url: '/refreshNames',
-            dataType: "html",
             success: function (data) {
                 $.unblockUI();
                 console.log(data)
-                $("#bandnames-list").append('<li>' + data + '</li>');
+                content = "<tr> \
+                            <td> " + data[data.length-1]['bandname'] + " </td> \
+                            <td> " + data[data.length-1]['username'] + " </td> \
+                            <td> " + data[data.length-1]['upvotes'] + " </td> \
+                            <td> " + data[data.length-1]['downvotes'] + " </td> \
+                           </tr>"
+                $("#bandnames-table").append(content);
             }
         });
     });

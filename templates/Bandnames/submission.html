@@ -22,11 +22,22 @@
 </center>
 
 <center>
-        <ul style="font-family: Pixelated" id='bandnames-list'>
+        <table style="font-family: Pixelated" id="bandnames-table">
+            <tr>
+                <th>Bandname</th>
+                <th>Username</th>
+                <th>Upvotes</th>
+                <th>Downvotes</th>
+            </tr>
             {% for bandname in bandnames %}
-            <li>{{bandname.bandname}}</li>
+            </tr>
+                <td>{{bandname.bandname}}</td>
+                <td>{{bandname.username}}</td>
+                <td>{{bandname.upvotes}}</td>
+                <td>{{bandname.downvotes}}</td>
+            </tr>
             {% endfor %}
-        </ul>
+        </table>
 </center>
 
 {% endblock %}

@@ -1,14 +1,18 @@
 from unicodedata import name
 from django.shortcuts import render
+import json
 from django.http import HttpResponse
 from .models import Bandname
+from django.http import JsonResponse
+from django.core import serializers
 
 def refreshNames(request):
     if request.method == 'GET':
 
         # Return the last bandname added to DB
-        all_bands = Bandname.objects.values_list('bandname', flat=True)
-        return HttpResponse(all_bands[len(all_bands)-1])
+        all_bands = Bandname.objects.all()
+        serealized = list(Bandname.objects.values())
+        return JsonResponse(serealized, safe = False)
 
 def create(request):
     
