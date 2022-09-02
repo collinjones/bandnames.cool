@@ -3,23 +3,24 @@ from django.http import HttpResponse
 from .models import Bandname
 
 def create(request):
-    if request.method == 'POST':
+    print(request.method)
+    success = 'The bandname "' + bandname + '" submitted successfully by ' + username
+    return HttpResponse(success)
+    # if request.method == 'POST':
 
-        Bandname.objects.all().delete()
+    #     Bandname.objects.all().delete()
 
-        bandname = request.POST['bandname']
-        username = request.POST['username']
-        new_bandname = Bandname(bandname=bandname,
-                                upvotes=0,
-                                downvotes=0,
-                                username=username)
-        new_bandname.save()
-        success = 'The bandname "' + bandname + '" submitted successfully by ' + username
-        return HttpResponse(success)
+    #     bandname = request.POST['bandname']
+    #     username = request.POST['username']
+    #     new_bandname = Bandname(bandname=bandname,
+    #                             upvotes=0,
+    #                             downvotes=0,
+    #                             username=username)
+    #     new_bandname.save()
+    #     success = 'The bandname "' + bandname + '" submitted successfully by ' + username
+    #     return HttpResponse(success)
 
 
 def index(request):
-    # header_vars = {"title" : "Title!"}
-    # render(request, "../templates/Bandnames/header.html", context=header_vars)
     ctxt = {"title" : "Submission Page"}
     return render(request, "../templates/Bandnames/submission.html", context=ctxt)
