@@ -4,14 +4,15 @@ from .models import Bandname
 
 def create(request):
     print(request.method)
-    success = 'The bandname "' + bandname + '" submitted successfully by ' + username
-    return HttpResponse(success)
+    # bandname = request.POST['bandname']
+    # username = request.POST['username']
+    # success = 'The bandname "' + bandname + '" submitted successfully by ' + username
+    # return HttpResponse(success)
     # if request.method == 'POST':
 
     #     Bandname.objects.all().delete()
 
-    #     bandname = request.POST['bandname']
-    #     username = request.POST['username']
+    
     #     new_bandname = Bandname(bandname=bandname,
     #                             upvotes=0,
     #                             downvotes=0,
