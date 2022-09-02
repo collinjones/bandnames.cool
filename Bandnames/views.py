@@ -19,7 +19,7 @@ def create(request):
     #                             username=username)
     #     new_bandname.save()
     #     success = 'The bandname "' + bandname + '" submitted successfully by ' + username
-    #     return HttpResponse(success)
+    return HttpResponse("bandname created")
 
 
 def index(request):
