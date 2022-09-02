@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href=" {% static 'Bandnames/styles/style.css' %} ">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title> {% block title %} {% endblock %}</title>
+    </head>
+
+    <body>
+        {% block body %}
+        Replace me
+        {% endblock %}
+    </body>
+    
+</html>

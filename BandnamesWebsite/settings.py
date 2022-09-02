@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'BandnamesWebsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'BandnamesWebsiteDB',
+        'NAME': 'bandnamesdotcool-DB',
         'CLIENT': {
             'host': 'mongodb+srv://cojo2657:e*hp0a7mugDX@bandnameswebapp.9etfmgd.mongodb.net/?retryWrites=true&w=majority',
             'username': 'cojo2657',

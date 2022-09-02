@@ -14,9 +14,12 @@ def create(request):
                                 downvotes=0,
                                 username=username)
         new_bandname.save()
-        success = 'The bandname ' + bandname + ' !submitted successfully by ' + username
+        success = 'The bandname "' + bandname + '" submitted successfully by ' + username
         return HttpResponse(success)
 
 
 def index(request):
-    return render(request, "../templates/Bandnames/index.html")
+    # header_vars = {"title" : "Title!"}
+    # render(request, "../templates/Bandnames/header.html", context=header_vars)
+    ctxt = {"title" : "Submission Page"}
+    return render(request, "../templates/Bandnames/submission.html", context=ctxt)
