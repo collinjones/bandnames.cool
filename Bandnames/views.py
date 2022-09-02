@@ -2,11 +2,10 @@ from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Bandname
-from django.core.exceptions import ObjectDoesNotExist
 
 def refreshNames(request):
     if request.method == 'GET':
-        
+
         # Return the last bandname added to DB
         all_bands = Bandname.objects.values_list('bandname', flat=True)
         return HttpResponse(all_bands[len(all_bands)-1])
@@ -29,7 +28,7 @@ def create(request):
 
         # If the bandname does not exist, create it
         except Bandname.DoesNotExist:
-            # Bandname.objects.all().delete()
+            Bandname.objects.all().delete()
             new_bandname = Bandname(bandname=bn,
                                     upvotes=0,
                                     downvotes=0,
