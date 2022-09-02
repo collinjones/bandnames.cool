@@ -4,6 +4,8 @@
 
 {% block body %}
 <center>
+
+    <h1></h1>
     <form style="font-family: Pixelated" id="post-form">
         <h2> Submit a bandname </h2>
         {% csrf_token %}
@@ -11,27 +13,20 @@
         Username: <input type="text" id="username" , name="username" /><br><br>
         <button style="font-family: Pixelated" >Submit Bandname</button>
     </form>
-    <h1></h1>
+
+    <form id="refresh-button">
+        {% csrf_token %}
+        <button>Refresh Bandnames</button>
+    </form>
+
 </center>
 
-<!-- <script type="text/javascript">
-    $(document).on('submit', '#post-form', function (e) {
-        e.preventDefault(); // Stop page from refreshing
-        $.blockUI({ message: null }); 
-        $.ajax({
-            type: 'POST',
-            url: '/create',
-            data: {
-                bandname: $('#bandname').val(),
-                username: $('#username').val(),
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success: function (data) {
-                $.unblockUI();
-                $('h1').html(data);
-            }
-        });
-    });
-</script> -->
+<center>
+        <ul style="font-family: Pixelated" id='bandnames-list'>
+            {% for bandname in bandnames %}
+            <li>{{bandname.bandname}}</li>
+            {% endfor %}
+        </ul>
+</center>
 
 {% endblock %}

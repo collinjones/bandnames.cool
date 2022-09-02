@@ -4,35 +4,45 @@ from django.http import HttpResponse
 from .models import Bandname
 from django.core.exceptions import ObjectDoesNotExist
 
+def refreshNames(request):
+    if request.method == 'GET':
+        
+        # Return the last bandname added to DB
+        all_bands = Bandname.objects.values_list('bandname', flat=True)
+        return HttpResponse(all_bands[len(all_bands)-1])
+
 def create(request):
     
     if request.method == 'POST':
 
         bn = request.POST['bandname']
+        un = request.POST['username']
 
         # Return a failed response if bandname exists in DB already 
         try:
+            if (bn == ""):
+                return HttpResponse("Bandname required")
+            if (un == ""):
+                return HttpResponse("Username required")
             if (Bandname.objects.get(bandname = bn)):
-                failed = "Name exists already!"
-                return HttpResponse(failed)  
+                return HttpResponse("Bandname '" + bn + "' exists already")  
 
         # If the bandname does not exist, create it
         except Bandname.DoesNotExist:
-            username = request.POST['username']
-            success = 'The bandname "' + bn + '" submitted successfully by ' + username
             # Bandname.objects.all().delete()
-
             new_bandname = Bandname(bandname=bn,
                                     upvotes=0,
                                     downvotes=0,
-                                    username=username)
+                                    username=un)
             new_bandname.save()
-            success = 'The bandname "' + bn + '" submitted successfully by ' + username
+            success = 'The bandname "' + bn + '" submitted successfully by ' + un
             return HttpResponse(success)
             
         
             
 
 def index(request):
-    ctxt = {"title" : "Submission Page"}
+    all_bandnames = Bandname.objects.all()
+    ctxt = {"title" : "Submission Page",
+            "bandnames": all_bandnames}
     return render(request, "../templates/Bandnames/submission.html", context=ctxt)
