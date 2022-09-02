@@ -28,7 +28,7 @@ def create(request):
 
         # If the bandname does not exist, create it
         except Bandname.DoesNotExist:
-            Bandname.objects.all().delete()
+            #Bandname.objects.all().delete()
             new_bandname = Bandname(bandname=bn,
                                     upvotes=0,
                                     downvotes=0,
