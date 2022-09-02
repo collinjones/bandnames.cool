@@ -1,17 +1,5 @@
-# Bandnames Website 
+# bandnames.cool
 
-`$ pip3 freeze` output:
-```bash
-asgiref==3.5.2
-distlib==0.3.6
-Django==4.1
-djongo==1.3.6
-dnspython==2.2.1
-filelock==3.8.0
-pbr==5.10.0
-platformdirs==2.5.2
-pymongo==3.12.1
-pytz==2022.2.1
-sqlparse==0.2.4
-stevedore==4.0.0
-```
+This is the repo for a website called bandnames.cool built by Collin Jones, Jared-Dubay Jurado, and Ian Connelly. bandnames.cool's primary function will be for the site to provide a bandname (from the database of user-submitted bandnames) to a visitor. Additionally, if a visitor is logged in as a user, they can vote on the bandname presented to them. Users can also submit bandnames to bandnames.cool. 
+
+Visitors to bandnames.cool will be able to make an account to submit and vote on bandnames. 
