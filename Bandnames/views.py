@@ -10,7 +10,6 @@ def refreshNames(request):
     if request.method == 'GET':
 
         # Return the last bandname added to DB
-        all_bands = Bandname.objects.all()
         serealized = list(Bandname.objects.values())
         return JsonResponse(serealized, safe = False)
 
