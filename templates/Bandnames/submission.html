@@ -4,25 +4,25 @@
 
 {% block body %}
 <center>
+    <div id = "submission-form" >
+        <h1></h1>
+        <form style="font-family: Pixelated" id="post-form">
+            <h2> Submit a bandname </h2>
+            {% csrf_token %}
+            <span>Bandname: </span><input type="text" id="bandname" , name="bandname" /><br><br>
+            <span>Username: </span><input type="text" id="username" , name="username" /><br><br>
+            <button style="font-family: Pixelated; margin: 5px;" >Submit Bandname</button>
+        </form>
 
-    <h1></h1>
-    <form style="font-family: Pixelated" id="post-form">
-        <h2> Submit a bandname </h2>
-        {% csrf_token %}
-        <p>Bandname: <input type="text" id="bandname" , name="bandname" /><br><br>
-        Username: <input type="text" id="username" , name="username" /><br><br>
-        <button style="font-family: Pixelated" >Submit Bandname</button>
-    </form>
-
-    <form id="refresh-button">
-        {% csrf_token %}
-        <button>Refresh Bandnames</button>
-    </form>
-
+        <form id="refresh-button">
+            {% csrf_token %}
+            <button style="font-family: Pixelated; margin: 5px;" >Refresh Bandnames</button><br>
+        </form>
+    </div>
 </center>
 
 <center>
-        <table style="font-family: Pixelated" id="bandnames-table">
+        <table style="font-family: Pixelated;" id="bandnames-table">
             <tr>
                 <th>Bandname</th>
                 <th>Username</th>
@@ -31,8 +31,9 @@
             </tr>
             {% for bandname in bandnames %}
             </tr>
-                <td>{{bandname.bandname}}</td>
-                <td>{{bandname.username}}</td>
+                <td class="tooltip">{{bandname.bandname}}
+                    <span class="tooltiptext">{{bandname.username}}</span>
+                </td>
                 <td>{{bandname.upvotes}}</td>
                 <td>{{bandname.downvotes}}</td>
             </tr>
