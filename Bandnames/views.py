@@ -1,10 +1,9 @@
-from unicodedata import name
 from django.shortcuts import render
 import json
 from django.http import HttpResponse
-from .models import Bandname
+from .models import Bandname, CustomUser
 from django.http import JsonResponse
-from django.core import serializers
+from .forms import CreateBandname
 
 def refreshNames(request):
     if request.method == 'GET':
@@ -14,37 +13,39 @@ def refreshNames(request):
         return JsonResponse(serealized, safe = False)
 
 def create(request):
-    
+
     if request.method == 'POST':
+        if request.user.is_authenticated:
 
-        bn = request.POST['bandname']
-        un = request.POST['username']
+            form = CreateBandname(request.POST)
+            if form.is_valid():
 
-        # Return a failed response if bandname exists in DB already 
-        try:
-            if (bn == ""):
-                return HttpResponse("Bandname required")
-            if (un == ""):
-                return HttpResponse("Username required")
-            if (Bandname.objects.get(bandname = bn)):
-                return HttpResponse("Bandname '" + bn + "' exists already")  
+                # Return a failed response if bandname exists in DB already 
+                try:
+                    if (Bandname.objects.get(bandname = form.cleaned_data)):
+                        return HttpResponse("Bandname already exists")  
 
-        # If the bandname does not exist, create it
-        except Bandname.DoesNotExist:
-            #Bandname.objects.all().delete()
-            new_bandname = Bandname(bandname=bn,
-                                    upvotes=0,
-                                    downvotes=0,
-                                    username=un)
-            new_bandname.save()
-            success = 'The bandname "' + bn + '" submitted successfully by ' + un
-            return HttpResponse(success)
-            
+                # If the bandname does not exist, create it
+                except Bandname.DoesNotExist:
+                    # Bandname.objects.all().delete()
+                    new_bandname = Bandname(bandname=form.cleaned_data['bandname'],
+                                            username=request.user.username,
+                                            upvotes=0,
+                                            downvotes=0)
+                    new_bandname.save()
+                    return HttpResponse("Successfully added '" + form.cleaned_data['bandname']+ "' to database")
+            else:
+                print(form.errors)
+                return HttpResponse("Check console for error")
+        else:
+             return HttpResponse("User is not logged in")
         
-            
-
 def index(request):
     all_bandnames = Bandname.objects.all()
-    ctxt = {"title" : "Submission Page",
-            "bandnames": all_bandnames}
+    form = CreateBandname()
+    ctxt = {
+            "title"     : "Submission Page",
+            "bandnames" : all_bandnames,
+            "form"      : form
+            }
     return render(request, "../templates/Bandnames/submission.html", context=ctxt)

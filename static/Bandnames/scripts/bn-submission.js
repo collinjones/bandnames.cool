@@ -6,7 +6,6 @@ $(document).on('submit', '#post-form', function (e) {
         url: '/create',
         data: {
             bandname: $('#bandname').val(),
-            username: $('#username').val(),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {

@@ -3,19 +3,33 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body %}
+{% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+{% endif %}
 <center>
-    <div id = "submission-form" >
+    <div id = "voting-form">
+
+    </div>
+</center>
+
+
+<center>
+    
+    <div id = "submission-form">
         <h1></h1>
-        <form style="font-family: Pixelated" id="post-form">
+        <form enctype="multipart/form-data" method="post" style="font-family: Pixelated" id="post-form">
             <h2> Submit a bandname </h2>
             {% csrf_token %}
-            <span>Bandname: </span><input type="text" id="bandname" , name="bandname" /><br><br>
-            <span>Username: </span><input type="text" id="username" , name="username" /><br><br>
-            <button style="font-family: Pixelated; margin: 5px;" >Submit Bandname</button>
+            {{form}}
+            <button name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Bandname</button>
         </form>
 
         <form id="refresh-button">
-            {% csrf_token %}
+            
             <button style="font-family: Pixelated; margin: 5px;" >Refresh Bandnames</button><br>
         </form>
     </div>
@@ -25,7 +39,6 @@
         <table style="font-family: Pixelated;" id="bandnames-table">
             <tr>
                 <th>Bandname</th>
-                <th>Username</th>
                 <th>Upvotes</th>
                 <th>Downvotes</th>
             </tr>

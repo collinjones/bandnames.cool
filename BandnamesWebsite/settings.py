@@ -144,4 +144,9 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# django_project/settings.py
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/" 
+AUTH_USER_MODEL = "Bandnames.CustomUser" 
+
 django_heroku.settings(locals())

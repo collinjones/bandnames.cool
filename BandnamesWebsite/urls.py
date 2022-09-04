@@ -20,4 +20,5 @@ urlpatterns = [
     path('', include('Bandnames.urls')),
     path('Bandnames/', include('Bandnames.urls')),
     path('admin/', admin.site.urls),
+    path("Bandnames/", include("django.contrib.auth.urls")),
 ]
