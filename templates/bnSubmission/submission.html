@@ -1,0 +1,62 @@
+{% extends 'bnSubmission/base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+
+<center>
+{% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+</center>
+
+<center>
+    <div id = "voting-form">
+
+    </div>
+</center>
+
+
+<center>
+    
+    <div id = "submission-form" style="font-family: Pixelated" >
+        <h2 id='submission-status'></h2>
+        <form enctype="multipart/form-data" method="post" id="post-form">
+            <h3> Submit a bandname </h3>
+            {% csrf_token %}
+            {{form}}
+            <button name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Bandname</button>
+        </form>
+
+        <form id="refresh-button">
+            
+            <button style="font-family: Pixelated; margin: 5px;" >Refresh Bandnames</button><br>
+        </form>
+    </div>
+</center>
+
+<center>
+        <table style="font-family: Pixelated;" id="bandnames-table">
+            <tr>
+                <th>Bandname</th>
+                <th>Upvotes</th>
+                <th>Downvotes</th>
+            </tr>
+            {% for bandname in bandnames %}
+            </tr>
+                <td class="tooltip">{{bandname.bandname}}
+                    <span class="tooltiptext">{{bandname.username}}</span>
+                </td>
+                <td>{{bandname.upvotes}}</td>
+                <td>{{bandname.downvotes}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</center>
+
+{% endblock %}

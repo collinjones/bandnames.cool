@@ -35,14 +35,14 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'Bandnames.apps.BandnamesConfig',
-    'BandnamesWebsite',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bnSubmission',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'BandnamesWebsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'bandnamesdotcool-DB',
+        'NAME': 'BandnamesWebsite',
         'CLIENT': {
             'host': 'mongodb+srv://cojo2657:e*hp0a7mugDX@bandnameswebapp.9etfmgd.mongodb.net/?retryWrites=true&w=majority',
             'username': 'cojo2657',
@@ -147,6 +147,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # django_project/settings.py
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/" 
-AUTH_USER_MODEL = "Bandnames.CustomUser" 
 
 django_heroku.settings(locals())

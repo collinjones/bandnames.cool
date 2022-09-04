@@ -1,7 +1,14 @@
 <!-- templates/registration/login.html -->
-<h2>Log In</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
+{% extends 'bnSubmission/base.html' %}
+{% block body %}
+<center>
+  <div id = 'login-form' style="font-family: Pixelated">
+    <h2>Log In</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" style="font-family: Pixelated">Log In</button>
+    </form>
+  </div>
+</center>
+{%endblock%}
