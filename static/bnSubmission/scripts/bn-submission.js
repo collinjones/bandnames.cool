@@ -10,8 +10,11 @@ $(document).on('submit', '#post-form', function (e) {
         },
         success: function (data) {
             $.unblockUI();
-            $('#submission-status').html(data['response_msg']);
+            if (data.hasOwnProperty('response_msg')){
+                $('#submission-status').html(data['response_msg']);
+            }
             if (data.hasOwnProperty('bandname_json')){
+                $('#submission-status').empty()
                 content = "<tr> \
                                 <td> " + data['bandname_json']['bandname'] + " </td> \
                                 <td> " + data['bandname_json']['upvotes'] + " </td> \

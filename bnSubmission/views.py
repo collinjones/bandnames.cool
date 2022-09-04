@@ -43,7 +43,6 @@ def create(request):
                                             downvotes=0)
                     new_bandname.save()
                     json_response = {}
-                    json_response['response_msg'] = new_bandname_str + " Added"
                     json_response['bandname_json'] = {
                                                  'bandname': new_bandname_str,
                                                  'upvotes': 0,
@@ -58,7 +57,7 @@ def create(request):
             return JsonResponse(json_response, safe = False)
                    
 def index(request):
-    all_bandnames = Bandname.objects.all()
+    all_bandnames = reversed(Bandname.objects.all())
     form = CreateBandname()
     ctxt = {
             "title"     : "Submission Page",
