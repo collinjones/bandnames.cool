@@ -10,7 +10,7 @@ $(document).on('submit', '#post-form', function (e) {
         },
         success: function (data) {
             $.unblockUI();
-            $('h1').html(data);
+            $('h2').html(data);
         }
     });
 });
@@ -27,7 +27,6 @@ $(document).ready(function() {
                 console.log(data)
                 content = "<tr> \
                             <td> " + data[data.length-1]['bandname'] + " </td> \
-                            <td> " + data[data.length-1]['username'] + " </td> \
                             <td> " + data[data.length-1]['upvotes'] + " </td> \
                             <td> " + data[data.length-1]['downvotes'] + " </td> \
                            </tr>"

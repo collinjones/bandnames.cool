@@ -20,9 +20,12 @@ def create(request):
             form = CreateBandname(request.POST)
             if form.is_valid():
 
+                if form.cleaned_data['bandname'] == "":
+                    return HttpResponse("Bandname cannot be empty")
+
                 # Return a failed response if bandname exists in DB already 
                 try:
-                    if (Bandname.objects.get(bandname = form.cleaned_data)):
+                    if (Bandname.objects.get(bandname = form.cleaned_data['bandname'])):
                         return HttpResponse("Bandname already exists")  
 
                 # If the bandname does not exist, create it
@@ -38,7 +41,7 @@ def create(request):
                 print(form.errors)
                 return HttpResponse("Check console for error")
         else:
-             return HttpResponse("User is not logged in")
+             return HttpResponse("Must be logged in to submit a bandname")
         
 def index(request):
     all_bandnames = Bandname.objects.all()
