@@ -10,7 +10,15 @@ $(document).on('submit', '#post-form', function (e) {
         },
         success: function (data) {
             $.unblockUI();
-            $('#submission-status').html(data);
+            $('#submission-status').html(data['response_msg']);
+            if (data.hasOwnProperty('bandname_json')){
+                content = "<tr> \
+                                <td> " + data['bandname_json']['bandname'] + " </td> \
+                                <td> " + data['bandname_json']['upvotes'] + " </td> \
+                                <td> " + data['bandname_json']['downvotes'] + " </td> \
+                            </tr>"
+                $("#bandnames-table-body").prepend(content);
+            }
         }
     });
 });
@@ -24,13 +32,8 @@ $(document).ready(function() {
             url: '/refreshNames',
             success: function (data) {
                 $.unblockUI();
-                console.log(data)
-                content = "<tr> \
-                            <td> " + data[data.length-1]['bandname'] + " </td> \
-                            <td> " + data[data.length-1]['upvotes'] + " </td> \
-                            <td> " + data[data.length-1]['downvotes'] + " </td> \
-                           </tr>"
-                $("#bandnames-table").append(content);
+                $('#submission-status').html("<h2></h2>");
+                
             }
         });
     });

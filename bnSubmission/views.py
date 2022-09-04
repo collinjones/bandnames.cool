@@ -23,27 +23,39 @@ def create(request):
             if form.is_valid():
 
                 if form.cleaned_data['bandname'] == "":
-                    return HttpResponse("Bandname cannot be empty")
+                    json_response = { 'response_msg': 'Bandname cannot be empty' }
+                    return JsonResponse(json_response, safe = False)
 
                 # Return a failed response if bandname exists in DB already 
                 try:
                     if (Bandname.objects.get(bandname = form.cleaned_data['bandname'])):
-                        return HttpResponse("Bandname already exists")  
+                        json_response = { 'response_msg': 'Bandname already exists' }
+                        return JsonResponse(json_response, safe = False)  
 
                 # If the bandname does not exist, create it
                 except Bandname.DoesNotExist:
+
                     # Bandname.objects.all().delete()
-                    new_bandname = Bandname(bandname=form.cleaned_data['bandname'],
+                    new_bandname_str = form.cleaned_data['bandname']
+                    new_bandname = Bandname(bandname=new_bandname_str,
                                             username=request.user.username,
                                             upvotes=0,
                                             downvotes=0)
                     new_bandname.save()
-                    return HttpResponse("Successfully added '" + form.cleaned_data['bandname']+ "' to database")
+                    json_response = {}
+                    json_response['response_msg'] = new_bandname_str + " Added"
+                    json_response['bandname_json'] = {
+                                                 'bandname': new_bandname_str,
+                                                 'upvotes': 0,
+                                                 'downvotes': 0
+                                                }
+                    return JsonResponse(json_response, safe = False)
             else:
-                print(form.errors)
-                return HttpResponse("Check console for error")
+                json_response = { 'response_msg': 'Check console for error' }
+                return JsonResponse(json_response, safe = False)
         else:
-             return HttpResponse("Must be logged in to submit a bandname")
+            json_response = { 'response_msg': 'Must be logged in to submit a bandname' }
+            return JsonResponse(json_response, safe = False)
                    
 def index(request):
     all_bandnames = Bandname.objects.all()
