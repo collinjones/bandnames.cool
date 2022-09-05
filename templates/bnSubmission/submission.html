@@ -49,8 +49,9 @@
 
                 this.bandnames = bandnames
                 this.bandnamesOnWheel = []
-                this.stopVelocity = 0.00050;
+                this.stopVelocity = 0.0010;
                 this.slowRate = -0.01;
+                this.bandnameSelected = "";
                 this.populateWheel();
                 
             }
@@ -75,12 +76,24 @@
                 }
             }
 
+            chooseBandname() {
+                for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
+                    if (this.angle > 32.72 * i && this.angle < (32.72 * i) + 32.72 ) {
+                        this.bandnameSelected = this.bandnamesOnWheel[this.bandnamesOnWheel.length-(i + 1)]
+                    }
+                }
+            }
+
             checkAndStopWheel() {
                 if (this.angleV < this.stopVelocity || this.angleV == 0) {
                     this.angleV = 0;
                     this.state = this.states.Stopped
+
+                    this.chooseBandname();
+                    console.log(this.bandnameSelected)
                     return true
                 }
+                this.chooseBandname();
                 this.pastAngle = this.angle;
                 this.state = this.states.Spinning
                 return false
@@ -104,10 +117,8 @@
                         
                         // Ensure mouse is heading downwards
                         if (dy > 0 && mouseX > width/2) {
-                            console.log("Angle before change: " + this.angle);
                             this.angle = this.pastAngle + dy * 0.5;
                             this.pastAngle = this.angle;
-                            console.log("Angle after change: " + this.angle);
                         } 
                     }
                 }
@@ -129,14 +140,15 @@
 
             checkAndResetAngle() {
                 if (this.angle > 360) {
+                    this.pastAngle = 0;
                     this.angle = 0;
                 }
             }
 
             renderLines() {
-                for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
+                for (var i = 0; i <= this.bandnamesOnWheel.length+1; i++) {
                     line(0, 0, this.radius/2, 0)
-                    rotate(32)
+                    rotate(32.72)
                 }
             }
 
@@ -149,8 +161,8 @@
                 push();
                 rotate(16)
                 for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-                    text(this.bandnamesOnWheel[i], 200, 0)
-                    rotate(32)
+                    text(this.bandnamesOnWheel[i], 175, 0)
+                    rotate(32.72)
                 }
                 pop();
             }
@@ -228,6 +240,7 @@
             // wheel.angleV += wheel.angleA;
             strokeWeight(2)
             fill(200, 50, 0)
+            text(wheel.bandnameSelected, width-200, 100)
             triangle(
                      width - 50, height/2 -  0, 
                      width-2, height/2 - 20, 
