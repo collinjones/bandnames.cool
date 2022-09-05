@@ -27,6 +27,7 @@
         var v2;
         var mousePosX;
         var mousePosY;
+        let tick_sfx;
 
         class Wheel {
             
@@ -52,6 +53,8 @@
                 this.stopVelocity = 0.0010;
                 this.slowRate = -0.01;
                 this.bandnameSelected = "";
+                this.previousBandnameSelected = "";
+                this.evenSeparatorDeg;
                 this.populateWheel();
                 
             }
@@ -61,13 +64,14 @@
                 this.populateWheel();
             }
 
-            populateWheel () {
+            populateWheel() {
                 for (var i = 0; i < this.bandnames.length; i++) {
                     if (this.bandnamesOnWheel.length > 10) {
                         break;
                     }
                     this.bandnamesOnWheel.push(this.bandnames[Math.floor(Math.random() * this.bandnames.length)])
                 }
+                this.evenSeparatorDeg = 360 / this.bandnamesOnWheel.length
             }
 
             slowDownWheel() {
@@ -78,8 +82,10 @@
 
             chooseBandname() {
                 for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-                    if (this.angle > 32.72 * i && this.angle < (32.72 * i) + 32.72 ) {
-                        this.bandnameSelected = this.bandnamesOnWheel[this.bandnamesOnWheel.length-(i + 1)]
+                    if ((this.angle > (this.evenSeparatorDeg * i)) && (this.angle < (this.evenSeparatorDeg * i) + this.evenSeparatorDeg)) {
+                        this.previousBandnameSelected = this.bandnameSelected;
+                        this.bandnameSelected = this.bandnamesOnWheel[this.bandnamesOnWheel.length - (i + 1)]
+                        
                     }
                 }
             }
@@ -90,7 +96,6 @@
                     this.state = this.states.Stopped
 
                     this.chooseBandname();
-                    console.log(this.bandnameSelected)
                     return true
                 }
                 this.chooseBandname();
@@ -198,6 +203,10 @@
             }
         }
 
+        function preload() {
+            tick_sfx = loadSound('static/sounds/tick.mp3')
+        }
+
         function mouseInsideCanvas() {
             if ((mouseX > 0) && (mouseX < width) &&
                     (mouseY > 0) && (mouseY < height)) {
@@ -209,6 +218,7 @@
         function setup() {
             var canvas = createCanvas(400, 600);
             canvas.parent('sketch-holder');
+            
             angleMode(DEGREES);
             ellipseMode(CENTER);
             background(255, 204, 0)
@@ -246,7 +256,13 @@
                      width-2, height/2 + 20
                     );
             const heading = document.getElementById('bandname-selected');
-            heading.innerHTML = '<span style="background-color: yellow">' + wheel.bandnameSelected + '</span>';
+            heading.innerHTML = wheel.bandnameSelected;
+
+            if (wheel.bandnameSelected != wheel.previousBandnameSelected ){
+                tick_sfx.play();
+            }
+
+            
         }
 
     </script>
@@ -258,7 +274,9 @@
 
     </div>
 
-    <h1 id="bandname-selected"> </h1>
+    <div id="bandname-selected" style="font-family: Pixelated">
+        
+    </div>
     
     <div id = "submission-form" style="font-family: Pixelated" >
         <h2 id='submission-status'></h2>
@@ -274,28 +292,30 @@
         </form> -->
 
     </div>
-    <table style="font-family: Pixelated;" id="bandnames-table">
-        <thead>
-            <tr>
-                <th>Bandname</th>
-                <th>Upvotes</th>
-                <th>Downvotes</th>
-            </tr>
-        </thead>
+    <div class="scroller" style="height:500px;overflow:auto;">
+        <table style="font-family: Pixelated;" id="bandnames-table">
+            <thead>
+                <tr>
+                    <th>Bandname</th>
+                    <th>Upvotes</th>
+                    <th>Downvotes</th>
+                </tr>
+            </thead>
 
-        {% for bandname in bandnames_reversed %}
-        <tbody id="bandnames-table-body">
-            </tr>
-                <td class="tooltip">{{bandname.bandname}}
-                    <span class="tooltiptext">{{bandname.username}}</span>
-                </td>
-                <td>{{bandname.upvotes}}</td>
-                <td>{{bandname.downvotes}}</td>
-            </tr>
-        </tbody>
-        {% endfor %}
+            {% for bandname in bandnames_reversed %}
+            <tbody id="bandnames-table-body">
+                </tr>
+                    <td class="tooltip">{{bandname.bandname}}
+                        <span class="tooltiptext">{{bandname.username}}</span>
+                    </td>
+                    <td>{{bandname.upvotes}}</td>
+                    <td>{{bandname.downvotes}}</td>
+                </tr>
+            </tbody>
+            {% endfor %}
 
-    </table>
+        </table>
+    </div>
 </center>
 
 {% endblock %}
