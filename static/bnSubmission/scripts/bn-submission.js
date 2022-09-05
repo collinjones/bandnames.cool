@@ -26,18 +26,18 @@ $(document).on('submit', '#post-form', function (e) {
     });
 });
 
-$(document).ready(function() {
-    $(document).on('submit', '#refresh-button', function (e) {
-        e.preventDefault(); // Stop page from refreshing
-        $.blockUI({ message: null }); 
-        $.ajax({
-            type: 'GET',
-            url: '/refreshNames',
-            success: function (data) {
-                $.unblockUI();
-                $('#submission-status').html("<h2></h2>");
+// $(document).ready(function() {
+//     $(document).on('submit', '#refresh-button', function (e) {
+//         e.preventDefault(); // Stop page from refreshing
+//         $.blockUI({ message: null }); 
+//         $.ajax({
+//             type: 'GET',
+//             url: '/refreshNames',
+//             success: function (data) {
+//                 $.unblockUI();
+//                 $('#submission-status').html("<h2></h2>");
                 
-            }
-        });
-    });
-});
+//             }
+//         });
+//     });
+// });
