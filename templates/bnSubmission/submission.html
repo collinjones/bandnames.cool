@@ -31,16 +31,21 @@
         class Wheel {
             
             constructor(position, radius, color, bandnames) {
+
                 this.states = { Stopped: "stopped",
-                               Spinning: "spinning",
-                               Picked: "picked" }
+                                Spinning: "spinning",
+                                Picked: "picked" 
+                              }
+                this.state = this.states.Stopped;
                 this.position = position
                 this.radius = radius;
                 this.color = color;
+
                 this.angle = 0;
                 this.angleV = 0.0;
                 this.angleA = 0;
                 this.pAngle = 0;
+
                 this.bandnames = bandnames
                 this.bandnamesOnWheel = []
                 this.stopVelocity = 0.00020;
@@ -56,7 +61,7 @@
 
             populateWheel () {
                 for (var i = 0; i < this.bandnames.length; i++) {
-                    if (this.bandnamesOnWheel.length > 30) {
+                    if (this.bandnamesOnWheel.length >= 5) {
                         break;
                     }
                     this.bandnamesOnWheel.push(this.bandnames[Math.floor(Math.random() * this.bandnames.length)])
@@ -70,8 +75,11 @@
             checkToStop() {
                 if (this.angleV < this.stopVelocity || this.angleV == 0) {
                     this.angleV = 0;
+                    this.state = this.states.Stopped
                     return true
                 }
+
+                this.state = this.states.Spinning
                 return false
             }
 
@@ -111,6 +119,19 @@
                 this.slowDownWheel();
                 this.checkToStop();
                 pop();
+
+                if (this.angle > 360) {
+                    this.angle = 0;
+                }
+
+                console.log(this.state)
+            }
+
+            renderLines() {
+                for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
+                    line(0, 0, this.radius/2, 0)
+                    rotate(72)
+                }
             }
 
             renderBandnames() {
@@ -118,9 +139,8 @@
                 textSize(32);
                 fill(0, 0, 0, 255)
                 for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-                    text(this.bandnamesOnWheel[i], 150, 0)
-                    line(0, 0, this.radius/2, 0)
-                    rotate(0.2)
+                    text(this.bandnamesOnWheel[i], 150, -45)
+                    rotate(72)
                 }
             }
 
@@ -132,6 +152,7 @@
 
             render() {
                 this.renderWheel();
+                this.renderLines();
                 this.renderBandnames();
             }
         };
@@ -163,7 +184,7 @@
         function setup() {
             var canvas = createCanvas(800, 400);
             canvas.parent('sketch-holder');
-            angleMode(RADIANS);
+            angleMode(DEGREES);
             ellipseMode(CENTER);
             background(255)
             frameRate(60);
