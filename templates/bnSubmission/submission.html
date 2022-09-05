@@ -46,16 +46,22 @@
             }
 
             update() {
-                if (mouseIsPressed) {
-                    let dx = mouseX - pmouseX;
-                    let dy = mouseY - pmouseY;
-                    let v = createVector(mouseX - width / 2, mouseY - height / 2);
-                    console.log(dx, dy)
-                    if (dy > 0) {
-                        this.angle = v.heading();
-                    }
+                if ((mouseX > 0) && (mouseX < width) &&
+                    (mouseY > 0) && (mouseY < height)) {
                     
+                        console.log(mouseX, mouseY)
+
+                    if (mouseIsPressed) {
+                        let dx = mouseX - pmouseX;
+                        let dy = mouseY - pmouseY;
+                        let v = createVector(mouseX - width / 2, mouseY - height / 2);
+                        console.log(dx, dy)
+                        if (dy > 0) {
+                            this.angle = v.heading();
+                        } 
+                    }
                 }
+
                 translate(0, height/2);
                 rotate(this.angle);
                 this.render();
@@ -78,14 +84,20 @@
         };
 
         function mouseDragged() {
-            let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
-            console.log(v)
-            wheel.pAngle = v.heading();
+            if ((mouseX > 0) && (mouseX < width) &&
+                    (mouseY > 0) && (mouseY < height)) {
+                        console.log('clicked')
+                let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
+                wheel.pAngle = v.heading();
+            }
         }
 
         function mouseReleased() {
-            let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
-            wheel.angleV = v2.heading() - wheel.pAngle;
+            if ((mouseX > 0) && (mouseX < width) &&
+                    (mouseY > 0) && (mouseY < height)) {
+                let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
+                wheel.angleV = v2.heading() - wheel.pAngle;
+            }
         }
 
         function setup() {
