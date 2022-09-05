@@ -5,14 +5,16 @@
 {% block body %}
 
 <center>
-{% if user.is_authenticated %}
-    Hi {{ user.username }}!
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
-{% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a>
-    <a href="{% url 'signup' %}">Sign Up</a>
-{% endif %}
+<br><div style="font-family: Pixelated;">
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}! <a href="{% url 'logout' %}">Log Out</a>
+       
+    {% else %}
+        You are not logged in
+        <a href="{% url 'login' %}">Log In</a> |
+        <a href="{% url 'signup' %}">Sign Up</a>
+    {% endif %}
+</div><br>
 </center>
 
 
@@ -36,6 +38,8 @@
                 this.pAngle = 0;
                 this.bandnames = bandnames
                 this.bandnamesOnWheel = []
+                this.stopVelocity = 0.00020;
+                this.slowRate = -0.01;
 
                 for (var i = 0; i < this.bandnames.length; i++) {
                     if (this.bandnamesOnWheel.length > 30) {
@@ -45,59 +49,94 @@
                 }
             }
 
+            slowDownWheel() {
+                this.angleV += this.angleV * this.slowRate;
+            }
+
+            checkToStop() {
+                if (this.angleV < this.stopVelocity) {
+                    this.angleV = 0;
+                }
+            }
+
             update() {
+
+                // Ensure mouse is inside canvas
                 if ((mouseX > 0) && (mouseX < width) &&
                     (mouseY > 0) && (mouseY < height)) {
-                    
-                        console.log(mouseX, mouseY)
 
                     if (mouseIsPressed) {
-                        let dx = mouseX - pmouseX;
+
                         let dy = mouseY - pmouseY;
                         let v = createVector(mouseX - width / 2, mouseY - height / 2);
-                        console.log(dx, dy)
+                        
+                        // Ensure mouse is heading downwards
                         if (dy > 0) {
                             this.angle = v.heading();
                         } 
                     }
                 }
 
+                /*
+                    0. push(), pop() to only rotate these items.
+                    1. Translate canvas to halfway down the left edge
+                    2. Rotate the wheel by the angle
+                    3. Call this.render()
+                    4. Translate canvas back to origin point
+                */ 
+                push();
                 translate(0, height/2);
                 rotate(this.angle);
                 this.render();
-                
                 translate(0, -height/2);
-                
+                this.slowDownWheel();
+                this.checkToStop();
+                pop();
+            }
+
+            renderBandnames() {
+                // Draw each bandname 150px from center while rotating 0.2 radians for each name
+                textSize(32);
+                fill(0, 0, 0, 255)
+                for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
+                    text(this.bandnamesOnWheel[i], 150, 0)
+                    line(0, 0, this.radius/2, 0)
+                    rotate(0.2)
+                }
+            }
+
+            renderWheel() {
+                // Fill and draw the wheel
+                fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
+                ellipse(this.position.x, this.position.y, this.radius)
             }
 
             render() {
-                fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
-                ellipse(this.position.x, this.position.y, this.radius)
-                textSize(32);
-                fill(0, 0, 0, 255)
-
-                for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-                    text(this.bandnamesOnWheel[i], 150, 10)
-                    rotate(0.2)
-                }
+                this.renderWheel();
+                this.renderBandnames();
             }
         };
 
         function mouseDragged() {
-            if ((mouseX > 0) && (mouseX < width) &&
-                    (mouseY > 0) && (mouseY < height)) {
-                        console.log('clicked')
+            if (mouseInsideCanvas()){
                 let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
                 wheel.pAngle = v.heading();
             }
         }
 
         function mouseReleased() {
-            if ((mouseX > 0) && (mouseX < width) &&
-                    (mouseY > 0) && (mouseY < height)) {
+            if (mouseInsideCanvas()){
                 let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
                 wheel.angleV = v2.heading() - wheel.pAngle;
             }
+        }
+
+        function mouseInsideCanvas() {
+            if ((mouseX > 0) && (mouseX < width) &&
+                    (mouseY > 0) && (mouseY < height)) {
+                return true
+            }
+            return false
         }
 
         function setup() {
@@ -128,14 +167,17 @@
 
         function draw() {
             background(255)
+            
             wheel.update();
             wheel.angle += wheel.angleV;
             wheel.angleV += wheel.angleA;
-            wheel.angleV += wheel.angleV * -0.01
-            if (wheel.angleV < 0.00005) {
-                wheel.angleV = 0;
-            }
-            
+
+            fill(200, 50, 0)
+            triangle(
+                     width/2 + 100, height/2 -  0, 
+                     width/2 + 150, height/2 - 20, 
+                     width/2 + 150, height/2 + 20
+                    );
         }
 
     </script>
@@ -159,7 +201,7 @@
         <!-- <form id="refresh-button">
             <button style="font-family: Pixelated; margin: 5px;" >Refresh Bandnames</button><br>
         </form> -->
-        
+
     </div>
     <table style="font-family: Pixelated;" id="bandnames-table">
         <thead>
