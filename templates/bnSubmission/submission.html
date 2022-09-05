@@ -96,8 +96,8 @@
 
                         this.angleV = 0;
 
-                        // mousePosX = mouseY
-                        // mousePosY = mouseY
+                        mousePosX = mouseY
+                        mousePosY = mouseY
 
                         let dy = mouseY - pmouseY;
                         let v = createVector(mouseX - width / 2, mouseY - height / 2);
@@ -111,14 +111,7 @@
                         } 
                     }
                 }
-
-                /*
-                    0. push(), pop() to only rotate these items.
-                    1. Translate canvas to halfway down the left edge
-                    2. Rotate the wheel by the angle
-                    3. Call this.render()
-                    4. Translate canvas back to origin point
-                */ 
+                
                 push();
 
                 translate(-150, height/2);
@@ -154,6 +147,7 @@
                 fill(0, 0, 0, 255)
 
                 push();
+                rotate(16)
                 for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
                     text(this.bandnamesOnWheel[i], 200, 0)
                     rotate(32)
