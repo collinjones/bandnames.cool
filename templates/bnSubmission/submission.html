@@ -25,10 +25,15 @@
         var bn_arr;
         var pAngle;
         var v2;
+        var mousePosX;
+        var mousePosY;
 
         class Wheel {
             
             constructor(position, radius, color, bandnames) {
+                this.states = { Stopped: "stopped",
+                               Spinning: "spinning",
+                               Picked: "picked" }
                 this.position = position
                 this.radius = radius;
                 this.color = color;
@@ -65,7 +70,6 @@
             checkToStop() {
                 if (this.angleV < this.stopVelocity || this.angleV == 0) {
                     this.angleV = 0;
-                    this.refreshWheel();
                     return true
                 }
                 return false
@@ -78,6 +82,9 @@
                     (mouseY > 0) && (mouseY < height)) {
 
                     if (mouseIsPressed) {
+
+                        mousePosX = mouseY
+                        mousePosY = mouseY
 
                         let dy = mouseY - pmouseY;
                         let v = createVector(mouseX - width / 2, mouseY - height / 2);
@@ -138,8 +145,10 @@
 
         function mouseReleased() {
             if (mouseInsideCanvas()){
-                let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
-                wheel.angleV = v2.heading() - wheel.pAngle;
+                if (mousePosX != mouseX && mousePosY != mouseY){
+                    let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
+                    wheel.angleV = v2.heading() - wheel.pAngle;
+                }
             }
         }
 
