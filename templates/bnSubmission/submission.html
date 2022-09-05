@@ -61,7 +61,7 @@
 
             populateWheel () {
                 for (var i = 0; i < this.bandnames.length; i++) {
-                    if (this.bandnamesOnWheel.length >= 5) {
+                    if (this.bandnamesOnWheel.length > 10) {
                         break;
                     }
                     this.bandnamesOnWheel.push(this.bandnames[Math.floor(Math.random() * this.bandnames.length)])
@@ -112,10 +112,10 @@
                     4. Translate canvas back to origin point
                 */ 
                 push();
-                translate(0, height/2);
+                translate(-150, height/2);
                 rotate(this.angle);
                 this.render();
-                translate(0, -height/2);
+                translate(150, -height/2);
                 this.slowDownWheel();
                 this.checkToStop();
                 pop();
@@ -123,24 +123,22 @@
                 if (this.angle > 360) {
                     this.angle = 0;
                 }
-
-                console.log(this.state)
             }
 
             renderLines() {
                 for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
                     line(0, 0, this.radius/2, 0)
-                    rotate(72)
+                    rotate(32)
                 }
             }
 
             renderBandnames() {
                 // Draw each bandname 150px from center while rotating 0.2 radians for each name
-                textSize(32);
+                textSize(16);
                 fill(0, 0, 0, 255)
                 for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-                    text(this.bandnamesOnWheel[i], 150, -45)
-                    rotate(72)
+                    text(this.bandnamesOnWheel[i], 300, 0)
+                    rotate(32)
                 }
             }
 
@@ -182,11 +180,11 @@
         }
 
         function setup() {
-            var canvas = createCanvas(800, 400);
+            var canvas = createCanvas(400, 800);
             canvas.parent('sketch-holder');
             angleMode(DEGREES);
             ellipseMode(CENTER);
-            background(255)
+            background(100)
             frameRate(60);
 
             var bandnames = "{{ bandnames|safe }}"
@@ -208,7 +206,7 @@
         }
 
         function draw() {
-            background(255)
+            background(100)
             
             wheel.update();
             wheel.angle += wheel.angleV;
@@ -216,9 +214,9 @@
 
             fill(200, 50, 0)
             triangle(
-                     width/2 + 100, height/2 -  0, 
-                     width/2 + 150, height/2 - 20, 
-                     width/2 + 150, height/2 + 20
+                     width - 50, height/2 -  0, 
+                     width, height/2 - 20, 
+                     width, height/2 + 20
                     );
         }
 
