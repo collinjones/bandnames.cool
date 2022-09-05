@@ -21,6 +21,8 @@
     <script>
         var wheel;
         var bn_arr;
+        var pAngle;
+        var v2;
 
         class Wheel {
             
@@ -29,8 +31,9 @@
                 this.radius = radius;
                 this.color = color;
                 this.angle = 0;
-                this.angleV = 0.01;
+                this.angleV = 0.0;
                 this.angleA = 0;
+                this.pAngle = 0;
                 this.bandnames = bandnames
                 this.bandnamesOnWheel = []
 
@@ -38,16 +41,21 @@
                     if (this.bandnamesOnWheel.length > 30) {
                         break;
                     }
-                    this.bandnamesOnWheel.push(this.bandnames[i])
+                    this.bandnamesOnWheel.push(this.bandnames[Math.floor(Math.random() * this.bandnames.length)])
                 }
             }
 
             update() {
+                if (mouseIsPressed) {
+                    let v = createVector(mouseX - width / 2, mouseY - height / 2);
+                    this.angle = v.heading();
+                }
                 translate(0, height/2);
                 rotate(this.angle);
                 this.render();
                 
                 translate(0, -height/2);
+                console.log(this.angle)
                 
             }
 
@@ -61,11 +69,18 @@
                     text(this.bandnamesOnWheel[i], 150, 10)
                     rotate(0.2)
                 }
-                
-               
             }
-
         };
+
+        function mouseDragged() {
+            let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
+            wheel.pAngle = v.heading();
+        }
+
+        function mouseReleased() {
+            let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
+            wheel.angleV = v2.heading() - wheel.pAngle;
+        }
 
         function setup() {
             var canvas = createCanvas(800, 400);
