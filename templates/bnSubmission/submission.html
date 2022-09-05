@@ -40,7 +40,16 @@
                 this.bandnamesOnWheel = []
                 this.stopVelocity = 0.00020;
                 this.slowRate = -0.01;
+                this.populateWheel();
+                
+            }
 
+            refreshWheel() {
+                this.bandnamesOnWheel = []
+                this.populateWheel();
+            }
+
+            populateWheel () {
                 for (var i = 0; i < this.bandnames.length; i++) {
                     if (this.bandnamesOnWheel.length > 30) {
                         break;
@@ -54,9 +63,12 @@
             }
 
             checkToStop() {
-                if (this.angleV < this.stopVelocity) {
+                if (this.angleV < this.stopVelocity || this.angleV == 0) {
                     this.angleV = 0;
+                    this.refreshWheel();
+                    return true
                 }
+                return false
             }
 
             update() {
