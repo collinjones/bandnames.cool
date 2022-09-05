@@ -18,6 +18,80 @@
 
 
 <center>
+    <script>
+        var wheel;
+        var bn_arr;
+
+        class Wheel {
+            
+            constructor(position, radius, color, bandname) {
+                this.position = position
+                this.radius = radius;
+                this.color = color;
+                this.angle = 0;
+                this.angleV = 0.01;
+                this.angleA = 0;
+                this.bandname = bandname
+            }
+
+            update() {
+                translate(width/2, height/2);
+                rotate(this.angle);
+                this.render();
+                
+                translate(-width/2, -height/2);
+                
+            }
+
+            render() {
+                fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
+                ellipse(this.position.x, this.position.y, this.radius)
+                fill(0, 0, 0, 255)
+                textSize(20);
+                text(this.bandname, 0, 0)
+               
+            }
+
+        };
+
+        function setup() {
+            var canvas = createCanvas(400, 400);
+            canvas.parent('sketch-holder');
+            angleMode(RADIANS);
+            ellipseMode(CENTER);
+            background(255)
+            frameRate(60);
+
+            var bandnames = "{{ bandnames|safe }}"
+            bn_arr = bandnames.split(',')
+            
+
+            for (var i = 0; i < bn_arr.length; i++) {
+                bn_arr[i] = bn_arr[i].slice(12)
+                bn_arr[i] = bn_arr[i].slice(0, -1)
+
+                if (i == bn_arr.length - 1) {
+                    bn_arr[i] = bn_arr[i].slice(0, -1)
+                }
+            }
+
+            var random_name = bn_arr[Math.floor(Math.random() * bn_arr.length)]
+            wheel = new Wheel(createVector(0, 0), 400, color(255, 204, 0), random_name)
+
+        }
+
+        function draw() {
+            background(255)
+            wheel.update();
+            wheel.angle += wheel.angleV;
+            wheel.angleV += wheel.angleA;
+            
+        }
+
+    </script>
+</center>
+
+<center>
 
     <div id = "sketch-holder" style="touch-action:none">
 
@@ -44,7 +118,8 @@
                 <th>Downvotes</th>
             </tr>
         </thead>
-        {% for bandname in bandnames %}
+
+        {% for bandname in bandnames_reversed %}
         <tbody id="bandnames-table-body">
             </tr>
                 <td class="tooltip">{{bandname.bandname}}
@@ -55,6 +130,7 @@
             </tr>
         </tbody>
         {% endfor %}
+
     </table>
 </center>
 

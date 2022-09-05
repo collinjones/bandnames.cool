@@ -1,3 +1,4 @@
+from ctypes import sizeof
 from django.shortcuts import render, redirect
 import json
 from django.http import HttpResponse
@@ -6,6 +7,7 @@ from django.http import JsonResponse
 from .forms import CreateBandname
 from django.contrib.auth import login
 from django.contrib import messages
+from django.core import serializers
 
 def refreshNames(request):
     if request.method == 'GET':
@@ -57,11 +59,13 @@ def create(request):
             return JsonResponse(json_response, safe = False)
                    
 def index(request):
-    all_bandnames = reversed(Bandname.objects.all())
     form = CreateBandname()
+    bandnames = Bandname.objects.all()
+    bandnames_json = serializers.serialize("json", Bandname.objects.all())
     ctxt = {
             "title"     : "Submission Page",
-            "bandnames" : all_bandnames,
+            "bandnames_reversed" : reversed(Bandname.objects.all()),
+            "bandnames": list(bandnames),
             "form"      : form
             }
     return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
