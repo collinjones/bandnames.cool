@@ -24,38 +24,51 @@
 
         class Wheel {
             
-            constructor(position, radius, color, bandname) {
+            constructor(position, radius, color, bandnames) {
                 this.position = position
                 this.radius = radius;
                 this.color = color;
                 this.angle = 0;
                 this.angleV = 0.01;
                 this.angleA = 0;
-                this.bandname = bandname
+                this.bandnames = bandnames
+                this.bandnamesOnWheel = []
+
+                for (var i = 0; i < this.bandnames.length; i++) {
+                    if (this.bandnamesOnWheel.length > 30) {
+                        break;
+                    }
+                    this.bandnamesOnWheel.push(this.bandnames[i])
+                }
             }
 
             update() {
-                translate(width/2, height/2);
+                translate(0, height/2);
                 rotate(this.angle);
                 this.render();
                 
-                translate(-width/2, -height/2);
+                translate(0, -height/2);
                 
             }
 
             render() {
                 fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
                 ellipse(this.position.x, this.position.y, this.radius)
+                textSize(32);
                 fill(0, 0, 0, 255)
-                textSize(20);
-                text(this.bandname, 0, 0)
+
+                for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
+                    text(this.bandnamesOnWheel[i], 150, 10)
+                    rotate(0.2)
+                }
+                
                
             }
 
         };
 
         function setup() {
-            var canvas = createCanvas(400, 400);
+            var canvas = createCanvas(800, 400);
             canvas.parent('sketch-holder');
             angleMode(RADIANS);
             ellipseMode(CENTER);
@@ -76,7 +89,7 @@
             }
 
             var random_name = bn_arr[Math.floor(Math.random() * bn_arr.length)]
-            wheel = new Wheel(createVector(0, 0), 400, color(255, 204, 0), random_name)
+            wheel = new Wheel(createVector(0, 0), 1000, color(255, 204, 0), bn_arr)
 
         }
 
