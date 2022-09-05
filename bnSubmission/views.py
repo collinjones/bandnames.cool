@@ -47,6 +47,7 @@ def create(request):
                     json_response = {}
                     json_response['bandname_json'] = {
                                                  'bandname': new_bandname_str,
+                                                 'username':request.user.username,
                                                  'upvotes': 0,
                                                  'downvotes': 0
                                                 }

@@ -16,9 +16,11 @@ $(document).on('submit', '#post-form', function (e) {
             if (data.hasOwnProperty('bandname_json')){
                 $('#submission-status').empty()
                 content = "<tr> \
-                                <td> " + data['bandname_json']['bandname'] + " </td> \
-                                <td> " + data['bandname_json']['upvotes'] + " </td> \
-                                <td> " + data['bandname_json']['downvotes'] + " </td> \
+                                <td class='tooltip'> " + data['bandname_json']['bandname'] + 
+                                    "<span class='tooltiptext'>" + data['bandname_json']['username'] + " </span>" +
+                                " </td> \
+                                <td class='tooltip'> " + data['bandname_json']['upvotes'] + " </td> \
+                                <td class='tooltip'> " + data['bandname_json']['downvotes'] + " </td> \
                             </tr>"
                 $("#bandnames-table-body").prepend(content);
             }
