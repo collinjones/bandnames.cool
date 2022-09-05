@@ -47,15 +47,20 @@
 
             update() {
                 if (mouseIsPressed) {
+                    let dx = mouseX - pmouseX;
+                    let dy = mouseY - pmouseY;
                     let v = createVector(mouseX - width / 2, mouseY - height / 2);
-                    this.angle = v.heading();
+                    console.log(dx, dy)
+                    if (dy > 0) {
+                        this.angle = v.heading();
+                    }
+                    
                 }
                 translate(0, height/2);
                 rotate(this.angle);
                 this.render();
                 
                 translate(0, -height/2);
-                console.log(this.angle)
                 
             }
 
@@ -74,6 +79,7 @@
 
         function mouseDragged() {
             let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
+            console.log(v)
             wheel.pAngle = v.heading();
         }
 
@@ -113,6 +119,10 @@
             wheel.update();
             wheel.angle += wheel.angleV;
             wheel.angleV += wheel.angleA;
+            wheel.angleV += wheel.angleV * -0.01
+            if (wheel.angleV < 0.00005) {
+                wheel.angleV = 0;
+            }
             
         }
 
