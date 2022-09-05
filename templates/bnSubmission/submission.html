@@ -49,7 +49,7 @@
 
                 this.bandnames = bandnames
                 this.bandnamesOnWheel = []
-                this.stopVelocity = 0.00020;
+                this.stopVelocity = 0.00050;
                 this.slowRate = -0.01;
                 this.populateWheel();
                 
@@ -81,7 +81,7 @@
                     this.state = this.states.Stopped
                     return true
                 }
-
+                this.pastAngle = this.angle;
                 this.state = this.states.Spinning
                 return false
             }
@@ -102,8 +102,10 @@
                         
                         // Ensure mouse is heading downwards
                         if (dy > 0 && mouseX > width/2) {
+                            console.log("Angle before change: " + this.angle);
                             this.angle = this.pastAngle + dy * 0.5;
                             this.pastAngle = this.angle;
+                            console.log("Angle after change: " + this.angle);
                         } 
                     }
                 }
