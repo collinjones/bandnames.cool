@@ -205,7 +205,7 @@ function mouseInsideCanvas() {
 function muteCanvas() {
     if(tick_sfx.getVolume() == 0){
         button.html('Mute')
-        tick_sfx.setVolume(50)
+        tick_sfx.setVolume(0.5)
     }
     else {
         button.html('Unmute')
@@ -216,13 +216,14 @@ function muteCanvas() {
 
 function spinWheel() {
     if (wheel.angleV < 10) {
-        wheel.angleV = 10;
+        wheel.angleV = 20;
     }
 }
 
 function preload() {
     font = loadFont('static/bnSubmission/styles/PixeloidSans-nR3g1.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
+    tick_sfx.setVolume(0.5)
 }
 
 function setup() {
@@ -275,16 +276,14 @@ function draw() {
     const heading = document.getElementById('bandname-selected');
 
     if (wheel.bandnameSelected == "") {
-        heading.innerHTML = "No bandname selected - SPIN THE WHEEL"
+        heading.innerHTML = "<span style='color: red'> No bandname selected - SPIN THE WHEEL</span>"
     }
-    else {
-        heading.innerHTML = wheel.bandnameSelected;
-    }
-
-    if (wheel.state == "stopped" && wheel.bandnameSelected != "") {
-    }
-
-    if (wheel.bandnameSelected != wheel.previousBandnameSelected ){
+    else if (wheel.bandnameSelected != wheel.previousBandnameSelected ){
+        var r = Math.floor(Math.random() * 255) + 1;
+        var g = Math.floor(Math.random() * 255) + 1;
+        var b = Math.floor(Math.random() * 255) + 1;
+        var rgb = r + ", " + g + ", " + b
+        heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) + wheel.bandnameSelected + "</span>";
         tick_sfx.play();
     } 
 }
