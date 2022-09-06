@@ -2,6 +2,7 @@ html {
     background-color: rgb(255, 204, 0);
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
+    font-family: Pixelated;
 }
 h1 {
     color: black;
