@@ -1,13 +1,13 @@
-{% extends 'bnSubmission/base.html' %}
+{% extends 'registration/registration_base.html' %}
 
 {% block body %}
 
 <center>
   <div id = 'signup-form-div' style="font-family: Pixelated">
-    <h2>Register</h2>
+    <h2>Register</h2><a href="/">Go Back</a>
     <form method="POST", id = 'signup-form'>
       {% csrf_token %}
-      {{ form}}
+      {{ form.as_p }}
       <button type="submit" style="font-family: Pixelated">Register</button>
     </form>
   </div>

@@ -1,13 +1,14 @@
 <!-- templates/registration/login.html -->
-{% extends 'bnSubmission/base.html' %}
+{% extends 'registration/registration_base.html' %}
+
 {% block body %}
 <center>
-  <div id = 'login-form' style="font-family: Pixelated">
-    <h2>Log In</h2>
+  <div id = 'login-form'>
+    <h2>Log In</h2><a href="/">Go Back</a>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" style="font-family: Pixelated">Log In</button>
+      <button type="submit">Log In</button>
     </form>
   </div>
 </center>
