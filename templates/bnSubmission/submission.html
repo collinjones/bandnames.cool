@@ -28,6 +28,7 @@
         var mousePosX;
         var mousePosY;
         let tick_sfx;
+        let font;
 
         class Wheel {
             
@@ -66,10 +67,19 @@
 
             populateWheel() {
                 for (var i = 0; i < this.bandnames.length; i++) {
+
                     if (this.bandnamesOnWheel.length > 10) {
                         break;
                     }
-                    this.bandnamesOnWheel.push(this.bandnames[Math.floor(Math.random() * this.bandnames.length)])
+
+                    var currentSelection = this.bandnames[Math.floor(Math.random() * this.bandnames.length)];
+                    for (var j = 0; i < this.bandnamesOnWheel.length; j++) {
+                        if (this.bandnamesOnWheel[j] == currentSelection) {
+                        }
+                    }
+
+                    this.bandnamesOnWheel.push(currentSelection)
+                        
                 }
                 this.evenSeparatorDeg = 360 / this.bandnamesOnWheel.length
             }
@@ -166,6 +176,7 @@
                 push();
                 rotate(16)
                 for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
+                    textFont(font);
                     text(this.bandnamesOnWheel[i], 175, 0)
                     rotate(32.72)
                 }
@@ -204,6 +215,7 @@
         }
 
         function preload() {
+            font = loadFont('static/bnSubmission/styles/PixeloidSans-nR3g1.ttf');
             tick_sfx = loadSound('static/sounds/tick.mp3')
         }
 
