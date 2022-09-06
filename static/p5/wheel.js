@@ -7,6 +7,7 @@ var mousePosY;
 let tick_sfx;
 let font;
 let button;
+let spinButton
 
 class Wheel {
     
@@ -14,7 +15,6 @@ class Wheel {
 
         this.states = { Stopped: "stopped",
                         Spinning: "spinning",
-                        Picked: "picked" 
                         }
         this.state = this.states.Stopped;
         this.position = position
@@ -99,7 +99,7 @@ class Wheel {
             (mouseY > 0) && (mouseY < height)) {
 
             if (mouseIsPressed) {
-
+                this.state = this.states.Spinning
                 this.angleV = 0;
 
                 mousePosX = mouseY
@@ -214,6 +214,12 @@ function muteCanvas() {
     
 }
 
+function spinWheel() {
+    if (wheel.angleV < 10) {
+        wheel.angleV = 10;
+    }
+}
+
 function preload() {
     font = loadFont('static/bnSubmission/styles/PixeloidSans-nR3g1.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
@@ -231,9 +237,11 @@ function setup() {
     bandnames = document.getElementById("wheel-script").getAttribute( "data-bandnames" );
     bn_arr = bandnames.split(',')
     
-    button = createButton('Mute')
-    button.position(1, 1)
+    button = select('#mute-button')
     button.mousePressed(muteCanvas)
+
+    spinButton = select('#spin-button')
+    spinButton.mousePressed(spinWheel)
     
     for (var i = 0; i < bn_arr.length; i++) {
         bn_arr[i] = bn_arr[i].slice(12)
@@ -254,6 +262,7 @@ function draw() {
     
     wheel.update();
     wheel.angle += wheel.angleV;
+    wheel.angleV += wheel.angleA;
     
     strokeWeight(2)
     fill(200, 50, 0)
@@ -264,11 +273,18 @@ function draw() {
             );
 
     const heading = document.getElementById('bandname-selected');
-    heading.innerHTML = wheel.bandnameSelected;
+
+    if (wheel.bandnameSelected == "") {
+        heading.innerHTML = "No bandname selected - SPIN THE WHEEL"
+    }
+    else {
+        heading.innerHTML = wheel.bandnameSelected;
+    }
+
+    if (wheel.state == "stopped" && wheel.bandnameSelected != "") {
+    }
 
     if (wheel.bandnameSelected != wheel.previousBandnameSelected ){
         tick_sfx.play();
-    }
-
-    
+    } 
 }

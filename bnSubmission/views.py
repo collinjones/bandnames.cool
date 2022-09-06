@@ -56,7 +56,7 @@ def create(request):
                 json_response = { 'response_msg': 'Check console for error' }
                 return JsonResponse(json_response, safe = False)
         else:
-            json_response = { 'response_msg': 'Must be logged in to submit a bandname' }
+            json_response = { 'response_msg': 'Must be <a href="/accounts/login/"> logged in </a> to submit a bandname' }
             return JsonResponse(json_response, safe = False)
                    
 def index(request):
