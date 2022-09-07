@@ -176,7 +176,6 @@ class Wheel {
 
         // Space out the bandnames evenly 
         for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-
             text(this.bandnamesOnWheel[i], this.bandnameSpaceFromWheel, 0)
             rotate(this.evenSeparatorDeg)
         }
@@ -188,20 +187,21 @@ class Wheel {
         // Fill and draw the wheel
         strokeWeight(2)
         fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
-        
-        //ellipse(this.position.x, this.position.y, this.radius)
+
+        // fucked up magic numbers to center the vinyl
         image(vinyl_img, -511, -516, 1020, 1035)
-        //vinyl_img.resize(200, 200)
     }
 
     /* Render the pointer */
     renderPointer() {
-        strokeWeight(2)
-        fill(200, 50, 0)
-        triangle(width - 50, height / 2,
-            width - 2, height / 2 - 20,
-            width - 2, height / 2 + 20
-        );
+        rotate(90)
+        image(pick_of_destiny_img, 200, -500, 200, 200)
+        // strokeWeight(2)
+        // fill(200, 50, 0)
+        // triangle(width - 50, height / 2,
+        //     width - 2, height / 2 - 20,
+        //     width - 2, height / 2 + 20
+        // );
     }
 
     /* Calls the other render functions in the proper order */

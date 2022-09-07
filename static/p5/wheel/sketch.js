@@ -12,6 +12,7 @@ let font;
 let button;
 let spinButton
 let vinyl_img;
+let pick_of_destiny_img;
 
 function mouseDragged() {
     if (mouseInsideCanvas()) {
@@ -61,6 +62,7 @@ function spinWheel() {
 
 function preload() {
     vinyl_img = loadImage('static/images/vinyl.png')
+    pick_of_destiny_img = loadImage('static/images/pod.png')
     font = loadFont('static/bnSubmission/styles/PixeloidSans-nR3g1.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
     tick_sfx.setVolume(0.5)
