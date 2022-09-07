@@ -10,7 +10,7 @@ class Wheel {
         /* Bandname & Line settings */
         this.bandnames = bandnames           // Pool of bandnames to choose from
         this.bandnamesOnWheel = []           // list of bandnames currently on the wheel
-        this.bandnameSpaceFromWheel = 175;   // The amount of pixels from the center that the bandname is rendered
+        this.bandnameSpaceFromWheel = 200;   // The amount of pixels from the center that the bandname is rendered
         this.bandnameSelected = "";          // current bandname selected
         this.previousBandnameSelected = "";  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
@@ -119,9 +119,11 @@ class Wheel {
         }
 
         push();
-
+        
         translate(-150, height / 2);
+        
         rotate(this.angle);
+        
         this.render();
         translate(150, -height / 2);
 
@@ -186,7 +188,10 @@ class Wheel {
         // Fill and draw the wheel
         strokeWeight(2)
         fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
-        ellipse(this.position.x, this.position.y, this.radius)
+        
+        //ellipse(this.position.x, this.position.y, this.radius)
+        image(vinyl_img, -511, -516, 1020, 1035)
+        //vinyl_img.resize(200, 200)
     }
 
     /* Render the pointer */

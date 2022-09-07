@@ -1,5 +1,6 @@
 /* static/p5/wheel/sketch.js - p5 sketch for the bandname wheel */
 
+var canvas;
 var wheel;
 var bn_arr;
 var pAngle;
@@ -10,6 +11,7 @@ let tick_sfx;
 let font;
 let button;
 let spinButton
+let vinyl_img;
 
 function mouseDragged() {
     if (mouseInsideCanvas()) {
@@ -58,6 +60,7 @@ function spinWheel() {
 }
 
 function preload() {
+    vinyl_img = loadImage('static/images/vinyl.png')
     font = loadFont('static/bnSubmission/styles/PixeloidSans-nR3g1.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
     tick_sfx.setVolume(0.5)
@@ -65,7 +68,7 @@ function preload() {
 
 function setup() {
 
-    var canvas = createCanvas(400, 600);
+    canvas = createCanvas(400, 600);
     canvas.parent('sketch-holder');
 
     angleMode(DEGREES);
