@@ -194,8 +194,13 @@ class Wheel {
 
     /* Render the pointer */
     renderPointer() {
+
+        /* DRAW PICK OF DESTINY AS PICKER */
         rotate(90)
-        image(pick_of_destiny_img, 200, -500, 200, 200)
+        image(pick_of_destiny_img, width/2+150, -height/2-15, 150, 150)
+        // image(pick_of_destiny_img, 225, -450, 150, 150)
+
+        /* DRAW RED TRIANGLE AS PICKER */
         // strokeWeight(2)
         // fill(200, 50, 0)
         // triangle(width - 50, height / 2,

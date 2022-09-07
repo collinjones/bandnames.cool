@@ -19,14 +19,21 @@
         {% endif %}
     </div><br>
 
+</center>
+
+<div class = "sketch-grid-container">
     <!-- Div for the p5.js sketch (Bandname Wheel) -->
-    <div id = "sketch-holder" style="touch-action:none"></div>
+    <div id = "sketch-holder" class = "sketch-grid sketch" style="touch-action:none"></div>
+    <!-- Div for the selected bandname from the wheel -->
+    <br><div  class="sketch-grid selected" id="bandname-selected">Loading wheel...</div>
+</div>
+
+<center>
 
     <button id="spin-button">Spin Wheel</button>
     <button id="mute-button">Mute</button><br>
 
-    <!-- Div for the selected bandname from the wheel -->
-    <br><div id="bandname-selected">Loading wheel...</div>
+    
 
     <!-- Empty loading screen (another sketch could go here) -->
     <div id ="p5_loading"></div>

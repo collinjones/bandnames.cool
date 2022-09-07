@@ -56,7 +56,7 @@ function muteCanvas() {
 // Function for spin wheel button
 function spinWheel() {
     if (wheel.angleV < 10) {
-        wheel.angleV = 20;
+        wheel.angleV = Math.random() * 20 + 5;
     }
 }
 
@@ -70,7 +70,7 @@ function preload() {
 
 function setup() {
 
-    canvas = createCanvas(400, 600);
+    canvas = createCanvas(500, 950);
     canvas.parent('sketch-holder');
 
     angleMode(DEGREES);

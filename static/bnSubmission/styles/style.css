@@ -4,6 +4,9 @@ html {
     scrollbar-width: thin;
     font-family: Pixelated;
 }
+body {
+    margin:0;
+}
 h1 {
     color: black;
     font-family: 'Pixelated';
@@ -35,6 +38,23 @@ tr {
     width: 250px;
     margin: 5px;
 }
+
+.sketch-grid-container {
+    display:grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr
+}
+
+.sketch {
+    grid-column: 1 / 2;
+    grid-row: 1;
+}
+.selected {
+    grid-column: 2 / 2;
+    grid-row: 1;
+    margin: auto;
+}
+
 
 /* Tooltip container */
 .tooltip {
