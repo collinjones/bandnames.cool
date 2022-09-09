@@ -110,6 +110,7 @@ function draw() {
     if (wheel.bandnameSelected == "") {
         heading.innerHTML = "<span style='color: red'> No bandname selected - SPIN THE WHEEL</span>"
     }
+    
     else if (wheel.bandnameSelected != wheel.previousBandnameSelected) {
         var r = Math.floor(Math.random() * 255) + 1;
         var g = Math.floor(Math.random() * 255) + 1;

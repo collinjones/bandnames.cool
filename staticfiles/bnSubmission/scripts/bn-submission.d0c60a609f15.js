@@ -20,7 +20,6 @@ $(document).on('submit', '#post-form', function (e) {
                                     "<span class='tooltiptext'>" + data['bandname_json']['username'] + " </span>" +
                                 " </td> \
                                 <td class='tooltip'> " + data['bandname_json']['upvotes'] + " </td> \
-                                <td class='tooltip'> " + data['bandname_json']['downvotes'] + " </td> \
                             </tr>"
                 $("#bandnames-table-body").prepend(content);
             }

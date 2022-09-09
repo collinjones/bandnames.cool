@@ -4,9 +4,7 @@ html {
     scrollbar-width: thin;
     font-family: Pixelated;
 }
-body {
-    margin:0;
-}
+
 h1 {
     color: black;
     font-family: 'Pixelated';
@@ -28,6 +26,7 @@ td {
 
 table {
     border-collapse: collapse;
+    width: 300px;
 }
 
 tr {
@@ -39,22 +38,37 @@ tr {
     margin: 5px;
 }
 
-.sketch-grid-container {
-    margin: auto;
-    display:grid;
-    gap: 10px;
-    width: 600px;
-    grid-template-columns: 1fr 1fr
+@media only screen and (max-width: 700px) {
+    .sketch-grid-container {
+        width: 350px !important;
+        height: 1000px !important;
+    }
 }
 
-.sketch {
-    grid-column: 1 / 2;
-    grid-row: 1;
-}
-.selected {
-    grid-column: 2 / 2;
-    grid-row: 1;
+.sketch-grid-container {
     margin: auto;
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 700px;
+    height: 500px;
+}
+
+.sketch-holder {
+    height: 500px;
+}
+
+@media only screen and (max-width: 700px) {
+    .selected {
+        margin-top: -225px !important;
+    }
+}
+
+.selected {
+    width: 340px;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
 }
 
 
@@ -87,7 +101,7 @@ tr {
 }
 
 .scroller {
-    width: 500px;
+    margin: 25px;
     height: 100px;
     overflow-y: scroll;
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);

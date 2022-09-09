@@ -20,26 +20,9 @@ $(document).on('submit', '#post-form', function (e) {
                                     "<span class='tooltiptext'>" + data['bandname_json']['username'] + " </span>" +
                                 " </td> \
                                 <td class='tooltip'> " + data['bandname_json']['upvotes'] + " </td> \
-                                <td class='tooltip'> " + data['bandname_json']['downvotes'] + " </td> \
                             </tr>"
                 $("#bandnames-table-body").prepend(content);
             }
         }
     });
 });
-
-// $(document).ready(function() {
-//     $(document).on('submit', '#refresh-button', function (e) {
-//         e.preventDefault(); // Stop page from refreshing
-//         $.blockUI({ message: null }); 
-//         $.ajax({
-//             type: 'GET',
-//             url: '/refreshNames',
-//             success: function (data) {
-//                 $.unblockUI();
-//                 $('#submission-status').html("<h2></h2>");
-                
-//             }
-//         });
-//     });
-// });
