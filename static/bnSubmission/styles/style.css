@@ -40,8 +40,10 @@ tr {
 }
 
 .sketch-grid-container {
+    margin: auto;
     display:grid;
     gap: 10px;
+    width: 600px;
     grid-template-columns: 1fr 1fr
 }
 
