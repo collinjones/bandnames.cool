@@ -10,7 +10,7 @@ class Wheel {
         /* Bandname & Line settings */
         this.bandnames = bandnames           // Pool of bandnames to choose from
         this.bandnamesOnWheel = []           // list of bandnames currently on the wheel
-        this.bandnameSpaceFromWheel = 200;   // The amount of pixels from the center that the bandname is rendered
+        this.bandnameSpaceFromWheel = 100;   // The amount of pixels from the center that the bandname is rendered
         this.bandnameSelected = "";          // current bandname selected
         this.previousBandnameSelected = "";  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
@@ -120,12 +120,11 @@ class Wheel {
 
         push();
         
-        translate(-150, height / 2);
+        translate(0, height / 2);
         
         rotate(this.angle);
-        
         this.render();
-        translate(150, -height / 2);
+        translate(0, -height / 2);
 
         pop();
 
@@ -158,7 +157,8 @@ class Wheel {
     /* Settings for the text */
     setUpTextSettings() {
         textFont(font);
-        textSize(16);
+        // textWrap(WORD)
+        textSize(12);
         fill(0, 0, 0, 255)
     }
 
@@ -176,8 +176,9 @@ class Wheel {
 
         // Space out the bandnames evenly 
         for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-            text(this.bandnamesOnWheel[i], this.bandnameSpaceFromWheel, 0)
+            text(this.bandnamesOnWheel[i], this.bandnameSpaceFromWheel, 0, 150, 100)
             rotate(this.evenSeparatorDeg)
+            rotate(-1.5)
         }
         pop();
     }
@@ -189,7 +190,9 @@ class Wheel {
         fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
 
         // fucked up magic numbers to center the vinyl
-        image(vinyl_img, -511, -516, 1020, 1035)
+        image(vinyl_img, -(width/2), -(height/2)/2-13, this.radius, this.radius)
+        //image(vinyl_img, (-width/2)/2, -(height/2)/2, this.radius, this.radius)
+        // image(vinyl_img, -511, -516, 1020, 1035)
     }
 
     /* Render the pointer */

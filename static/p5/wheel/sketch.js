@@ -95,13 +95,13 @@ function setup() {
         }
     }
 
-    wheel = new Wheel(createVector(0, 0), 1000, color(255, 204, 0), bn_arr)
+    wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bn_arr)
 
 }
 
 function draw() {
 
-    background(255, 204, 0)
+    background(255, 255, 255)
 
     wheel.update();
 
