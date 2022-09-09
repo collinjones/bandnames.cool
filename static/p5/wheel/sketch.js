@@ -70,7 +70,7 @@ function preload() {
 
 function setup() {
 
-    canvas = createCanvas(500, 950);
+    canvas = createCanvas(350, 500);
     canvas.parent('sketch-holder');
 
     angleMode(DEGREES);
@@ -101,7 +101,7 @@ function setup() {
 
 function draw() {
 
-    background(255, 255, 255)
+    background(255, 204, 0)
 
     wheel.update();
 

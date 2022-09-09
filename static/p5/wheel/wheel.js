@@ -149,7 +149,7 @@ class Wheel {
     /* Render the lines on the wheel */
     renderLines() {
         for (var i = 0; i <= this.bandnamesOnWheel.length + 1; i++) {
-            line(0, 0, this.radius / 2, 0)
+            line(0, 0, (this.radius / 2) - 8, 0)
             rotate(this.evenSeparatorDeg)
         }
     }
@@ -178,21 +178,13 @@ class Wheel {
         for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
             text(this.bandnamesOnWheel[i], this.bandnameSpaceFromWheel, 0, 150, 100)
             rotate(this.evenSeparatorDeg)
-            rotate(-1.5)
         }
         pop();
     }
 
     /* Render the wheel (ellipse) */
     renderWheel() {
-        // Fill and draw the wheel
-        strokeWeight(2)
-        fill(this.color["levels"][0], this.color["levels"][1], this.color["levels"][2])
-
-        // fucked up magic numbers to center the vinyl
-        image(vinyl_img, -(width/2), -(height/2)/2-13, this.radius, this.radius)
-        //image(vinyl_img, (-width/2)/2, -(height/2)/2, this.radius, this.radius)
-        // image(vinyl_img, -511, -516, 1020, 1035)
+        image(vinyl_img, -(width/2)-75, -(height/2), 500, 500)
     }
 
     /* Render the pointer */
@@ -200,16 +192,7 @@ class Wheel {
 
         /* DRAW PICK OF DESTINY AS PICKER */
         rotate(90)
-        image(pick_of_destiny_img, width/2+150, -height/2-15, 150, 150)
-        // image(pick_of_destiny_img, 225, -450, 150, 150)
-
-        /* DRAW RED TRIANGLE AS PICKER */
-        // strokeWeight(2)
-        // fill(200, 50, 0)
-        // triangle(width - 50, height / 2,
-        //     width - 2, height / 2 - 20,
-        //     width - 2, height / 2 + 20
-        // );
+        image(pick_of_destiny_img, (height/2)/1.25, (-width/2)*1.9, 100, 100)
     }
 
     /* Calls the other render functions in the proper order */
