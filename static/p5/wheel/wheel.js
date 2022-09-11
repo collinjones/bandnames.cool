@@ -4,6 +4,8 @@ class Wheel {
 
     constructor(position, radius, color, bandnames) {
 
+
+
         /* Misc. attributes */
         this.states = { Stopped: "stopped", Spinning: "spinning" }  // States that the wheel can be in
 
@@ -121,7 +123,6 @@ class Wheel {
         push();
         
         translate(0, height / 2);
-        
         rotate(this.angle);
         this.render();
         translate(0, -height / 2);

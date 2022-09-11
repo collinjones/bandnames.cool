@@ -4,17 +4,22 @@ import json
 from django.http import HttpResponse
 from .models import Bandname
 from django.http import JsonResponse
-from .forms import CreateBandname
+from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth import login
 from django.contrib import messages
 from django.core import serializers
 
-def refreshNames(request):
-    if request.method == 'GET':
-
-        # Return the last bandname added to DB
-        serealized = list(Bandname.objects.values())
-        return JsonResponse(serealized, safe = False)
+def index(request):
+    form = CreateBandname()
+    bandnames = Bandname.objects.all()
+    bandnames_json = serializers.serialize("json", Bandname.objects.all())
+    ctxt = {
+            "title"     : "Submission Page",
+            "bandnames_reversed" : reversed(Bandname.objects.all()),
+            "bandnames": list(bandnames),
+            "form"      : form
+            }
+    return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
 
 def create(request):
 
@@ -58,15 +63,34 @@ def create(request):
         else:
             json_response = { 'response_msg': 'Must be <a href="/accounts/login/"> logged in </a> to submit a bandname' }
             return JsonResponse(json_response, safe = False)
+
+
                    
-def index(request):
-    form = CreateBandname()
-    bandnames = Bandname.objects.all()
-    bandnames_json = serializers.serialize("json", Bandname.objects.all())
+
+
+def BatchSubmit(request):
+    form = CreateBatchBandname()
     ctxt = {
-            "title"     : "Submission Page",
-            "bandnames_reversed" : reversed(Bandname.objects.all()),
-            "bandnames": list(bandnames),
-            "form"      : form
-            }
-    return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
+        "title": "Batch Submission Page",
+        "form": form
+    }
+    return render(request, "../templates/bnSubmission/batch_submission.html", context=ctxt)
+
+def BatchCreate(request):
+
+    # Ensure the request method is POST and the user is logged in
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            
+            # Get the data from the submitted form 
+            form = CreateBatchBandname(request.POST)
+
+            # Ensure the form is valid (django function)
+            if form.is_valid():
+
+                # Ensure the form is not empty, otherwise return error
+                if form.cleaned_data['bandname'] == "":
+                    json_response = { 'response_msg': 'Bandname cannot be empty' }
+                    return JsonResponse(json_response, safe = False)
+
+                # etc... 

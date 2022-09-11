@@ -42,11 +42,11 @@ function mouseInsideCanvas() {
 
 // Function for mute button
 function muteCanvas() {
+    
     if (tick_sfx.getVolume() == 0) {
         button.html('Mute')
         tick_sfx.setVolume(0.5)
-    }
-    else {
+    } else {
         button.html('Unmute')
         tick_sfx.setVolume(0)
     }
@@ -109,9 +109,7 @@ function draw() {
 
     if (wheel.bandnameSelected == "") {
         heading.innerHTML = "<span style='color: red'> No bandname selected - SPIN THE WHEEL</span>"
-    }
-    
-    else if (wheel.bandnameSelected != wheel.previousBandnameSelected) {
+    } else if (wheel.bandnameSelected != wheel.previousBandnameSelected) {
         var r = Math.floor(Math.random() * 255) + 1;
         var g = Math.floor(Math.random() * 255) + 1;
         var b = Math.floor(Math.random() * 255) + 1;
@@ -119,4 +117,6 @@ function draw() {
         heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) + wheel.bandnameSelected + "</span>";
         tick_sfx.play();
     }
+
+    
 }

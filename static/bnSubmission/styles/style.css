@@ -60,14 +60,14 @@ tr {
 
 @media only screen and (max-width: 700px) {
     .selected {
-        margin-top: -225px !important;
+        margin-top: -150px !important;
     }
 }
 
 .selected {
+    margin-top: 25px;
     width: 340px;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-bottom: 25px;
     text-align: center;
 }
 
