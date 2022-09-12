@@ -12,7 +12,6 @@ from django.core import serializers
 def index(request):
     form = CreateBandname()
     bandnames = Bandname.objects.all()
-    bandnames_json = serializers.serialize("json", Bandname.objects.all())
     ctxt = {
             "title"     : "Submission Page",
             "bandnames_reversed" : reversed(Bandname.objects.all()),

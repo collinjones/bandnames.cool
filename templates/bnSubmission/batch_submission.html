@@ -1,0 +1,20 @@
+{% extends 'bnSubmission/base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+
+<center>
+<!-- Body -->
+
+<h3> Submit Batch </h3> <a href="/">Homepage</a>
+<div id="batch-submission-form-container">
+    <form enctype="multipart/form-data" method="post" id="batch-submission-form">
+        
+        {% csrf_token %}
+        {{form.as_p}}
+        <button name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Batch</button>
+    </form>
+</div>
+</center>
+{% endblock %}

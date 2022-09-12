@@ -40,6 +40,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title> {% block title %} {% endblock %}</title>
         <meta name="description" content="A community for submitting and voting on bandnames.">
+        
 
     </head>
 
@@ -48,10 +49,7 @@
         {% endblock %}
     </body>
 
-    <!-- p5.js sketches  -->
-    <script src="{% static 'p5/wheel/wheel.js' %} "></script>
-    <script src="{% static 'p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
-
+    
     <!-- AJAX scripts -->
     <script type="text/javascript" src=" {% static 'bnSubmission/scripts/bn-submission.js' %} "></script>
     

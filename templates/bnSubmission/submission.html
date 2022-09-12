@@ -1,16 +1,18 @@
-{% extends 'bnSubmission/homepage_base.html' %}
-
+{% extends 'bnSubmission/base.html' %}
+{% load static %}
 {% block title %} {{ title }} {% endblock %}
-
 {% block body %}
 
-
+<!-- p5.js sketches  -->
+<script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
+<script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
 <center>
 
     <br><div>
         {% if user.is_authenticated %}
             Hi {{ user.username }}! <a href="{% url 'logout' %}">Log Out</a>
+            <a href="{% url 'batchSubmission' %}">Batch Submit</a>
         
         {% else %}
             You are not logged in
@@ -78,3 +80,5 @@
 </center>
 
 {% endblock %}
+
+
