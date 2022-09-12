@@ -26,3 +26,20 @@ $(document).on('submit', '#post-form', function (e) {
         }
     });
 });
+
+$(document).on('submit', '#batch-submission-form', function (e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: null }); 
+    $.ajax({
+        type: 'POST',
+        url: '/batch-create',
+        data: {
+            bandnames: $('#bandnames').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            $.unblockUI();
+            
+        }
+    });
+});

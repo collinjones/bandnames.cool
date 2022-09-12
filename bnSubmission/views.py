@@ -87,9 +87,13 @@ def BatchCreate(request):
             # Ensure the form is valid (django function)
             if form.is_valid():
 
+                print(form.cleaned_data['bandnames'])
+
                 # Ensure the form is not empty, otherwise return error
-                if form.cleaned_data['bandname'] == "":
+                if form.cleaned_data['bandnames'] == "":
                     json_response = { 'response_msg': 'Bandname cannot be empty' }
                     return JsonResponse(json_response, safe = False)
 
                 # etc... 
+
+                return HttpResponse("great")
