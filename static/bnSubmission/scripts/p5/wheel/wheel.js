@@ -20,6 +20,7 @@ class Wheel {
         /* Wheel settings */
         this.stopVelocity = 0.0010;  // lower numbers stop the wheel at a higher velocity
         this.slowRate = -0.01;       // lower numbers slow the wheel faster
+        this.secondSlowRate = -0.05;
         this.angle = 0;              // initial angle of wheel
         this.pastAngle = 0;          // previous frame angle
         this.angleV = 0.0;           // initial angle velocity

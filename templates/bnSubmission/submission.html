@@ -28,14 +28,13 @@
 
 <div class = "sketch-grid-container">
     <!-- Div for the p5.js sketch (Bandname Wheel) -->
-    <div class = "sketch-holder" id = "sketch-holder" style="touch-action:none"></div>
+    <div class = "div1" id = "sketch-holder" style="touch-action:none"></div>
     <!-- Div for the selected bandname from the wheel -->
-    <div  class="selected" id="bandname-selected">Loading wheel...</div>
-    <div class="voting-system" id="voting-system">
+    <div  class="div2" id="bandname-selected">Loading wheel...</div>
+    <div class="div3" id="voting-system">
         <button id="upvote-button">Upvote</button>
         <button id="downvote-button">Downvote</button><br>
     </div>
-
 </div>
 
 <center>
@@ -54,28 +53,56 @@
         </form>
     </div>
 
+    <div class="tableHeaders">
+        <table id="bandnames-table">
+            <thead>
+                <tr>
+                    <th>Bandname</th>
+                    <th>Upvotes</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="scroller">
+        <table id="bandnames-table">
+            <tbody>
+                {% for bandname in bandnames_reversed %}
+                <tr>
+                    <td class="tooltip">{{bandname.bandname}}
+                        <span class="tooltiptext">{{bandname.username}}</span>
+                    </td>
+                    <td>{{bandname.upvotes}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+    
     <!-- Table of bandnames -->
-    <div class="scroller" style="height:500px;overflow:auto;">
+    <!-- <div class="fixTableHead" style="height:500px;overflow:auto;">
         <table id="bandnames-table">
             
-            <thead><tr>
+            <tr>
                 <th>Bandname</th>
                 <th>Upvotes</th>
-            </tr></thead>
+            </tr>
 
-            {% for bandname in bandnames_reversed %}
-            <tbody id="bandnames-table-body">
+            
+            <tbody>
+                {% for bandname in bandnames_reversed %}
                 </tr>
                     <td class="tooltip">{{bandname.bandname}}
                         <span class="tooltiptext">{{bandname.username}}</span>
                     </td>
                     <td>{{bandname.upvotes}}</td>
                 </tr>
+                {% endfor %}
             </tbody>
-            {% endfor %}
+            
 
         </table>
-    </div>
+    </div> -->
 
 </center>
 

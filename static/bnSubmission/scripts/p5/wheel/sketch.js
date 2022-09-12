@@ -16,6 +16,7 @@ let pick_of_destiny_img;
 
 function mouseDragged() {
     if (mouseInsideCanvas()) {
+        
         wheel.angleV = 0;
         let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
         wheel.pAngle = v.heading();
@@ -107,15 +108,27 @@ function draw() {
 
     const heading = document.getElementById('bandname-selected');
 
+    /* No name selected yet */
     if (wheel.bandnameSelected == "") {
         heading.innerHTML = "<span style='color: red'> No bandname selected - SPIN THE WHEEL</span>"
-    } else if (wheel.bandnameSelected != wheel.previousBandnameSelected) {
+    } 
+    
+    else if (wheel.bandnameSelected != wheel.previousBandnameSelected) {
         var r = Math.floor(Math.random() * 255) + 1;
         var g = Math.floor(Math.random() * 255) + 1;
         var b = Math.floor(Math.random() * 255) + 1;
         var rgb = r + ", " + g + ", " + b
         heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) + wheel.bandnameSelected + "</span>";
         tick_sfx.play();
+    }
+
+    if (wheel.state == "spinning" || wheel.bandnameSelected == "") {
+        document.getElementById("upvote-button").disabled = true; 
+        document.getElementById("downvote-button").disabled = true; 
+    }
+    else {
+        document.getElementById("upvote-button").disabled = false; 
+        document.getElementById("downvote-button").disabled = false; 
     }
 
     
