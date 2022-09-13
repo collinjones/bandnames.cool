@@ -61,6 +61,12 @@ function spinWheel() {
     }
 }
 
+function stopWheel() {
+    if (wheel.state == "spinning") {
+        wheel.angleV = 0;
+    }
+}
+
 function preload() {
     vinyl_img = loadImage('static/images/vinyl.png')
     pick_of_destiny_img = loadImage('static/images/pod.png')
@@ -86,6 +92,8 @@ function setup() {
     button.mousePressed(muteCanvas)
     spinButton = select('#spin-button')
     spinButton.mousePressed(spinWheel)
+    spinButton = select('#stop-button')
+    spinButton.mousePressed(stopWheel)
 
     for (var i = 0; i < bn_arr.length; i++) {
         bn_arr[i] = bn_arr[i].slice(12)
