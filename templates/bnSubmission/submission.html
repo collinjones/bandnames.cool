@@ -65,7 +65,7 @@
     </div>
     <div class="scroller">
         <table id="bandnames-table">
-            <tbody>
+            <tbody id='bandnames-table-body'>
                 {% for bandname in bandnames_reversed %}
                 <tr>
                     <td class="tooltip">{{bandname.bandname}}
@@ -78,31 +78,6 @@
             
         </table>
     </div>
-    
-    <!-- Table of bandnames -->
-    <!-- <div class="fixTableHead" style="height:500px;overflow:auto;">
-        <table id="bandnames-table">
-            
-            <tr>
-                <th>Bandname</th>
-                <th>Upvotes</th>
-            </tr>
-
-            
-            <tbody>
-                {% for bandname in bandnames_reversed %}
-                </tr>
-                    <td class="tooltip">{{bandname.bandname}}
-                        <span class="tooltiptext">{{bandname.username}}</span>
-                    </td>
-                    <td>{{bandname.upvotes}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            
-
-        </table>
-    </div> -->
 
 </center>
 

@@ -159,7 +159,7 @@ th {
 }
 
 #bandnames {
-    width: 500px !important;
+    width: inherit !important;
     max-height: 650px;
     min-height: 250px;
 }
