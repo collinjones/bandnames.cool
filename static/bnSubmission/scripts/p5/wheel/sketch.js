@@ -8,9 +8,11 @@ var v2;
 var mousePosX;
 var mousePosY;
 let tick_sfx;
+let stickerbrush_symphony;
 let font;
 let button;
 let spinButton
+let music_slider;
 let vinyl_img;
 let pick_of_destiny_img;
 
@@ -67,11 +69,18 @@ function stopWheel() {
     }
 }
 
+function setVolume() {
+    console.log(music_slider.value())
+    stickerbrush_symphony.setVolume(music_slider.value())
+}
+
 function preload() {
     vinyl_img = loadImage('static/images/vinyl.png')
     pick_of_destiny_img = loadImage('static/images/pod.png')
     font = loadFont('static/bnSubmission/styles/PixeloidSans-nR3g1.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
+    stickerbrush_symphony = loadSound('static/sounds/sbs.wav')
+    stickerbrush_symphony.setVolume()
     tick_sfx.setVolume(0.5)
 }
 
@@ -90,6 +99,10 @@ function setup() {
 
     button = select('#mute-button')
     button.mousePressed(muteCanvas)
+
+    music_slider = select('#volume-slider')
+    music_slider.mousePressed(setVolume)
+
     spinButton = select('#spin-button')
     spinButton.mousePressed(spinWheel)
     spinButton = select('#stop-button')
@@ -104,6 +117,8 @@ function setup() {
         }
     }
 
+    stickerbrush_symphony.play();
+
     wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bn_arr)
 
 }
@@ -113,6 +128,8 @@ function draw() {
     background(255, 204, 0)
 
     wheel.update();
+
+    setVolume();
 
     const heading = document.getElementById('bandname-selected');
 
