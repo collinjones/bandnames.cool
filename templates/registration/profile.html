@@ -1,0 +1,24 @@
+{% extends 'registration/registration_base.html' %}
+
+{% block body %}
+
+
+
+<p> Hello {{user.username}}!</p><a href="/">Go Back</a>
+
+<form id = "profile-form">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
+</form>
+
+<script>
+    console.log(document.getElementById('id_profanity_filter').checked)
+    document.getElementById('id_profanity_filter').checked = "{{user.profile.profanity_filter}}";
+    console.log(document.getElementById('id_profanity_filter').checked)
+</script>
+
+
+
+{%endblock%}
+

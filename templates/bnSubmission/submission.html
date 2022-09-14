@@ -6,7 +6,17 @@
 {% block title %} {{ title }} {% endblock %}
 {% block body %}
 <!-- p5.js sketches  -->
-<script src="{% static 'bnSubmission/scripts/set_global_vars.js' %} "></script>
+<script>
+    var bandnames = []
+    '{% for bandname in bandnames %}'
+        if ("{{profanity_filter}}" == "True"){
+            bandnames.push('{{bandname|censor}}')
+        }
+        else {
+            bandnames.push('{{bandname}}')
+        }
+    '{% endfor %}'
+</script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
@@ -16,11 +26,12 @@
         {% if user.is_authenticated %}
             Hi {{ user.username }}! <a href="{% url 'logout' %}">Log Out</a>
             <a href="{% url 'batchSubmission' %}">Batch Submit</a>
+            <a href="{% url 'profile' %}">Profile</a>
         
         {% else %}
             You are not logged in
             <a href="{% url 'login' %}">Log In</a> |
-            <a href="{% url 'signup' %}">Sign Up</a>
+            <a href="{% url 'registration' %}">Sign Up</a>
         {% endif %}
     </div><br>
 
@@ -77,7 +88,6 @@
                 {% for bandname in bandnames_reversed %}
                 <tr>
                     {% if profanity_filter == True %}
-                    {{profanity_filter}}
                         <td class="tooltip">{{bandname.bandname|censor}}
                     {% else %}
                         <td class="tooltip">{{bandname.bandname}}

@@ -46,10 +46,10 @@ function mouseInsideCanvas() {
 function muteCanvas() {
     
     if (tick_sfx.getVolume() == 0) {
-        button.html('Mute')
+        button.html('Mute Wheel')
         tick_sfx.setVolume(0.5)
     } else {
-        button.html('Unmute')
+        button.html('Unmute Wheel')
         tick_sfx.setVolume(0)
     }
 
