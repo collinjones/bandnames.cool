@@ -1,4 +1,4 @@
-$(document).on('submit', '#post-form', function (e) {
+$("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: null }); 
     $.ajax({
@@ -20,7 +20,6 @@ $(document).on('submit', '#post-form', function (e) {
                                     "<span class='tooltiptext'>" + data['bandname_json']['username'] + " </span>" +
                                 " </td> \
                                 <td class='tooltip'> " + data['bandname_json']['upvotes'] + " </td> \
-                                <td class='tooltip'> " + data['bandname_json']['downvotes'] + " </td> \
                             </tr>"
                 $("#bandnames-table-body").prepend(content);
             }
@@ -28,18 +27,50 @@ $(document).on('submit', '#post-form', function (e) {
     });
 });
 
-// $(document).ready(function() {
-//     $(document).on('submit', '#refresh-button', function (e) {
-//         e.preventDefault(); // Stop page from refreshing
-//         $.blockUI({ message: null }); 
-//         $.ajax({
-//             type: 'GET',
-//             url: '/refreshNames',
-//             success: function (data) {
-//                 $.unblockUI();
-//                 $('#submission-status').html("<h2></h2>");
-                
-//             }
-//         });
-//     });
-// });
+$("#upvote-button" ).click(function(e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.ajax({
+        type: 'POST',
+        url: '/vote',
+        data: {
+            bandname: $('#bandname-selected').text(),
+            val: "up",
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            
+        }
+    });
+});
+$("#downvote-button" ).click(function(e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.ajax({
+        type: 'POST',
+        url: '/vote',
+        data: {
+            bandname: $('#bandname-selected').text(),
+            val: "down",
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            
+        }
+    });
+});
+
+$(document).on('submit', '#batch-submission-form', function (e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: null }); 
+    $.ajax({
+        type: 'POST',
+        url: '/batch-create',
+        data: {
+            bandnames: $('#bandnames').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            $.unblockUI();
+            
+        }
+    });
+});
