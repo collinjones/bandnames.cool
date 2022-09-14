@@ -6,19 +6,7 @@
 {% block title %} {{ title }} {% endblock %}
 {% block body %}
 <!-- p5.js sketches  -->
-<script>
-    var bandnames = []
-    '{% for bandname in bandnames %}'
-        console.log("{{profanity_filter}}")
-        if ("{{profanity_filter}}" == "True"){
-            bandnames.push('{{bandname|censor}}')
-        }
-        else {
-            bandnames.push('{{bandname}}')
-        }
-        console.log(bandnames)
-    '{% endfor %}'
-</script>
+<script src="{% static 'bnSubmission/scripts/set_global_vars.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
@@ -88,7 +76,7 @@
             <tbody id='bandnames-table-body'>
                 {% for bandname in bandnames_reversed %}
                 <tr>
-                    {% if profanity_filter %}
+                    {% if profanity_filter == True %}
                         <td class="tooltip">{{bandname.bandname|censor}}
                     {% else %}
                         <td class="tooltip">{{bandname.bandname}}
