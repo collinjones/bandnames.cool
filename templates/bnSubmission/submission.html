@@ -9,7 +9,7 @@
 <script>
     var bandnames = []
     '{% for bandname in bandnames %}'
-    console.log("{{profanity_filter}}")
+        console.log("{{profanity_filter}}")
         if ("{{profanity_filter}}" == "True"){
             bandnames.push('{{bandname|censor}}')
         }
