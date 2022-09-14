@@ -1,9 +1,24 @@
 {% extends 'bnSubmission/base.html' %}
+
 {% load static %}
+{% load profanity %}
+
 {% block title %} {{ title }} {% endblock %}
 {% block body %}
-
 <!-- p5.js sketches  -->
+<script>
+    var bandnames = []
+    '{% for bandname in bandnames %}'
+    console.log("{{profanity_filter}}")
+        if ("{{profanity_filter}}" == "True"){
+            bandnames.push('{{bandname|censor}}')
+        }
+        else {
+            bandnames.push('{{bandname}}')
+        }
+        console.log(bandnames)
+    '{% endfor %}'
+</script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
@@ -23,7 +38,7 @@
 
     <button id="spin-button">Spin Wheel</button>
     <button id="stop-button">Stop Wheel</button>
-    <button id="mute-button">Mute</button><br>
+    <button id="mute-button">Mute Wheel</button><br>
     <input type="range" min="0" max="0.1" value="0.05" id="volume-slider" step="0.001">
 
 </center>
@@ -34,8 +49,11 @@
     <!-- Div for the selected bandname from the wheel -->
     <div  class="div2" id="bandname-selected">Loading wheel...</div>
     <div class="div3" id="voting-system">
-        <button id="upvote-button">Upvote</button>
-        <button id="downvote-button">Downvote</button><br>
+        <form enctype="multipart/form-data" method="post" id="vote-form">
+            {% csrf_token %}
+            <button id="upvote-button" href="{% url 'vote' %}">Upvote</button>
+            <button id="downvote-button" href="{% url 'vote' %}">Downvote</button><br>
+        <form>
     </div>
 </div>
 
@@ -49,9 +67,9 @@
         <h2 id='submission-status'></h2>
         <form enctype="multipart/form-data" method="post" id="post-form">
             <h3> Submit a bandname </h3>
-            {% csrf_token %}
-            {{form}}
-            <button name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Bandname</button>
+            <!-- {{form}} -->
+            <input id="bandname">
+            <input id="bandname-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Bandname</button>
         </form>
     </div>
 
@@ -70,7 +88,11 @@
             <tbody id='bandnames-table-body'>
                 {% for bandname in bandnames_reversed %}
                 <tr>
-                    <td class="tooltip">{{bandname.bandname}}
+                    {% if profanity_filter %}
+                        <td class="tooltip">{{bandname.bandname|censor}}
+                    {% else %}
+                        <td class="tooltip">{{bandname.bandname}}
+                    {% endif %}
                         <span class="tooltiptext">{{bandname.username}}</span>
                     </td>
                     <td>{{bandname.upvotes}}</td>

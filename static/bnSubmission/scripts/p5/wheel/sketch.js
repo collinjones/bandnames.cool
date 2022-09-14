@@ -2,7 +2,6 @@
 
 var canvas;
 var wheel;
-var bn_arr;
 var pAngle;
 var v2;
 var mousePosX;
@@ -70,7 +69,6 @@ function stopWheel() {
 }
 
 function setVolume() {
-    console.log(music_slider.value())
     stickerbrush_symphony.setVolume(music_slider.value())
 }
 
@@ -94,11 +92,9 @@ function setup() {
     background(255, 204, 0)
     frameRate(60);
 
-    bandnames = document.getElementById("wheel-script").getAttribute("data-bandnames");
-    bn_arr = bandnames.split(',')
-
     button = select('#mute-button')
     button.mousePressed(muteCanvas)
+    
 
     music_slider = select('#volume-slider')
     music_slider.mousePressed(setVolume)
@@ -108,18 +104,9 @@ function setup() {
     spinButton = select('#stop-button')
     spinButton.mousePressed(stopWheel)
 
-    for (var i = 0; i < bn_arr.length; i++) {
-        bn_arr[i] = bn_arr[i].slice(12)
-        bn_arr[i] = bn_arr[i].slice(0, -1)
-
-        if (i == bn_arr.length - 1) {
-            bn_arr[i] = bn_arr[i].slice(0, -1)
-        }
-    }
-
     stickerbrush_symphony.play();
 
-    wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bn_arr)
+    wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bandnames)
 
 }
 

@@ -8,6 +8,5 @@ class Bandname(models.Model):
     upvotes = models.IntegerField()
     downvotes = models.IntegerField()
     
-
     def __str__(self):
         return self.bandname

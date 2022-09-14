@@ -1,4 +1,4 @@
-$(document).on('submit', '#post-form', function (e) {
+$("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: null }); 
     $.ajax({
@@ -23,6 +23,37 @@ $(document).on('submit', '#post-form', function (e) {
                             </tr>"
                 $("#bandnames-table-body").prepend(content);
             }
+        }
+    });
+});
+
+$("#upvote-button" ).click(function(e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.ajax({
+        type: 'POST',
+        url: '/vote',
+        data: {
+            bandname: $('#bandname-selected').text(),
+            val: "up",
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            
+        }
+    });
+});
+$("#downvote-button" ).click(function(e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.ajax({
+        type: 'POST',
+        url: '/vote',
+        data: {
+            bandname: $('#bandname-selected').text(),
+            val: "down",
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            
         }
     });
 });

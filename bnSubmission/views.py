@@ -4,18 +4,30 @@ import json
 from django.http import HttpResponse
 from .models import Bandname
 from django.http import JsonResponse
-from .forms import CreateBandname, CreateBatchBandname
+from .forms import CreateBandname, CreateBatchBandname, Vote
 from django.contrib.auth import login
-from django.contrib import messages
-from django.core import serializers
+from django.contrib.auth.models import User
+from profanity.extras import ProfanityFilter
 
 def index(request):
     form = CreateBandname()
-    bandnames = Bandname.objects.all()
+    bandnames = list(Bandname.objects.all())
+    cleaned_list = []
+    profanity_filter = True
+
+    for bandname in bandnames:
+        cleaned_list.append(bandname.bandname)
+
+    if request.user.is_authenticated:
+        user = User.objects.get(pk=request.user.id)
+        profanity_filter = user.profile.profanity_filter
+
     ctxt = {
             "title"     : "Submission Page",
-            "bandnames_reversed" : reversed(Bandname.objects.all()),
-            "bandnames": list(bandnames),
+            "bandnames_reversed" : reversed(bandnames),
+            "profanity_filter": profanity_filter,
+            "bandnames": cleaned_list,
+            "bandname_objs": bandnames,
             "form"      : form
             }
     return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
@@ -49,8 +61,10 @@ def create(request):
                                             downvotes=0)
                     new_bandname.save()
                     json_response = {}
+                    user = User.objects.get(pk=request.user.id)
+                    filter = ProfanityFilter()
                     json_response['bandname_json'] = {
-                                                 'bandname': new_bandname_str,
+                                                 'bandname': filter.censor(new_bandname_str),
                                                  'username':request.user.username,
                                                  'upvotes': 0,
                                                  'downvotes': 0
@@ -64,8 +78,9 @@ def create(request):
             return JsonResponse(json_response, safe = False)
 
 
-                   
-
+def vote(request):
+    print('hello')  
+    return HttpResponse("niec")        
 
 def BatchSubmit(request):
     form = CreateBatchBandname()
