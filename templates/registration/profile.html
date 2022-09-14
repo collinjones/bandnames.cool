@@ -13,9 +13,10 @@
 </form>
 
 <script>
-    console.log(document.getElementById('id_profanity_filter').checked)
-    document.getElementById('id_profanity_filter').checked = "{{user.profile.profanity_filter}}";
-    console.log(document.getElementById('id_profanity_filter').checked)
+    if("{{user.profile.profanity_filter}}" == "True"){
+        document.getElementById('id_profanity_filter').checked = true;
+    }
+
 </script>
 
 
