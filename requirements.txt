@@ -15,4 +15,3 @@ pytz==2022.2.1
 sqlparse==0.2.4
 stevedore==4.0.0
 whitenoise==6.2.0
-profanity==1.1
