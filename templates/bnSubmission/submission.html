@@ -77,6 +77,7 @@
                 {% for bandname in bandnames_reversed %}
                 <tr>
                     {% if profanity_filter == True %}
+                    {{profanity_filter}}
                         <td class="tooltip">{{bandname.bandname|censor}}
                     {% else %}
                         <td class="tooltip">{{bandname.bandname}}
