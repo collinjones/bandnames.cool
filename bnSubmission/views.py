@@ -1,6 +1,7 @@
 from asyncio import constants
 from ctypes import sizeof
 from distutils.command.clean import clean
+from types import NoneType
 from django.shortcuts import render, redirect
 import json
 from django.http import HttpResponse
@@ -27,7 +28,7 @@ def index(request):
         voted_bandnames = user.profile.voted_bandnames
 
         for bandname in bandnames:
-            if type(voted_bandnames) is not None:
+            if not isinstance(voted_bandnames, NoneType):
                 for voted_bandname in voted_bandnames:
                     print("Bandname in list: " + bandname.bandname)
                     print("Bandname in voted bandnames: " + voted_bandname)
