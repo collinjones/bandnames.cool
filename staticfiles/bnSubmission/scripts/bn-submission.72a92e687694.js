@@ -19,7 +19,7 @@ $("#bandname-submit" ).click(function(e) {
                                 <td class='tooltip'> " + data['bandname_json']['bandname'] + 
                                     "<span class='tooltiptext'>" + data['bandname_json']['username'] + " </span>" +
                                 " </td> \
-                                <td class='tooltip'> " + data['bandname_json']['upvotes'] + " </td> \
+                                <td class='tooltip'> " + data['bandname_json']['score'] + " </td> \
                             </tr>"
                 $("#bandnames-table-body").prepend(content);
             }

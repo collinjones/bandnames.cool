@@ -58,8 +58,7 @@ def create(request):
                     new_bandname_str = form.cleaned_data['bandname']
                     new_bandname = Bandname(bandname=new_bandname_str,
                                             username=request.user.username,
-                                            upvotes=0,
-                                            downvotes=0)
+                                            score=0)
                     new_bandname.save()
                     json_response = {}
                     user = User.objects.get(pk=request.user.id)
@@ -67,8 +66,7 @@ def create(request):
                     json_response['bandname_json'] = {
                                                  'bandname': filter.censor(new_bandname_str),
                                                  'username':request.user.username,
-                                                 'upvotes': 0,
-                                                 'downvotes': 0
+                                                 'score':0
                                                 }
                     return JsonResponse(json_response, safe = False)
             else:
@@ -92,15 +90,19 @@ def vote(request):
                     request.POST['bandname'])  
                 
                 if request.POST['val'] == "up":
-                    bandname.upvotes += 1
+                    bandname.score += 1
                 else:
-                    bandname.downvotes =+ 1
+                    bandname.score -= 1
                 
                 user.profile.voted_bandnames = {bandname.bandname: "voted"}
 
                 bandname.save()
                 user.save()
-                json_response = { 'vote-msg': 'Voted up' }
+                if request.POST['val'] == 'up':
+                    json_response = { 'vote-msg': 'Voted up' }
+                else:
+                    json_response = { 'vote-msg': 'Voted down' }
+                
                 return JsonResponse(json_response, safe = False)  
 
             elif not bandname.bandname in user.profile.voted_bandnames:
@@ -110,21 +112,24 @@ def vote(request):
                 
 
                 if request.POST['val'] == "up":
-                    bandname.upvotes += 1
+                    bandname.score += 1
                 else:
-                    bandname.downvotes =+ 1
+                    bandname.score -= 1
                 
                 user.profile.voted_bandnames = {bandname.bandname: "voted"}
 
                 bandname.save()
                 user.save()
-                json_response = { 'vote-msg': 'Voted down' }
+                if request.POST['val'] == 'up':
+                    json_response = { 'vote-msg': 'Voted up' }
+                else:
+                    json_response = { 'vote-msg': 'Voted down' }
+                
                 return JsonResponse(json_response, safe = False) 
             
             json_response = { 'vote-msg': 'Already voted' }
             return JsonResponse(json_response, safe = False) 
 
-           
 
 def BatchSubmit(request):
     form = CreateBatchBandname()
