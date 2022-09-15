@@ -12,7 +12,7 @@ from profanity.extras import ProfanityFilter
 
 def index(request):
     form = CreateBandname()
-    bandnames = list(Bandname.objects.all())
+    bandnames = list(Bandname.objects.all().order_by('score'))
     cleaned_list = []
     profanity_filter = True
 
@@ -83,21 +83,21 @@ def vote(request):
 
             user = User.objects.get(pk=request.user.id)
             bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-            print(user.profile.voted_bandnames)
 
+            # User has not voted on any bandnames
             if user.profile.voted_bandnames is None:
-                print("Voting " + request.POST['val'] + " on bandname: " + \
-                    request.POST['bandname'])  
                 
                 if request.POST['val'] == "up":
                     bandname.score += 1
                 else:
                     bandname.score -= 1
                 
+                # Assignment to voted_bandnames json object (since at this point it's None)
                 user.profile.voted_bandnames = {bandname.bandname: "voted"}
 
                 bandname.save()
                 user.save()
+
                 if request.POST['val'] == 'up':
                     json_response = { 'vote-msg': 'Voted up' }
                 else:
@@ -105,21 +105,21 @@ def vote(request):
                 
                 return JsonResponse(json_response, safe = False)  
 
+            # Bandname does not exist in user's voted bandnames
             elif not bandname.bandname in user.profile.voted_bandnames:
-
-                print("Voting " + request.POST['val'] + " on bandname: " + \
-                    request.POST['bandname'])  
                 
-
                 if request.POST['val'] == "up":
                     bandname.score += 1
                 else:
                     bandname.score -= 1
                 
+                # Set new key
                 user.profile.voted_bandnames[bandname.bandname] = "voted"
 
+                # Save the bandname and the user
                 bandname.save()
                 user.save()
+
                 if request.POST['val'] == 'up':
                     json_response = { 'vote-msg': 'Voted up' }
                 else:
@@ -151,7 +151,6 @@ def BatchCreate(request):
             # Ensure the form is valid (django function)
             if form.is_valid():
 
-                print(form.cleaned_data['bandnames'])
 
                 # Ensure the form is not empty, otherwise return error
                 if form.cleaned_data['bandnames'] == "":
@@ -159,5 +158,8 @@ def BatchCreate(request):
                     return JsonResponse(json_response, safe = False)
 
                 # etc... 
+                return HttpResponse("Batch created")
 
-                return HttpResponse("great")
+        return HttpResponse("Please login to submit a batch")
+
+    return HttpResponse("must be POST method")
