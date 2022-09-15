@@ -1,5 +1,6 @@
 from asyncio import constants
 from ctypes import sizeof
+from distutils.command.clean import clean
 from django.shortcuts import render, redirect
 import json
 from django.http import HttpResponse
@@ -32,13 +33,17 @@ def index(request):
                 if bandname.bandname == voted_bandname:
                     voted_bandnames_objs.append(bandname)
 
+    if len(cleaned_list) == 0:
+        cleaned_list.append("NO BANDNAMES AVAILABLE")
+
     ctxt = {
             "title"     : "Submission Page",
             "profanity_filter": profanity_filter,
             "bandnames": cleaned_list,
             "voted_bandnames": voted_bandnames_objs,
             "form"      : form
-            }
+           }
+           
     return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
 
 def create(request):
