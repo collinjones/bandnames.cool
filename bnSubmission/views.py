@@ -27,7 +27,7 @@ def index(request):
         voted_bandnames = user.profile.voted_bandnames
 
         for bandname in bandnames:
-            if type(voted_bandnames) != None:
+            if type(voted_bandnames) is not None:
                 for voted_bandname in voted_bandnames:
                     print("Bandname in list: " + bandname.bandname)
                     print("Bandname in voted bandnames: " + voted_bandname)
