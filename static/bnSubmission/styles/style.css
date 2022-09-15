@@ -36,6 +36,7 @@ th, td {
     padding: 8px 15px;
     border: 2px solid #529432;
     width:80%;
+    text-align: center;
 }
 th {
     background: #ABDD93;

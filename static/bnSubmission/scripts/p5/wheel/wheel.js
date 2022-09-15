@@ -42,17 +42,24 @@ class Wheel {
 
     /* Populate wheel with bandnames */
     populateWheel() {
-        for (var i = 0; i < Object.keys(this.bandnames).length; i++) {
-            if (Object.keys(this.bandnamesOnWheel).length > 10) {
+
+        const keys = Object.keys(this.bandnames);
+        const values = Object.values(this.bandnames);
+        var random_i;
+
+        while (Object.keys(this.bandnamesOnWheel).length < 10) {
+
+            /* Get a random index and select a bandname to put on the wheel */
+            random_i = Math.floor(Math.random() * keys.length);
+            this.bandnamesOnWheel[keys[random_i]] = values[random_i]
+
+            /* Exit if all bandnames available exausted */
+            if (Object.keys(this.bandnamesOnWheel).length == Object.keys(this.bandnames).length){
                 break;
             }
-            const keys = Object.keys(this.bandnames)
-            const values = Object.values(this.bandnames)
-
-            // Todo: Generate random values instead of using index 
-            this.bandnamesOnWheel[keys[i]] = values[i]
 
         }
+        
         this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
     }
 
