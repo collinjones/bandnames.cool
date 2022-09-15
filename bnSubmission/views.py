@@ -27,11 +27,12 @@ def index(request):
         voted_bandnames = user.profile.voted_bandnames
 
         for bandname in bandnames:
-            for voted_bandname in voted_bandnames:
-                print("Bandname in list: " + bandname.bandname)
-                print("Bandname in voted bandnames: " + voted_bandname)
-                if bandname.bandname == voted_bandname:
-                    voted_bandnames_objs.append(bandname)
+            if len(voted_bandnames) != 0:
+                for voted_bandname in voted_bandnames:
+                    print("Bandname in list: " + bandname.bandname)
+                    print("Bandname in voted bandnames: " + voted_bandname)
+                    if bandname.bandname == voted_bandname:
+                        voted_bandnames_objs.append(bandname)
 
     if len(cleaned_list) == 0:
         cleaned_list.append("NO BANDNAMES AVAILABLE")
@@ -43,7 +44,7 @@ def index(request):
             "voted_bandnames": voted_bandnames_objs,
             "form"      : form
            }
-           
+
     return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
 
 def create(request):
