@@ -148,3 +148,5 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/" 
 
 django_heroku.settings(locals())
+
+CSRF_TRUSTED_ORIGINS = ['https://*.bandnames.cool','https://*.127.0.0.1']
