@@ -61,12 +61,11 @@ def create(request):
                                             score=0)
                     new_bandname.save()
                     json_response = {}
-                    user = User.objects.get(pk=request.user.id)
                     filter = ProfanityFilter()
                     json_response['bandname_json'] = {
                                                  'bandname': filter.censor(new_bandname_str),
-                                                 'username':request.user.username,
-                                                 'score':0
+                                                 'username': request.user.username,
+                                                 'score': 0
                                                 }
                     return JsonResponse(json_response, safe = False)
             else:
@@ -84,6 +83,7 @@ def vote(request):
 
             user = User.objects.get(pk=request.user.id)
             bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+            print(user.profile.voted_bandnames)
 
             if user.profile.voted_bandnames is None:
                 print("Voting " + request.POST['val'] + " on bandname: " + \
@@ -116,7 +116,7 @@ def vote(request):
                 else:
                     bandname.score -= 1
                 
-                user.profile.voted_bandnames = {bandname.bandname: "voted"}
+                user.profile.voted_bandnames[bandname.bandname] = "voted"
 
                 bandname.save()
                 user.save()
