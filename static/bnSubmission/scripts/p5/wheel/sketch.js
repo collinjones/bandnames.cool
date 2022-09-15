@@ -110,6 +110,18 @@ function setup() {
 
 }
 
+function objectsEqual(obj1, obj2) {
+    var obj1_key = Object.keys(obj1)[0]
+    var obj1_value = Object.values(obj1)[0]
+    var obj2_key = Object.keys(obj2)[0]
+    var obj2_value = Object.values(obj2)[0]
+
+    if ((obj1_key == obj2_key) && (obj1_value == obj2_value)){
+        return true
+    }
+    return false
+}
+
 function draw() {
 
     background(255, 204, 0)
@@ -118,23 +130,30 @@ function draw() {
 
     setVolume();
 
-    const heading = document.getElementById('bandname-selected');
+    objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)
 
+    const heading = document.getElementById('bandname-selected');
     /* No name selected yet */
-    if (wheel.bandnameSelected == "") {
+    if (Object.keys(wheel.bandnameSelected).length === 0) {
         heading.innerHTML = "<span style='color: red'> No bandname selected - SPIN THE WHEEL</span>"
     } 
-    
-    else if (wheel.bandnameSelected != wheel.previousBandnameSelected) {
+    else if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
         var r = Math.floor(Math.random() * 255) + 1;
         var g = Math.floor(Math.random() * 255) + 1;
         var b = Math.floor(Math.random() * 255) + 1;
         var rgb = r + ", " + g + ", " + b
-        heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) + wheel.bandnameSelected + "</span>";
+        
+        if (profanity_filter == "True"){
+            heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) + Object.values(wheel.bandnameSelected)[0] + "</span>";
+            heading.setAttribute("value", Object.keys(wheel.bandnameSelected)[0])
+        } else {
+            heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) +  Object.keys(wheel.bandnameSelected)[0] + "</span>";
+            heading.setAttribute("value", Object.keys(wheel.bandnameSelected)[0])
+        }
         tick_sfx.play();
     }
 
-    if (wheel.state == "spinning" || wheel.bandnameSelected == "") {
+    if (wheel.state == "spinning" || Object.keys(wheel.bandnameSelected).length === 0) {
         document.getElementById("upvote-button").disabled = true; 
         document.getElementById("downvote-button").disabled = true; 
     }

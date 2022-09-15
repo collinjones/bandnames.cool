@@ -5,17 +5,15 @@
 
 {% block title %} {{ title }} {% endblock %}
 {% block body %}
+
 <!-- p5.js sketches  -->
 <script>
-    var bandnames = []
+    var bandnames = {}
+    var profanity_filter = "{{profanity_filter}}"
     '{% for bandname in bandnames %}'
-        if ("{{profanity_filter}}" == "True"){
-            bandnames.push('{{bandname|censor}}')
-        }
-        else {
-            bandnames.push('{{bandname}}')
-        }
+        bandnames["{{bandname}}"] = '{{bandname|censor}}'
     '{% endfor %}'
+    
 </script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>

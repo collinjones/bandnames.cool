@@ -1,5 +1,4 @@
 /* p5 static/p5/wheel/wheel.js - class file containing the bandnames wheel */
-
 class Wheel {
 
     constructor(position, radius, color, bandnames) {
@@ -11,10 +10,10 @@ class Wheel {
 
         /* Bandname & Line settings */
         this.bandnames = bandnames           // Pool of bandnames to choose from
-        this.bandnamesOnWheel = []           // list of bandnames currently on the wheel
+        this.bandnamesOnWheel = {}           // list of bandnames currently on the wheel
         this.bandnameSpaceFromWheel = 100;   // The amount of pixels from the center that the bandname is rendered
-        this.bandnameSelected = "";          // current bandname selected
-        this.previousBandnameSelected = "";  // previous frame bandname
+        this.bandnameSelected = {};          // current bandname selected
+        this.previousBandnameSelected = {};  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
 
         /* Wheel settings */
@@ -37,28 +36,24 @@ class Wheel {
 
     /* Repopulate wheel with new bandnames */
     repopulateWheel() {
-        this.bandnamesOnWheel = []
+        this.bandnamesOnWheel = {}
         this.populateWheel();
     }
 
     /* Populate wheel with bandnames */
     populateWheel() {
-        for (var i = 0; i < this.bandnames.length; i++) {
-
-            if (this.bandnamesOnWheel.length > 10) {
+        for (var i = 0; i < Object.keys(this.bandnames).length; i++) {
+            if (Object.keys(this.bandnamesOnWheel).length > 10) {
                 break;
             }
+            const keys = Object.keys(this.bandnames)
+            const values = Object.values(this.bandnames)
 
-            var currentSelection = this.bandnames[Math.floor(Math.random() * this.bandnames.length)];
-            for (var j = 0; i < this.bandnamesOnWheel.length; j++) {
-                if (this.bandnamesOnWheel[j] == currentSelection) {
-                }
-            }
-
-            this.bandnamesOnWheel.push(currentSelection)
+            // Todo: Generate random values instead of using index 
+            this.bandnamesOnWheel[keys[i]] = values[i]
 
         }
-        this.evenSeparatorDeg = 360 / this.bandnamesOnWheel.length
+        this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
     }
 
     /* Slow the wheel down if its spinning */
@@ -70,11 +65,24 @@ class Wheel {
 
     /* Selects the bandname relative to what angle the wheel is at */
     chooseBandname() {
-        for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-            if ((this.angle > (this.evenSeparatorDeg * i)) && (this.angle < (this.evenSeparatorDeg * i) + this.evenSeparatorDeg)) {
-                this.previousBandnameSelected = this.bandnameSelected;
-                this.bandnameSelected = this.bandnamesOnWheel[this.bandnamesOnWheel.length - (i + 1)]
 
+        const len = Object.keys(this.bandnamesOnWheel).length
+        const keys = Object.keys(this.bandnamesOnWheel)
+        const values = Object.values(this.bandnamesOnWheel)
+        
+        // For each bandname on the wheel
+        for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
+            // Check if picker has gone over a line
+            if ((this.angle > (this.evenSeparatorDeg * i)) && (this.angle < (this.evenSeparatorDeg * i) + this.evenSeparatorDeg)) {
+                
+                // clear the dictionary
+                // this.bandnameSelected = {}  
+
+                // Save previous bandname selected
+                this.previousBandnameSelected = this.bandnameSelected;
+                
+                // Select the bandname 
+                this.bandnameSelected = {[Object.keys(this.bandnamesOnWheel)[len - (i + 1)]]: Object.values(this.bandnamesOnWheel)[len - (i + 1)]}
             }
         }
     }
@@ -150,7 +158,7 @@ class Wheel {
 
     /* Render the lines on the wheel */
     renderLines() {
-        for (var i = 0; i <= this.bandnamesOnWheel.length + 1; i++) {
+        for (var i = 0; i <= Object.keys(this.bandnamesOnWheel).length + 1; i++) {
             line(0, 0, (this.radius / 2) - 8, 0)
             rotate(this.evenSeparatorDeg)
         }
@@ -177,8 +185,16 @@ class Wheel {
         rotate(this.evenSeparatorDeg / 2)
 
         // Space out the bandnames evenly 
-        for (var i = 0; i < this.bandnamesOnWheel.length; i++) {
-            text(this.bandnamesOnWheel[i], this.bandnameSpaceFromWheel, 0, 150, 100)
+        for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
+
+            // Render with profanity off
+            if (profanity_filter == "True"){
+                text(Object.values(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
+            }
+            // Render with profanity on
+            else {
+                text(Object.keys(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
+            }
             rotate(this.evenSeparatorDeg)
         }
         pop();

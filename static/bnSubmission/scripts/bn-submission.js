@@ -29,31 +29,39 @@ $("#bandname-submit" ).click(function(e) {
 
 $("#upvote-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: null }); 
     $.ajax({
         type: 'POST',
         url: '/vote',
         data: {
-            bandname: $('#bandname-selected').text(),
+            bandname: $('#bandname-selected').attr("value"),
             val: "up",
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            
+            $.unblockUI();
+            if (data.hasOwnProperty('vote-msg')){
+                $('#submission-status').html(data['vote-msg']);
+            }
         }
     });
 });
 $("#downvote-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: null }); 
     $.ajax({
         type: 'POST',
         url: '/vote',
         data: {
-            bandname: $('#bandname-selected').text(),
+            bandname: $('#bandname-selected').attr("value"),
             val: "down",
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            
+            $.unblockUI();
+            if (data.hasOwnProperty('vote-msg')){
+                $('#submission-status').html(data['vote-msg']);
+            }
         }
     });
 });

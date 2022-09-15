@@ -1,3 +1,4 @@
+from asyncio import constants
 from ctypes import sizeof
 from django.shortcuts import render, redirect
 import json
@@ -79,8 +80,51 @@ def create(request):
 
 
 def vote(request):
-    print('hello')  
-    return HttpResponse("niec")        
+    
+    if request.method == "POST":
+        if request.user.is_authenticated:
+
+            user = User.objects.get(pk=request.user.id)
+            bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+
+            if user.profile.voted_bandnames is None:
+                print("Voting " + request.POST['val'] + " on bandname: " + \
+                    request.POST['bandname'])  
+                
+                if request.POST['val'] == "up":
+                    bandname.upvotes += 1
+                else:
+                    bandname.downvotes =+ 1
+                
+                user.profile.voted_bandnames = {bandname.bandname: "voted"}
+
+                bandname.save()
+                user.save()
+                json_response = { 'vote-msg': 'Voted up' }
+                return JsonResponse(json_response, safe = False)  
+
+            elif not bandname.bandname in user.profile.voted_bandnames:
+
+                print("Voting " + request.POST['val'] + " on bandname: " + \
+                    request.POST['bandname'])  
+                
+
+                if request.POST['val'] == "up":
+                    bandname.upvotes += 1
+                else:
+                    bandname.downvotes =+ 1
+                
+                user.profile.voted_bandnames = {bandname.bandname: "voted"}
+
+                bandname.save()
+                user.save()
+                json_response = { 'vote-msg': 'Voted down' }
+                return JsonResponse(json_response, safe = False) 
+            
+            json_response = { 'vote-msg': 'Already voted' }
+            return JsonResponse(json_response, safe = False) 
+
+           
 
 def BatchSubmit(request):
     form = CreateBatchBandname()
