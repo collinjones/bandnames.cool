@@ -12,8 +12,9 @@ from profanity.extras import ProfanityFilter
 
 def index(request):
     form = CreateBandname()
-    bandnames = list(Bandname.objects.all().order_by('score'))
+    bandnames = Bandname.objects.all().order_by('score')
     cleaned_list = []
+    voted_bandnames_objs = []
     profanity_filter = True
 
     for bandname in bandnames:
@@ -22,13 +23,20 @@ def index(request):
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.id)
         profanity_filter = user.profile.profanity_filter
+        voted_bandnames = user.profile.voted_bandnames
+
+        for bandname in bandnames:
+            for voted_bandname in voted_bandnames:
+                print("Bandname in list: " + bandname.bandname)
+                print("Bandname in voted bandnames: " + voted_bandname)
+                if bandname.bandname == voted_bandname:
+                    voted_bandnames_objs.append(bandname)
 
     ctxt = {
             "title"     : "Submission Page",
-            "bandnames_reversed" : reversed(bandnames),
             "profanity_filter": profanity_filter,
             "bandnames": cleaned_list,
-            "bandname_objs": bandnames,
+            "voted_bandnames": voted_bandnames_objs,
             "form"      : form
             }
     return render(request, "../templates/bnSubmission/submission.html", context=ctxt)

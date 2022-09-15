@@ -31,7 +31,18 @@
             <a href="{% url 'login' %}">Log In</a> |
             <a href="{% url 'registration' %}">Sign Up</a>
         {% endif %}
-    </div><br>
+    </div>
+
+    <!-- Submission form div -->
+    <div id = "submission-form">
+        <h2 id='submission-status'></h2>
+        <form enctype="multipart/form-data" method="post" id="post-form">
+            <h3> Submit a bandname </h3>
+            <!-- {{form}} -->
+            <input id="bandname">
+            <input id="bandname-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
+        </form>
+    </div>
 
     <button id="spin-button">Spin Wheel</button>
     <button id="stop-button">Stop Wheel</button>
@@ -51,6 +62,34 @@
             <button id="upvote-button" href="{% url 'vote' %}">Upvote</button>
             <button id="downvote-button" href="{% url 'vote' %}">Downvote</button><br>
         <form>
+        <div class="tableHeaders">
+            <table id="bandnames-table">
+                <thead>
+                    <tr>
+                        <th>Bandname</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="scroller">
+            <table id="bandnames-table">
+                <tbody id='bandnames-table-body'>
+                    {% for bandname in voted_bandnames %}
+                    <tr>
+                        {% if profanity_filter == True %}
+                            <td class="tooltip">{{bandname.bandname|censor}}
+                        {% else %}
+                            <td class="tooltip">{{bandname.bandname}}
+                        {% endif %}
+                            <span class="tooltiptext">{{bandname.username}}</span>
+                        </td>
+                        <td>{{bandname.score}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -59,46 +98,7 @@
     <!-- Empty loading screen (another sketch could go here) -->
     <div id ="p5_loading"></div>
     
-    <!-- Submission form div -->
-    <div id = "submission-form">
-        <h2 id='submission-status'></h2>
-        <form enctype="multipart/form-data" method="post" id="post-form">
-            <h3> Submit a bandname </h3>
-            <!-- {{form}} -->
-            <input id="bandname">
-            <input id="bandname-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
-        </form>
-    </div>
-
-    <div class="tableHeaders">
-        <table id="bandnames-table">
-            <thead>
-                <tr>
-                    <th>Bandname</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-    <div class="scroller">
-        <table id="bandnames-table">
-            <tbody id='bandnames-table-body'>
-                {% for bandname in bandnames_reversed %}
-                <tr>
-                    {% if profanity_filter == True %}
-                        <td class="tooltip">{{bandname.bandname|censor}}
-                    {% else %}
-                        <td class="tooltip">{{bandname.bandname}}
-                    {% endif %}
-                        <span class="tooltiptext">{{bandname.username}}</span>
-                    </td>
-                    <td>{{bandname.score}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            
-        </table>
-    </div>
+    
 
 </center>
 
