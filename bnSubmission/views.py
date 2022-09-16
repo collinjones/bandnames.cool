@@ -48,25 +48,12 @@ def index(request):
     for name in voted_bandnames_objs:
         voted_names_dict[name.bandname] = name.score
 
-    voted_names_dict = sorted(voted_names_dict)
-    print(voted_names_dict)
-
-    # sorted = []
-    # tmp_bandname = Bandname
-    # x = 0
-    # while x < len(voted_bandnames_objs):
-    #     if voted_bandnames_objs[x].score < voted_bandnames_objs[x+1].score:
-    #         tmp_bandname = voted_bandnames_objs[x+1]
-    #         voted_bandnames_objs[x+1] = voted_bandnames_objs[x]
-    #         voted_bandnames_objs[x] = tmp_bandname
-    #         x+=1
-
-
     ctxt = {
             "title"     : "Submission Page",
             "profanity_filter": profanity_filter,
             "bandnames": cleaned_list,
             "voted_bandnames": voted_bandnames_objs,
+            "count": collection_len,
             "form"      : form
            }
 
