@@ -47,6 +47,20 @@ class Wheel {
         const values = Object.values(this.bandnames);
         var random_i;
 
+        for (var i = 0; i < keys.length; i++){
+            var key = keys[i]
+            var val = values[i]
+            key = key.replace("&#x27;", "'")
+            key = key.replace("&#x27;", "'")
+            key = key.replace("&quot;", '"')
+            key = key.replace("&quot;", '"')
+            val = val.replace("&#x27;", "'")
+            val = val.replace("&#x27;", "'")
+            val = val.replace("&quot;", '"')
+            val = val.replace("&quot;", '"')
+            keys[i] = key
+            values[i] = val
+        }
         while (Object.keys(this.bandnamesOnWheel).length < 10) {
 
             /* Get a random index and select a bandname to put on the wheel */
@@ -59,6 +73,7 @@ class Wheel {
             }
 
         }
+        console.log("Bandnames on wheel: ", this.bandnamesOnWheel)
         
         this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
     }
