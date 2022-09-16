@@ -195,6 +195,8 @@ def vote(request):
             
             json_response = { 'vote-msg': 'Already voted' }
             return JsonResponse(json_response, safe = False) 
+        json_response = { 'vote-msg': 'Not logged in' }
+        return JsonResponse(json_response, safe = False) 
 
 
 def BatchSubmit(request):
