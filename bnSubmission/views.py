@@ -145,13 +145,13 @@ def vote(request):
                 if (user.profile.profanity_filter):
                     json_response['bandname_json'] = {
                                                     'bandname': filter.censor(bandname.bandname),
-                                                    'username': request.user.username,
+                                                    'username': bandname.username,
                                                     'score': bandname.score
                                                     }
                 else:
                     json_response['bandname_json'] = {
                                                     'bandname': bandname.bandname,
-                                                    'username': request.user.username,
+                                                    'username': bandname.username,
                                                     'score': bandname.score
                                                     }
                 
@@ -180,13 +180,13 @@ def vote(request):
                 if (user.profile.profanity_filter):
                     json_response['bandname_json'] = {
                                                     'bandname': filter.censor(bandname.bandname),
-                                                    'username': request.user.username,
+                                                    'username': bandname.username,
                                                     'score': bandname.score
                                                     }
                 else:
                     json_response['bandname_json'] = {
                                                     'bandname': bandname.bandname,
-                                                    'username': request.user.username,
+                                                    'username': bandname.username,
                                                     'score': bandname.score
                                                     }
                 print(json_response)
