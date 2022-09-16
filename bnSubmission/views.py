@@ -30,20 +30,19 @@ def index(request):
         cleaned_list.append(bandname.bandname)
 
     if request.user.is_authenticated:
+
         user = User.objects.get(pk=request.user.id)
         profanity_filter = user.profile.profanity_filter
-        voted_bandnames = user.profile.voted_bandnames
+        voted_bandnames = list(user.profile.voted_bandnames)
 
-        for bandname in bandnames:
-            if (voted_bandnames is not None):
-                for voted_bandname in voted_bandnames:
-                    print("Bandname in list: " + bandname.bandname)
-                    print("Bandname in voted bandnames: " + voted_bandname)
-                    if bandname.bandname == voted_bandname:
-                        voted_bandnames_objs.append(bandname)
+
+        if len(voted_bandnames) != 0:
+            for voted_bandname in voted_bandnames:
+                voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
 
     if len(cleaned_list) == 0:
         cleaned_list.append("NO BANDNAMES AVAILABLE")
+
 
     ctxt = {
             "title"     : "Submission Page",
