@@ -3,10 +3,6 @@
 
 """""""""""
 
-file_path = '../../../ian_bandnames.txt'
- 
-file = open(file_path)
-
 userSubmissions = str
 
 #Function to read in user list of bandnames
