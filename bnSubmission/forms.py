@@ -15,5 +15,5 @@ class CreateBatchBandname(forms.Form):
                                                                                     \n3. Hogus Bogus\
                                                                                     \nSun Stinks \
                                                                                     \netc..."}))
-    numbered = forms.BooleanField(label="Are your bandnames numbered?", required=False)
-    dated = forms.BooleanField(label="Are your bandnames dated?", required=False)
+    numbered = forms.BooleanField(label="Are any number of your bandnames numbered as shown above?", required=False)
+    dated = forms.BooleanField(label="Are your bandnames dated as shown above?", required=False)
