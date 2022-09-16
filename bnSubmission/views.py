@@ -12,10 +12,16 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from profanity.extras import ProfanityFilter
 from .readInBandnames import readInList
+import random
 
 def index(request):
     form = CreateBandname()
-    bandnames = Bandname.objects.all().order_by('score')
+    bandnames = []
+    collection_len = Bandname.objects.count()
+
+    for x in range(11):
+        bandnames.append(Bandname.objects.all()[random.randint(0, collection_len)])
+
     cleaned_list = []
     voted_bandnames_objs = []
     profanity_filter = True
