@@ -10,10 +10,9 @@ class CreateBandname(forms.Form):
 
 class CreateBatchBandname(forms.Form):
     bandnames = forms.CharField(required=True, label="", widget=forms.Textarea(attrs={'id':'bandnames', 
-                                                                       'placeholder': "1. The Smelly Fungers (05/03/1997) \
-                                                                                    \nTargaryen Bloodstone (05/09/1997) \
-                                                                                    \n3. Hogus Bogus\
-                                                                                    \nSun Stinks \
-                                                                                    \netc..."}))
-    numbered = forms.BooleanField(label="Are any number of your bandnames numbered as shown above?", required=False)
-    dated = forms.BooleanField(label="Are your bandnames dated as shown above?", required=False)
+                                                                                      'placeholder': "Bandname \
+                                                                                                    \n1. Bandname \
+                                                                                                    \nBandname (05/05/1984)\
+                                                                                                    \n1. Bandname (05/05/1984)"}))
+    numbered = forms.BooleanField(label="Are any of these bandnames numbered?", required=False)
+    dated = forms.BooleanField(label="Are any of these bandnames dated?", required=False)
