@@ -29,7 +29,7 @@ def index(request):
         voted_bandnames = user.profile.voted_bandnames
 
         for bandname in bandnames:
-            if not isinstance(voted_bandnames, NoneType):
+            if (voted_bandnames is not None):
                 for voted_bandname in voted_bandnames:
                     print("Bandname in list: " + bandname.bandname)
                     print("Bandname in voted bandnames: " + voted_bandname)

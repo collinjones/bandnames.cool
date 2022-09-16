@@ -175,6 +175,7 @@ def BatchCreate(request):
                     return JsonResponse(json_response, safe = False)
 
                 # etc... 
+                readInList(form.cleaned_data['bandnames'], True)
                 return HttpResponse("Batch created")
 
         return HttpResponse("Please login to submit a batch")
