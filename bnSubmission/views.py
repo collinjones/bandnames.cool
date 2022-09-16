@@ -20,7 +20,7 @@ def index(request):
     collection_len = Bandname.objects.count()
 
     for x in range(11):
-        bandnames.append(Bandname.objects.all()[random.randint(0, collection_len)])
+        bandnames.append(Bandname.objects.all()[random.randint(0, collection_len-1)])
 
     cleaned_list = []
     voted_bandnames_objs = []
