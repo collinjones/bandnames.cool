@@ -11,17 +11,8 @@ $("#bandname-submit" ).click(function(e) {
         success: function (data) {
             $.unblockUI();
             if (data.hasOwnProperty('response_msg')){
+                console.log(data['response_msg'])
                 $('#submission-status').html(data['response_msg']);
-            }
-            if (data.hasOwnProperty('bandname_json')){
-                $('#submission-status').empty()
-                content = "<tr> \
-                                <td class='tooltip'> " + data['bandname_json']['bandname'] + 
-                                    "<span class='tooltiptext'>" + data['bandname_json']['username'] + " </span>" +
-                                " </td> \
-                                <td class='tooltip'> " + data['bandname_json']['score'] + " </td> \
-                            </tr>"
-                $("#bandnames-table-body").prepend(content);
             }
         }
     });

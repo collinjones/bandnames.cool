@@ -105,6 +105,7 @@ function setup() {
     spinButton.mousePressed(stopWheel)
 
     stickerbrush_symphony.play();
+    stickerbrush_symphony.stop(142)
 
     wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bandnames)
 

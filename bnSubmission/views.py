@@ -11,6 +11,7 @@ from .forms import CreateBandname, CreateBatchBandname, Vote
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from profanity.extras import ProfanityFilter
+from .readInBandnames import readInList
 
 def index(request):
     form = CreateBandname()
@@ -82,6 +83,7 @@ def create(request):
                                                  'username': request.user.username,
                                                  'score': 0
                                                 }
+                    json_response['response_msg'] = 'Bandname created successfully!'
                     return JsonResponse(json_response, safe = False)
             else:
                 json_response = { 'response_msg': 'Check console for error' }

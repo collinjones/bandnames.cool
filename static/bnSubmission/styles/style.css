@@ -34,7 +34,6 @@ table {
 }
 th, td {
     padding: 8px 15px;
-    border: 2px solid #529432;
     width:80%;
     text-align: center;
 }
@@ -118,7 +117,6 @@ th {
 
 .tableHeaders{
     text-align: center;
-    width: 400px;
 }
 
 
@@ -164,5 +162,9 @@ th {
     width: inherit !important;
     max-height: 650px;
     min-height: 250px;
+}
+
+#vote-form {
+    text-align: center;
 }
   
