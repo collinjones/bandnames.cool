@@ -62,33 +62,36 @@
             <button id="upvote-button" href="{% url 'vote' %}">Upvote</button>
             <button id="downvote-button" href="{% url 'vote' %}">Downvote</button><br>
         <form>
-        <div class="tableHeaders">
-            <table id="bandnames-table">
-                <thead>
-                    <tr>
-                        <th>Bandname</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="scroller">
-            <table id="bandnames-table">
-                <tbody id='bandnames-table-body'>
-                    {% for bandname in voted_bandnames %}
-                    <tr>
-                        {% if profanity_filter == True %}
-                            <td class="tooltip">{{bandname.bandname|censor}}
-                        {% else %}
-                            <td class="tooltip">{{bandname.bandname}}
-                        {% endif %}
-                            <span class="tooltiptext">{{bandname.username}}</span>
-                        </td>
-                        <td>{{bandname.score}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <br>
+        <div id="bandnames-table-div">
+            <div class="tableHeaders">
+                <table id="bandnames-table">
+                    <thead>
+                        <tr>
+                            <th>Bandname</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="scroller">
+                <table id="bandnames-table">
+                    <tbody id='bandnames-table-body'>
+                        {% for bandname in voted_bandnames %}
+                        <tr>
+                            {% if profanity_filter == True %}
+                                <td class="tooltip">{{bandname.bandname|censor}}
+                            {% else %}
+                                <td class="tooltip">{{bandname.bandname}}
+                            {% endif %}
+                                <span class="tooltiptext">{{bandname.username}}</span>
+                            </td>
+                            <td>{{bandname.score}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

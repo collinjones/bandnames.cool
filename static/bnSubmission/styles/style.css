@@ -29,8 +29,7 @@ input[type="text"] {
     top: 0;
 }
 table {
-    border-collapse: collapse;        
-    width: 75%;
+    border-collapse: collapse;
 }
 th, td {
     padding: 8px 15px;
@@ -38,7 +37,11 @@ th, td {
     text-align: center;
 }
 th {
-    background: #ABDD93;
+    background: #d74141c6;
+}
+
+tr {
+    width:100%;
 }
 
 #submission-form {
@@ -48,11 +51,13 @@ th {
 
 @media only screen and (max-width: 700px) {
     .sketch-grid-container {
+        margin-left: auto !important;
+        margin-right: auto !important;
         grid-template-columns: 1fr !important;
         grid-template-rows: repeat(3, 1fr) !important;
         grid-column-gap: 0px !important;
         grid-row-gap: 0px !important;;
-        width: 250px !important;
+        width: 500px !important;
         height: 1000px !important;
     }
 }
@@ -89,6 +94,7 @@ th {
 }
 
 .div2 { 
+    margin:auto;
     grid-area: 1 / 2 / 2 / 3; 
     text-align: center;
     width: 400px;
@@ -150,7 +156,7 @@ th {
 }
 
 .scroller {
-    width: 400px;
+    width: inherit;
     height: 350px;
     overflow-y: scroll;
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
@@ -166,5 +172,9 @@ th {
 
 #vote-form {
     text-align: center;
+}
+
+#bandnames-table-div{
+    width:100%;
 }
   

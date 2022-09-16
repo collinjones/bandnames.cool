@@ -91,16 +91,14 @@ def create(request):
                 # If the bandname does not exist, create it
                 except Bandname.DoesNotExist:
 
-                    # Bandname.objects.all().delete()
                     new_bandname_str = form.cleaned_data['bandname']
                     new_bandname = Bandname(bandname=new_bandname_str,
                                             username=request.user.username,
                                             score=0)
                     new_bandname.save()
                     json_response = {}
-                    filter = ProfanityFilter()
                     json_response['bandname_json'] = {
-                                                 'bandname': filter.censor(new_bandname_str),
+                                                 'bandname': new_bandname_str,
                                                  'username': request.user.username,
                                                  'score': 0
                                                 }
@@ -121,6 +119,7 @@ def vote(request):
 
             user = User.objects.get(pk=request.user.id)
             bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+            filter = ProfanityFilter()
 
             # User has not voted on any bandnames
             if user.profile.voted_bandnames is None:
@@ -137,11 +136,24 @@ def vote(request):
                 user.save()
 
                 if request.POST['val'] == 'up':
-                    json_response = { 'vote-msg': 'Voted up' }
+                    json_response = { 'vote-msg': 'Voted up'}
                 else:
-                    json_response = { 'vote-msg': 'Voted down' }
+                    json_response = { 'vote-msg': 'Voted down'}
+
+                if (user.profile.profanity_filter):
+                    json_response['bandname_json'] = {
+                                                    'bandname': filter.censor(bandname.bandname),
+                                                    'username': request.user.username,
+                                                    'score': bandname.score
+                                                    }
+                else:
+                    json_response['bandname_json'] = {
+                                                    'bandname': bandname.bandname,
+                                                    'username': request.user.username,
+                                                    'score': bandname.score
+                                                    }
                 
-                return JsonResponse(json_response, safe = False)  
+                return JsonResponse(json_response)  
 
             # Bandname does not exist in user's voted bandnames
             elif not bandname.bandname in user.profile.voted_bandnames:
@@ -159,11 +171,25 @@ def vote(request):
                 user.save()
 
                 if request.POST['val'] == 'up':
-                    json_response = { 'vote-msg': 'Voted up' }
+                    json_response = { 'vote-msg': 'Voted up'}
                 else:
-                    json_response = { 'vote-msg': 'Voted down' }
+                    json_response = { 'vote-msg': 'Voted down'}
+
+                if (user.profile.profanity_filter):
+                    json_response['bandname_json'] = {
+                                                    'bandname': filter.censor(bandname.bandname),
+                                                    'username': request.user.username,
+                                                    'score': bandname.score
+                                                    }
+                else:
+                    json_response['bandname_json'] = {
+                                                    'bandname': bandname.bandname,
+                                                    'username': request.user.username,
+                                                    'score': bandname.score
+                                                    }
+                print(json_response)
                 
-                return JsonResponse(json_response, safe = False) 
+                return JsonResponse(json_response) 
             
             json_response = { 'vote-msg': 'Already voted' }
             return JsonResponse(json_response, safe = False) 
@@ -179,19 +205,14 @@ def BatchSubmit(request):
 
 def BatchCreate(request):
 
-    batchList = []
-    i = 0
-
     # Ensure the request method is POST and the user is logged in
     if request.method == 'POST':
         if request.user.is_authenticated:
-            
             # Get the data from the submitted form 
             form = CreateBatchBandname(request.POST)
 
             # Ensure the form is valid (django function)
             if form.is_valid():
-
 
                 # Ensure the form is not empty, otherwise return error
                 if form.cleaned_data['bandnames'] == "":
@@ -199,13 +220,15 @@ def BatchCreate(request):
                     return JsonResponse(json_response, safe = False)
 
                 # etc... 
-                batchList = readInList(form.cleaned_data['bandnames'], True, True)
+                batchList = readInList(form.cleaned_data['bandnames'], form.cleaned_data['numbered'], form.cleaned_data['dated'])
                 for bandname in batchList:
+                    print(bandname)
                     new_bandname = Bandname(bandname=bandname,
                                             username=request.user.username,
                                             score=0)
                     new_bandname.save()
-                    json_response = {"response_msg":"These bandnames are delicious"}
+
+                json_response = {"response_msg":"These bandnames are delicious"}
                 return JsonResponse(json_response, safe = False)
 
         return HttpResponse("Please login to submit a batch")

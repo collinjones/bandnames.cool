@@ -65,11 +65,15 @@ $(document).on('submit', '#batch-submission-form', function (e) {
         url: '/batch-create',
         data: {
             bandnames: $('#bandnames').val(),
+            numbered: $('#id_numbered').checked,
+            dated: $('#id_dated').checked,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
             $.unblockUI();
-            
+            if (data.hasOwnProperty('response_msg')){
+                $('#batch-submission-response').html(data['response_msg']);
+            }           
         }
     });
 });
