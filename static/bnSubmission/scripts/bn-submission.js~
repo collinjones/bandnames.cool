@@ -69,10 +69,6 @@ $(document).on('submit', '#batch-submission-form', function (e) {
         },
         success: function (data) {
             $.unblockUI();
-            if (data.hasOwnProperty('response_msg')){
-                $('#batch-submission-response').html(data['response_msg']);
-            }
- 
             
         }
     });

@@ -8,7 +8,6 @@
 <!-- Body -->
 
 <h3> Batch Submission </h3> <a href="/">Homepage</a>
-<span id="batch-submission-response"></span>
 <p> Submit a list of bandnames by copy and pasting them into this text box</p>
 <div id="batch-submission-form-container">
     <form enctype="multipart/form-data" method="post" id="batch-submission-form">

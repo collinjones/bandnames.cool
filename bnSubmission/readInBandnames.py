@@ -1,14 +1,22 @@
 
 #Function to read in user list of bandnames
-def readInList(bandnamesBatch, userBool):
-    data = bandnamesBatch.read()
-    userSubmissions = data.splitlines()
+def readInList(bandnamesBatch, numBool, dateBool):
 
+    userSubmissions = bandnamesBatch.splitlines()
+    cleanList = []
 
-    if (userBool == True):
-        x = 0
-        while (x <= len(userSubmissions)):
-            print('Old value: ', userSubmissions[x])
-            userSubmissions[x] = userSubmissions[x].lstrip('1234567890. ')
-            print('New value: ', userSubmissions[x])
-            x += 1
+    #Removes numbers from list
+    if (numBool == True):
+        i = 0
+        for x in userSubmissions:
+            userSubmissions[i] = x.lstrip('1234567890. ')
+            i += 1
+
+    #Removes dates from list
+    if (dateBool == True):
+        i = 0
+        for x in userSubmissions:
+            cleanList.append(x.rstrip(")0123456789\/-.( "))
+            i += 1
+         
+    return cleanList

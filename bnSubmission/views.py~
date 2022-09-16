@@ -29,7 +29,7 @@ def index(request):
         voted_bandnames = user.profile.voted_bandnames
 
         for bandname in bandnames:
-            if not isinstance(voted_bandnames, NoneType):
+            if (voted_bandnames is not None):
                 for voted_bandname in voted_bandnames:
                     print("Bandname in list: " + bandname.bandname)
                     print("Bandname in voted bandnames: " + voted_bandname)
@@ -158,6 +158,9 @@ def BatchSubmit(request):
 
 def BatchCreate(request):
 
+    batchList = []
+    i = 0
+
     # Ensure the request method is POST and the user is logged in
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -175,8 +178,14 @@ def BatchCreate(request):
                     return JsonResponse(json_response, safe = False)
 
                 # etc... 
-                readInList(form.cleaned_data['bandnames'], True)
-                return HttpResponse("Batch created")
+                batchList = readInList(form.cleaned_data['bandnames'], True, True)
+                for bandname in batchList:
+                    new_bandname = Bandname(bandname=bandname,
+                                            username=request.user.username,
+                                            score=0)
+                    new_bandname.save()
+                    json_response = {"response-msg":"These bandnames are delicious"}
+                return JsonResponse(json_response, safe = False)
 
         return HttpResponse("Please login to submit a batch")
 
