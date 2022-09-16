@@ -9,7 +9,7 @@ def readInList(bandnamesBatch, numBool, dateBool):
     if (numBool == True):
         i = 0
         for x in userSubmissions:
-            userSubmissions[i] = x.lstrip('1234567890. ')
+            userSubmissions[i] = x.lstrip('1234567890.')
             i += 1
             
     # Otherwise remove whitespace
