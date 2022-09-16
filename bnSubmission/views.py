@@ -33,15 +33,31 @@ def index(request):
 
         user = User.objects.get(pk=request.user.id)
         profanity_filter = user.profile.profanity_filter
-        voted_bandnames = list(user.profile.voted_bandnames)
+        voted_bandnames = user.profile.voted_bandnames
 
-
-        if len(voted_bandnames) != 0:
+        if (voted_bandnames is not None):
             for voted_bandname in voted_bandnames:
                 voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
 
     if len(cleaned_list) == 0:
         cleaned_list.append("NO BANDNAMES AVAILABLE")
+
+    voted_names_dict = {}
+    for name in voted_bandnames_objs:
+        voted_names_dict[name.bandname] = name.score
+
+    voted_names_dict = sorted(voted_names_dict)
+    print(voted_names_dict)
+
+    # sorted = []
+    # tmp_bandname = Bandname
+    # x = 0
+    # while x < len(voted_bandnames_objs):
+    #     if voted_bandnames_objs[x].score < voted_bandnames_objs[x+1].score:
+    #         tmp_bandname = voted_bandnames_objs[x+1]
+    #         voted_bandnames_objs[x+1] = voted_bandnames_objs[x]
+    #         voted_bandnames_objs[x] = tmp_bandname
+    #         x+=1
 
 
     ctxt = {
