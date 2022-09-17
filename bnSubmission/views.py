@@ -39,6 +39,8 @@ def index(request):
 
         if (voted_bandnames is not None):
             for voted_bandname in voted_bandnames:
+                # Only append bandnames that are in the database, otherwise skip it. 
+                # Todo: Add code to remove the voted_bandname that wasn't found in the except. 
                 try:
                     voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
                 except:

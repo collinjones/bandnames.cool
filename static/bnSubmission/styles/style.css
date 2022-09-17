@@ -57,7 +57,7 @@ tr {
         grid-template-rows: repeat(3, 1fr) !important;
         grid-column-gap: 0px !important;
         grid-row-gap: 0px !important;;
-        width: 500px !important;
+        width: 400px !important;
         height: 1000px !important;
     }
 }

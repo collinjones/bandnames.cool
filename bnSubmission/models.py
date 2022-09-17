@@ -4,7 +4,7 @@ from djongo import models
 class Bandname(models.Model):
 
     bandname = models.CharField(max_length=128, primary_key=True)
-    username = models.CharField(max_length=32)
+    username = models.CharField(max_length=150)
     score = models.IntegerField()
     
     def __str__(self):
