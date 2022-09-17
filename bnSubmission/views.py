@@ -76,6 +76,10 @@ def create(request):
                     json_response = { 'response_msg': 'Bandname cannot be empty' }
                     return JsonResponse(json_response, safe = False)
 
+                if "<script>" in form.cleaned_data['bandname']:
+                    json_response = { 'response_msg': 'Fuck you pussy' }
+                    return JsonResponse(json_response, safe = False)
+
                 # Return a failed response if bandname exists in DB already 
                 try:
                     if (Bandname.objects.get(bandname = form.cleaned_data['bandname'])):

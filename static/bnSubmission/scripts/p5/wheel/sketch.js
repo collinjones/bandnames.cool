@@ -47,7 +47,7 @@ function muteCanvas() {
     
     if (tick_sfx.getVolume() == 0) {
         button.html('Mute Wheel')
-        tick_sfx.setVolume(0.5)
+        tick_sfx.setVolume(0.1)
     } else {
         button.html('Unmute Wheel')
         tick_sfx.setVolume(0)
