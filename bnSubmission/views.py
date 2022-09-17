@@ -39,7 +39,10 @@ def index(request):
 
         if (voted_bandnames is not None):
             for voted_bandname in voted_bandnames:
-                voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
+                try:
+                    voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
+                except:
+                    pass
 
     if len(cleaned_list) == 0:
         cleaned_list.append("NO BANDNAMES AVAILABLE")

@@ -78,7 +78,7 @@ function preload() {
     font = loadFont('static/bnSubmission/styles/PixeloidSans-nR3g1.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
     stickerbrush_symphony = loadSound('static/sounds/sbs.wav')
-    stickerbrush_symphony.setVolume(0.1)
+    stickerbrush_symphony.setVolume(0)
     tick_sfx.setVolume(0.1)
 }
 
