@@ -97,8 +97,38 @@ def create(request):
                 json_response = { 'response_msg': 'Check console for error' }
                 return JsonResponse(json_response, safe = False)
         else:
-            json_response = { 'response_msg': 'Must be <a href="/accounts/login/"> logged in </a> to submit a bandname' }
-            return JsonResponse(json_response, safe = False)
+            form = CreateBandname(request.POST)
+            if form.is_valid():
+
+                if form.cleaned_data['bandname'] == "":
+                    json_response = { 'response_msg': 'Bandname cannot be empty' }
+                    return JsonResponse(json_response, safe = False)
+
+                # Return a failed response if bandname exists in DB already 
+                try:
+                    if (Bandname.objects.get(bandname = form.cleaned_data['bandname'])):
+                        json_response = { 'response_msg': 'Bandname already exists' }
+                        return JsonResponse(json_response, safe = False)  
+
+                # If the bandname does not exist, create it
+                except Bandname.DoesNotExist:
+
+                    new_bandname_str = form.cleaned_data['bandname']
+                    new_bandname = Bandname(bandname=new_bandname_str,
+                                            username="Anonymous",
+                                            score=0)
+                    new_bandname.save()
+                    json_response = {}
+                    json_response['bandname_json'] = {
+                                                 'bandname': new_bandname_str,
+                                                 'username': "Anonymous",
+                                                 'score': 0
+                                                }
+                    json_response['response_msg'] = 'Bandname created successfully!'
+                    return JsonResponse(json_response, safe = False)
+            else:
+                json_response = { 'response_msg': 'Check console for error' }
+                return JsonResponse(json_response, safe = False)
 
 
 def vote(request):
