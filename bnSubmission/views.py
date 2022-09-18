@@ -87,7 +87,7 @@ def create(request):
                 auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
                 for slur in auto_reject_words:
 
-                    if slur.strip() in form.cleaned_data['bandname'].strip():
+                    if slur.strip().lower() in form.cleaned_data['bandname'].strip().lower():
                         json_response = { 'response_msg': 'Why would you try to submit that?' }
                         return JsonResponse(json_response, safe = False)
 
@@ -140,7 +140,7 @@ def create(request):
                 for slur in auto_reject_words:
                     print(slur)
 
-                    if slur.strip() in form.cleaned_data['bandname'].strip():
+                    if slur.strip().lower() in form.cleaned_data['bandname'].strip().lower():
                         json_response = { 'response_msg': 'Why would you try to submit that?' }
                         return JsonResponse(json_response, safe = False)
 
@@ -311,12 +311,12 @@ def BatchCreate(request):
                 for slur in auto_reject_words:
                     for name in batchList:
                         print(slur, " ", name)
-                        if slur.strip() in name.strip():
+                        if slur.strip().lower() in name.strip().lower():
                             print("FUCK!")
                             json_response = { 'response_msg': 'Why would you try to submit that?' }
                             return JsonResponse(json_response, safe = False)
 
-                        if "<script>" in name:
+                        if "<script>" in name.lower():
                             json_response = { 'response_msg': 'Try again...' }
                             return JsonResponse(json_response, safe = False)
 
