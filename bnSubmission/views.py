@@ -72,6 +72,14 @@ def create(request):
             form = CreateBandname(request.POST)
             if form.is_valid():
 
+                auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
+                for slur in auto_reject_words:
+                    print(slur)
+                    
+                    if slur.strip() in form.cleaned_data['bandname'].strip():
+                        json_response = { 'response_msg': 'Why would you try to submit that?' }
+                        return JsonResponse(json_response, safe = False)
+
                 if form.cleaned_data['bandname'] == "":
                     json_response = { 'response_msg': 'Bandname cannot be empty' }
                     return JsonResponse(json_response, safe = False)
