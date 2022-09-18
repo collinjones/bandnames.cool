@@ -52,10 +52,12 @@ class Wheel {
             var val = values[i]
             key = key.replace("&#x27;", "'")
             key = key.replace("&#x27;", "'")
+            key = key.replace("&amp;", "'")
             key = key.replace("&quot;", '"')
             key = key.replace("&quot;", '"')
             val = val.replace("&#x27;", "'")
             val = val.replace("&#x27;", "'")
+            val = val.replace("&amp;", "'")
             val = val.replace("&quot;", '"')
             val = val.replace("&quot;", '"')
             keys[i] = key
