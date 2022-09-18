@@ -28,6 +28,8 @@ def index(request):
     voted_bandnames_objs = []
     profanity_filter = True
 
+    print(get_client_ip(request))
+
     for bandname in bandnames:
         cleaned_list.append(bandname.bandname)
 
@@ -64,6 +66,14 @@ def index(request):
 
     return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 def create(request):
 
     if request.method == 'POST':
@@ -75,7 +85,7 @@ def create(request):
                 auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
                 for slur in auto_reject_words:
                     print(slur)
-                    
+
                     if slur.strip() in form.cleaned_data['bandname'].strip():
                         json_response = { 'response_msg': 'Why would you try to submit that?' }
                         return JsonResponse(json_response, safe = False)
