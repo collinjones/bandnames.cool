@@ -235,12 +235,14 @@ def vote(request):
                                                     'bandname': filter.censor(bandname.bandname),
                                                     'username': bandname.username,
                                                     'score': bandname.score,
+                                                    'authenticated': "True"
                                                     }
                 else:
                     json_response['bandname_json'] = {
                                                     'bandname': bandname.bandname,
                                                     'username': bandname.username,
                                                     'score': bandname.score,
+                                                    'authenticated': "True"
                                                     }
                 
                 return JsonResponse(json_response)  
@@ -270,20 +272,28 @@ def vote(request):
                                                     'bandname': filter.censor(bandname.bandname),
                                                     'username': bandname.username,
                                                     'score': bandname.score,
+                                                    'authenticated': "True"
                                                     }
                 else:
                     json_response['bandname_json'] = {
                                                     'bandname': bandname.bandname,
                                                     'username': bandname.username,
                                                     'score': bandname.score,
+                                                    'authenticated': "True"
                                                     }
-                print(json_response)
                 
                 return JsonResponse(json_response) 
             
-            json_response = { 'vote-msg': 'Already voted' }
+            json_response = { 
+                            'vote-msg': 'Already voted', 
+                            'authenticated': "True" 
+                            }
             return JsonResponse(json_response, safe = False) 
-        json_response = { 'vote-msg': 'Not logged in' }
+            
+        json_response = { 
+                        'vote-msg': 'Not logged in', 
+                        'authenticated': "False"
+                        }
         return JsonResponse(json_response, safe = False) 
 
 

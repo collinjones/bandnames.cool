@@ -35,13 +35,19 @@ $("#upvote-button" ).click(function(e) {
             if (data.hasOwnProperty('vote-msg')){
                 $('#submission-status').html(data['vote-msg']);
             }
-            content = "<tr>\
-                            <td class='tooltip'>" + data['bandname_json']['bandname'] + "\
-                                <span class='tooltiptext'>" + data['bandname_json']['username'] + "</span>\
-                            </td>\
-                        <td>" + data['bandname_json']['score'] + "</td>\
-                    </tr>"
-            $('#bandnames-table-body').prepend(content)
+            if (data.hasOwnProperty('bandname_json')) {
+                if (data['bandname_json']['authenticated'] == "True") {
+                    content = "<tr>\
+                                <td class='tooltip'>" + data['bandname_json']['bandname'] + "\
+                                    <span class='tooltiptext'>" + data['bandname_json']['username'] + "</span>\
+                                </td>\
+                                <td>" + data['bandname_json']['score'] + "</td>\
+                            </tr>"
+                    $('#bandnames-table-body').prepend(content)
+                }
+                
+            }
+            
             $.unblockUI();
         }
     });
@@ -61,13 +67,17 @@ $("#downvote-button" ).click(function(e) {
             if (data.hasOwnProperty('vote-msg')){
                 $('#submission-status').html(data['vote-msg']);
             }
-            content = "<tr>\
-                            <td class='tooltip'>" + data['bandname_json']['bandname'] + "\
-                                <span class='tooltiptext'>" + data['bandname_json']['username'] + "</span>\
-                            </td>\
-                        <td>" + data['bandname_json']['score'] + "</td>\
-                    </tr>"
-            $('#bandnames-table-body').prepend(content)
+            if (data.hasOwnProperty('bandname_json')) {
+                if (data['bandname_json']['authenticated'] == "True") {
+                    content = "<tr>\
+                                    <td class='tooltip'>" + data['bandname_json']['bandname'] + "\
+                                        <span class='tooltiptext'>" + data['bandname_json']['username'] + "</span>\
+                                    </td>\
+                                <td>" + data['bandname_json']['score'] + "</td>\
+                            </tr>"
+                    $('#bandnames-table-body').prepend(content)
+                }
+            }
             $.unblockUI();
         }
     });

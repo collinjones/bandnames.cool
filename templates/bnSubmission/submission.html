@@ -17,7 +17,6 @@ var profanity_filter = "{{profanity_filter}}"
 
 <script>
     function foo() {
-        console.log('foo called')
         var bandnames = {}
         var profanity_filter = "{{profanity_filter}}"
         '{% for bandname in bandnames %}'
@@ -70,8 +69,13 @@ var profanity_filter = "{{profanity_filter}}"
     <div class="div3" id="voting-system">
         <form enctype="multipart/form-data" method="post" id="vote-form">
             {% csrf_token %}
-            <button id="upvote-button" href="{% url 'vote' %}">Upvote</button>
-            <button id="downvote-button" href="{% url 'vote' %}">Downvote</button><br>
+            {% if user.is_authenticated %}
+                <button id="upvote-button" href="{% url 'vote' %}">Upvote</button>
+                <button id="downvote-button" href="{% url 'vote' %}">Downvote</button><br>
+            {% else %}
+                <button id="upvote-button" href="{% url 'vote' %}" disabled>Upvote</button>
+                <button id="downvote-button" href="{% url 'vote' %}" disabled>Downvote</button><br>
+            {% endif %}
         <form>
         <br>
         <span> Bandnames you vote on will appear here </span>
