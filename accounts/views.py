@@ -8,6 +8,8 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from accounts.forms import ProfileForm
 from .models import Profile
+from bnSubmission.models import Bandname
+
 from django.contrib.auth.models import User
 
 def Registration(request):
@@ -42,17 +44,20 @@ def ProfanityToggle(request):
     return HttpResponse('great')
 
 def ProfileView(request):
+
     form = ProfileForm
+    
     if request.user.is_authenticated:
-        print(request.user.profile.profanity_filter)
+
+        user_bandnames = Bandname.objects.filter(username=request.user.username)
         template = "registration/profile.html"
         ctxt = {
             "user": request.user,
+            "user_bandnames": user_bandnames,
+            "profanity_filter": request.user.profile.profanity_filter,
             "form": form
         }
     else:
-        template = "registration/signup.html"
-        ctxt = {
-            
-        }
+        return redirect("/")
+
     return render(request, template, context=ctxt)

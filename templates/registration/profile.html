@@ -1,8 +1,7 @@
 {% extends 'registration/registration_base.html' %}
 
 {% block body %}
-
-
+{% load profanity %}
 
 <p> Hello {{user.username}}!</p><a href="/">Go Back</a>
 
@@ -12,11 +11,30 @@
     <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
 </form>
 
+<div class="scroller">
+    <table id="bandnames-table">
+        <tbody id='bandnames-table-body'>
+            {% for bandname in user_bandnames %}
+            <tr>
+                {% if profanity_filter == True %}
+                    <td class="tooltip">{{bandname.bandname|censor}}
+                {% else %}
+                    <td class="tooltip">{{bandname.bandname}}
+                {% endif %}
+                    <span class="tooltiptext">{{bandname.username}}</span>
+                </td>
+                <td>{{bandname.score}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
 <script>
     if("{{user.profile.profanity_filter}}" == "True"){
         document.getElementById('id_profanity_filter').checked = true;
     }
-
 </script>
 
 
