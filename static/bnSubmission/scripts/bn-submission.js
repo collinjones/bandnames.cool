@@ -35,6 +35,7 @@ $("#upvote-button" ).click(function(e) {
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
+                    console.log(data['bandname_json']['bandname'])
                     content = "<tr>\
                                 <td class='tooltip'>" + data['bandname_json']['bandname'] + "\
                                     <span class='tooltiptext'>" + data['bandname_json']['username'] + "</span>\

@@ -208,27 +208,27 @@ def vote(request):
         if request.user.is_authenticated:
             
             user = User.objects.get(pk=request.user.id)
-            bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+            voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
             bandnames = GetBandnames(Bandname.objects.count())
             filter = ProfanityFilter()
             cleaned_list = []
 
-            for bandname in bandnames:
-                cleaned_list.append(bandname.bandname)
+            for new_bandname in bandnames:
+                cleaned_list.append(new_bandname.bandname)
                 
 
             # User has not voted on any bandnames
             if user.profile.voted_bandnames is None:
                 
                 if request.POST['val'] == "up":
-                    bandname.score += 1
+                    voted_bandname.score += 1
                 else:
-                    bandname.score -= 1
+                    voted_bandname.score -= 1
                 
                 # Assignment to voted_bandnames json object (since at this point it's None)
-                user.profile.voted_bandnames = {bandname.bandname: "voted"}
+                user.profile.voted_bandnames = {voted_bandname.bandname: "voted"}
 
-                bandname.save()
+                voted_bandname.save()
                 user.save()
 
                 if request.POST['val'] == 'up':
@@ -238,18 +238,18 @@ def vote(request):
 
                 if (user.profile.profanity_filter):
                     json_response['bandname_json'] = {
-                                                    'bandname': filter.censor(bandname.bandname),
-                                                    'username': bandname.username,
-                                                    'score': bandname.score,
+                                                    'bandname': filter.censor(voted_bandname.bandname),
+                                                    'username': voted_bandname.username,
+                                                    'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
                                                     'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
                                                     }
                 else:
                     json_response['bandname_json'] = {
-                                                    'bandname': bandname.bandname,
-                                                    'username': bandname.username,
-                                                    'score': bandname.score,
+                                                    'bandname': voted_bandname.bandname,
+                                                    'username': voted_bandname.username,
+                                                    'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
                                                     'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
@@ -258,18 +258,18 @@ def vote(request):
                 return JsonResponse(json_response)  
 
             # Bandname does not exist in user's voted bandnames
-            elif not bandname.bandname in user.profile.voted_bandnames:
+            elif not voted_bandname.bandname in user.profile.voted_bandnames:
                 
                 if request.POST['val'] == "up":
-                    bandname.score += 1
+                    voted_bandname.score += 1
                 else:
-                    bandname.score -= 1
+                    voted_bandname.score -= 1
                 
                 # Set new key
-                user.profile.voted_bandnames[bandname.bandname] = "voted"
+                user.profile.voted_bandnames[voted_bandname.bandname] = "voted"
 
                 # Save the bandname and the user
-                bandname.save()
+                voted_bandname.save()
                 user.save()
 
                 if request.POST['val'] == 'up':
@@ -279,18 +279,18 @@ def vote(request):
 
                 if (user.profile.profanity_filter):
                     json_response['bandname_json'] = {
-                                                    'bandname': filter.censor(bandname.bandname),
-                                                    'username': bandname.username,
-                                                    'score': bandname.score,
+                                                    'bandname': filter.censor(voted_bandname.bandname),
+                                                    'username': voted_bandname.username,
+                                                    'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
                                                     'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
                                                     }
                 else:
                     json_response['bandname_json'] = {
-                                                    'bandname': bandname.bandname,
-                                                    'username': bandname.username,
-                                                    'score': bandname.score,
+                                                    'bandname': voted_bandname.bandname,
+                                                    'username': voted_bandname.username,
+                                                    'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
                                                     'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
