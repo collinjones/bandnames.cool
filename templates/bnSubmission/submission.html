@@ -8,12 +8,22 @@
 
 <!-- p5.js sketches  -->
 <script>
-    var bandnames = {}
-    var profanity_filter = "{{profanity_filter}}"
-    '{% for bandname in bandnames %}'
-        bandnames["{{bandname}}"] = '{{bandname|censor}}'
-    '{% endfor %}'
-    
+var bandnames = {}
+var profanity_filter = "{{profanity_filter}}"
+'{% for bandname in bandnames %}'
+    bandnames["{{bandname}}"] = '{{bandname|censor}}'
+'{% endfor %}'
+</script>
+
+<script>
+    function foo() {
+        console.log('foo called')
+        var bandnames = {}
+        var profanity_filter = "{{profanity_filter}}"
+        '{% for bandname in bandnames %}'
+            bandnames["{{bandname}}"] = '{{bandname|censor}}'
+        '{% endfor %}'
+    }
 </script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>

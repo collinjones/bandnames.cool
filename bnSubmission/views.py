@@ -15,6 +15,14 @@ from .readInBandnames import readInList
 import random
 from collections import OrderedDict
 
+def GetBandnames(collection_len):
+    bandnames = []
+    for x in range(collection_len):
+        bandnames.append(Bandname.objects.all()[random.randint(0, collection_len-1)])
+        if len(bandnames) == 11:
+            break
+    return bandnames
+
 def index(request):
     
     form = CreateBandname()
@@ -25,10 +33,7 @@ def index(request):
     profanity_filter = True
 
     # Get 11 bandnames for the wheel
-    for x in range(collection_len):
-        bandnames.append(Bandname.objects.all()[random.randint(0, collection_len-1)])
-        if len(bandnames) == 11:
-            break
+    bandnames = GetBandnames(collection_len)
 
     print(get_client_ip(request))
 
@@ -201,7 +206,7 @@ def vote(request):
     
     if request.method == "POST":
         if request.user.is_authenticated:
-
+            
             user = User.objects.get(pk=request.user.id)
             bandname = Bandname.objects.get(bandname=request.POST['bandname'])
             filter = ProfanityFilter()
@@ -229,13 +234,13 @@ def vote(request):
                     json_response['bandname_json'] = {
                                                     'bandname': filter.censor(bandname.bandname),
                                                     'username': bandname.username,
-                                                    'score': bandname.score
+                                                    'score': bandname.score,
                                                     }
                 else:
                     json_response['bandname_json'] = {
                                                     'bandname': bandname.bandname,
                                                     'username': bandname.username,
-                                                    'score': bandname.score
+                                                    'score': bandname.score,
                                                     }
                 
                 return JsonResponse(json_response)  
@@ -264,13 +269,13 @@ def vote(request):
                     json_response['bandname_json'] = {
                                                     'bandname': filter.censor(bandname.bandname),
                                                     'username': bandname.username,
-                                                    'score': bandname.score
+                                                    'score': bandname.score,
                                                     }
                 else:
                     json_response['bandname_json'] = {
                                                     'bandname': bandname.bandname,
                                                     'username': bandname.username,
-                                                    'score': bandname.score
+                                                    'score': bandname.score,
                                                     }
                 print(json_response)
                 

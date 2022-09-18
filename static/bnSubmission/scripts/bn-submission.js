@@ -1,3 +1,5 @@
+
+
 $("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: null }); 
@@ -30,7 +32,6 @@ $("#upvote-button" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            $.unblockUI();
             if (data.hasOwnProperty('vote-msg')){
                 $('#submission-status').html(data['vote-msg']);
             }
@@ -41,6 +42,7 @@ $("#upvote-button" ).click(function(e) {
                         <td>" + data['bandname_json']['score'] + "</td>\
                     </tr>"
             $('#bandnames-table-body').prepend(content)
+            $.unblockUI();
         }
     });
 });
@@ -56,10 +58,17 @@ $("#downvote-button" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            $.unblockUI();
             if (data.hasOwnProperty('vote-msg')){
                 $('#submission-status').html(data['vote-msg']);
             }
+            content = "<tr>\
+                            <td class='tooltip'>" + data['bandname_json']['bandname'] + "\
+                                <span class='tooltiptext'>" + data['bandname_json']['username'] + "</span>\
+                            </td>\
+                        <td>" + data['bandname_json']['score'] + "</td>\
+                    </tr>"
+            $('#bandnames-table-body').prepend(content)
+            $.unblockUI();
         }
     });
 });
