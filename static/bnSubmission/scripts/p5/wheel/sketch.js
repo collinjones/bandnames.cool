@@ -162,15 +162,5 @@ function draw() {
         document.getElementById("upvote-button").disabled = false; 
         document.getElementById("downvote-button").disabled = false; 
     }
-
-    document.getElementById("upvote-button").onclick = function(){
-        foo()
-        wheel.repopulateWheel()
-    }
-    document.getElementById("downvote-button").onclick = function(){
-        foo()
-        wheel.repopulateWheel()
-    }
-
     
 }

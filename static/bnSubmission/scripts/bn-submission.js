@@ -1,5 +1,3 @@
-
-
 $("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: null }); 
@@ -45,7 +43,12 @@ $("#upvote-button" ).click(function(e) {
                             </tr>"
                     $('#bandnames-table-body').prepend(content)
                 }
-                
+                var bandnames = {}
+                for (var i = 0; i < data['bandname_json']['filtered_new_bandnames'].length; i++) {
+                    bandnames[data['bandname_json']['new_bandnames'][i]] = data['bandname_json']['filtered_new_bandnames'][i]
+                }
+                wheel.setNewBandnames(bandnames)
+                wheel.repopulateWheel()
             }
             
             $.unblockUI();
@@ -77,7 +80,14 @@ $("#downvote-button" ).click(function(e) {
                             </tr>"
                     $('#bandnames-table-body').prepend(content)
                 }
+                var bandnames = {}
+                for (var i = 0; i < data['bandname_json']['filtered_new_bandnames'].length; i++) {
+                    bandnames[data['bandname_json']['new_bandnames'][i]] = data['bandname_json']['filtered_new_bandnames'][i]
+                }
+                wheel.setNewBandnames(bandnames)
+                wheel.repopulateWheel()
             }
+
             $.unblockUI();
         }
     });

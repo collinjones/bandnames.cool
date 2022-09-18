@@ -15,13 +15,14 @@ var profanity_filter = "{{profanity_filter}}"
 '{% endfor %}'
 </script>
 
-<script>
+<script >
     function foo() {
         var bandnames = {}
         var profanity_filter = "{{profanity_filter}}"
-        '{% for bandname in bandnames %}'
+        '{% for bandname in new_bandnames %}'
             bandnames["{{bandname}}"] = '{{bandname|censor}}'
         '{% endfor %}'
+        return bandnames
     }
 </script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>

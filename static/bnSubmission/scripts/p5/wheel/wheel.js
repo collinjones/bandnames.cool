@@ -34,8 +34,13 @@ class Wheel {
 
     }
 
+    setNewBandnames(bandnames) {
+        this.bandnames = bandnames
+    }
+
     /* Repopulate wheel with new bandnames */
     repopulateWheel() {
+        console.log('repopulating')
         this.bandnamesOnWheel = {}
         this.populateWheel();
     }
