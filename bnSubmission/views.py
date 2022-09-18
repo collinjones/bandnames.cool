@@ -77,14 +77,15 @@ def get_client_ip(request):
 def create(request):
 
     if request.method == 'POST':
-        if request.user.is_authenticated:
 
-            form = CreateBandname(request.POST)
-            if form.is_valid():
+        form = CreateBandname(request.POST)
 
+        if form.is_valid():
+
+            # User is logged in
+            if request.user.is_authenticated:
                 auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
                 for slur in auto_reject_words:
-                    print(slur)
 
                     if slur.strip() in form.cleaned_data['bandname'].strip():
                         json_response = { 'response_msg': 'Why would you try to submit that?' }
@@ -95,19 +96,19 @@ def create(request):
                     return JsonResponse(json_response, safe = False)
 
                 if "<script>" in form.cleaned_data['bandname']:
-                    json_response = { 'response_msg': 'Fuck you pussy' }
+                    json_response = { 'response_msg': 'Try again...' }
                     return JsonResponse(json_response, safe = False)
 
                 if "DROP TABLE" in form.cleaned_data['bandname']:
-                    json_response = { 'response_msg': 'Fuck you pussy' }
+                    json_response = { 'response_msg': 'Try again...' }
                     return JsonResponse(json_response, safe = False)
 
                 if "DROP NAMES" in form.cleaned_data['bandname']:
-                    json_response = { 'response_msg': 'Fuck you pussy' }
+                    json_response = { 'response_msg': 'Try again...' }
                     return JsonResponse(json_response, safe = False)
 
                 if "DROP BANDNAMES" in form.cleaned_data['bandname']:
-                    json_response = { 'response_msg': 'Fuck you pussy' }
+                    json_response = { 'response_msg': 'Try again...' }
                     return JsonResponse(json_response, safe = False)
 
                 # Return a failed response if bandname exists in DB already 
@@ -132,12 +133,36 @@ def create(request):
                                                 }
                     json_response['response_msg'] = 'Bandname created successfully!'
                     return JsonResponse(json_response, safe = False)
+
+            # user is not logged in
             else:
-                json_response = { 'response_msg': 'Check console for error' }
-                return JsonResponse(json_response, safe = False)
-        else:
-            form = CreateBandname(request.POST)
-            if form.is_valid():
+                auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
+                for slur in auto_reject_words:
+                    print(slur)
+
+                    if slur.strip() in form.cleaned_data['bandname'].strip():
+                        json_response = { 'response_msg': 'Why would you try to submit that?' }
+                        return JsonResponse(json_response, safe = False)
+
+                if form.cleaned_data['bandname'] == "":
+                    json_response = { 'response_msg': 'Bandname cannot be empty' }
+                    return JsonResponse(json_response, safe = False)
+
+                if "<script>" in form.cleaned_data['bandname']:
+                    json_response = { 'response_msg': 'Try again...' }
+                    return JsonResponse(json_response, safe = False)
+
+                if "DROP TABLE" in form.cleaned_data['bandname']:
+                    json_response = { 'response_msg': 'Try again...' }
+                    return JsonResponse(json_response, safe = False)
+
+                if "DROP NAMES" in form.cleaned_data['bandname']:
+                    json_response = { 'response_msg': 'Try again...' }
+                    return JsonResponse(json_response, safe = False)
+
+                if "DROP BANDNAMES" in form.cleaned_data['bandname']:
+                    json_response = { 'response_msg': 'Try again...' }
+                    return JsonResponse(json_response, safe = False)
 
                 if form.cleaned_data['bandname'] == "":
                     json_response = { 'response_msg': 'Bandname cannot be empty' }
@@ -165,9 +190,9 @@ def create(request):
                                                 }
                     json_response['response_msg'] = 'Bandname created successfully!'
                     return JsonResponse(json_response, safe = False)
-            else:
-                json_response = { 'response_msg': 'Check console for error' }
-                return JsonResponse(json_response, safe = False)
+        else:
+            json_response = { 'response_msg': 'Form was not valid' }
+            return JsonResponse(json_response, safe = False)
 
 
 def vote(request):
@@ -279,10 +304,36 @@ def BatchCreate(request):
                     json_response = { 'response_msg': 'Bandname cannot be empty' }
                     return JsonResponse(json_response, safe = False)
 
-                # etc... 
+                # Convert submitted data into a list
                 batchList = readInList(form.cleaned_data['bandnames'], form.cleaned_data['numbered'], form.cleaned_data['dated'])
+                
+                auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
+                for slur in auto_reject_words:
+                    for name in batchList:
+                        print(slur, " ", name)
+                        if slur.strip() in name.strip():
+                            print("FUCK!")
+                            json_response = { 'response_msg': 'Why would you try to submit that?' }
+                            return JsonResponse(json_response, safe = False)
+
+                        if "<script>" in name:
+                            json_response = { 'response_msg': 'Try again...' }
+                            return JsonResponse(json_response, safe = False)
+
+                        if "DROP TABLE" in name:
+                            json_response = { 'response_msg': 'Try again...' }
+                            return JsonResponse(json_response, safe = False)
+
+                        if "DROP NAMES" in name:
+                            json_response = { 'response_msg': 'Try again...' }
+                            return JsonResponse(json_response, safe = False)
+
+                        if "DROP BANDNAMES" in name:
+                            json_response = { 'response_msg': 'Try again...' }
+                            return JsonResponse(json_response, safe = False)
+                
+                # Bandnames are good to submit at this point
                 for bandname in batchList:
-                    print(bandname)
                     new_bandname = Bandname(bandname=bandname,
                                             username=request.user.username,
                                             score=0)
