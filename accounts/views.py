@@ -49,7 +49,10 @@ def ProfileView(request):
     
     if request.user.is_authenticated:
 
-        user_bandnames = Bandname.objects.filter(username=request.user.username)
+        user_bandnames = Bandname.objects.filter(username=request.user.username).order_by('-score').values()
+        
+
+
         template = "registration/profile.html"
         ctxt = {
             "user": request.user,
