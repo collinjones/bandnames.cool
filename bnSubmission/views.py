@@ -13,20 +13,22 @@ from django.contrib.auth.models import User
 from profanity.extras import ProfanityFilter
 from .readInBandnames import readInList
 import random
+from collections import OrderedDict
 
 def index(request):
+    
     form = CreateBandname()
     bandnames = []
     collection_len = Bandname.objects.count()
+    cleaned_list = []
+    voted_bandnames_objs = []
+    profanity_filter = True
 
+    # Get 11 bandnames for the wheel
     for x in range(collection_len):
         bandnames.append(Bandname.objects.all()[random.randint(0, collection_len-1)])
         if len(bandnames) == 11:
             break
-
-    cleaned_list = []
-    voted_bandnames_objs = []
-    profanity_filter = True
 
     print(get_client_ip(request))
 
@@ -47,13 +49,13 @@ def index(request):
                     voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
                 except:
                     pass
+        
+        voted_bandnames_objs.sort(key=lambda x: x.score, reverse=True)
 
+
+    # Is database empty?
     if len(cleaned_list) == 0:
         cleaned_list.append("NO BANDNAMES AVAILABLE")
-
-    voted_names_dict = {}
-    for name in voted_bandnames_objs:
-        voted_names_dict[name.bandname] = name.score
 
     ctxt = {
             "title"     : "Submission Page",
