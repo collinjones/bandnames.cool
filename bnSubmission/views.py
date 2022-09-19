@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from profanity.extras import ProfanityFilter
 from .readInBandnames import readInList
 import random
+from django.template.loader import render_to_string
 
 def RemoveBandname(request):
 
@@ -241,9 +242,11 @@ def vote(request):
             
             user = User.objects.get(pk=request.user.id)
             voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+            voted_list_count = len(user.profile.voted_bandnames)
             bandnames = GetBandnames(Bandname.objects.count())
             filter = ProfanityFilter()
             cleaned_list = []
+            table_template = render_to_string("../templates/bnSubmission/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request)
 
             for new_bandname in bandnames:
                 cleaned_list.append(new_bandname.bandname)
@@ -275,7 +278,8 @@ def vote(request):
                                                     'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
-                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
+                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
+                                                    'table_content_template': table_template
                                                     }
                 else:
                     json_response['bandname_json'] = {
@@ -284,7 +288,8 @@ def vote(request):
                                                     'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
-                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
+                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
+                                                    'table_content_template': table_template
                                                     }
                 
                 return JsonResponse(json_response)  
@@ -316,7 +321,8 @@ def vote(request):
                                                     'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
-                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
+                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
+                                                    'table_content_template': table_template
                                                     }
                 else:
                     json_response['bandname_json'] = {
@@ -325,7 +331,8 @@ def vote(request):
                                                     'score': voted_bandname.score,
                                                     'authenticated': "True",
                                                     'new_bandnames': cleaned_list,
-                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list]
+                                                    'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
+                                                    'table_content_template': table_template
                                                     }
                 return JsonResponse(json_response) 
             

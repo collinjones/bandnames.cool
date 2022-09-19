@@ -1,0 +1,22 @@
+{% load static %}
+{% load profanity %}
+
+<tr id = "{{bandname}}">
+    <td id="del-btn-td">
+        <form method="POST" id="remove-bandname-form"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <input class="delete-button" data-counter="{{id}}" id="delete-button{{id}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
+        </form>
+    </td>
+    {% if profanity_filter == True %}
+        <td class="tooltip">{{bandname.bandname|censor}}
+    {% else %}
+        <td class="tooltip">{{bandname.bandname}}
+    {% endif %}
+        <span class="tooltiptext">{{bandname.username}}</span>
+    </td>
+    <td>{{bandname.score}}</td>
+</tr>
+
+<!-- AJAX scripts -->
+<script type="text/javascript" src=" {% static 'bnSubmission/scripts/bn-submission.js' %} "></script>
