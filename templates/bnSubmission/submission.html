@@ -44,7 +44,7 @@ var profanity_filter = "{{profanity_filter}}"
     <!-- Div for the p5.js sketch (Bandname Wheel) -->
     <div class = "div1" id = "sketch-holder" style="touch-action:none"></div>
     <!-- Div for the selected bandname from the wheel -->
-    <div  class="div2" id="bandname-selected">Loading wheel...</div>
+    <div  class="div2" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="this slowpoke moves"  width="45"/></div>
     <div class="div3" id="voting-system">
         <form enctype="multipart/form-data" method="post" id="vote-form">
             {% csrf_token %}
@@ -98,7 +98,7 @@ var profanity_filter = "{{profanity_filter}}"
 </div>
 
 <center>
-
+    
     <!-- Empty loading screen (another sketch could go here) -->
     <div id ="p5_loading"></div>
     
