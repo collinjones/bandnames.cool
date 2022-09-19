@@ -20,7 +20,7 @@ $("#bandname-submit" ).click(function(e) {
 
 $("#upvote-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
-    $.blockUI({ message: "Voting..." }); 
+    $.blockUI({ message: "Voting up..." }); 
     $.ajax({
         type: 'POST',
         url: '/vote',
@@ -53,7 +53,7 @@ $("#upvote-button" ).click(function(e) {
 });
 $("#downvote-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
-    $.blockUI({ message: "Voting..." }); 
+    $.blockUI({ message: "Voting down..." }); 
     $.ajax({
         type: 'POST',
         url: '/vote',
