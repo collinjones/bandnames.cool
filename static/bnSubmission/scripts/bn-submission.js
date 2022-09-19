@@ -35,7 +35,7 @@ $("#upvote-button" ).click(function(e) {
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
-                    console.log('uh prepending to bandnames table')
+                    $.getScript("/static/bnSubmission/scripts/remove_vote.js")
                     $('#bandnames-table-body').prepend(data['bandname_json']['table_content_template'])
                 }
                 
@@ -68,13 +68,8 @@ $("#downvote-button" ).click(function(e) {
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
-                    content = "<tr>\
-                                    <td class='tooltip'>" + data['bandname_json']['bandname'] + "\
-                                        <span class='tooltiptext'>" + data['bandname_json']['username'] + "</span>\
-                                    </td>\
-                                <td>" + data['bandname_json']['score'] + "</td>\
-                            </tr>"
-                    $('#bandnames-table-body').prepend(content)
+                    $.getScript("/static/bnSubmission/scripts/remove_vote.js")
+                    $('#bandnames-table-body').prepend(data['bandname_json']['table_content_template'])
                 }
                 var bandnames = {}
                 for (var i = 0; i < data['bandname_json']['filtered_new_bandnames'].length; i++) {
