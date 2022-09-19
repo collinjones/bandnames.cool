@@ -6,7 +6,7 @@
 {% block title %} {{ title }} {% endblock %}
 {% block body %}
 
-<!-- p5.js sketches  -->
+
 <script>
 var bandnames = {}
 var profanity_filter = "{{profanity_filter}}"
@@ -15,32 +15,26 @@ var profanity_filter = "{{profanity_filter}}"
 '{% endfor %}'
 </script>
 
-<script >
-    function foo() {
-        var bandnames = {}
-        var profanity_filter = "{{profanity_filter}}"
-        '{% for bandname in new_bandnames %}'
-            bandnames["{{bandname}}"] = '{{bandname|censor}}'
-        '{% endfor %}'
-        return bandnames
-    }
-</script>
+<!-- p5.js sketches  -->
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
 <center>
 
-    <br><div>
+    <br>
+    <div>
         {% if user.is_authenticated %}
-            Hi {{ user.username }}! <a href="{% url 'logout' %}">Log Out</a>
-            <a href="{% url 'batchSubmission' %}">Batch Submit</a>
-            <a href="{% url 'profile' %}">Profile</a>
+            Hi {{ user.username }}! <a href="{% url 'logout' %}">Log Out</a> |
+            <a href="{% url 'batchSubmission' %}">Batch Submit</a> |
+            <a href="{% url 'profile' %}">Profile</a> |
+            
         
         {% else %}
             You are not logged in
             <a href="{% url 'login' %}">Log In</a> |
-            <a href="{% url 'registration' %}">Sign Up</a>
+            <a href="{% url 'registration' %}">Sign Up</a> |
         {% endif %}
+        <a href="{% url 'faq' %}">FAQ</a>
     </div>
 
     <!-- Submission form div -->
@@ -95,7 +89,13 @@ var profanity_filter = "{{profanity_filter}}"
                 <table id="bandnames-table">
                     <tbody id='bandnames-table-body'>
                         {% for bandname in voted_bandnames %}
-                        <tr>
+                        <tr id = "{{bandname}}">
+                            <td id="del-btn-td">
+                                <form method="POST" id="remove-bandname-form"  enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input class="delete-button" data-counter="{{forloop.counter}}" id="delete-button{{forloop.counter}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
+                                </form>
+                            </td>
                             {% if profanity_filter == True %}
                                 <td class="tooltip">{{bandname.bandname|censor}}
                             {% else %}
@@ -118,8 +118,6 @@ var profanity_filter = "{{profanity_filter}}"
     <!-- Empty loading screen (another sketch could go here) -->
     <div id ="p5_loading"></div>
     
-    
-
 </center>
 
 {% endblock %}

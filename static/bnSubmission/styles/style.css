@@ -30,13 +30,14 @@ input[type="text"] {
 }
 table {
     border-collapse: collapse;
+    table-layout: fixed;
 }
 th, td {
     padding: 8px 15px;
-    width:80%;
     text-align: center;
 }
 th {
+    width:80%;
     background: #d74141c6;
 }
 
@@ -44,9 +45,18 @@ tr {
     width:100%;
 }
 
+.delete-button {
+    width: 25px;
+}
+
 #submission-form {
     width: 250px;
     margin: 5px;
+}
+
+#del-btn-td{
+    width:25px;
+    height:25px;
 }
 
 @media only screen and (max-width: 700px) {
@@ -178,3 +188,8 @@ tr {
     width:100%;
 }
   
+#faq-div {
+    text-align: center;
+    margin-left: 20%;
+    margin-right: 20%;
+}

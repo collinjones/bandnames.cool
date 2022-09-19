@@ -1,0 +1,56 @@
+{% extends 'bnSubmission/base.html' %}
+
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block body %}
+
+<div id="faq-div">
+
+    <br><a href="{% url 'submission' %}">Homepage</a>
+    <h1>FAQ</h1>
+
+    <h3>Q: What is this site?</h3>
+    <p>A: bandnames.cool is a band name aggregate website. 
+        Our goal is to collect all of the cool band names before they are taken. </p>
+
+    <h3>Q: What's the wheel for?</h3>
+    <p>A: Spin the wheel with your cursor (or touchscreen on mobile devices) and 
+        find out! Discover new band names and give them upvotes or downvotes. You 
+        can also spin and stop the wheel with the "Spin Wheel" and "Stop Wheel" 
+        buttons respectively. Band names on the wheel refresh with every up/downvote. </p>
+
+    <h3>Q: What are band names? </h3>
+    <p>A: Great question. We don't know. Band names can be whatever you want them to 
+        be. Don't let your definition of band names be limited to the bands you know! 
+        Think of the band names YOU want to see in the world (unless you see someone 
+        upload a string of random characters or something… in that case, DOWNVOTE THEM 
+        INTO OBLIVION!!!) </p>
+
+    <h3>Q: How can I submit band names?</h3>
+    <p>A: You can submit one band name at the top of the webpage by pressing "submit". 
+        You can submit MANY band names at once using the "Batch Submit" option, which 
+        accepts several different list formats! You do NOT need to sign up to submit band names. </p>
+
+    <h3>Q: Why can't I upvote/downvote band names?</h3>
+    <p>A: Currently, we require users to <a href="{% url 'registration' %}">sign up</a> for an account to upvote/downvote different 
+        band names. This may change eventually! </p>
+
+    <h3>Q: Why are all the names I'm seeing censored? </h3>
+    <p>A: A sitewide profanity filter is enabled by default. To turn off the profanity filter, 
+        please <a href="{% url 'registration' %}">sign up</a> for an account and then navigate to the "Profile" button at the top of the 
+        webpage, uncheck the "Profanity Filter" box, and press "Submit" to uncensor the bad words! </p>
+
+    <h3>Q: Can I see the band names I've uploaded? </h3>
+    <p>A: Yes, you can! Currently, the only way to view the band names you've uploaded is to <a href="{% url 'registration' %}">sign up</a>
+        for an account - you can then view your submitted band names in the "Profile" tab from 
+        best-to-worst ranked. You can also delete uploaded band names by using the trash bin icon to 
+        the left of each respective band name. </p>
+
+    <h3>Q: Can I use a band name I found on this site?</h3>
+    <p>A: As long as someone else isn't using it already! We claim no band name uploaded to this website as our own. Anything uploaded is 
+        fair game, so long as it isn't a band that already exists. </p>
+</div>
+
+
+{% endblock %}

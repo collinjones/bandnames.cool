@@ -1,19 +1,43 @@
-from asyncio import constants
-from ctypes import sizeof
-from distutils.command.clean import clean
-#from types import NoneType
-from django.shortcuts import render, redirect
-import json
+
+from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Bandname
 from django.http import JsonResponse
-from .forms import CreateBandname, CreateBatchBandname, Vote
+from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from profanity.extras import ProfanityFilter
 from .readInBandnames import readInList
 import random
-from collections import OrderedDict
+
+def RemoveBandname(request):
+
+    # Ensure the request method is POST and the user is logged in
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            user = User.objects.get(pk=request.user.id)
+            bandname_str = request.POST['bandname']
+            bandname_obj = Bandname.objects.get(bandname=bandname_str)
+            try:
+                del user.profile.voted_bandnames[bandname_str]
+                bandname_obj.score -= 1
+            except:
+                # Shouldn't ever reach
+                return HttpResponse("Bandname not in voted list")
+            user.save()
+            bandname_obj.save()
+
+
+            json_response = { 
+                'response_msg': 'Your vote on ' + bandname_str + ' has been uncast',
+                'bandname': bandname_str
+                 }
+            
+            return JsonResponse(json_response, safe = False)
+
+
+
+    return HttpResponse('nice')
 
 def GetBandnames(collection_len):
     bandnames = []
@@ -22,6 +46,14 @@ def GetBandnames(collection_len):
         if len(bandnames) == 11:
             break
     return bandnames
+
+def faq(request):
+    template = "../templates/bnSubmission/faq.html"
+    ctxt = {
+        "title": "FAQ"
+    }
+    return render(request, template, context=ctxt)
+
 
 def index(request):
     

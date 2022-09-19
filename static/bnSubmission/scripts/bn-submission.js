@@ -1,6 +1,6 @@
 $("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
-    $.blockUI({ message: null }); 
+    $.blockUI({ message: "Submitting bandname..." }); 
     $.ajax({
         type: 'POST',
         url: '/create',
@@ -20,7 +20,7 @@ $("#bandname-submit" ).click(function(e) {
 
 $("#upvote-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
-    $.blockUI({ message: null }); 
+    $.blockUI({ message: "Voting..." }); 
     $.ajax({
         type: 'POST',
         url: '/vote',
@@ -58,7 +58,7 @@ $("#upvote-button" ).click(function(e) {
 });
 $("#downvote-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
-    $.blockUI({ message: null }); 
+    $.blockUI({ message: "Voting..." }); 
     $.ajax({
         type: 'POST',
         url: '/vote',
@@ -114,3 +114,28 @@ $(document).on('submit', '#batch-submission-form', function (e) {
         }
     });
 });
+
+$("[id^=delete-button]").click(function(e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: "Removing bandname..." }); 
+    $.ajax({
+        type: 'POST',
+        url: '/RemoveBandname',
+        data: {
+            bandname: $(this).attr("value"),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            
+            if (data.hasOwnProperty('response_msg')){
+                $('#submission-status').html(data['response_msg']);
+            }  
+            
+            // Javascript here!
+            document.getElementById(data['bandname']).remove();
+            $.unblockUI();
+        }
+    });
+});
+
+

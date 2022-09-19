@@ -8,4 +8,6 @@ urlpatterns = [
     path('batch-create', views.BatchCreate, name='batchCreation'),
     path('create', views.create, name='create'),
     path('vote', views.vote, name='vote'),
+    path('faq', views.faq, name='faq'),
+    path('RemoveBandname', views.RemoveBandname, name='RemoveBandname'),
 ]
