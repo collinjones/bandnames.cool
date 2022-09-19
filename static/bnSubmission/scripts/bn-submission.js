@@ -107,7 +107,6 @@ $(document).on('submit', '#batch-submission-form', function (e) {
 
 $("[id^=delete-button]").click(function(e) {
     e.preventDefault(); // Stop page from refreshing
-    console.log('is this even being called')
     $.blockUI({ message: "Removing bandname..." }); 
     $.ajax({
         type: 'POST',

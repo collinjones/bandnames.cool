@@ -15,6 +15,8 @@ var profanity_filter = "{{profanity_filter}}"
 '{% endfor %}'
 </script>
 
+<script src="{% static 'bnSubmission/scripts/sort.js' %} "></script>
+
 <!-- p5.js sketches  -->
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
@@ -63,8 +65,8 @@ var profanity_filter = "{{profanity_filter}}"
                 <table id="bandnames-table-headers">
                     <thead>
                         <tr>
-                            <th>Bandname</th>
-                            <th>Score</th>
+                            <th onclick="sortBandname(1)">Bandname</th>
+                            <th onclick="sortScore(2)">Score</th>
                         </tr>
                     </thead>
                 </table>
