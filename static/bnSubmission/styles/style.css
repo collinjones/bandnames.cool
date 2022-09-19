@@ -193,3 +193,27 @@ tr {
     margin-left: 20%;
     margin-right: 20%;
 }
+
+.rpgui-content {
+    position: inherit !important;
+}
+
+.rpgui-container.framed {
+    width: 250px !important;
+}
+
+#post-form {
+    height: 235px !important;
+}
+
+.rpgui-content input {
+    padding-left: 0px !important;
+}
+
+#bandname-submit {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 5px !important;
+    margin-bottom: 0px !important;
+    
+}

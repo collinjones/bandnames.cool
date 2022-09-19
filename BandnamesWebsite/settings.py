@@ -30,7 +30,10 @@ SECRET_KEY = 'django-insecure-u@e#2)9f2o)i02@nn3_q)guw9*509fe*2k@jd7v2=ehn5j7*k_
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+MONGODB_HOST = os.getenv('MONGODB_URI')
+MONGODB_USER = os.getenv('MONGODB_USER')
+MONGODB_PWD = os.getenv('MONGODB_PWD')
+print(MONGODB_USER)
 
 # Application definition
 
@@ -85,9 +88,9 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'BandnamesWebsite',
         'CLIENT': {
-            'host': 'mongodb+srv://cojo2657:e*hp0a7mugDX@bandnameswebapp.9etfmgd.mongodb.net/?retryWrites=true&w=majority',
-            'username': 'cojo2657',
-            'password': 'e*hp0a7mugDX',
+            'host': MONGODB_HOST,
+            'username': MONGODB_USER,
+            'password': MONGODB_PWD,
             'authMechanism': 'SCRAM-SHA-1'
         }
     }
