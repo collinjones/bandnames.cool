@@ -1,5 +1,11 @@
 # [bandnames.cool](https://www.bandnames.cool).
 
-This is the repo for a website called bandnames.cool built by Collin Jones, Jared-Dubay Jurado, and Ian Connelly. bandnames.cool's primary function will be for the site to provide a bandname (from the database of user-submitted bandnames) to a visitor. Additionally, if a visitor is logged in as a user, they can vote on the bandname presented to them. Users can also submit bandnames to bandnames.cool. 
+bandnames.cool is a band name aggregate website. Our goal is to collect all of the cool band names before they are taken. 
 
-Visitors to bandnames.cool will be able to make an account to submit and vote on bandnames. 
+# Features
+
+🗳 Vote on bandnames submitted by the community! 
+🥁 Submit bandnames to the community! 
+⚙️ Spin a wheel that delivers you a new bandname each time you vote!
+🎸 Collect bandnames that you voted on!
+🎹 See how your bandnames are scoring on your profile!
