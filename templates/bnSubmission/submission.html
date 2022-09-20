@@ -31,13 +31,13 @@ var profanity_filter = "{{profanity_filter}}"
             <h3> Submit a bandname </h3>
             <!-- {{form}} -->
             <input id="bandname">
-            <input id="bandname-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
+            <input id="bandname-submit" type="submit" class="pixelated-font" type="submit" value="Submit"></button>
         </form>
     </div>
 
-    <button id="spin-button">Spin Wheel</button>
-    <button id="stop-button">Stop Wheel</button>
-    <button id="mute-button">Mute Wheel</button><br>
+    <button id="spin-button" class="pixelated-font">Spin Wheel</button>
+    <button id="stop-button" class="pixelated-font">Stop Wheel</button>
+    <button id="mute-button" class="pixelated-font">Mute Wheel</button><br>
     <input type="range" min="0" max="0.1" value="0" id="volume-slider" step="0.001">
 
 </center>
@@ -51,11 +51,11 @@ var profanity_filter = "{{profanity_filter}}"
         <form enctype="multipart/form-data" method="post" id="vote-form">
             {% csrf_token %}
             {% if user.is_authenticated %}
-                <button id="upvote-button" href="{% url 'vote' %}">Upvote</button>
-                <button id="downvote-button" href="{% url 'vote' %}">Downvote</button><br>
+                <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font">Upvote</button>
+                <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font">Downvote</button><br>
             {% else %}
-                <button id="upvote-button" href="{% url 'vote' %}" disabled>Upvote</button>
-                <button id="downvote-button" href="{% url 'vote' %}" disabled>Downvote</button><br>
+                <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Upvote</button>
+                <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Downvote</button><br>
             {% endif %}
         <form>
         <br>

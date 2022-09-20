@@ -10,6 +10,10 @@ h1 {
     font-family: 'Pixelated';
 }
 
+.pixelated-font {
+    font-family: 'Pixelated';
+}
+
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
@@ -202,9 +206,7 @@ tr {
     width: 250px !important;
 }
 
-#post-form {
-    height: 235px !important;
-}
+
 
 .rpgui-content input {
     padding-left: 0px !important;

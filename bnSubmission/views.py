@@ -10,6 +10,7 @@ from profanity.extras import ProfanityFilter
 from .readInBandnames import readInList
 import random
 from django.template.loader import render_to_string
+from django.utils.timezone import now
 
 def RemoveBandname(request):
 
@@ -67,8 +68,6 @@ def index(request):
 
     # Get 11 bandnames for the wheel
     bandnames = GetBandnames(collection_len)
-
-    print(get_client_ip(request))
 
     for bandname in bandnames:
         cleaned_list.append(bandname.bandname)
@@ -163,7 +162,7 @@ def create(request):
                     new_bandname_str = form.cleaned_data['bandname']
                     new_bandname = Bandname(bandname=new_bandname_str,
                                             username=request.user.username,
-                                            score=0)
+                                            score=0, date_submitted=now)
                     new_bandname.save()
                     json_response = {}
                     json_response['bandname_json'] = {
@@ -178,7 +177,6 @@ def create(request):
             else:
                 auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
                 for slur in auto_reject_words:
-                    print(slur)
 
                     if slur.strip().lower() in form.cleaned_data['bandname'].strip().lower():
                         json_response = { 'response_msg': 'Why would you try to submit that?' }
@@ -220,7 +218,7 @@ def create(request):
                     new_bandname_str = form.cleaned_data['bandname']
                     new_bandname = Bandname(bandname=new_bandname_str,
                                             username="Anonymous",
-                                            score=0)
+                                            score=0, date_submitted=now)
                     new_bandname.save()
                     json_response = {}
                     json_response['bandname_json'] = {
@@ -379,9 +377,7 @@ def BatchCreate(request):
                 auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
                 for slur in auto_reject_words:
                     for name in batchList:
-                        print(slur, " ", name)
                         if slur.strip().lower() in name.strip().lower():
-                            print("FUCK!")
                             json_response = { 'response_msg': 'Why would you try to submit that?' }
                             return JsonResponse(json_response, safe = False)
 
@@ -405,7 +401,8 @@ def BatchCreate(request):
                 for bandname in batchList:
                     new_bandname = Bandname(bandname=bandname,
                                             username=request.user.username,
-                                            score=0)
+                                            score=0,
+                                            date_submitted=now)
                     new_bandname.save()
 
                 json_response = {"response_msg":"These bandnames are delicious"}
