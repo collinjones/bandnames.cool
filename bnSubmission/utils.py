@@ -7,38 +7,45 @@ from profanity.extras import ProfanityFilter
 def read_in_list(bandnames_batch, num_bool, date_bool):
 
     user_submissions = bandnames_batch.splitlines()
+    temp_list = []
     clean_list = []
     user_submissions = [s for s in user_submissions if s]
-
+    
     # Removes numbers from beginning of bandname if checkbox is checked
     # Otherwise remove whitespace
     if num_bool == True:
-        for i, submission in enumerate(user_submissions):
-            if submission:
-                user_submissions[i] = submission.lstrip('1234567890.')
+        for i in range(len(user_submissions)):
+            if user_submissions[i] != "":
+                submission_numbers_removed = user_submissions[i].lstrip('1234567890.')
+                temp_list.append(submission_numbers_removed)
     else:
-        for i, submission in enumerate(user_submissions):
-            if submission:
-                user_submissions[i] = submission.lstrip(' ')
-
+        for i in range(len(user_submissions)):
+            if user_submissions[i] != "":
+                temp_list.append(user_submissions[i].lstrip(' '))
     # Removes dates from end of bandname if checkbox is checked
     # Otherwise remove whitespace
     if date_bool == True:
-        for i, submission in enumerate(user_submissions):
-            if submission:
-                clean_list.append(submission.rstrip(")0123456789\/-.( "))
-
+        for i in range(len(temp_list)):
+            if temp_list[i] !=  "":
+                clean_list.append(temp_list[i].rstrip(")0123456789\/-.( "))
                 # Re-add the closing bracket if it one was detected
-                for char in clean_list[i]:
-                    if char == "(":
+                for char_idx in range(len(temp_list[i])):
+                    if temp_list[i][char_idx] == "(":
                         clean_list[i] += ")"
+                        break
 
-                    if char == "[":
+                    if temp_list[i][char_idx] == "[":
                         clean_list[i] += "]"
+                        break
     else:
-        for i, submission in enumerate(user_submissions):
-            if submission:
-                clean_list.append(submission.rstrip(" "))
+        for i in range(len(user_submissions)):
+            if user_submissions[i] != "":
+                clean_list.append(user_submissions[i].rstrip(" "))
+
+    # Clean empty space around bandname
+    for i in range(len(clean_list)):
+        clean_list[i] = clean_list[i].strip()
+
 
     return clean_list
 
