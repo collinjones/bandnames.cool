@@ -112,6 +112,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+    
 
 def create(request):
 
@@ -162,7 +163,7 @@ def create(request):
                     new_bandname_str = form.cleaned_data['bandname']
                     new_bandname = Bandname(bandname=new_bandname_str,
                                             username=request.user.username,
-                                            score=0, date_submitted=now)
+                                            score=0, date_submitted=now().strftime("%Y-%m-%d"))
                     new_bandname.save()
                     json_response = {}
                     json_response['bandname_json'] = {
@@ -218,7 +219,7 @@ def create(request):
                     new_bandname_str = form.cleaned_data['bandname']
                     new_bandname = Bandname(bandname=new_bandname_str,
                                             username="Anonymous",
-                                            score=0, date_submitted=now)
+                                            score=0, date_submitted=now().strftime("%Y-%m-%d"))
                     new_bandname.save()
                     json_response = {}
                     json_response['bandname_json'] = {
@@ -402,7 +403,7 @@ def BatchCreate(request):
                     new_bandname = Bandname(bandname=bandname,
                                             username=request.user.username,
                                             score=0,
-                                            date_submitted=now)
+                                            date_submitted=now().strftime("%Y-%m-%d"))
                     new_bandname.save()
 
                 json_response = {"response_msg":"These bandnames are delicious"}

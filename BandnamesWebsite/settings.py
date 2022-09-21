@@ -33,7 +33,6 @@ ALLOWED_HOSTS = ['*']
 MONGODB_HOST = os.getenv('MONGODB_URI')
 MONGODB_USER = os.getenv('MONGODB_USER')
 MONGODB_PWD = os.getenv('MONGODB_PWD')
-print(MONGODB_USER)
 
 # Application definition
 

@@ -10,7 +10,6 @@ def readInList(bandnamesBatch, numBool, dateBool):
     if (numBool == True):
         i = 0
         for x in userSubmissions:
-            print(x)
             if x:
                 userSubmissions[i] = x.lstrip('1234567890.')
                 i += 1
