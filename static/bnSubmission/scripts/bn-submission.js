@@ -110,7 +110,7 @@ $("[id^=delete-button]").click(function(e) {
     $.blockUI({ message: "Removing bandname..." }); 
     $.ajax({
         type: 'POST',
-        url: '/RemoveBandname',
+        url: '/remove_bandname',
         data: {
             bandname: $(this).attr("value"),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),

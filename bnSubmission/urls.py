@@ -4,10 +4,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='submission'),
-    path('batch-submit', views.BatchSubmit, name='batchSubmission'),
-    path('batch-create', views.BatchCreate, name='batchCreation'),
+    path('batch-submit', views.batch_submit, name='batchSubmission'),
+    path('batch-create', views.batch_create, name='batchCreation'),
     path('create', views.create, name='create'),
     path('vote', views.vote, name='vote'),
     path('faq', views.faq, name='faq'),
-    path('RemoveBandname', views.RemoveBandname, name='RemoveBandname'),
+    path('remove_bandname', views.remove_bandname, name='remove_bandname'),
 ]

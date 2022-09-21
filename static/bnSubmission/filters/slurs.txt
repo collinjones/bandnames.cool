@@ -199,3 +199,7 @@ _______
 >>>>>>>
 ///////
 ???????
+<script>
+DROP TABLE
+DROP BANDNAMES
+DROP NAMES
