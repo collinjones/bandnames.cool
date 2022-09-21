@@ -50,7 +50,7 @@ def vote(request):
 
             user = User.objects.get(pk=request.user.id)
             if user.profile.voted_bandnames:
-                first_vote = True
+                first_vote = False
             else:
                 first_vote = True
                 voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
@@ -141,7 +141,11 @@ def remove_bandname(request):
             bandname_str = request.POST['bandname']
             bandname_obj = Bandname.objects.get(bandname=bandname_str)
 
-            del user.profile.voted_bandnames[bandname_str]
+            try:
+                del user.profile.voted_bandnames[bandname_str]
+            except:
+                print('please refresh')
+
             bandname_obj.score -= 1
 
             user.save()

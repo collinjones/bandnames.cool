@@ -120,8 +120,9 @@ def save_vote(request, voted_bandname, user, first_vote, duplicate_vote):
         user.profile.voted_bandnames = {voted_bandname.bandname: "voted"} 
     elif not duplicate_vote:
         user.profile.voted_bandnames[voted_bandname.bandname] = "voted"
-        voted_bandname.save()
-        user.save()
+
+    voted_bandname.save()
+    user.save()
 
 
 def create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user):
