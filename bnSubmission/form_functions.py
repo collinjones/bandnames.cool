@@ -47,32 +47,42 @@ def vote(request):
     
     if request.method == "POST":
         if request.user.is_authenticated:
-            
+
             user = User.objects.get(pk=request.user.id)
-            voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-            duplicate_vote = voted_bandname.bandname in user.profile.voted_bandnames
+            if user.profile.voted_bandnames:
+                first_vote = True
+            else:
+                first_vote = True
+                voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
 
-            # Return early if duplicate vote
-            if duplicate_vote:
-                json_response = { 
-                    'vote-msg': 'Already voted', 
-                    'authenticated': "True"
-                }
-                return JsonResponse(json_response, safe = False) 
+                if first_vote:
+                    duplicate_vote = False
+                else:
+                    duplicate_vote = voted_bandname.bandname in user.profile.voted_bandnames
 
-            voted_list_count = len(user.profile.voted_bandnames)
-            bandnames = get_bandnames(Bandname.objects.count())
-            cleaned_list = []
-            table_template = render_to_string("../templates/bnSubmission/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request)
-            first_vote = user.profile.voted_bandnames is None     
+                    # Return early if duplicate vote
+                    if duplicate_vote:
+                        json_response = { 
+                            'vote-msg': 'Already voted', 
+                            'authenticated': "True"
+                        }
+                        return JsonResponse(json_response, safe = False) 
 
-            # Create a list of string of each bandname
-            for new_bandname in bandnames:
-                cleaned_list.append(new_bandname.bandname)
+                if not first_vote:
+                    voted_list_count = len(user.profile.voted_bandnames)
+                else:
+                    voted_list_count = 0
 
-            save_vote(request, voted_bandname, user, first_vote, duplicate_vote)
-            json_response = create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user)
+                bandnames = get_bandnames(Bandname.objects.count())
+                cleaned_list = []
+                table_template = render_to_string("../templates/bnSubmission/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request) 
 
+                # Create a list of string of each bandname
+                for new_bandname in bandnames:
+                    cleaned_list.append(new_bandname.bandname)
+
+                save_vote(request, voted_bandname, user, first_vote, duplicate_vote)
+                json_response = create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user)
         else:
             json_response = { 
                 'vote-msg': 'Not logged in', 

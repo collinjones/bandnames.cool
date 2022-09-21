@@ -144,4 +144,3 @@ def create_vote_json_response(request, voted_bandname, cleaned_list, table_templ
         'table_content_template': table_template
     }
     return json_response
-
