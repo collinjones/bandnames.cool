@@ -37,15 +37,17 @@ class SubmissionTest(BaseCase):
         self.type("#bandname", "TEST2")
         self.click("#bandname-submit")
         self.assert_text("created successfully", "#submission-status")
+        self.refresh_page()
         self.click("#profile-link")
         self.refresh_page()
         self.click("//table//input[2]")
         self.logout()
 
-    def test_deleting_bandname(self):
+    def test_delete_bandname(self):
         self.login()
         self.type("#bandname", "TEST2")
         self.click("#bandname-submit")
+        self.refresh_page()
         self.click("#profile-link")
         self.refresh_page()
         self.click("//table//input[2]")
