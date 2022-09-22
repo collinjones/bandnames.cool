@@ -1,4 +1,5 @@
 from seleniumbase import BaseCase
+import time
 
 class SubmissionTest(BaseCase):
 
@@ -10,7 +11,7 @@ class SubmissionTest(BaseCase):
         self.click("#login-button")  
 
     def logout(self):
-        self.click("#logout-link")
+        self.click("#logout-link", timeout=30)
 
     def spin_wheel(self):
         self.wait_for_element("#defaultCanvas0")
@@ -20,6 +21,7 @@ class SubmissionTest(BaseCase):
         self.wait_for_element("#defaultCanvas0")
         self.click("#stop-button")      
 
+    # TESTS
     def test_login(self):
         self.login()
         self.assert_text("Hi", "#greetings-msg")
@@ -30,17 +32,24 @@ class SubmissionTest(BaseCase):
         self.logout()
         self.assert_text("You are not logged in", "#logged-out-span")
 
-    def test_submitting_no_auth(self):
-        self.open("http://127.0.0.1:8000")
-        self.type("#bandname", "TEST1")
-        self.click("#bandname-submit")
-        self.assert_text("created successfully", "#submission-status")
-
     def test_submitting_auth(self):
         self.login()
         self.type("#bandname", "TEST2")
         self.click("#bandname-submit")
         self.assert_text("created successfully", "#submission-status")
+        self.click("#profile-link")
+        self.refresh_page()
+        self.click("//table//input[2]")
+        self.logout()
+
+    def test_deleting_bandname(self):
+        self.login()
+        self.type("#bandname", "TEST2")
+        self.click("#bandname-submit")
+        self.click("#profile-link")
+        self.refresh_page()
+        self.click("//table//input[2]")
+        self.assert_text("has been deleted", "#submission-status", timeout=30)
         self.logout()
 
     def test_voting_up(self):
@@ -54,7 +63,6 @@ class SubmissionTest(BaseCase):
         self.logout()
 
     def test_voting_down(self):
-        
         self.login()
         self.spin_wheel()
         self.stop_wheel()
