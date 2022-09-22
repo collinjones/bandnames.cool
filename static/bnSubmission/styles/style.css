@@ -232,5 +232,11 @@ tr {
 }
 
 #score-header-profile {
-    width: 10%;
+    width: 15%;
+}
+
+#bandnames-table-profile-wrapper{
+    width: 400px;
+    margin-left: auto;
+    margin-right:auto;
 }

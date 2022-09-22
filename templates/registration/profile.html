@@ -15,40 +15,42 @@
     <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
 </form>
 
-<div id="bandnames-table-div-profile">
-    <div class="tableHeaders-profile">
-        <table id="bandnames-table-headers-profile">
-            <thead>
-                <tr>
-                    <th onclick="sortBandname(1)" id="bandname-header-profile">Bandname</th>
-                    <th onclick="sortScore(2)" id="score-header-profile">Score</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-    <div class="scroller-profile">
-        <table id="bandnames-table-profile">
-            <tbody id='bandnames-table-body-profile'>
-                {% for bandname in user_bandnames %}
-                <tr id = "{{bandname.bandname}}">
-                    <td id="del-btn-td">
-                        <form method="POST" id="remove-bandname-form-profile"  enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input class="delete-button-profile" data-counter="{{forloop.counter}}" id="delete-button-profile{{forloop.counter}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
-                        </form>
-                    </td>
-                    {% if profanity_filter == True %}
-                        <td class="tooltip">{{bandname.bandname|censor}}
-                    {% else %}
-                        <td class="tooltip">{{bandname.bandname}}
-                    {% endif %}
-                        <span class="tooltiptext">{{bandname.username}}</span>
-                    </td>
-                    <td>{{bandname.score}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div id = "bandnames-table-profile-wrapper">
+    <div id="bandnames-table-div-profile">
+        <div class="tableHeaders-profile">
+            <table id="bandnames-table-headers-profile">
+                <thead>
+                    <tr>
+                        <th onclick="sortBandname(1)" id="bandname-header-profile">Bandname</th>
+                        <th onclick="sortScore(2)" id="score-header-profile">Score</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="scroller-profile">
+            <table id="bandnames-table-profile">
+                <tbody id='bandnames-table-body-profile'>
+                    {% for bandname in user_bandnames %}
+                    <tr id = "{{bandname.bandname}}">
+                        <td id="del-btn-td">
+                            <form method="POST" id="remove-bandname-form-profile"  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input class="delete-button-profile" data-counter="{{forloop.counter}}" id="delete-button-profile{{forloop.counter}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
+                            </form>
+                        </td>
+                        {% if profanity_filter == True %}
+                            <td class="tooltip">{{bandname.bandname|censor}}
+                        {% else %}
+                            <td class="tooltip">{{bandname.bandname}}
+                        {% endif %}
+                            <span class="tooltiptext">{{bandname.username}}</span>
+                        </td>
+                        <td>{{bandname.score}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
