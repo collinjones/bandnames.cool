@@ -1,16 +1,16 @@
 <br> 
 <div>
     {% if user.is_authenticated %}
-        Hi {{ user.username }}! <br><a href="{% url 'submission' %}">Home</a> |
-        <a href="{% url 'logout' %}">Log Out</a> |
-        <a href="{% url 'batchSubmission' %}">Batch Submit</a> |
-        <a href="{% url 'profile' %}">Profile</a> |
+        <span id="greetings-msg">Hi {{ user.username }}! </span><br><a href="{% url 'submission' %}">Home</a> |
+        <a id="logout-link" href="{% url 'logout' %}">Log Out</a> |
+        <a id="batch-submit-link" href="{% url 'batchSubmission' %}">Batch Submit</a> |
+        <a id="profile-link" href="{% url 'profile' %}">Profile</a> |
         
     
     {% else %}
-        You are not logged in <br><a href="{% url 'submission' %}">Home</a> |
-        <a href="{% url 'login' %}">Log In</a> |
-        <a href="{% url 'registration' %}">Sign Up</a> |
+        <span id="logged-out-span">You are not logged in</span> <br><a href="{% url 'submission' %}">Home</a> |
+        <a id="login-link" href="{% url 'login' %}">Log In</a> |
+        <a id="register-link" href="{% url 'registration' %}">Sign Up</a> |
     {% endif %}
-    <a href="{% url 'faq' %}">FAQ</a>
+    <a id = 'faq-link' href="{% url 'faq' %}">FAQ</a>
 </div>
