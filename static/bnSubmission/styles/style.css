@@ -209,7 +209,7 @@ tr {
     width:25px;
 }
 #bandnames-table-div-profile{
-    width: 500px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }

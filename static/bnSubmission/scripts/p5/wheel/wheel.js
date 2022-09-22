@@ -228,7 +228,7 @@ class Wheel {
             else {
                 text(Object.keys(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
             }
-            rotate(this.evenSeparatorDeg)
+            rotate(this.evenSeparatorDeg-.5)
         }
         pop();
     }
