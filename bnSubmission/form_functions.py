@@ -7,8 +7,6 @@ from django.template.loader import render_to_string
 from django.utils.timezone import now
 from .utils import *
 
-# == FORM ENTRY AND EXIT FUNCTIONS ==
-
 # `create` gets called when the user submits the bandname submission form
 def create(request):
 

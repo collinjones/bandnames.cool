@@ -49,8 +49,6 @@ def read_in_list(bandnames_batch, num_bool, date_bool):
 
     return clean_list
 
-# == HELPER FUNCTIONS ==
-
 # create_bandname return True on successfull creation, False otherwise (if it already exists)
 def create_bandname(request, new_bandname, authenticated):
 
@@ -99,10 +97,12 @@ def get_client_ip(request):
 def get_bandnames(collection_len):
     
     bandnames = []
+    random_i = 0
 
     # This will prevent segfault when collection_len is less than 11
     for x in range(collection_len):
-        bandnames.append(Bandname.objects.all()[random.randint(0, collection_len-1)])
+        random_i = random.randint(0, collection_len-1)
+        bandnames.append(Bandname.objects.all()[random_i])
         if len(bandnames) == 11:
             break
 

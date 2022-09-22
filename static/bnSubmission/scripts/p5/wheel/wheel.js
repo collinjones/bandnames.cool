@@ -1,9 +1,8 @@
 /* p5 static/p5/wheel/wheel.js - class file containing the bandnames wheel */
+
 class Wheel {
 
     constructor(position, radius, color, bandnames) {
-
-
 
         /* Misc. attributes */
         this.states = { Stopped: "stopped", Spinning: "spinning" }  // States that the wheel can be in
@@ -17,9 +16,10 @@ class Wheel {
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
 
         /* Wheel settings */
-        this.stopVelocity = 0.0010;  // lower numbers stop the wheel at a higher velocity
+        this.stopVelocity = 0.10;  // lower numbers stop the wheel at a higher velocity
+        this.slower_velocity_threshold = 0.50;
         this.slowRate = -0.01;       // lower numbers slow the wheel faster
-        this.secondSlowRate = -0.05;
+        this.slow_rate_slower = -0.05;
         this.angle = 0;              // initial angle of wheel
         this.pastAngle = 0;          // previous frame angle
         this.angleV = 0.0;           // initial angle velocity
@@ -40,7 +40,6 @@ class Wheel {
 
     /* Repopulate wheel with new bandnames */
     repopulateWheel() {
-        console.log('repopulating')
         this.bandnamesOnWheel = {}
         this.populateWheel();
     }
@@ -87,7 +86,13 @@ class Wheel {
     /* Slow the wheel down if its spinning */
     slowDownWheel() {
         if (this.state == this.states.Spinning) {
-            this.angleV += this.angleV * this.slowRate;
+            console.log(this.angleV)
+            if (this.angleV <= this.slower_velocity_threshold){
+                console.log("NOW USING SLOWER RATE")
+                this.angleV += this.angleV * this.slow_rate_slower;
+            } else {
+                this.angleV += this.angleV * this.slowRate;
+            }
         }
     }
 

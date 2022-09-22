@@ -13,6 +13,7 @@ def index(request):
     form = CreateBandname()
     bandnames = []
     collection_len = Bandname.objects.count()
+    users_count = User.objects.count()
     cleaned_list = []
     voted_bandnames_objs = []
     profanity_filter = True
@@ -47,6 +48,8 @@ def index(request):
     # Is database empty?
     if len(cleaned_list) == 0:
         cleaned_list.append("NO BANDNAMES AVAILABLE")
+
+    print(f'{users_count = }')
 
     ctxt = {
         "title"     : "Submission Page",
