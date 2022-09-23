@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'bnSubmission',
     'accounts',
     'profanity',
-    'donations.apps.DonationsConfig',
 ]
 
 MIDDLEWARE = [
