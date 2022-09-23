@@ -8,6 +8,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profanity_filter = models.BooleanField(default=True)
     voted_bandnames = models.JSONField()
+    cumulative_score = models.IntegerField(default=0)
+    righteousness_level = models.CharField(default="Groupie", max_length=128) 
 
     def __str__(self):
         return str(self.user)

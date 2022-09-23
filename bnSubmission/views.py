@@ -18,6 +18,8 @@ def index(request):
     voted_bandnames_objs = []
     profanity_filter = True
 
+    # set_user_levels(User.objects.all())
+
     # Get 11 bandnames for the wheel
     bandnames = get_bandnames(collection_len)
 
