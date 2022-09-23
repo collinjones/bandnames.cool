@@ -93,3 +93,7 @@ tr {
 #voting-system{
     display: inherit;
 }
+
+#bandname-submit{
+    width:100px;
+}

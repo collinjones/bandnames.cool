@@ -15,6 +15,7 @@ var profanity_filter = "{{profanity_filter}}"
 </script>
 
 <script src="{% static 'bnSubmission/scripts/sort.js' %} "></script>
+<script src="{% static 'bnSubmission/scripts/button-swap.js' %} "></script>
 
 <!-- p5.js sketches  -->
 <script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
@@ -30,7 +31,7 @@ var profanity_filter = "{{profanity_filter}}"
             <h3> Submit a bandname </h3>
             <!-- {{form}} -->
             <input id="bandname">
-            <input id="bandname-submit" type="submit" class="pixelated-font" type="submit" value="Submit"></button>
+            <image id="bandname-submit" type="submit" src="{% static 'images/button-open.png' %}" value="Submit"></image>
         </form>
     </div>
 
