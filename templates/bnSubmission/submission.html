@@ -47,6 +47,7 @@ var profanity_filter = "{{profanity_filter}}"
     <!-- Div for the selected bandname from the wheel -->
     <div  class="vote-form-div" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="this slowpoke moves"  width="45"/></div>
     <div class="voted-history-div" id="voting-system">
+        <image src="{% static 'images/scroll.png' %}" id="scroll-img"></image>
         <form enctype="multipart/form-data" method="post" id="vote-form">
             {% csrf_token %}
             {% if user.is_authenticated %}
@@ -58,6 +59,7 @@ var profanity_filter = "{{profanity_filter}}"
             {% endif %}
         <form>
         <br>
+        
         <span> Bandnames you vote on will appear here </span>
         <div id="bandnames-table-div">
             <div class="tableHeaders">

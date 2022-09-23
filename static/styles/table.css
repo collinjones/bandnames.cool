@@ -73,8 +73,24 @@ tr {
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     overflow-x: hidden;
+    height: 178px;
 }
 
 #bandnames-table-div{
     width:100%;
+}
+
+#scroll-img{
+    width: 100%;
+}
+
+#vote-form{
+    position: absolute;
+    width: 288px !important;
+    margin-left: 57px;
+    margin-top: 50px;
+}
+
+#voting-system{
+    display: inherit;
 }
