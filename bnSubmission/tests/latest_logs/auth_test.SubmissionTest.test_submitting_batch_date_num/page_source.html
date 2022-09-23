@@ -1,0 +1,169 @@
+<base href="http://127.0.0.1:8000">
+<html lang="en"><head>  
+
+        <!-- Google tag (gtag.js) -->
+        <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5KNK42WR5H"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-5KNK42WR5H');
+        </script>
+        
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="180x180" href=" /static/images/apple-touch-icon.png ">
+        <link rel="icon" type="image/png" sizes="32x32" href=" /static/images/favicon-16x16.png ">
+        <link rel="icon" type="image/png" sizes="16x16" href=" /static/images/favicon-32x32.png ">
+        <link rel="manifest" href=" /static/images/site.webmanifest ">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href=" /static/styles/base.css ">
+        <link rel="stylesheet" type="text/css" href=" /static/styles/table.css ">
+        <link rel="stylesheet" type="text/css" href=" /static/accounts/styles/profile-style.css ">
+
+        <!-- jQuery libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+
+        <!-- General Settings -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>  </title>
+        <meta name="description" content="A community for submitting and voting on bandnames.">
+
+    </head>
+
+    <body>
+        <center>
+            <br> 
+<div>
+    
+        <span id="greetings-msg">Hi testuser1! </span><br><a href="/">Home</a> |
+        <a id="logout-link" href="/accounts/logout/">Log Out</a> |
+        <a id="batch-submit-link" href="/batch-submit">Batch Submit</a> |
+        <a id="profile-link" href="/accounts/profile/">Profile</a> |
+        
+    
+    
+    <a id="faq-link" href="/faq">FAQ</a>
+</div>
+        </center>
+        
+
+<h1 style="text-align: center;">Profile</h1>
+
+<h2 id="submission-status" style="text-align: center;"></h2>
+
+<form id="profile-form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="btqnRzWeptecKzyxkjohyg1JV6SmUbWLtdGa4HvGDClNTKMKzzhesvdyxk15HUP1">
+    <p>
+    <label for="id_profanity_filter">Profanity filter:</label>
+    <input type="checkbox" name="profanity_filter" id="id_profanity_filter">
+    
+    
+      
+    
+  </p>
+    <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" value="Submit">
+</form>
+
+<div id="bandnames-table-profile-wrapper">
+    <div id="bandnames-table-div-profile">
+        <div class="tableHeaders-profile">
+            <table id="bandnames-table-headers-profile">
+                <thead>
+                    <tr>
+                        <th onclick="sortBandname(1)" id="bandname-header-profile">Bandname</th>
+                        <th onclick="sortScore(2)" id="score-header-profile">Score</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="scroller-profile">
+            <table id="bandnames-table-profile">
+                <tbody id="bandnames-table-body-profile">
+                    
+                    <tr id="TEST2">
+                        <td id="del-btn-td">
+                            <form method="POST" id="remove-bandname-form-profile" enctype="multipart/form-data">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="btqnRzWeptecKzyxkjohyg1JV6SmUbWLtdGa4HvGDClNTKMKzzhesvdyxk15HUP1">
+                                <input class="delete-button-profile" data-counter="1" id="delete-button-profile1" type="image" src="/static/images/trash.png" value="TEST2">
+                            </form>
+                        </td>
+                        
+                            <td id="[[bandname.bandname]]" class="tooltip">TEST2
+                        
+                            <span class="tooltiptext">testuser1</span>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    
+                    <tr id="Test A">
+                        <td id="del-btn-td">
+                            <form method="POST" id="remove-bandname-form-profile" enctype="multipart/form-data">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="btqnRzWeptecKzyxkjohyg1JV6SmUbWLtdGa4HvGDClNTKMKzzhesvdyxk15HUP1">
+                                <input class="delete-button-profile" data-counter="2" id="delete-button-profile2" type="image" src="/static/images/trash.png" value="Test A">
+                            </form>
+                        </td>
+                        
+                            <td id="[[bandname.bandname]]" class="tooltip">Test A
+                        
+                            <span class="tooltiptext">testuser1</span>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    
+                    <tr id="Test B">
+                        <td id="del-btn-td">
+                            <form method="POST" id="remove-bandname-form-profile" enctype="multipart/form-data">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="btqnRzWeptecKzyxkjohyg1JV6SmUbWLtdGa4HvGDClNTKMKzzhesvdyxk15HUP1">
+                                <input class="delete-button-profile" data-counter="3" id="delete-button-profile3" type="image" src="/static/images/trash.png" value="Test B">
+                            </form>
+                        </td>
+                        
+                            <td id="[[bandname.bandname]]" class="tooltip">Test B
+                        
+                            <span class="tooltiptext">testuser1</span>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    
+                    <tr id="Test C">
+                        <td id="del-btn-td">
+                            <form method="POST" id="remove-bandname-form-profile" enctype="multipart/form-data">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="btqnRzWeptecKzyxkjohyg1JV6SmUbWLtdGa4HvGDClNTKMKzzhesvdyxk15HUP1">
+                                <input class="delete-button-profile" data-counter="4" id="delete-button-profile4" type="image" src="/static/images/trash.png" value="Test C">
+                            </form>
+                        </td>
+                        
+                            <td id="[[bandname.bandname]]" class="tooltip">Test C
+                        
+                            <span class="tooltiptext">testuser1</span>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    if("False" == "True"){
+        document.getElementById('id_profanity_filter').checked = true;
+    }
+</script>
+
+
+
+
+    
+
+    
+    <script type="text/javascript" src=" /static/accounts/scripts/profile.js "></script>
+    <script type="text/javascript" src=" /static/accounts/scripts/delete_bandname.js "></script>
+    
+</body><!-- AJAX scripts --></html>

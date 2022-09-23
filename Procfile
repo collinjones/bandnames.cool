@@ -1,1 +1,0 @@
-web gunicorn BandnamesWebsite.wsgi:application --log-file -
