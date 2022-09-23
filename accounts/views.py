@@ -3,12 +3,11 @@
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse_lazy
-from django.views import generic
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from accounts.forms import ProfileForm
-from .models import Profile
 from bnSubmission.models import Bandname
+from .utils import *
 
 from django.contrib.auth.models import User
 
@@ -50,9 +49,10 @@ def ProfileView(request):
     if request.user.is_authenticated:
 
         user_bandnames = Bandname.objects.filter(username=request.user.username).order_by('-score').values()
+        user = User.objects.get(pk=request.user.id)
         
-
-
+        set_user_score(user, user_bandnames)
+        
         template = "registration/profile.html"
         ctxt = {
             "user": request.user,

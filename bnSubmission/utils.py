@@ -145,12 +145,3 @@ def create_vote_json_response(request, voted_bandname, cleaned_list, table_templ
         'table_content_template': table_template
     }
     return json_response
-
-def set_user_levels(users):
-    for user in users:
-        user_bandnames = Bandname.objects.filter(username=user.username)
-        total_score = 0
-        for bandname in user_bandnames:
-            total_score += bandname.score
-        user.profile.cumulative_score = total_score
-        user.save()
