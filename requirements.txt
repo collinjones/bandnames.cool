@@ -18,7 +18,6 @@ decorator==5.1.1
 distlib==0.3.6
 dj-database-url==1.0.0
 Django==4.1
-django-donations==1.2.0
 django-heroku==0.3.1
 django-money==3.0.0
 django-profanity-filter==0.2.1
