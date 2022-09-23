@@ -68,12 +68,11 @@ tr {
 
 .scroller {
     width: inherit;
-    height: 350px;
     overflow-y: scroll;
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     overflow-x: hidden;
-    height: 178px;
+    height: 325px;
 }
 
 #bandnames-table-div{
@@ -86,8 +85,8 @@ tr {
 
 #vote-form{
     position: absolute;
-    width: 288px !important;
-    margin-left: 57px;
+    width: 307px !important;
+    margin-left: 68px;
     margin-top: 50px;
 }
 
