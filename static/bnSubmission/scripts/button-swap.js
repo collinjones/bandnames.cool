@@ -1,4 +1,3 @@
-
 function clicked () {
     var submit_button = document.getElementById("bandname-submit")
     submit_button.src="static/images/button-clicked.png"
