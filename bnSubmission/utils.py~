@@ -28,16 +28,15 @@ def read_in_list(bandnames_batch, num_bool, date_bool):
         for i in range(len(temp_list)):
             if temp_list[i] !=  "":
                 clean_list.append(temp_list[i].rstrip(")0123456789\/-.( "))
-        # Re-add the closing bracket if it one was detected
-        for char_idx in range(len(clean_list[i])):
-            if clean_list[i][char_idx] == "(":
-                clean_list[i] += ")"
-                break
+                # Re-add the closing bracket if it one was detected
+                for char_idx in range(len(clean_list[i])):
+                    if clean_list[i][char_idx] == "(":
+                        clean_list[i] += ")"
+                        break
 
-            if clean_list[i][char_idx] == "[":
-                clean_list[i] += "]"
-                break
-              
+                    if clean_list[i][char_idx] == "[":
+                        clean_list[i] += "]"
+                        break
     else:
         for i in range(len(user_submissions)):
             if user_submissions[i] != "":

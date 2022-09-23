@@ -20,7 +20,7 @@
     <form enctype="multipart/form-data" method="post" id="batch-submission-form">
         {% csrf_token %}
         {{form.as_p}}
-        <button id="batch_submit_button" name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Batch</button>
+        <button id="batch-submit-button" name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Batch</button>
     </form>
 </div>
 {% endblock %}
