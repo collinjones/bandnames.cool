@@ -31,7 +31,8 @@ var profanity_filter = "{{profanity_filter}}"
             <h3> Submit a bandname </h3>
             <!-- {{form}} -->
             <input id="bandname">
-            <image onmousedown="clicked()" onmouseup="resting()" id="bandname-submit" type="submit" src="{% static 'images/button-open.png' %}" value="Submit"></image>
+            <img onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png" />
+            </div>
         </form>
     </div>
 

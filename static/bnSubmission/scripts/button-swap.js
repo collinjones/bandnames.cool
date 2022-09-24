@@ -4,5 +4,10 @@ function clicked () {
 }
 function resting () {
     var submit_button = document.getElementById("bandname-submit")
-    submit_button.src="static/images/button-open.png"
+    submit_button.src="static/images/button.png"
+}
+
+function dragged () {
+    var submit_button = document.getElementById("bandname-submit")
+    submit_button.src="static/images/button.png"
 }
