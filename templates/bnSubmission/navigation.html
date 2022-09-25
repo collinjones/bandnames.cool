@@ -1,16 +1,20 @@
+{% load static %}
 <br> 
-<div>
-    {% if user.is_authenticated %}
-        <span id="greetings-msg">Hi {{ user.username }}! </span><br><a href="{% url 'submission' %}">Home</a> |
-        <a id="logout-link" href="{% url 'logout' %}">Log Out</a> |
-        <a id="batch-submit-link" href="{% url 'batchSubmission' %}">Batch Submit</a> |
-        <a id="profile-link" href="{% url 'profile' %}">Profile</a> |
+<div id = "outer-nav-div">
+    <image src="{% static 'images/stone-placard.png' %}" id="nav-img"></image>
+    <div id="inner-nav-div">
+        {% if user.is_authenticated %}
+            <span id="greetings-msg">Hi {{ user.username }}! </span><br><a href="{% url 'submission' %}">Home</a> |
+            <a id="logout-link" href="{% url 'logout' %}">Log Out</a> |
+            <a id="batch-submit-link" href="{% url 'batchSubmission' %}">Batch Submit</a> |
+            <a id="profile-link" href="{% url 'profile' %}">Profile</a> |
+            
         
-    
-    {% else %}
-        <span id="logged-out-span">You are not logged in</span> <br><a href="{% url 'submission' %}">Home</a> |
-        <a id="login-link" href="{% url 'login' %}">Log In</a> |
-        <a id="register-link" href="{% url 'registration' %}">Sign Up</a> |
-    {% endif %}
-    <a id = 'faq-link' href="{% url 'faq' %}">FAQ</a>
+        {% else %}
+            <span id="logged-out-span">You are not logged in</span> <br><a href="{% url 'submission' %}">Home</a> |
+            <a id="login-link" href="{% url 'login' %}">Log In</a> |
+            <a id="register-link" href="{% url 'registration' %}">Sign Up</a> |
+        {% endif %}
+        <a id = 'faq-link' href="{% url 'faq' %}">FAQ</a>
+    </div>
 </div>

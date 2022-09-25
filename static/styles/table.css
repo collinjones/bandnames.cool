@@ -83,6 +83,10 @@ tr {
     width: 100%;
 }
 
+#nav-img {
+    width:375px;
+}
+
 #vote-form{
     position: absolute;
     width: 307px !important;
@@ -96,4 +100,16 @@ tr {
 
 #bandname-submit{
     width:100px;
+}
+
+#inner-nav-div{
+    position: relative;
+    bottom: 75px;
+    text-align: center;
+}
+
+#outer-nav-div{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
 }

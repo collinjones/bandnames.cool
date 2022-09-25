@@ -23,3 +23,7 @@ input[type="text"] {
 .pixelated-font {
     font-family: 'Pixelated';
 }
+
+a {
+    color: hotpink;
+}
