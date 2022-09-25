@@ -61,43 +61,50 @@ var profanity_filter = "{{profanity_filter}}"
             {% endif %}
         <form>
         <br>
-        
-        <span> Bandnames you vote on will appear here </span>
-        <div id="bandnames-table-div">
-            <div class="tableHeaders">
-                <table id="bandnames-table-headers">
-                    <thead>
-                        <tr>
-                            <th onclick="sortBandname(1)">Bandname</th>
-                            <th onclick="sortScore(2)">Score</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="scroller">
-                <table id="bandnames-table">
-                    <tbody id='bandnames-table-body'>
-                        {% for bandname in voted_bandnames %}
-                        <tr id = "{{bandname}}">
-                            <td id="del-btn-td">
-                                <form method="POST" id="remove-bandname-form"  enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <input class="delete-button" data-counter="{{forloop.counter}}" id="delete-button{{forloop.counter}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
-                                </form>
-                            </td>
-                            {% if profanity_filter == True %}
-                                <td class="tooltip">{{bandname.bandname|censor}}
-                            {% else %}
-                                <td class="tooltip">{{bandname.bandname}}
-                            {% endif %}
-                                <span class="tooltiptext">{{bandname.username}}</span>
-                            </td>
-                            <td>{{bandname.score}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+
+        <table id="bandnames-table"  class="display">
+            <thead>
+                <tr>
+                    <th>TRASH</th>
+                    <th>BANDNAME</th>
+                    <th>SCORE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bandname in voted_bandnames %}
+                <tr id = "{{bandname}}">
+                    <td id="del-btn-td">
+                        <form method="POST" id="remove-bandname-form"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input class="delete-button" data-counter="{{forloop.counter}}" id="delete-button{{forloop.counter}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
+                        </form>
+                    </td>
+                    {% if profanity_filter == True %}
+                        <td class="tooltip">{{bandname.bandname|censor}}
+                    {% else %}
+                        <td class="tooltip">{{bandname.bandname}}
+                    {% endif %}
+                        <span class="tooltiptext">{{bandname.username}}</span>
+                    </td>
+                    <td>{{bandname.score}}</td>
+                    
+                </tr>
+                {% endfor %} -->
+                <!-- {% for bandname in voted_bandnames %}
+                <tr id = "{{bandname}}">
+                    
+                    {% if profanity_filter == True %}
+                        <td class="tooltip">{{bandname.bandname|censor}}
+                    {% else %}
+                        <td class="tooltip">{{bandname.bandname}}
+                    {% endif %}
+                        <span class="tooltiptext">{{bandname.username}}</span>
+                    </td>
+                    <td>{{bandname.score}}</td>
+                </tr>
+                {% endfor %} -->
+            </tbody>
+        </table>
         </div>
     </div>
 </div>

@@ -8,8 +8,8 @@ from django.shortcuts import render, redirect
 from accounts.forms import ProfileForm
 from bnSubmission.models import Bandname
 from .utils import *
-
 from django.contrib.auth.models import User
+
 
 def Registration(request):
 

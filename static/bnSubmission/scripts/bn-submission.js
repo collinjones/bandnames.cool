@@ -128,4 +128,10 @@ $("[id^=delete-button]").click(function(e) {
     });
 });
 
+$(document).ready(function () {
+    $('#bandnames-table').DataTable({
+        "scrollY": "200px"
+    });
+});
+
 
