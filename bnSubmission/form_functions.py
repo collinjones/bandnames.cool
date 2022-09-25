@@ -20,7 +20,10 @@ def create(request):
 
             # Check for rejects and return if found
             if check_for_reject(new_bandname_str):
-                json_response = { 'response_msg': 'Why would you try to submit that?' }
+                json_response = { 
+                    'response_msg': 'Why would you try to submit that?',
+                    'text_color': 'red'
+                }
                 return JsonResponse(json_response, safe = False)
 
             # Try to create a new bandname 
