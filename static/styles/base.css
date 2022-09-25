@@ -1,5 +1,5 @@
 html {
-    background-color: rgb(255, 204, 0);
+    background-image: url("../images/background.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;

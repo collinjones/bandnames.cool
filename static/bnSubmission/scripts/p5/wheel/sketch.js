@@ -89,7 +89,6 @@ function setup() {
 
     angleMode(DEGREES);
     ellipseMode(CENTER);
-    background(255, 204, 0)
     frameRate(60);
 
     button = select('#mute-button')
@@ -124,8 +123,6 @@ function objectsEqual(obj1, obj2) {
 }
 
 function draw() {
-
-    background(255, 204, 0)
 
     wheel.update();
 
