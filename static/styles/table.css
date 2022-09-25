@@ -17,6 +17,7 @@ th, td {
 }
 th {
     background: #d74141c6;
+    width:100%;
 }
 
 tr {
@@ -41,7 +42,7 @@ tr {
     text-align: center;
     position: relative;
     border-bottom: 1px dotted black;
-    width:80%;
+    width:50%;
     /* If you want dots under the hoverable text */
 }
 
