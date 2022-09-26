@@ -30,7 +30,7 @@
         <link rel="manifest" href=" {% static 'images/site.webmanifest' %} ">
 
         <!-- Custom CSS -->
-        <link rel="stylesheet" type="text/css" href=" {% static 'bnSubmission/styles/style.css' %} ">
+        <link rel="stylesheet" type="text/css" href=" {% static 'main/styles/style.css' %} ">
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/table.css' %} ">
 
@@ -50,13 +50,13 @@
     </head>
 
     <body>
-        {% include "bnSubmission/navigation.html" %}
+        {% include "main/navigation.html" %}
         {% block body %}
         {% endblock %}
     </body>
 
     
     <!-- AJAX scripts -->
-    <script type="text/javascript" src=" {% static 'bnSubmission/scripts/bn-submission.js' %} "></script>
+    <script type="text/javascript" src=" {% static 'main/scripts/bn-submission.js' %} "></script>
     
 </html>

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bnSubmission',
+    'main',
     'accounts',
     'profanity',
 ]
@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'BandnamesWebsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd3l2ehtckmuapj',
-        'HOST': 'ec2-54-91-223-99.compute-1.amazonaws.com',
-        'USER': 'yjjjexewuzgsdr',
+        'NAME': 'd9v4luaaj4636q',
+        'HOST': 'ec2-18-209-78-11.compute-1.amazonaws.com',
+        'USER': 'twlxyfwdxnprsi',
         'PORT': '5432',
-        'PASSWORD': 'c16207fe43f50ee01c9c88bb4eae986ce0c5019c6660680b6be3ac6e60cd3ff1',
+        'PASSWORD': '76defe56cb8d2d4b245a35c2ac6b7fcf29608916b6f7ff603f55f997a450195e',
     }
 }
 

@@ -6,4 +6,4 @@ _id,app_label,id,model
 6324b53cd1cb3b86df39f7dc,accounts,8,profile
 6324b53ad1cb3b86df39f7bf,auth,3,group
 6324b53bd1cb3b86df39f7cd,contenttypes,5,contenttype
-6324b53cd1cb3b86df39f7d7,bnSubmission,7,bandname
+6324b53cd1cb3b86df39f7d7,main,7,bandname

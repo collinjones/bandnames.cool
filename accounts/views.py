@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from accounts.forms import ProfileForm
-from bnSubmission.models import Bandname
+from main.models import Bandname
 from .utils import *
 from django.contrib.auth.models import User
 
@@ -17,6 +17,7 @@ def Registration(request):
     if request.method == "POST": 
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            print('hello')
             user = form.save()
             login(request, user)
             return redirect("/")

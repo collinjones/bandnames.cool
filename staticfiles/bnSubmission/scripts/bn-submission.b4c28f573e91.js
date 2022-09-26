@@ -35,7 +35,7 @@ $("#upvote-button" ).click(function(e) {
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
-                    $.getScript("/static/bnSubmission/scripts/remove_vote.js")
+                    $.getScript("/static/main/scripts/remove_vote.js")
                     $('#bandnames-table-body').prepend(data['bandname_json']['table_content_template'])
                 }
                 
@@ -68,7 +68,7 @@ $("#downvote-button" ).click(function(e) {
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
-                    $.getScript("/static/bnSubmission/scripts/remove_vote.js")
+                    $.getScript("/static/main/scripts/remove_vote.js")
                     $('#bandnames-table-body').prepend(data['bandname_json']['table_content_template'])
                 }
                 var bandnames = {}

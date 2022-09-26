@@ -84,7 +84,7 @@ def vote(request):
 
             bandnames = get_bandnames(Bandname.objects.count())
             cleaned_list = []
-            table_template = render_to_string("../templates/bnSubmission/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request) 
+            table_template = render_to_string("../templates/main/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request) 
 
             # Create a list of string of each bandname
             for new_bandname in bandnames:

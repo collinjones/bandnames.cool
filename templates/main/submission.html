@@ -1,4 +1,4 @@
-{% extends 'bnSubmission/base.html' %}
+{% extends 'main/base.html' %}
 
 {% load static %}
 {% load profanity %}
@@ -14,12 +14,12 @@ var profanity_filter = "{{profanity_filter}}"
 '{% endfor %}'
 </script>
 
-<script src="{% static 'bnSubmission/scripts/sort.js' %} "></script>
-<script src="{% static 'bnSubmission/scripts/button-swap.js' %} "></script>
+<script src="{% static 'main/scripts/sort.js' %} "></script>
+<script src="{% static 'main/scripts/button-swap.js' %} "></script>
 
 <!-- p5.js sketches  -->
-<script src="{% static 'bnSubmission/scripts/p5/wheel/wheel.js' %} "></script>
-<script src="{% static 'bnSubmission/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
+<script src="{% static 'main/scripts/p5/wheel/wheel.js' %} "></script>
+<script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
 <center>
 

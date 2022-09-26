@@ -81,11 +81,11 @@ def index(request):
         "form"      : form
     }
 
-    return render(request, "../templates/bnSubmission/submission.html", context=ctxt)
+    return render(request, "../templates/main/submission.html", context=ctxt)
 
 # Sets up and renders the FAQ page
 def faq(request):
-    template = "../templates/bnSubmission/faq.html"
+    template = "../templates/main/faq.html"
     ctxt = {
         "title": "FAQ"
     }
@@ -98,4 +98,4 @@ def batch_submit(request):
         "title": "Batch Submission Page",
         "form": form
     }
-    return render(request, "../templates/bnSubmission/batch_submission.html", context=ctxt)
+    return render(request, "../templates/main/batch_submission.html", context=ctxt)

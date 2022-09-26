@@ -74,7 +74,7 @@ def create_bandname(request, new_bandname, authenticated):
 # check_for_reject returns True if a reject word was found in bandname, False otherwise
 def check_for_reject(bandname):
 
-    auto_reject_words = open('static/bnSubmission/filters/slurs.txt', "r")
+    auto_reject_words = open('static/main/filters/slurs.txt', "r")
     for slur in auto_reject_words:
         if slur.strip().lower() in bandname.strip().lower():
             return True
