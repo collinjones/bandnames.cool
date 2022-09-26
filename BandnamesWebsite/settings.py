@@ -84,14 +84,12 @@ WSGI_APPLICATION = 'BandnamesWebsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'BandnamesWebsite',
-        'CLIENT': {
-            'host': MONGODB_HOST,
-            'username': MONGODB_USER,
-            'password': MONGODB_PWD,
-            'authMechanism': 'SCRAM-SHA-1'
-        }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd3l2ehtckmuapj',
+        'HOST': 'ec2-54-91-223-99.compute-1.amazonaws.com',
+        'USER': 'yjjjexewuzgsdr',
+        'PORT': '5432',
+        'PASSWORD': 'c16207fe43f50ee01c9c88bb4eae986ce0c5019c6660680b6be3ac6e60cd3ff1',
     }
 }
 
