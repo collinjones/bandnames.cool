@@ -10,8 +10,6 @@ from .form_functions import *
 # go through every single voted_bandnames list and remove entries that 
 # don't exist anymore.
 
-def convert_current_user(user):
-    user.profile.voted_bandnames_2.add(Bandname.objects.get(pk=1))
 
 def deleted_bandname_cleanup():
     bandnames = Bandname.objects.all()
@@ -50,7 +48,6 @@ def index(request):
     if request.user.is_authenticated:
 
         user = User.objects.get(pk=request.user.id)
-        convert_current_user(user)
         profanity_filter = user.profile.profanity_filter
         voted_bandnames = user.profile.voted_bandnames
         print(voted_bandnames)
