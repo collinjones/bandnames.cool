@@ -16,9 +16,9 @@ $("#profile-submit" ).click(function(e) {
 
 $(document).ready(function () {
     $('#bandnames-table-profile').DataTable({
-        "processing":true,
+        "processing": true,
         "serverSide": true,
-        "scrollY": "350",
+        "scrollY": "275",
         "scrollX": false,
         ajax: {
             "type" : "GET",

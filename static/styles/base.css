@@ -37,19 +37,21 @@ a {
 }
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
-    color: rgb(148, 148, 148) !important;
+    color: rgb(206, 206, 206) !important;
 }
 
 #user-ubmissions-div{
     width: 400px;
+    height: 500px;
     margin: auto;
+    position: relative;
 }
 
 #user-submissions-table{
-    bottom: 524px;
-    position: relative;
-    width: 380px;
-    margin-left: 11px;
+    bottom: -10px;
+    position: absolute;
+    width: 344px;
+    margin-left: 27px;
 }
 
 .score-header {

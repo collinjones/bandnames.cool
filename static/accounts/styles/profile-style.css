@@ -33,3 +33,18 @@
     margin-left: auto;
     margin-right:auto;
 }
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: rgb(150, 218, 156) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background: rgb(169, 169, 169) !important;
+    margin: auto !important;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    float: left;
+    text-align: left !important;
+    padding-top: 0.3em;
+}
