@@ -11,7 +11,7 @@ from .utils import *
 from django.contrib.auth.models import User
 
 
-def accounts(request):
+def Registration(request):
 
     # Handle form submission
     if request.method == "POST": 
@@ -26,7 +26,7 @@ def accounts(request):
     ctxt = {
         "form": form
     }
-    return render (request, "accounts/signup.html", ctxt)
+    return render (request, "registration/signup.html", ctxt)
 
 def ProfanityToggle(request):
     if request.method == "POST": 
@@ -53,7 +53,7 @@ def ProfileView(request):
         
         set_user_score(user, user_bandnames)
         
-        template = "accounts/profile.html"
+        template = "registration/profile.html"
         ctxt = {
             "user": request.user,
             "user_bandnames": user_bandnames,

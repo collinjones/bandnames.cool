@@ -7,5 +7,5 @@ from . import views
 urlpatterns = [
     path("profile/", views.ProfileView, name="profile"),
     path("ProfanityToggle/", views.ProfanityToggle, name="ProfanityToggle"),
-    path("accounts/", views.accounts, name="accounts"),
+    path("registration/", views.Registration, name="registration"),
 ]

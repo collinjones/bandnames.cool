@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.2736c8395c22.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -12,7 +12,7 @@ h1 {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('pixel.ttf');
+    src: url("pixel.6bb6308744b3.ttf");
 }
 
 input[type="text"] {

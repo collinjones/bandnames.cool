@@ -13,7 +13,7 @@
         {% else %}
             <span id="logged-out-span" style="color:white">You are not logged in</span> <br><a href="{% url 'submission' %}">Home</a> |
             <a id="login-link" href="{% url 'login' %}">Log In</a> |
-            <a id="register-link" href="{% url 'accounts' %}">Sign Up</a> |
+            <a id="register-link" href="{% url 'registration' %}">Sign Up</a> |
         {% endif %}
         <a id = 'faq-link' href="{% url 'faq' %}">FAQ</a>
     </div>
