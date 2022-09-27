@@ -61,16 +61,16 @@ def ProfileView(request):
 
 def get_rows(request):
     if request.method == "GET":
-        print('ORDERING BANDNAME: ', request.GET.get('order[0][dir]'))
-        print('ORDERING SCORE:    ', request.GET.get('order[1][dir]'))
-        if request.GET.get('order[0][dir]') == 'desc':
+        column_id = int(request.GET.get('order[0][column]'))
+        direction = request.GET.get('order[0][dir]')
+        if column_id == 0 and direction == "desc":
             user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('-bandname')
-        if request.GET.get('order[0][dir]') == 'asc':
+        if column_id == 0 and direction == "asc":
             user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('bandname')
         
-        if request.GET.get('order[1][dir]') == 'desc':
+        if column_id == 1 and direction == "desc":
             user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('-score')
-        if request.GET.get('order[1][dir]') == 'asc':
+        if column_id == 1 and direction == "asc":
             user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('score')
         
         submission_count = user_submissions.count()

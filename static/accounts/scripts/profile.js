@@ -25,8 +25,8 @@ $(document).ready(function () {
             "url": "/registration/profile/get_rows"
         },
         columns: [
-            {"data": "bandname"},
-            {"data": "score"},
+            {data: "bandname"},
+            {data: "score"},
         ]
     });
 });
