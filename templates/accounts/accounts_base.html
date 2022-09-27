@@ -14,7 +14,7 @@
 
             gtag('config', 'G-5KNK42WR5H');
         </script>
-        
+
         <!-- Favicons -->
         <link rel="apple-touch-icon" sizes="180x180" href=" {% static 'images/apple-touch-icon.png' %} ">
         <link rel="icon" type="image/png" sizes="32x32" href=" {% static 'images/favicon-16x16.png' %} ">
@@ -37,6 +37,9 @@
         <title> {% block title %} {% endblock %}</title>
         <meta name="description" content="A community for submitting and voting on bandnames.">
 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
     </head>
 
     <body>
@@ -50,5 +53,4 @@
     <!-- AJAX scripts -->
     <script type="text/javascript" src=" {% static 'accounts/scripts/profile.js' %} "></script>
     <script type="text/javascript" src=" {% static 'accounts/scripts/delete_bandname.js' %} "></script>
-    
 </html>

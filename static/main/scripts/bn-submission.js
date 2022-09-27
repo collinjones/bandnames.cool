@@ -132,8 +132,11 @@ $(document).ready(function () {
     $('#bandnames-table').DataTable({
         'columnDefs': [{ 'orderable': false, 'targets': 0 }],
         "scrollY": "200px",
-        'order': [[ 1, "asc" ]]
+        'order': [[ 2, "dec" ]],
+        "scrollX": false
     });
 });
+
+
 
 

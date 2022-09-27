@@ -1,4 +1,4 @@
-{% extends 'registration/registration_base.html' %}
+{% extends 'accounts/accounts_base.html' %}
 
 {% load static %}
 {% load profanity %}
@@ -15,7 +15,42 @@
     <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
 </form>
 
-<div id = "bandnames-table-profile-wrapper">
+<div id="user-ubmissions-div" style="color: rgb(168, 168, 168);">
+    <image src="{% static 'images/large-placcard.png' %}" id="placcard-img"></image>
+    <div id = "user-submissions-table">
+        <table id="bandnames-table-profile"  class="display dt-center">
+            <thead>
+                <tr>
+                    <th class="sorting_disabled" style="width:25px"></th>
+                    <th>BANDNAME</th>
+                    <th class="score-header">SCORE</th>
+                </tr>
+            </thead>
+            <tbody id='bandnames-table-body-profile'>
+                {% for bandname in user_bandnames %}
+                <tr id = "{{bandname}}">
+                    <td id="del-btn-td">
+                        <form method="POST" id="remove-bandname-form-profile"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input class="delete-button-profile" data-counter="{{forloop.counter}}" id="delete-button-profile{{forloop.counter}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
+                        </form>
+                    </td>
+                    {% if profanity_filter == True %}
+                    <td id="[[bandname.bandname]]" class="tooltip">{{bandname.bandname|censor}}
+                    {% else %}
+                        <td id="[[bandname.bandname]]" class="tooltip">{{bandname.bandname}}
+                    {% endif %}
+                        <span class="tooltiptext">{{bandname.username}}</span>
+                    </td>
+                    <td style="text-align: center;">{{bandname.score}}</td>       
+                </tr>
+                {% endfor %} -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- <div id = "bandnames-table-profile-wrapper">
     <div id="bandnames-table-div-profile">
         <div class="tableHeaders-profile">
             <table id="bandnames-table-headers-profile">
@@ -52,7 +87,7 @@
             </table>
         </div>
     </div>
-</div>
+</div> -->
 
 <script>
     if("{{user.profile.profanity_filter}}" == "True"){

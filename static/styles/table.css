@@ -15,10 +15,6 @@ table.dataTable tbody td {
     padding: 0px !important;
 }
 
-.dataTables_scrollHeadInner {
-    width: 300px !important
-}
-
 .display {
     width: 300px !important
 }
@@ -97,12 +93,12 @@ tr {
     width:425px;
 }
 
-#vote-form{
+#vote-form {
     position: absolute;
-    width: 307px !important;
+    width: 302px !important;
     margin-left: 68px;
-    margin-top: 50px;
-}
+    margin-top: 23px;
+  }
 
 #voting-system{
     display: inherit;
@@ -123,3 +119,4 @@ tr {
     margin-right: auto;
     display: table;
 }
+
