@@ -1,7 +1,7 @@
 {% load static %}
 <br> 
 <div id = "outer-nav-div">
-    <image src="{% static 'images/stone-placard.png' %}" id="nav-img"></image>
+    <image draggable = false src="{% static 'images/stone-placard.png' %}" id="nav-img"></image>
     <div id="inner-nav-div">
         {% if user.is_authenticated %}
             <span id="greetings-msg" style="color:white">Hi {{ user.username }}! </span><br><a href="{% url 'submission' %}">Home</a> |
