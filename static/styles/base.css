@@ -33,7 +33,7 @@ a {
 }
 
 #placcard-img{
-    width: 450px;
+    width: 400px;
 }
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
@@ -46,10 +46,10 @@ a {
 }
 
 #user-submissions-table{
-    bottom: 34px;
+    bottom: 90px;
     position: absolute;
-    width: inherit;
-    left: 324px;
+    width: 380px;
+    margin-left: 11px;
 }
 
 .score-header {

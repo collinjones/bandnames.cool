@@ -17,7 +17,7 @@ $("#profile-submit" ).click(function(e) {
 $(document).ready(function () {
     $('#bandnames-table-profile').DataTable({
         'columnDefs': [{ 'orderable': false, 'targets': 0 , className: 'dt-center'}],
-        "scrollY": "375",
+        "scrollY": "300",
         'order': [[ 2, "dec" ]],
         "scrollX": false
     });
