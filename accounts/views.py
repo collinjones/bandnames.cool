@@ -61,18 +61,33 @@ def ProfileView(request):
 
 def get_rows(request):
     if request.method == "GET":
+        search_query = request.GET.get('search[value]')
         column_id = int(request.GET.get('order[0][column]'))
         direction = request.GET.get('order[0][dir]')
+        username = username=request.user.username
+
         if column_id == 0 and direction == "desc":
-            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('-bandname')
+            user_submissions = Bandname.objects.filter(username=username).all().order_by('-bandname')
         if column_id == 0 and direction == "asc":
-            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('bandname')
+            user_submissions = Bandname.objects.filter(username=username).all().order_by('bandname')
         
         if column_id == 1 and direction == "desc":
-            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('-score')
+            user_submissions = Bandname.objects.filter(username=username).all().order_by('-score')
         if column_id == 1 and direction == "asc":
-            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('score')
+            user_submissions = Bandname.objects.filter(username=username).all().order_by('score')
         
+        if search_query:
+            user_submissions = Bandname.objects.filter(bandname__icontains=search_query, username=username)
+            if column_id == 0 and direction == "desc":
+                user_submissions = Bandname.objects.filter(bandname__icontains=search_query, username=username).order_by('-bandname')
+            if column_id == 0 and direction == "asc":
+                user_submissions = Bandname.objects.filter(bandname__icontains=search_query, username=username).order_by('bandname')
+            
+            if column_id == 1 and direction == "desc":
+                user_submissions = Bandname.objects.filter(bandname__icontains=search_query, username=username).order_by('-score')
+            if column_id == 1 and direction == "asc":
+                user_submissions = Bandname.objects.filter(bandname__icontains=search_query, username=username).order_by('score')
+
         submission_count = user_submissions.count()
         _start = request.GET.get('start')
         _length = request.GET.get('length')
