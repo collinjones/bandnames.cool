@@ -130,7 +130,9 @@ $("[id^=delete-button]").click(function(e) {
 
 $(document).ready(function () {
     $('#bandnames-table').DataTable({
-        "scrollY": "200px"
+        'columnDefs': [{ 'orderable': false, 'targets': 0 }],
+        "scrollY": "200px",
+        'order': [[ 1, "asc" ]]
     });
 });
 

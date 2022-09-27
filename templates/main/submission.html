@@ -14,7 +14,6 @@ var profanity_filter = "{{profanity_filter}}"
 '{% endfor %}'
 </script>
 
-<script src="{% static 'main/scripts/sort.js' %} "></script>
 <script src="{% static 'main/scripts/button-swap.js' %} "></script>
 
 <!-- p5.js sketches  -->
@@ -65,9 +64,9 @@ var profanity_filter = "{{profanity_filter}}"
         <table id="bandnames-table"  class="display">
             <thead>
                 <tr>
-                    <th>TRASH</th>
+                    <th class="sorting_disabled" style="width:25px"></th>
                     <th>BANDNAME</th>
-                    <th>SCORE</th>
+                    <th style="width:35px">SCORE</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,19 +87,6 @@ var profanity_filter = "{{profanity_filter}}"
                     </td>
                     <td>{{bandname.score}}</td>
                     
-                </tr>
-                {% endfor %} -->
-                <!-- {% for bandname in voted_bandnames %}
-                <tr id = "{{bandname}}">
-                    
-                    {% if profanity_filter == True %}
-                        <td class="tooltip">{{bandname.bandname|censor}}
-                    {% else %}
-                        <td class="tooltip">{{bandname.bandname}}
-                    {% endif %}
-                        <span class="tooltiptext">{{bandname.username}}</span>
-                    </td>
-                    <td>{{bandname.score}}</td>
                 </tr>
                 {% endfor %} -->
             </tbody>

@@ -17,7 +17,6 @@ def Registration(request):
     if request.method == "POST": 
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            print('hello')
             user = form.save()
             login(request, user)
             return redirect("/")

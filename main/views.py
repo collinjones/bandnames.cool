@@ -34,7 +34,6 @@ def index(request):
     form = CreateBandname()
     bandnames = []
     collection_len = Bandname.objects.count()
-    # users_count = User.objects.count()
     cleaned_list = []
     voted_bandnames_objs = []
     profanity_filter = True
@@ -50,7 +49,6 @@ def index(request):
         user = User.objects.get(pk=request.user.id)
         profanity_filter = user.profile.profanity_filter
         voted_bandnames = user.profile.voted_bandnames
-        print(voted_bandnames)
 
         # If user has voted on atleast one bandname, search for each bandname in the db
         if voted_bandnames is not None:
