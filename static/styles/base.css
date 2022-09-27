@@ -46,8 +46,8 @@ a {
 }
 
 #user-submissions-table{
-    bottom: 90px;
-    position: absolute;
+    bottom: 524px;
+    position: relative;
     width: 380px;
     margin-left: 11px;
 }

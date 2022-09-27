@@ -1,5 +1,6 @@
 # accounts/views.py
 
+import math
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse_lazy
@@ -9,6 +10,7 @@ from accounts.forms import ProfileForm
 from main.models import Bandname
 from .utils import *
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 
 def Registration(request):
@@ -45,18 +47,10 @@ def ProfanityToggle(request):
 def ProfileView(request):
 
     form = ProfileForm
-    
-    if request.user.is_authenticated:
-
-        user_bandnames = Bandname.objects.filter(username=request.user.username).order_by('-score').values()
-        user = User.objects.get(pk=request.user.id)
-        
-        set_user_score(user, user_bandnames)
-        
+    if request.user.is_authenticated:        
         template = "registration/profile.html"
         ctxt = {
             "user": request.user,
-            "user_bandnames": user_bandnames,
             "profanity_filter": request.user.profile.profanity_filter,
             "form": form
         }
@@ -64,3 +58,40 @@ def ProfileView(request):
         return redirect("/")
 
     return render(request, template, context=ctxt)
+
+def get_rows(request):
+    if request.method == "GET":
+        print('ORDERING BANDNAME: ', request.GET.get('order[0][dir]'))
+        print('ORDERING SCORE:    ', request.GET.get('order[1][dir]'))
+        if request.GET.get('order[0][dir]') == 'desc':
+            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('-bandname')
+        if request.GET.get('order[0][dir]') == 'asc':
+            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('bandname')
+        
+        if request.GET.get('order[1][dir]') == 'desc':
+            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('-score')
+        if request.GET.get('order[1][dir]') == 'asc':
+            user_submissions = Bandname.objects.filter(username=request.user.username).all().order_by('score')
+        
+        submission_count = user_submissions.count()
+        _start = request.GET.get('start')
+        _length = request.GET.get('length')
+        page = 0
+        length = 0
+        per_page = 10
+        if _start and _length:
+            start = int(_start)
+            length = int(_length)
+            page = math.ceil(start / length) + 1
+            per_page = length
+            user_submissions = user_submissions[start:start + length]
+
+        data = [{'bandname': bandname.bandname, 'score': bandname.score} for bandname in user_submissions]
+        response = {
+            "data": data,
+            "page": page,
+            "per_page": per_page,
+            "recordsTotal": submission_count,
+            "recordsFiltered": submission_count,
+        }
+        return JsonResponse(response)

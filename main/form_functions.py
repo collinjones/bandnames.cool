@@ -116,7 +116,7 @@ def batch_create(request):
 
                 # Convert submitted data into a list
                 batchList = read_in_list(form.cleaned_data['bandnames'], form.cleaned_data['numbered'], form.cleaned_data['dated'])
-                print(batchList)
+                
                 # Check for rejects and return early if any are found
                 if check_for_reject(new_bandname_str):
                     json_response = { 'response_msg': 'Why would you try to submit that?' }
