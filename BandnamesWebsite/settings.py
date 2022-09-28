@@ -18,7 +18,7 @@ import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+DATABASE_URL = "postgres://zwibikahyiyveu:238ba98027834e8c27496131f955e18c2f21ae74a75dc3f4dd2b7e7463ed18b8@ec2-52-23-131-232.compute-1.amazonaws.com:5432/davfa3qiqfs8fn"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'BandnamesWebsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 DATABASES = {}
-DATABASES['default'] =  dj_database_url.config(default='postgres://zwibikahyiyveu:238ba98027834e8c27496131f955e18c2f21ae74a75dc3f4dd2b7e7463ed18b8@ec2-52-23-131-232.compute-1.amazonaws.com:5432/davfa3qiqfs8fn')
+DATABASES['default'] =  dj_database_url.config(default=DATABASE_URL, ssl_require=True)
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
