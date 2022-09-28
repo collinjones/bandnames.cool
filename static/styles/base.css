@@ -88,3 +88,10 @@ table.dataTable {
 #submit-img{
     width: 234px;
 }
+
+.odd {
+    background-color: rgba(223, 223, 223, 0.44) !important;
+}
+.even {
+    background-color: rgba(255, 255, 255, 0.16) !important;
+}
