@@ -1,24 +1,15 @@
 {% load static %}
-<br> 
 <div id = "outer-nav-div">
-    <image draggable = false src="{% static 'images/stone-placard.png' %}" id="nav-img"></image>
     <div id="inner-nav-div">
-        {% if user.is_authenticated %}
-            <span id="greetings-msg" style="color:white">Hi {{ user.username }}! </span><br><a href="{% url 'submission' %}">Home</a> |
-            <a id="logout-link" href="{% url 'logout' %}">Log Out</a> |
-            <a id="batch-submit-link" href="{% url 'batchSubmission' %}">Batch Submit</a> |
-            <a id="profile-link" href="{% url 'profile' %}">Profile</a> |
-            
-        
-        {% else %}
-            <span id="logged-out-span" style="color:white">You are not logged in</span> <br><a href="{% url 'submission' %}">Home</a> |
-            <a id="login-link" href="{% url 'login' %}">Log In</a> |
-            <a id="register-link" href="{% url 'registration' %}">Sign Up</a> |
-        {% endif %}
-        <a id = 'faq-link' href="{% url 'faq' %}">FAQ</a><br>
-        <a target="_blank" href="https://twitter.com/bandnamescool">
-            <image  src = "{% static 'images/twitter.png' %}" style="width:30px; padding: 5px"/>
-        </a>
-        
+        {% if user.is_authenticated %}<span id="greetings-msg" style="color:white; display: block">Hi {{ user.username }}! </span><a href="{% url 'submission' %}">Home</a><span style="color:white;"> |</span>
+            <a id="logout-link" href="{% url 'logout' %}">Log Out</a><span style="color:white;"> |</span>
+            <a id="batch-submit-link" href="{% url 'batchSubmission' %}">Batch Submit</a> <span style="color:white;"> |</span>
+            <a id="profile-link" href="{% url 'profile' %}">Profile</a> <span style="color:white;"> |</span>
+        {% else %}<span id="logged-out-span" style="color:white; display: block;">You are not logged in </span>
+            <a href="{% url 'submission' %}">Home</a><span style="color:white;"> | </span><a id="login-link" href="{% url 'login' %}">Log In</a><span style="color:white;"> | </span><a id="register-link" href="{% url 'registration' %}">Sign Up</a><span style="color:white;"> | </span><a id = 'faq-link' href="{% url 'faq' %}">FAQ</a>
+        {% endif %} 
+        <a target="_blank" href="https://twitter.com/bandnamescool" style="display: block;"><image  src = "{% static 'images/twitter.png' %}" style="width:30px; padding: 5px"/></a>
+        </div>
+        <image draggable = false src="{% static 'images/stone-placard.png' %}" id="nav-img"></image>
     </div>
 </div>
