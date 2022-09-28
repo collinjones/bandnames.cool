@@ -68,10 +68,12 @@ table.dataTable tbody td {
 #scroll-img{
     width: 100%;
     height: 515px;
+    
 }
 
 #nav-img {
     width:425px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
 }
 
 #voting-system{
