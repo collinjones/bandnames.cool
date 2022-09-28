@@ -10,4 +10,5 @@ urlpatterns = [
     path('faq', views.faq, name='faq'),
     path('remove_bandname', views.remove_bandname, name='remove_bandname'),
     path('delete_bandname', views.delete_bandname, name='delete_bandname'),
+    path('get_voted_history', views.get_voted_history, name='get_voted_history'),
 ]

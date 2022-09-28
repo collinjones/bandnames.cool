@@ -1,16 +1,3 @@
-.fixTableHead {
-    overflow-y: auto;
-    width: 400px;
-}
-.fixTableHead thead th {
-    position: sticky;
-    top: 0;
-}
-
-table {
-    border-collapse: collapse;
-    table-layout: fixed;
-}
 table.dataTable tbody td {
     padding: 0px !important;
 }
@@ -18,16 +5,9 @@ table.dataTable tbody td {
 .display {
     width: 300px !important
 }
+
 .dataTable {
     width: 300px !important
-}
-th {
-    background: #d74141c6;
-    width:100%;
-}
-
-tr {
-    width:100%;
 }
 
 .delete-button {
@@ -87,21 +67,16 @@ tr {
 
 #scroll-img{
     width: 100%;
+    height: 515px;
 }
 
 #nav-img {
     width:425px;
 }
 
-#vote-form {
-    position: absolute;
-    width: 302px !important;
-    margin-left: 68px;
-    margin-top: 23px;
-  }
-
 #voting-system{
     display: inherit;
+    position: relative;
 }
 
 #bandname-submit{
@@ -121,4 +96,13 @@ tr {
     display: table;
     width: 420px;
     position: relative;
+}
+
+table.dataTable thead th {
+    padding: 0 !important;
+    text-align: center !important;
+}
+
+table.dataTable tbody td {
+    text-align: center !important;
 }

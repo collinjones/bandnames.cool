@@ -82,19 +82,8 @@ WSGI_APPLICATION = 'BandnamesWebsite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd9v4luaaj4636q',
-        'HOST': 'ec2-18-209-78-11.compute-1.amazonaws.com',
-        'USER': 'twlxyfwdxnprsi',
-        'PORT': '5432',
-        'PASSWORD': '76defe56cb8d2d4b245a35c2ac6b7fcf29608916b6f7ff603f55f997a450195e',
-    }
-}
-
-
+DATABASES = {}
+DATABASES['default'] =  dj_database_url.config(default='postgres://zwibikahyiyveu:238ba98027834e8c27496131f955e18c2f21ae74a75dc3f4dd2b7e7463ed18b8@ec2-52-23-131-232.compute-1.amazonaws.com:5432/davfa3qiqfs8fn')
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 

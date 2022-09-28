@@ -36,10 +36,6 @@ a {
     width: 400px;
 }
 
-.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
-    color: rgb(206, 206, 206) !important;
-}
-
 #user-ubmissions-div{
     width: 400px;
     height: 500px;
@@ -87,4 +83,8 @@ table.dataTable {
 
 .current {
     color: rgb(63, 110, 54);
+}
+
+#submit-img{
+    width: 234px;
 }

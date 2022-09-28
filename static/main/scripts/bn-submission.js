@@ -129,11 +129,22 @@ $("[id^=delete-button]").click(function(e) {
 });
 
 $(document).ready(function () {
-    $('#bandnames-table').DataTable({
-        'columnDefs': [{ 'orderable': false, 'targets': 0 }],
-        "scrollY": "200px",
-        'order': [[ 2, "dec" ]],
-        "scrollX": false
+    $('#bandnames-table-voted').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "scrollY": "100",
+        "scrollX": false,
+        "columnDefs": [
+            { "width": "20px", "targets": 1 }
+        ],
+        ajax: {
+            "type" : "GET",
+            "url": "/get_voted_history"
+        },
+        columns: [
+            {data: "bandname"},
+            {data: "score"},
+        ]
     });
 });
 

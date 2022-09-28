@@ -21,77 +21,52 @@ var profanity_filter = "{{profanity_filter}}"
 <script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
 <center>
-
+    <h2 id='submission-status'></h2>
     <!-- Submission form div -->
     <div id = "submission-form">
-        <h2 id='submission-status'></h2>
-        <form enctype="multipart/form-data" method="post" id="post-form">
+        <div id="submission-img-contents">
             <span>Bandnames: {{count}}</span>
             <h3> Submit a bandname </h3>
-            <!-- {{form}} -->
-            <input id="bandname">
-            <img class="noselect" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png" />
-            </div>
-        </form>
+            <form enctype="multipart/form-data" method="post" id="post-form">
+                <input id="bandname">
+                <img class="noselect" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
+            </form>
+        </div>
+        <image draggable = false src="{% static 'images/placard-square.png' %}" id="submit-img"></image>
     </div>
 
     <button id="spin-button" class="pixelated-font">Spin Wheel</button>
     <button id="stop-button" class="pixelated-font">Stop Wheel</button>
     <button id="mute-button" class="pixelated-font">Mute Wheel</button><br>
     <input type="range" min="0" max="0.1" value="0" id="volume-slider" step="0.001">
-
+    <h3 class="vote-form-div" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
+    <form enctype="multipart/form-data" method="post" id="vote-form">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+            <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font">Upvote</button>
+            <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font">Downvote</button>
+        {% else %}
+            <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Upvote</button>
+            <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Downvote</button>
+        {% endif %}
+    </form>
 </center>
 
 <div class = "sketch-grid-container">
     <!-- Div for the p5.js sketch (Bandname Wheel) -->
     <div class = "sketch-div" id = "sketch-holder" style="touch-action:none"></div>
     <!-- Div for the selected bandname from the wheel -->
-    <div  class="vote-form-div" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="this slowpoke moves"  width="45"/></div>
     <div class="voted-history-div" id="voting-system">
         <image draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img"></image>
-        <form enctype="multipart/form-data" method="post" id="vote-form">
-            {% csrf_token %}
-            {% if user.is_authenticated %}
-                <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font">Upvote</button>
-                <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font">Downvote</button><br>
-            {% else %}
-                <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Upvote</button>
-                <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Downvote</button><br>
-            {% endif %}
-        <form>
-        <br>
-
-        <table id="bandnames-table"  class="display">
+        <table id="bandnames-table-voted"  class="display">
             <thead>
                 <tr>
-                    <th class="sorting_disabled" style="width:25px"></th>
                     <th>BANDNAME</th>
-                    <th style="width:35px">SCORE</th>
+                    <th class="score-header">SCORE</th>
                 </tr>
             </thead>
-            <tbody>
-                {% for bandname in voted_bandnames %}
-                <tr id = "{{bandname}}">
-                    <td id="del-btn-td">
-                        <form method="POST" id="remove-bandname-form"  enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input class="delete-button" data-counter="{{forloop.counter}}" id="delete-button{{forloop.counter}}" type="image" src="{% static 'images/trash.png' %}" value="{{bandname.bandname}}">
-                        </form>
-                    </td>
-                    {% if profanity_filter == True %}
-                        <td class="tooltip">{{bandname.bandname|censor}}
-                    {% else %}
-                        <td class="tooltip">{{bandname.bandname}}
-                    {% endif %}
-                        <span class="tooltiptext">{{bandname.username}}</span>
-                    </td>
-                    <td>{{bandname.score}}</td>
-                    
-                </tr>
-                {% endfor %} 
-            </tbody>
+            <tbody id='bandnames-table-voted-body'></tbody>
         </table>
-        </div>
     </div>
 </div>
 
