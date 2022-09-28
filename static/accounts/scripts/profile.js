@@ -18,7 +18,7 @@ $(document).ready(function () {
     $('#bandnames-table-profile').DataTable({
         "processing": true,
         "serverSide": true,
-        "scrollY": "275",
+        "scrollY": "340",
         "scrollX": false,
         ajax: {
             "type" : "GET",

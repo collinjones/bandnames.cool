@@ -132,7 +132,7 @@ $(document).ready(function () {
     $('#bandnames-table-voted').DataTable({
         "processing": true,
         "serverSide": true,
-        "scrollY": "100",
+        "scrollY": "160",
         "scrollX": false,
         "columnDefs": [
             { "width": "20px", "targets": 1 }
