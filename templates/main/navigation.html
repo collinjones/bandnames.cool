@@ -1,15 +1,29 @@
 {% load static %}
 <div id = "outer-nav-div">
     <div id="inner-nav-div">
-        {% if user.is_authenticated %}<span id="greetings-msg" style="color:white; display: block">Hi {{ user.username }}! </span><a href="{% url 'submission' %}">Home</a><span style="color:white;"> |</span>
-            <a id="logout-link" href="{% url 'logout' %}">Log Out</a><span style="color:white;"> |</span>
-            <a id="batch-submit-link" href="{% url 'batchSubmission' %}">Batch Submit</a> <span style="color:white;"> |</span>
+        {% if user.is_authenticated %}
+            <span id="greetings-msg" style="color:white; display: block">Hi {{ user.username }}! </span><a href="{% url 'submission' %}">Home</a><span style="color:white;"> |</span>
             <a id="profile-link" href="{% url 'profile' %}">Profile</a> <span style="color:white;"> |</span>
+            <a id="batch-submit-link" href="{% url 'batchSubmission' %}">Batch</a> <span style="color:white;"> |</span>
+            <a id="logout-link" href="{% url 'logout' %}">Log Out</a><span style="color:white;"> |</span>      
         {% else %}<span id="logged-out-span" style="color:white; display: block;">You are not logged in </span>
-            <a href="{% url 'submission' %}">Home</a><span style="color:white;"> | </span><a id="login-link" href="{% url 'login' %}">Log In</a><span style="color:white;"> | </span><a id="register-link" href="{% url 'registration' %}">Sign Up</a><span style="color:white;"> | </span><a id = 'faq-link' href="{% url 'faq' %}">FAQ</a>
+            <a href="{% url 'submission' %}">Home</a><span style="color:white;"> | </span>
+            <a id="login-link" href="{% url 'login' %}">Log In</a><span style="color:white;"> | </span>
+            <a id="register-link" href="{% url 'registration' %}">Sign Up</a><span style="color:white;"> | </span>
         {% endif %} 
+        <a id = 'faq-link' href="{% url 'faq' %}">FAQ</a>
         <a target="_blank" href="https://twitter.com/bandnamescool" style="display: block;"><image  src = "{% static 'images/twitter.png' %}" style="width:30px; padding: 5px"/></a>
         </div>
         <image draggable = false src="{% static 'images/stone-placard.png' %}" id="nav-img"></image>
     </div>
 </div>
+
+<script>
+    current = 0;
+    for (var i = 0; i < document.links.length; i++) {
+        if (document.links[i].href === document.URL) {
+            current = i;
+        }
+    }
+    document.links[current].className = 'current';
+</script>
