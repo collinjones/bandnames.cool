@@ -271,7 +271,7 @@ table.dataTable tbody td {
 #submission-img-contents {
     color: #aeaeae;
     position: absolute;
-    top: 35px;
+    top: 15px;
 }
 
 .sketch-grid-container {
@@ -351,7 +351,7 @@ table.dataTable tbody td {
     margin-right: 0px !important;
     margin-top: 10px !important;
     margin-bottom: 0px !important;   
-    width: 70px;
+    width: 100px;
 }
 
 .image { 
