@@ -1,3 +1,5 @@
+
+
 .delete-button-profile{
     width:25px;
 }
@@ -51,4 +53,16 @@
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
     color: #9f9f9f !important;
-  }
+}
+
+.cursor-text {
+    cursor: url("../../images/cursor-text.png"), auto;
+}
+
+.cursor-default {
+    cursor: url("../../images/cursor-default.png"), auto;
+}
+
+.cursor-horns {
+    cursor: url("../../images/cursor-horns.png"), auto !important;
+}
