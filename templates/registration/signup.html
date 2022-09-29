@@ -1,16 +1,42 @@
 {% extends 'registration/accounts_base.html' %}
-
+{% load static %}
 {% block body %}
 
-<center>
-  <div id = 'signup-form-div' style="font-family: Pixelated">
+<div id = "signup-div">
+  <image draggable = false src="{% static 'images/placard-square.png' %}" id="signup-img"></image>
+  <div id="signup-div-content">
     <h1>Signup</h1>
-    <form method="POST", id = 'signup-form'>
+    <form role="form" class="form-horizontal" method="POST">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button id="user-signup" type="submit" style="font-family: Pixelated">Register</button>
+      {% for field in form %}
+      <div class="input-group" style="color:white;">
+        {% if field.name == "password1" %}
+          <label for="{{ field.id_for_label }}" style="display: block">password1</label>
+          <input style="height: 20px;" type="password" style="margin-bottom: 10px;" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" /> 
+        {% elif field.name == "password2" %}
+          <label for="{{ field.id_for_label }}">password2</label>
+          <input style="height: 20px; display: block; margin: auto;" type="password" style="margin-bottom: 10px;" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" /> 
+        {% else %}
+           <label for="{{ field.id_for_label }}">{{field.name}}</label>
+           <input style="margin-bottom: 10px; display: block; margin: auto;" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" /> 
+        {% endif %}
+      </div>
+      {% endfor %}
+      {{ form.errors }}
+      {{ form.non_field_errors }}
+      {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %} 
+              <div class="alert alert-danger">
+                   <strong>{{ error|escape }}</strong>
+              </div>
+            {% endfor %}
+        {% endfor %}
+      {% endif %}
+      <button id="user-signup" type="submit" style="font-family: Pixelated; margin-top: 10px;">Register</button>
+      <input type="hidden" name="next" value="{{ next }}" />
     </form>
   </div>
-</center>
+</div>
 
 {%endblock%}

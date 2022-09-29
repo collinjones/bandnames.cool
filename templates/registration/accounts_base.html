@@ -23,7 +23,6 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">
-        <link rel="stylesheet" type="text/css" href=" {% static 'styles/table.css' %} ">
         <link rel="stylesheet" type="text/css" href=" {% static 'accounts/styles/profile-style.css' %} ">
 
         <!-- jQuery libraries -->
@@ -43,9 +42,7 @@
     </head>
 
     <body class = "cursor-default">
-        <center>
-            {% include "main/navigation.html" %}
-        </center>
+        {% include "main/navigation.html" %}
         {% block body %}
         {% endblock %}
     </body>

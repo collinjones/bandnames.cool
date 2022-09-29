@@ -3,6 +3,12 @@ html {
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
+    overflow-y: scroll;
+}
+
+body {
+    margin: 0;
+    /* overflow-x:hidden; */
 }
 
 .cursor-text {
@@ -16,6 +22,7 @@ html {
 .cursor-horns {
     cursor: url("../images/cursor-horns.png"), auto !important;
 }
+
 h1 {
     color: black;
     font-family: 'Pixelated';
@@ -74,13 +81,7 @@ a {
     margin: 0;
 }
 
-.dataTables_wrapper .dataTables_filter {
-    float: left !important;
-    text-align: left !important;
-  }
 
-.dataTables_scrollHeadInner{  width:100% !important; }
-.dataTables_scrollHeadInner table{  width:100% !important; }
 
 table.dataTable {
     width: 100% !important;
@@ -102,7 +103,7 @@ table.dataTable {
 }
 
 #submit-img{
-    width: 234px;
+    width: 250px;
     box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
 }
 
@@ -132,3 +133,280 @@ table.dataTable {
     box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
     width:450px;
 }
+
+#submission-contents-div {
+    width: 250px;
+    height: 450px;
+    text-align: center;
+    margin:auto;
+}
+
+table.dataTable tbody td {
+    padding: 0px !important;
+}
+
+.display {
+    width: 300px !important
+}
+
+.dataTable {
+    width: 300px !important
+}
+
+.delete-button {
+    width: 25px;
+}
+
+#del-btn-td{
+    width:25px;
+    height:25px;
+}
+
+.tableHeaders{
+    text-align: center;
+}
+
+/* Tooltip container */
+.tooltip {
+    text-align: center;
+    position: relative;
+    border-bottom: 1px dotted black;
+    width:50%;
+    /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(58, 169, 179);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+#bandnames-table-div{
+    width:100%;
+}
+
+#scroll-img{
+    width: 100%;
+    height: 515px;
+}
+
+#nav-img {
+    width:425px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+}
+
+#voting-system{
+    display: inherit;
+    position: relative;
+    width: 400px;
+}
+
+#bandname-submit{
+    width:100px;
+}
+
+#inner-nav-div{
+    text-align: center;
+    position: absolute;
+    top: 12px;
+    width:100%;
+}
+
+#outer-nav-div{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    width: 420px;
+    position: relative;
+}
+
+table.dataTable thead th {
+    padding: 0 !important;
+    text-align: center !important;
+}
+
+table.dataTable tbody td {
+    text-align: center !important;
+}
+
+#nav-links {
+    display: block;
+}
+
+
+#submission-form {
+    width: 250px;
+    position: relative;
+}
+
+@media only screen and (max-width: 700px) {
+    .sketch-grid-container {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        grid-column-gap: 0px !important;
+        grid-row-gap: 0px !important;;
+        width: 400px !important;
+        height: 1000px !important;
+    }
+}
+
+#submission-img-contents {
+    color: #aeaeae;
+    position: absolute;
+    top: 35px;
+}
+
+.sketch-grid-container {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr; 
+    width: 700px;
+    height: 500px;
+    justify-items: center;
+}
+
+.sketch-div { 
+    grid-area: 1 / 1 / 2 / 2; 
+    width: 350px;
+    height: 481px;
+}
+
+.voted-history-div { 
+    grid-area: 1 / 2 / 2 / 3; 
+} 
+
+@media only screen and (max-width: 700px) {
+    .sketch-div { 
+        grid-area: 1 / 1 / 2 / 2 !important;
+    }
+}
+@media only screen and (max-width: 700px) {
+    .voted-history-div { 
+        grid-area: 2 / 1 / 3 / 2 !important;
+    } 
+}
+
+.sketch-holder {
+    height: 500px;
+}
+
+.selected {
+    margin-top: 25px;
+    width: 340px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 700px) {
+    .selected {
+        margin-top: -150px !important;
+    }
+}
+
+#bandnames {
+    width: inherit !important;
+    max-height: 650px;
+    min-height: 250px;
+}
+
+#vote-form {
+    text-align: center;
+}
+
+#faq-text {
+    position: absolute;
+    top: 10px;
+    font-size: 15px;
+    margin-right: 6%;
+    left: 29px;
+}
+  
+#faq-div {
+    position: relative;
+    width: 609px;
+    margin: auto;
+}
+
+#bandname-submit {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 10px !important;
+    margin-bottom: 0px !important;   
+    width: 70px;
+}
+
+.image { 
+    position: relative; 
+    width: 100%; /* for IE 6 */
+}
+
+.button-text {
+    position: absolute; 
+    top: -4px; 
+    left: 0; 
+    width: 100%;    
+}
+
+#red {
+    color:red;
+}
+
+#green {
+    color:green;
+}
+
+
+
+#login-div {
+    width: 300px;
+    margin: auto;
+    text-align: center;
+    position: relative;
+}
+
+#login-form {
+    position: absolute;
+    top: 0px;
+    height: 300px;
+    right: 0px;
+}
+
+#login-img {
+    width: 300px;
+}
+
+#signup-img {
+    width:300px;
+}
+
+#signup-div {
+    position: relative;
+    width: 400px;
+    text-align: center;
+    margin: auto;
+}
+
+#signup-div-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+}
+

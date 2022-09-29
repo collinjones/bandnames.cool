@@ -1,0 +1,24 @@
+.dataTables_wrapper {
+    position: absolute !important;
+    width: 256px !important;
+    bottom: 65px !important;
+    right: 60px !important;
+}
+
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: rgb(76, 76, 76) !important;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    float: left !important;
+    text-align: left !important;
+  }
+
+.dataTables_scrollHeadInner{  width:100% !important; }
+.dataTables_scrollHeadInner table{  width:100% !important; }
+
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 1px !important;
+}

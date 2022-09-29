@@ -19,8 +19,7 @@ var profanity_filter = "{{profanity_filter}}"
 <!-- p5.js sketches  -->
 <script src="{% static 'main/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
-
-<center>
+<div id = 'submission-contents-div'>
     <h2 id='submission-status'></h2>
     <!-- Submission form div -->
     <div id = "submission-form">
@@ -50,8 +49,7 @@ var profanity_filter = "{{profanity_filter}}"
             <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default" disabled>Downvote</button>
         {% endif %}
     </form>
-</center>
-
+</div>
 <div class = "sketch-grid-container">
     <!-- Div for the p5.js sketch (Bandname Wheel) -->
     <div class = "sketch-div" id = "sketch-holder" style="touch-action:none"></div>
@@ -75,13 +73,10 @@ var profanity_filter = "{{profanity_filter}}"
        console.log('nice')
     }
  </script>
+    
+<!-- Empty loading screen (another sketch could go here) -->
+<div id ="p5_loading"></div>
 
-<center>
-    
-    <!-- Empty loading screen (another sketch could go here) -->
-    <div id ="p5_loading"></div>
-    
-</center>
 
 {% endblock %}
 
