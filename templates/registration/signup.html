@@ -11,10 +11,10 @@
       {% for field in form %}
       <div class="input-group" style="color:white;">
         {% if field.name == "password1" %}
-          <label for="{{ field.id_for_label }}" style="display: block">password1</label>
+          <label for="{{ field.id_for_label }}" style="display: block">password</label>
           <input style="height: 20px;" type="password" style="margin-bottom: 10px;" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" /> 
         {% elif field.name == "password2" %}
-          <label for="{{ field.id_for_label }}">password2</label>
+          <label for="{{ field.id_for_label }}">confirm password</label>
           <input style="height: 20px; display: block; margin: auto;" type="password" style="margin-bottom: 10px;" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" /> 
         {% else %}
            <label for="{{ field.id_for_label }}">{{field.name}}</label>
