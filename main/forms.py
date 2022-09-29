@@ -6,7 +6,7 @@ class Vote(forms.Form):
     downvote = forms.CharField()
 
 class CreateBandname(forms.Form):
-    bandname = forms.CharField(label="Bandname", max_length=128, required=False, widget = forms.TextInput(attrs={'id':'bandname'}))
+    bandname = forms.CharField(label="Bandname", max_length=128, required=False, widget = forms.TextInput(attrs={'id':'bandname', 'class': 'text-cursor'}))
 
 class CreateBatchBandname(forms.Form):
     bandnames = forms.CharField(required=True, label="", widget=forms.Textarea(attrs={'id':'bandnames', 

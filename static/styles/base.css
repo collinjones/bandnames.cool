@@ -5,6 +5,17 @@ html {
     font-family: Pixelated;
 }
 
+.cursor-text {
+    cursor: url("../images/cursor-text.png"), auto;
+}
+
+.cursor-default {
+    cursor: url("../images/cursor-default.png"), auto;
+}
+
+.cursor-horns {
+    cursor: url("../images/cursor-horns.png"), auto !important;
+}
 h1 {
     color: black;
     font-family: 'Pixelated';

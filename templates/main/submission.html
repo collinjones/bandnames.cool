@@ -28,26 +28,26 @@ var profanity_filter = "{{profanity_filter}}"
             <span>Bandnames: {{count}}</span>
             <h3> Submit a bandname </h3>
             <form enctype="multipart/form-data" method="post" id="post-form">
-                <input id="bandname">
+                <input id="bandname" class = "cursor-text">
                 <img class="noselect" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
             </form>
         </div>
         <image draggable = false src="{% static 'images/placard-square.png' %}" id="submit-img"></image>
     </div>
 
-    <button id="spin-button" class="pixelated-font">Spin Wheel</button>
-    <button id="stop-button" class="pixelated-font">Stop Wheel</button>
-    <button id="mute-button" class="pixelated-font">Mute Wheel</button><br>
+    <button id="spin-button" class="pixelated-font cursor-default">Spin Wheel</button>
+    <button id="stop-button" class="pixelated-font cursor-default">Stop Wheel</button>
+    <button id="mute-button" class="pixelated-font cursor-default">Mute Wheel</button><br>
     <input type="range" min="0" max="0.1" value="0" id="volume-slider" step="0.001">
     <h3 class="vote-form-div" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
     <form enctype="multipart/form-data" method="post" id="vote-form">
         {% csrf_token %}
         {% if user.is_authenticated %}
-            <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font">Upvote</button>
-            <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font">Downvote</button>
+            <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default">Upvote</button>
+            <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default">Downvote</button>
         {% else %}
-            <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Upvote</button>
-            <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font" disabled>Downvote</button>
+            <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default" disabled>Upvote</button>
+            <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default" disabled>Downvote</button>
         {% endif %}
     </form>
 </center>
