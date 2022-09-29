@@ -36,6 +36,7 @@ h1 {
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
+    cursor: url("../images/cursor-text.png"), auto !important;
 }
 
 .pixelated-font {
@@ -44,6 +45,7 @@ input[type="text"] {
 
 a {
     color: #e48ce5;
+    cursor: url("../images/cursor-horns.png"), auto !important;
 }
 
 #faq-text{
