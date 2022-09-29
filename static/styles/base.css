@@ -112,3 +112,23 @@ table.dataTable {
 .even {
     background-color: rgba(255, 255, 255, 0.16) !important;
 }
+
+#batch-inner-div {
+    position: absolute;
+    top: 0px;
+    left: 19px;
+    width: 430px;
+    color: #c1c1c1;
+}
+
+#batch-outer-div {
+    position: relative;
+    width: 451px;
+    height: 754px;
+    margin: auto;
+}
+
+#batch-img {
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+    width:450px;
+}
