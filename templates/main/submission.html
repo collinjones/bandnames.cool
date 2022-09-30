@@ -32,7 +32,7 @@ var profanity_filter = "{{profanity_filter}}"
                 </div>
                 <form enctype="multipart/form-data" method="post" id="post-form">
                     <input id="bandname" class = "cursor-text">
-                    <img class="noselect" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
+                    <img class="noselect cursor-horns" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
                 </form>
             </div>
             <image draggable = false src="{% static 'images/placard-square.png' %}" id="submit-img"></image>
@@ -51,10 +51,10 @@ var profanity_filter = "{{profanity_filter}}"
         </div>
     </div>
     <!-- Div for the p5.js sketch (Bandname Wheel) -->
-    <div class = "sketch-div" id = "sketch-holder" style="touch-action:none">
-        <button id="spin-button" class="pixelated-font cursor-default">Spin Wheel</button>
-        <button id="stop-button" class="pixelated-font cursor-default">Stop Wheel</button>
-        <button id="mute-button" class="pixelated-font cursor-default">Mute Wheel</button><br>
+    <div class = "sketch-div cursor-horns" id = "sketch-holder" style="touch-action:none">
+        <button id="spin-button" class="pixelated-font">Spin Wheel</button>
+        <button id="stop-button" class="pixelated-font">Stop Wheel</button>
+        <button id="mute-button" class="pixelated-font">Mute Wheel</button><br>
     </div>
     <!-- Div for the selected bandname from the wheel -->
     <div class="voted-history-div" id="voting-system">
