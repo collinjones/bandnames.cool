@@ -6,6 +6,12 @@ html {
     overflow-y: scroll;
 }
 
+@media only screen and (max-width: 700px) {
+    html {
+        overflow-x: hidden;
+    }
+}
+
 body {
     margin: 0;
     /* overflow-x:hidden; */
@@ -264,6 +270,10 @@ table.dataTable tbody td {
     grid-row-gap: 25px; 
     width: 700px;
     justify-items: center;
+    position: absolute;
+    top:0;
+    left:0;
+    position: unset;
 }
 
 @media only screen and (max-width: 700px) {
@@ -465,4 +475,42 @@ table.dataTable tbody td {
 
 #bandname-selected {
     height: 50px;
+}
+
+#pillars-div {
+    position: relative;
+    width: 700px;
+    height: 1000px;
+    margin: auto;
+}
+
+#pillar-img-right {
+    position: absolute;
+    left: 100%;
+}
+
+#pillar-img-left {
+    position: absolute;
+    right: 100%;
+}
+
+@media only screen and (max-width: 700px) {
+    #pillars-div {
+        width:100%;
+    }
+}
+
+
+@media only screen and (max-width: 700px) {
+    #pillar-img-left {
+        right: 84.2%;
+        height: 150%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    #pillar-img-right {
+        left: 85%;
+        height: 150%;
+    }
 }
