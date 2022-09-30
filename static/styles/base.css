@@ -290,6 +290,8 @@ table.dataTable tbody td {
     grid-area: 1 / 2 / 2 / 3;
     text-align: center;
     margin: auto;
+    width: 300px;
+    height: 275px;
 }
 
 .sketch-div { 
@@ -459,4 +461,8 @@ table.dataTable tbody td {
 
 #vote-img {
     width:90px;
+}
+
+#bandname-selected {
+    height: 50px;
 }
