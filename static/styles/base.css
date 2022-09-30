@@ -136,13 +136,6 @@ table.dataTable {
     width:450px;
 }
 
-#submission-contents-div {
-    width: 250px;
-    height: 450px;
-    text-align: center;
-    margin:auto;
-}
-
 table.dataTable tbody td {
     padding: 0px !important;
 }
@@ -255,18 +248,7 @@ table.dataTable tbody td {
     position: relative;
 }
 
-@media only screen and (max-width: 700px) {
-    .sketch-grid-container {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        grid-template-columns: 1fr !important;
-        grid-template-rows: repeat(2, 1fr) !important;
-        grid-column-gap: 0px !important;
-        grid-row-gap: 0px !important;;
-        width: 400px !important;
-        height: 1000px !important;
-    }
-}
+
 
 #submission-img-contents {
     color: #aeaeae;
@@ -278,30 +260,69 @@ table.dataTable tbody td {
     margin: auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr; 
+    grid-column-gap: 25px;
+    grid-row-gap: 25px; 
     width: 700px;
-    height: 500px;
     justify-items: center;
 }
 
+@media only screen and (max-width: 700px) {
+    .sketch-grid-container {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: repeat(4, 1fr) !important;
+        grid-column-gap: 10px !important;
+        grid-row-gap: 10px !important;;
+        width: 400px !important;
+        height: 1000px !important;
+    }
+}
+
+.submission-contents-div {
+    grid-area: 1 / 1 / 2 / 2;
+    width: 250px;
+    text-align: center;
+    margin: auto;
+}
+
+.vote-div {
+    grid-area: 1 / 2 / 2 / 3;
+    text-align: center;
+    margin: auto;
+}
+
 .sketch-div { 
-    grid-area: 1 / 1 / 2 / 2; 
+    grid-area: 2 / 1 / 3 / 2;
     width: 350px;
     height: 481px;
+    text-align: center;
 }
 
 .voted-history-div { 
-    grid-area: 1 / 2 / 2 / 3; 
+    grid-area: 2 / 2 / 3 / 3;
 } 
 
 @media only screen and (max-width: 700px) {
-    .sketch-div { 
+    .submission-contents-div { 
         grid-area: 1 / 1 / 2 / 2 !important;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .vote-div { 
+        grid-area: 2 / 1 / 3 / 2 !important;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .sketch-div { 
+        grid-area:  3 / 1 / 4 / 2 !important;
     }
 }
 @media only screen and (max-width: 700px) {
     .voted-history-div { 
-        grid-area: 2 / 1 / 3 / 2 !important;
+        grid-area: 4 / 1 / 5 / 2 !important;
     } 
 }
 
