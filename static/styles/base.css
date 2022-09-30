@@ -347,10 +347,15 @@ table.dataTable tbody td {
     width: inherit !important;
     max-height: 650px;
     min-height: 250px;
+
 }
 
 #vote-form {
     text-align: center;
+    width:50px;
+    position: absolute;
+    top: 10px;
+    left: 20px;
 }
 
 #faq-text {
@@ -437,3 +442,21 @@ table.dataTable tbody td {
     max-height:100px;
 }
 
+#upvote-button {
+    width:50px;
+    margin-left: -3px;
+}
+
+#downvote-button {
+    width:50px;
+}
+
+#vote-div-buttons {
+    position: relative;
+    width: 90px;
+    margin: auto;
+}
+
+#vote-img {
+    width:90px;
+}

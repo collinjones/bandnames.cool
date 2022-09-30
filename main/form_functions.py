@@ -48,6 +48,8 @@ def create(request):
 # `vote` gets called when the user votes on a bandname
 def vote(request):
 
+    default_bandname_selected_text = 'No bandname selected - SPIN THE WHEEL'
+
     json_response = { 
         'vote-msg': 'Error', 
         'authenticated': "False"
@@ -56,44 +58,50 @@ def vote(request):
     if request.method == "POST":
         
         if request.user.is_authenticated:
+            if request.POST['bandname'].strip() != default_bandname_selected_text:
             
-            user = User.objects.get(pk=request.user.id)
+                user = User.objects.get(pk=request.user.id)
 
-            if user.profile.voted_bandnames:
-                first_vote = False
+                if user.profile.voted_bandnames:
+                    first_vote = False
+                else:
+                    first_vote = True
+
+                voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+
+                if first_vote:
+                    duplicate_vote = False
+                else:
+                    duplicate_vote = voted_bandname.bandname in user.profile.voted_bandnames
+
+                    # Return early if duplicate vote
+                    if duplicate_vote:
+                        json_response = { 
+                            'vote-msg': 'Already voted', 
+                            'authenticated': "True"
+                        }
+                        return JsonResponse(json_response, safe = False) 
+
+                if not first_vote:
+                    voted_list_count = len(user.profile.voted_bandnames)
+                else:
+                    voted_list_count = 0
+
+                bandnames = get_bandnames(Bandname.objects.count())
+                cleaned_list = []
+                table_template = render_to_string("../templates/main/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request) 
+
+                # Create a list of string of each bandname
+                for new_bandname in bandnames:
+                    cleaned_list.append(new_bandname.bandname)
+
+                save_vote(request, voted_bandname, user, first_vote, duplicate_vote)
+                json_response = create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user)
             else:
-                first_vote = True
-
-            voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-
-            if first_vote:
-                duplicate_vote = False
-            else:
-                duplicate_vote = voted_bandname.bandname in user.profile.voted_bandnames
-
-                # Return early if duplicate vote
-                if duplicate_vote:
-                    json_response = { 
-                        'vote-msg': 'Already voted', 
-                        'authenticated': "True"
-                    }
-                    return JsonResponse(json_response, safe = False) 
-
-            if not first_vote:
-                voted_list_count = len(user.profile.voted_bandnames)
-            else:
-                voted_list_count = 0
-
-            bandnames = get_bandnames(Bandname.objects.count())
-            cleaned_list = []
-            table_template = render_to_string("../templates/main/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request) 
-
-            # Create a list of string of each bandname
-            for new_bandname in bandnames:
-                cleaned_list.append(new_bandname.bandname)
-
-            save_vote(request, voted_bandname, user, first_vote, duplicate_vote)
-            json_response = create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user)
+                json_response = { 
+                'vote-msg': 'Spin the wheel!', 
+                'authenticated': "False"
+            }
         else:
             json_response = { 
                 'vote-msg': 'Not logged in', 

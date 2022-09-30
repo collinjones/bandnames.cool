@@ -41,16 +41,14 @@ var profanity_filter = "{{profanity_filter}}"
     </div>
     <div class = "vote-div">
         <h3 class="vote-form-div" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
-        <form enctype="multipart/form-data" method="post" id="vote-form">
-            {% csrf_token %}
-            {% if user.is_authenticated %}
-                <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default">Upvote</button>
-                <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default">Downvote</button>
-            {% else %}
-                <button id="upvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default" disabled>Upvote</button>
-                <button id="downvote-button" href="{% url 'vote' %}" class="pixelated-font cursor-default" disabled>Downvote</button>
-            {% endif %}
-        </form>
+        <div id = "vote-div-buttons">
+            <image draggable = false src="{% static 'images/placard-vote.png' %}" id="vote-img"></image>
+            <form enctype="multipart/form-data" method="post" id="vote-form">
+                {% csrf_token %}
+                <img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" id="upvote-button"  type="submit" draggable = false value="Submit" src="static/images/uv1.png"/>
+                <img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" id="downvote-button"  type="submit" draggable = false value="Submit" src="static/images/dv1.png"/>
+            </form>
+        </div>
     </div>
     <!-- Div for the p5.js sketch (Bandname Wheel) -->
     <div class = "sketch-div" id = "sketch-holder" style="touch-action:none">
