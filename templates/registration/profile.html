@@ -5,16 +5,18 @@
 
 {% block body %}
 
-<h1 style="text-align: center;">Profile</h1>
-
-<h2 id='submission-status' style="text-align: center;"></h2>
-
-<form id = "profile-form">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
-</form>
-
+<div id = "profile-body-top" >
+    <image draggable = false src="{% static 'images/placard-square.png' %}" id="profile-body-top-img"></image>
+    <div id="profile-body-top-contents">
+        <h1 style="text-align: center;">Profile</h1>
+        <h2 id='submission-status' style="text-align: center;"></h2>
+        <form id = "profile-form">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
+        </form>
+    </div>
+</div>
 <div id="user-ubmissions-div" style="color: rgb(255, 255, 255);">
     <div id = "user-submissions-table">
         <table id="bandnames-table-profile"  class="display dt-center">

@@ -98,32 +98,28 @@ def get_client_ip(request):
 def band_bins(collection_len):
 
     wheel_indices = []
-    wheel_names = 11
-    i = 1
-    bin_size = int(collection_len / wheel_names)
+    wheel_capacity = 11
+    bin_size = int(collection_len / wheel_capacity)
     
-    for x in range(wheel_names):
-        if (x == 0):
-            y = randint((bin_size*x), (bin_size*x) + bin_size)   
-            wheel_indices.append(y)
-        elif (x > 0 and x < (wheel_names - 1)):
-            y = randint((bin_size*x) + 1,(bin_size*x) + bin_size) 
-            wheel_indices.append(y)
-        elif (x == (wheel_names - 1)):
-            missing_numbers = (collection_len - (bin_size*wheel_names))
-            y = randint((bin_size*x) + 1, (collection_len - 1)) 
-            wheel_indices.append(y)
-        
-    return wheel_indices
+    for x in range(wheel_capacity):
 
+        if (x == 0):
+            rand_int = randint((bin_size*x), (bin_size*x) + bin_size)
+
+        elif (x > 0 and x < (wheel_capacity - 1)):
+            rand_int = randint((bin_size*x) + 1,(bin_size*x) + bin_size)
+
+        elif (x == (wheel_capacity - 1)):
+            rand_int = randint((bin_size*x) + 1, (collection_len - 1)) 
+
+        wheel_indices.append(rand_int)
         
+    return wheel_indices  
 
 # get_bandnames returns a list of 11 random bandnames 
 def get_bandnames(collection_len):
     
     bandnames = []
-    random_i = 0
-
     bandname_indices = band_bins(collection_len) 
 
     # This will prevent segfault when collection_len is less than 11
@@ -149,7 +145,6 @@ def save_vote(request, voted_bandname, user, first_vote, duplicate_vote):
 
     voted_bandname.save()
     user.save()
-
 
 def create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user):
     

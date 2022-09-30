@@ -63,16 +63,16 @@ a {
 
 #user-ubmissions-div{
     width: 400px;
-    height: 500px;
+    height: 100%;
     margin: auto;
     position: relative;
 }
 
 #user-submissions-table{
-    bottom: -10px;
     position: absolute;
-    width: 344px;
-    margin-left: 27px;
+    width: 93%;
+    height: 94%;
+    padding: 14px;
 }
 
 .score-header {
@@ -410,5 +410,9 @@ table.dataTable tbody td {
     top: 0;
     left: 0;
     width:100%;
+}
+
+#submission-status {
+    max-height:100px;
 }
 

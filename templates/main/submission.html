@@ -20,12 +20,14 @@ var profanity_filter = "{{profanity_filter}}"
 <script src="{% static 'main/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 <div id = 'submission-contents-div'>
-    <h2 id='submission-status'></h2>
     <!-- Submission form div -->
     <div id = "submission-form">
         <div id="submission-img-contents">
-            <h3>Bandnames: {{count}}</h3>
-            <h3> Submit a bandname </h3>
+            <h2 id="submission-status"></h2>
+            <div id="swap-contents">
+                <h3>Bandnames: {{count}}</h3>
+                <h3> Submit a bandname </h3>
+            </div>
             <form enctype="multipart/form-data" method="post" id="post-form">
                 <input id="bandname" class = "cursor-text">
                 <img class="noselect" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
@@ -68,12 +70,6 @@ var profanity_filter = "{{profanity_filter}}"
     </div>
 </div>
 
-<script>
-    function enterKeyPressed(event) {
-       console.log('nice')
-    }
- </script>
-    
 <!-- Empty loading screen (another sketch could go here) -->
 <div id ="p5_loading"></div>
 

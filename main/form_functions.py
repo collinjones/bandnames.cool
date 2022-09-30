@@ -35,7 +35,7 @@ def create(request):
                                 'username': request.user.username if request.user.is_authenticated \
                                                                   else "Anonymous",
                                 'score': 0,
-                                'response_msg': "Bandname %s created successfully." % new_bandname_str
+                                'response_msg': "Bandname created successfully."
                                 }
             else:
                 json_response = { 'response_msg': 'Bandname already exists' }
@@ -241,6 +241,8 @@ def get_voted_history(request):
                             pass
 
                 voted_bandnames_objs = convert_bandname_objs_dict(voted_bandnames_objs)
+
+                # voted_bandnames_objs.sort(key=by_score, reverse=True)
 
                 if column_id == 0 and direction == "asc":
                     voted_bandnames_objs.sort(key=by_name)

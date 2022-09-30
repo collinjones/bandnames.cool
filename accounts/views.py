@@ -65,9 +65,11 @@ def ProfileView(request):
 def get_rows(request):
     if request.method == "GET":
         search_query = request.GET.get('search[value]')
-        column_id = int(request.GET.get('order[0][column]'))
-        direction = request.GET.get('order[0][dir]')
-        username = username=request.user.username
+        column_id = int(request.GET.get('order[0][column]')) if request.GET.get('order[0][column]') != None \
+                                                             else None
+        direction = request.GET.get('order[0][dir]') if request.GET.get('order[0][dir]') != None \
+                                                     else None
+        username = username=request.user.username 
 
         if column_id == 0 and direction == "desc":
             user_submissions = Bandname.objects.filter(username=username).all().order_by('-bandname')

@@ -20,6 +20,7 @@ $(document).ready(function () {
         "serverSide": true,
         "scrollY": "340",
         "scrollX": false,
+        "order": [ 1, 'desc' ],
         ajax: {
             "type" : "GET",
             "url": "/registration/profile/get_rows"

@@ -11,8 +11,16 @@ $("#bandname-submit" ).click(function(e) {
         success: function (data) {
             $.unblockUI();
             if (data.hasOwnProperty('response_msg')){
-                console.log(data['response_msg'])
-                $('#submission-status').html(data['response_msg']);
+                var swap_div = $('#swap-contents')
+                var swap_div_contents = swap_div.html();
+                swap_div.html("")
+                var submission_status = $('#submission-status')
+                submission_status.html(data['response_msg']);
+
+                setTimeout(function() {
+                    swap_div.html(swap_div_contents)
+                    submission_status.html("");
+                }, 3000); 
             }
         }
     });
@@ -31,7 +39,16 @@ $("#upvote-button" ).click(function(e) {
         },
         success: function (data) {
             if (data.hasOwnProperty('vote-msg')){
-                $('#submission-status').html(data['vote-msg']);
+                var swap_div = $('#swap-contents')
+                var swap_div_contents = swap_div.html();
+                swap_div.html("")
+                var submission_status = $('#submission-status')
+                submission_status.html(data['vote-msg']);
+
+                setTimeout(function() {
+                    swap_div.html(swap_div_contents)
+                    submission_status.html("");
+                }, 3000); 
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
@@ -64,7 +81,16 @@ $("#downvote-button" ).click(function(e) {
         },
         success: function (data) {
             if (data.hasOwnProperty('vote-msg')){
-                $('#submission-status').html(data['vote-msg']);
+                var swap_div = $('#swap-contents')
+                var swap_div_contents = swap_div.html();
+                swap_div.html("")
+                var submission_status = $('#submission-status')
+                submission_status.html(data['vote-msg']);
+
+                setTimeout(function() {
+                    swap_div.html(swap_div_contents)
+                    submission_status.html("");
+                }, 3000); 
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
@@ -134,6 +160,7 @@ $(document).ready(function () {
         "serverSide": true,
         "scrollY": "160",
         "scrollX": false,
+        "order": [ 1, 'desc' ],
         "columnDefs": [
             { "width": "20px", "targets": 1 }
         ],
