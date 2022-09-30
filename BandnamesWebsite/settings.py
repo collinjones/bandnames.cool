@@ -16,6 +16,23 @@ from django.conf import settings
 import django_heroku
 import dj_database_url
 
+import logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
+}
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASE_URL = "postgres://zwibikahyiyveu:238ba98027834e8c27496131f955e18c2f21ae74a75dc3f4dd2b7e7463ed18b8@ec2-52-23-131-232.compute-1.amazonaws.com:5432/davfa3qiqfs8fn"
@@ -27,9 +44,9 @@ DATABASE_URL = "postgres://zwibikahyiyveu:238ba98027834e8c27496131f955e18c2f21ae
 SECRET_KEY = 'django-insecure-u@e#2)9f2o)i02@nn3_q)guw9*509fe*2k@jd7v2=ehn5j7*k_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', '127.0.0.1']
 MONGODB_HOST = os.getenv('MONGODB_URI')
 MONGODB_USER = os.getenv('MONGODB_USER')
 MONGODB_PWD = os.getenv('MONGODB_PWD')
@@ -121,12 +138,11 @@ USE_TZ = True
 # URL prefix for static files.
 STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
-# SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-
 STATICFILES_DIRS = (
-  os.path.join('', 'static/'),
+  os.path.join(BASE_DIR, 'static'),
 )
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
