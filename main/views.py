@@ -28,26 +28,6 @@ def deleted_bandname_cleanup():
                         del user.profile.voted_bandnames[key]
         user.save()
 
-def strip_all_names():
-    bandnames = Bandname.objects.all()
-    users = User.objects.all()
-    for bandname in bandnames:
-        bandname.bandname = bandname.bandname.strip()
-        bandname.save()
-
-    for user in users:
-        voted_bandnames = user.profile.voted_bandnames
-        if voted_bandnames:
-            if not isinstance(voted_bandnames, str):
-                for key in voted_bandnames:
-                    voted_bandnames.update({key.strip(): 'voted'})
-        user.profile.voted_bandnames = voted_bandnames
-        user.save()
-
-    
-
-    
-
 # Sets up and renders the submission page
 def index(request):
     
@@ -65,25 +45,21 @@ def index(request):
         cleaned_list.append(bandname.bandname)
 
     if request.user.is_authenticated:
-
         user = User.objects.get(pk=request.user.id)
         profanity_filter = user.profile.profanity_filter
         voted_bandnames = user.profile.voted_bandnames
 
         # If user has voted on atleast one bandname, search for each bandname in the db
         if voted_bandnames is not None:
-            for voted_bandname in voted_bandnames:
-
-                # If I delete any names from the database that someone has voted on,
-                #   This try/except statement will prevent an error when looking it up
-
-                # Only append bandnames that are in the database, otherwise skip it. 
+            for voted_bandname in voted_bandnames.copy():
                 try:
                     voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
                 except:
+                    del user.profile.voted_bandnames[voted_bandname]
+                    user.save()
                     pass
         
-        voted_bandnames_objs.sort(key=lambda x: x.score, reverse=True)
+        print(len(voted_bandnames_objs))
 
     # Is database empty?
     if len(cleaned_list) == 0:

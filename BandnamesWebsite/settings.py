@@ -44,7 +44,7 @@ DATABASE_URL = "postgres://zwibikahyiyveu:238ba98027834e8c27496131f955e18c2f21ae
 SECRET_KEY = 'django-insecure-u@e#2)9f2o)i02@nn3_q)guw9*509fe*2k@jd7v2=ehn5j7*k_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', '127.0.0.1']
 MONGODB_HOST = os.getenv('MONGODB_URI')

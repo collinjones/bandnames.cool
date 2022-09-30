@@ -249,7 +249,6 @@ def get_voted_history(request):
                             pass
 
                 voted_bandnames_objs = convert_bandname_objs_dict(voted_bandnames_objs)
-
                 # voted_bandnames_objs.sort(key=by_score, reverse=True)
 
                 if column_id == 0 and direction == "asc":
@@ -275,17 +274,17 @@ def get_voted_history(request):
                         voted_bandnames_objs.sort(key=by_score, reverse=True)
 
                     submission_count = len(voted_bandnames_objs)
+                    print(submission_count)
 
                 if _start and _length:
                     start = int(_start)
                     length = int(_length)
                     page = math.ceil(start / length) + 1
-                    print(length)
                     per_page = length
                     voted_bandnames_objs = voted_bandnames_objs[start:start + length]
-
                 response = {
                     "data": voted_bandnames_objs,
+                    "draw": 1,
                     "page": page,
                     "per_page": per_page,
                     "recordsTotal": submission_count,

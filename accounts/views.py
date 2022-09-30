@@ -14,14 +14,10 @@ from django.http import JsonResponse
 
 
 def Registration(request):
-    print('calling?')
     # Handle form submission
-    print(request.method)
     if request.method == "POST": 
         form = UserCreationForm(request.POST)
-        print(form.errors)
         if form.is_valid():
-            print('made it')
             user = form.save()
             login(request, user)
             return redirect("/")
