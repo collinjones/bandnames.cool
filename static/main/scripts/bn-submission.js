@@ -9,17 +9,10 @@ $("#bandname-submit" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            $.unblockUI();
+            
             if (data.hasOwnProperty('response_msg')){
-                var swap_div = $('#swap-contents')
-                var swap_div_contents = swap_div.html();
-                swap_div.html("")
-                var submission_status = $('#submission-status')
-                submission_status.html(data['response_msg']);
-
+                $.blockUI({ message: data['response_msg']});  
                 setTimeout(function() {
-                    swap_div.html(swap_div_contents)
-                    submission_status.html("");
                     if (data.hasOwnProperty('bandname')){ 
                         var bn_count = $('#bandnames-count')
                         var count = parseInt(bn_count.text().split(" ")[1])
@@ -27,7 +20,8 @@ $("#bandname-submit" ).click(function(e) {
                         bn_count.html("");
                         bn_count.html("Bandnames: " + count)
                     }
-                }, 3000); 
+                    $.unblockUI();
+                }, 1000); 
             }
         }
     });
@@ -46,16 +40,7 @@ $("#upvote-button" ).click(function(e) {
         },
         success: function (data) {
             if (data.hasOwnProperty('vote-msg')){
-                var swap_div = $('#swap-contents')
-                var swap_div_contents = swap_div.html();
-                swap_div.html("")
-                var submission_status = $('#submission-status')
-                submission_status.html(data['vote-msg']);
-
-                setTimeout(function() {
-                    swap_div.html(swap_div_contents)
-                    submission_status.html("");
-                }, 3000); 
+                $.blockUI({ message: data['vote-msg']});  
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
@@ -70,8 +55,9 @@ $("#upvote-button" ).click(function(e) {
                 wheel.setNewBandnames(bandnames)
                 wheel.repopulateWheel()
             }
-            
-            $.unblockUI();
+            setTimeout(function() {
+                $.unblockUI();
+            }, 1000); 
         }
     });
 });
@@ -88,16 +74,7 @@ $("#downvote-button" ).click(function(e) {
         },
         success: function (data) {
             if (data.hasOwnProperty('vote-msg')){
-                var swap_div = $('#swap-contents')
-                var swap_div_contents = swap_div.html();
-                swap_div.html("")
-                var submission_status = $('#submission-status')
-                submission_status.html(data['vote-msg']);
-
-                setTimeout(function() {
-                    swap_div.html(swap_div_contents)
-                    submission_status.html("");
-                }, 3000); 
+                $.blockUI({ message: data['vote-msg']});
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
@@ -111,8 +88,9 @@ $("#downvote-button" ).click(function(e) {
                 wheel.setNewBandnames(bandnames)
                 wheel.repopulateWheel()
             }
-
-            $.unblockUI();
+            setTimeout(function() {
+                $.unblockUI();
+            }, 1000); 
         }
     });
 });

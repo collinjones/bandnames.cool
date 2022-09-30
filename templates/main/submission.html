@@ -45,8 +45,8 @@ var profanity_filter = "{{profanity_filter}}"
             <image draggable = false src="{% static 'images/placard-vote.png' %}" id="vote-img"></image>
             <form enctype="multipart/form-data" method="post" id="vote-form">
                 {% csrf_token %}
-                <img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" id="upvote-button"  type="submit" draggable = false value="Submit" src="static/images/uv1.png"/>
-                <img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" id="downvote-button"  type="submit" draggable = false value="Submit" src="static/images/dv1.png"/>
+                <a id = "upvote-link"><img class="noselect cursor-horns"  onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" id="upvote-button"  type="submit" draggable = false value="Submit" src="static/images/uv1.png"/></a>
+                <a id = "downvote-link"><img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" id="downvote-button"  type="submit" draggable = false value="Submit" src="static/images/dv1.png"/></a>
             </form>
         </div>
     </div>
