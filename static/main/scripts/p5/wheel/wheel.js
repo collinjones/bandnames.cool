@@ -86,9 +86,7 @@ class Wheel {
     /* Slow the wheel down if its spinning */
     slowDownWheel() {
         if (this.state == this.states.Spinning) {
-            console.log(this.angleV)
             if (this.angleV <= this.slower_velocity_threshold){
-                console.log("NOW USING SLOWER RATE")
                 this.angleV += this.angleV * this.slow_rate_slower;
             } else {
                 this.angleV += this.angleV * this.slowRate;

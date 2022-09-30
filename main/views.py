@@ -28,6 +28,26 @@ def deleted_bandname_cleanup():
                         del user.profile.voted_bandnames[key]
         user.save()
 
+def strip_all_names():
+    bandnames = Bandname.objects.all()
+    users = User.objects.all()
+    for bandname in bandnames:
+        bandname.bandname = bandname.bandname.strip()
+        bandname.save()
+
+    for user in users:
+        voted_bandnames = user.profile.voted_bandnames
+        if voted_bandnames:
+            if not isinstance(voted_bandnames, str):
+                for key in voted_bandnames:
+                    voted_bandnames.update({key.strip(): 'voted'})
+        user.profile.voted_bandnames = voted_bandnames
+        user.save()
+
+    
+
+    
+
 # Sets up and renders the submission page
 def index(request):
     

@@ -13,7 +13,6 @@ $("[id^=delete-button-profile]").click(function(e) {
             if (data.hasOwnProperty('response_msg')){
                 $('#submission-status').html(data['response_msg']);
             }  
-            console.log(data['bandname'])
             document.getElementById(data['bandname']).remove();
             $.unblockUI();
         }
