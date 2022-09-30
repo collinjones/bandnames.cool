@@ -20,6 +20,13 @@ $("#bandname-submit" ).click(function(e) {
                 setTimeout(function() {
                     swap_div.html(swap_div_contents)
                     submission_status.html("");
+                    if (data.hasOwnProperty('bandname')){ 
+                        var bn_count = $('#bandnames-count')
+                        var count = parseInt(bn_count.text().split(" ")[1])
+                        var count = count + 1
+                        bn_count.html("");
+                        bn_count.html("Bandnames: " + count)
+                    }
                 }, 3000); 
             }
         }
