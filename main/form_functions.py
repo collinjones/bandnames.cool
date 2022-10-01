@@ -1,3 +1,4 @@
+from audioop import reverse
 from http.client import HTTPResponse
 from .models import Bandname
 from django.http import JsonResponse
@@ -89,7 +90,13 @@ def vote(request):
 
                 bandnames = get_bandnames(Bandname.objects.count())
                 cleaned_list = []
-                table_template = render_to_string("../templates/main/voted_table_content.html", context={"bandname": voted_bandname, "id": voted_list_count}, request=request) 
+                table_template = render_to_string(
+                    "../templates/main/voted_table_content.html", 
+                    context = {
+                        "bandname" : voted_bandname,
+                         "id" : voted_list_count},
+                    request = request
+                ) 
 
                 # Create a list of string of each bandname
                 for new_bandname in bandnames:
@@ -220,7 +227,17 @@ def convert_bandname_objs_dict(list):
             "score": bandname.score,
         })
     return new_bandnames_list
-            
+
+def sort_table(data, column_id, direction):
+    sort = False if direction == "asc" \
+                    else True
+    if column_id == 0:
+        data.sort(key = by_name, reverse = sort)
+        return data     
+    if column_id == 1:
+        data.sort(key = by_score, reverse = sort)
+        return data
+
 def get_voted_history(request):
     voted_bandnames_objs = []
     if request.user.is_authenticated:
@@ -230,47 +247,41 @@ def get_voted_history(request):
             column_id = int(request.GET.get('order[0][column]'))
             direction = request.GET.get('order[0][dir]')
             data = []
-
             voted_bandnames = request.user.profile.voted_bandnames
+            user = User.objects.get(pk=request.user.id)
 
-            for entry in voted_bandnames:
-                json_entry = {
-                    "bandname": entry,
-                    "score": voted_bandnames[entry]['score'],
-                    "username": voted_bandnames[entry]['username'],
-                    "date_submitted": voted_bandnames[entry]['date_submitted'],
-                }
-                data.append(json_entry)
+            # Ensure the user has voted on something before proceeding
             if voted_bandnames != None:
+
+                # Populate the final list used by the DataTable
+                for entry in voted_bandnames.copy():
+
+                    # Try to make an entry (otherwise delete because it was probably a leftover)
+                    try:
+                        json_entry = {
+                            "bandname": entry,
+                            "score": voted_bandnames[entry]['score'],
+                            "username": voted_bandnames[entry]['username'],
+                            "date_submitted": voted_bandnames[entry]['date_submitted'],
+                        }
+                        data.append(json_entry)
+                    except:
+                        del voted_bandnames[entry]
+                        
                 submission_count = len(data)
                 _start = request.GET.get('start')
                 _length = request.GET.get('length')
                 page = 0
                 length = 0
                 per_page = 10
-                # voted_bandnames_objs.sort(key=by_score, reverse=True)
 
-                if column_id == 0 and direction == "asc":
-                    data.sort(key=by_name)
-                if column_id == 0 and direction == "desc":
-                    data.sort(key=by_name, reverse=True)
-                if column_id == 1 and direction == "asc":
-                    data.sort(key=by_score)
-                if column_id == 1 and direction == "desc":
-                    data.sort(key=by_score, reverse=True)
-
+                # Process sorting and searching
+                data = sort_table(data, column_id, direction)
                 if search_query:
                     for bandname in data.copy():
                         if search_query.lower() not in bandname['bandname'].lower():
                             data.remove(bandname)
-                    if column_id == 0 and direction == "asc":
-                        data.sort(key=by_name)
-                    if column_id == 0 and direction == "desc":
-                        data.sort(key=by_name, reverse=True)
-                    if column_id == 1 and direction == "asc":
-                        data.sort(key=by_score)
-                    if column_id == 1 and direction == "desc":
-                        data.sort(key=by_score, reverse=True)
+                    data = sort_table(data, column_id, direction)
 
                 if _start and _length:
                     start = int(_start)
@@ -278,6 +289,20 @@ def get_voted_history(request):
                     page = math.ceil(start / length) + 1
                     per_page = length
                     data = data[start:start + length]
+                    lookup_list = []
+
+                    # Ensuring that the name the user voted on is the same as the actual 
+                    #   score in the database
+                    for entry in data: 
+                        lookup_list.append(entry['bandname'])
+                    bandnames = list(Bandname.objects.filter(bandname__in=lookup_list).order_by('bandname')) 
+                    for bandname in bandnames:
+                        for voted_name in user.profile.voted_bandnames:
+                            if (bandname.bandname == voted_name):
+                                if bandname.score != user.profile.voted_bandnames[voted_name]['score']:
+                                    user.profile.voted_bandnames[voted_name]['score'] = bandname.score
+                    user.save()
+
                 response = {
                     "data": data,
                     "page": page,

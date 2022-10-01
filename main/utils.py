@@ -139,9 +139,17 @@ def save_vote(request, voted_bandname, user, first_vote, duplicate_vote):
 
     # First one must be assignment, beyond that (as long as it isn't dupe) save a new key
     if first_vote:
-        user.profile.voted_bandnames = {voted_bandname.bandname: "voted"} 
+        user.profile.voted_bandnames = {voted_bandname.bandname : {
+            "score" : voted_bandname.score,
+            "username" : voted_bandname.username,
+            "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
+        }}
     elif not duplicate_vote:
-        user.profile.voted_bandnames[voted_bandname.bandname] = "voted"
+        user.profile.voted_bandnames[voted_bandname.bandname] = {
+            "score" : voted_bandname.score,
+            "username" : voted_bandname.username,
+            "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
+        }
 
     voted_bandname.save()
     user.save()
