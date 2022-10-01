@@ -21,13 +21,13 @@ var profanity_filter = "{{profanity_filter}}"
 <script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
 <div id = 'pillars-div'>
-    <div>
-        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-left"></image>
-        <!-- <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-left"></image> -->
+    <div style="position: relative;">
+        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-left"/>
+        <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-left"/>
     </div>
     <div>
-        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-right"></image>
-        <!-- <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-right"></image> -->
+        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-right"/>
+        <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-right"/>
     </div>
     
     
@@ -84,6 +84,11 @@ var profanity_filter = "{{profanity_filter}}"
 </div>
 <!-- Empty loading screen (another sketch could go here) -->
 <div id ="p5_loading"></div>
+
+<script>
+    var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    console.log(vw)
+</script>
 
 
 {% endblock %}
