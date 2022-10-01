@@ -489,12 +489,16 @@ table.dataTable tbody td {
     position: absolute;
     left: 100%;
     top: -110px;
+    overflow-x:hidden;
+    overflow-y:hidden;
 }
 
 #pillar-img-left {
     position: absolute;
     right: 96.5%;
     top: -110px;
+    overflow-x:hidden;
+    overflow-y:hidden;
 }
 
 @media only screen and (max-width: 700px) {
@@ -517,6 +521,9 @@ table.dataTable tbody td {
     #pillar-img-right {
         left: 80%;
         height: 1588px;
-        top: 110px;
+        top: 112px;
+        object-fit: cover;
+        object-position: left;
+        width: 20%;
     }
 }
