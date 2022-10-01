@@ -229,62 +229,57 @@ def get_voted_history(request):
             search_query = request.GET.get('search[value]')
             column_id = int(request.GET.get('order[0][column]'))
             direction = request.GET.get('order[0][dir]')
+            data = []
 
             voted_bandnames = request.user.profile.voted_bandnames
+
+            for entry in voted_bandnames:
+                json_entry = {
+                    "bandname": entry,
+                    "score": voted_bandnames[entry]['score'],
+                    "username": voted_bandnames[entry]['username'],
+                    "date_submitted": voted_bandnames[entry]['date_submitted'],
+                }
+                data.append(json_entry)
             if voted_bandnames != None:
-                submission_count = len(voted_bandnames.keys())
-                
+                submission_count = len(data)
                 _start = request.GET.get('start')
                 _length = request.GET.get('length')
                 page = 0
                 length = 0
                 per_page = 10
-                voted_bandnames_objs = []
-
-                if voted_bandnames is not None:
-                    for voted_bandname in voted_bandnames:
-                        try:
-                            voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
-                        except:
-                            pass
-
-                voted_bandnames_objs = convert_bandname_objs_dict(voted_bandnames_objs)
                 # voted_bandnames_objs.sort(key=by_score, reverse=True)
 
                 if column_id == 0 and direction == "asc":
-                    voted_bandnames_objs.sort(key=by_name)
+                    data.sort(key=by_name)
                 if column_id == 0 and direction == "desc":
-                    voted_bandnames_objs.sort(key=by_name, reverse=True)
+                    data.sort(key=by_name, reverse=True)
                 if column_id == 1 and direction == "asc":
-                    voted_bandnames_objs.sort(key=by_score)
+                    data.sort(key=by_score)
                 if column_id == 1 and direction == "desc":
-                    voted_bandnames_objs.sort(key=by_score, reverse=True)
+                    data.sort(key=by_score, reverse=True)
 
                 if search_query:
-                    for bandname in voted_bandnames_objs.copy():
+                    for bandname in data.copy():
                         if search_query.lower() not in bandname['bandname'].lower():
-                            voted_bandnames_objs.remove(bandname)
+                            data.remove(bandname)
                     if column_id == 0 and direction == "asc":
-                        voted_bandnames_objs.sort(key=by_name)
+                        data.sort(key=by_name)
                     if column_id == 0 and direction == "desc":
-                        voted_bandnames_objs.sort(key=by_name, reverse=True)
+                        data.sort(key=by_name, reverse=True)
                     if column_id == 1 and direction == "asc":
-                        voted_bandnames_objs.sort(key=by_score)
+                        data.sort(key=by_score)
                     if column_id == 1 and direction == "desc":
-                        voted_bandnames_objs.sort(key=by_score, reverse=True)
-
-                    submission_count = len(voted_bandnames_objs)
-                    print(submission_count)
+                        data.sort(key=by_score, reverse=True)
 
                 if _start and _length:
                     start = int(_start)
                     length = int(_length)
                     page = math.ceil(start / length) + 1
                     per_page = length
-                    voted_bandnames_objs = voted_bandnames_objs[start:start + length]
+                    data = data[start:start + length]
                 response = {
-                    "data": voted_bandnames_objs,
-                    "draw": 1,
+                    "data": data,
                     "page": page,
                     "per_page": per_page,
                     "recordsTotal": submission_count,

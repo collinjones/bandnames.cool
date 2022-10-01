@@ -528,3 +528,18 @@ table.dataTable tbody td {
         width: 21%;
     }
 }
+
+#torch-img-left {
+    position: absolute;
+    left: -250px;
+    width: 300px;
+}
+@media only screen and (max-width: 700px) {
+    #torch-img-left {
+        left: -257px;
+    }
+}
+
+#torch-img-right {
+    position: absolute;   
+}

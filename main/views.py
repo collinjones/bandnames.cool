@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from .utils import *
 from .form_functions import *
+import datetime
 
 # for every single bandname in database, 
 # go through every single voted_bandnames list and remove entries that 
@@ -28,6 +29,33 @@ def deleted_bandname_cleanup():
                         del user.profile.voted_bandnames[key]
         user.save()
 
+def convert_voted_bandnames():
+    users = User.objects.all()
+    for user in users:
+        new_voted_names_dict = {}
+        voted_bandnames = user.profile.voted_bandnames
+        if voted_bandnames:
+            if not isinstance(voted_bandnames, str):
+                for entry in voted_bandnames.copy():
+                    print('looking up: ', entry)
+                    try:
+                        bandname_obj = Bandname.objects.get(bandname = entry)
+                        new_json = {
+                            "score": bandname_obj.score,
+                            "username": bandname_obj.username,
+                            "date_submitted": bandname_obj.date_submitted.strftime('%m/%d/%Y')
+                        }
+                        new_voted_names_dict[entry] = new_json
+                        print(new_json)
+                    except:
+                        del user.profile.voted_bandnames[entry]
+
+                    
+
+                user.profile.voted_bandnames = new_voted_names_dict
+                user.save()
+
+
 # Sets up and renders the submission page
 def index(request):
     
@@ -46,20 +74,21 @@ def index(request):
 
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.id)
+        # convert_voted_bandnames()
         profanity_filter = user.profile.profanity_filter
         voted_bandnames = user.profile.voted_bandnames
 
         # If user has voted on atleast one bandname, search for each bandname in the db
-        if voted_bandnames is not None:
-            for voted_bandname in voted_bandnames.copy():
-                try:
-                    voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
-                except:
-                    del user.profile.voted_bandnames[voted_bandname]
-                    user.save()
-                    pass
+        # if voted_bandnames is not None:
+        #     for voted_bandname in voted_bandnames.copy():
+        #         try:
+        #             voted_bandnames_objs.append(Bandname.objects.get(bandname=voted_bandname))
+        #         except:
+        #             del user.profile.voted_bandnames[voted_bandname]
+        #             user.save()
+        #             pass
         
-        print(len(voted_bandnames_objs))
+        print(len(voted_bandnames))
 
     # Is database empty?
     if len(cleaned_list) == 0:
@@ -70,7 +99,6 @@ def index(request):
         "title"     : "Submission Page",
         "profanity_filter": profanity_filter,
         "bandnames": cleaned_list,
-        "voted_bandnames": voted_bandnames_objs,
         "count": collection_len,
         "form"      : form
     }

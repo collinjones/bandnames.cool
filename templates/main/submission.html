@@ -21,10 +21,16 @@ var profanity_filter = "{{profanity_filter}}"
 <script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
 
 <div id = 'pillars-div'>
+    <div>
+        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-left"></image>
+        <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-left"></image>
+    </div>
+    <div>
+        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-right"></image>
+        <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-right"></image>
+    </div>
     
-    <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-left"></image>
-    <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-right"></image>
-
+    
     <div class = "sketch-grid-container">
         <div class = 'submission-contents-div'>
             <!-- Submission form div -->
