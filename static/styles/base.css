@@ -480,7 +480,7 @@ table.dataTable tbody td {
 
 #pillars-div {
     width: 700px;
-    height:  1588px;
+    height: 890px;
     margin: auto;
     position: relative;
 }
@@ -505,6 +505,7 @@ table.dataTable tbody td {
     #pillars-div {
         width:400px;
         position:unset;
+        height: 1588px;
     }
 }
 
