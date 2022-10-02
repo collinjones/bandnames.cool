@@ -1,10 +1,4 @@
 function startTour() {
-    ////////  Load Tour Start Page (if not there now)  ////////
-
-    if (window.location.href != "https://www.bandnames.cool") {
-        window.location.href="https://www.bandnames.cool/";
-    }
-
     ////////  Resources  ////////
 
     function injectCSS(css_link) {var head = document.getElementsByTagName("head")[0];var link = document.createElement("link");link.rel = "stylesheet";link.type = "text/css";link.href = css_link;link.crossorigin = "anonymous";head.appendChild(link);};
