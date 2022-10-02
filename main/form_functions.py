@@ -46,6 +46,15 @@ def create(request):
 
     return JsonResponse(json_response, safe = False)
 
+
+def get_ip_address(request):
+    user_ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
+    if user_ip_address:
+        ip = user_ip_address.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+    
 # `vote` gets called when the user votes on a bandname
 def vote(request):
 

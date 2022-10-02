@@ -9,6 +9,7 @@ class Bandname(models.Model):
     username = models.CharField(max_length=150)
     score = models.IntegerField()
     date_submitted = models.DateField(default=now().strftime("%Y-%m-%d"))
+    ip_address = models.GenericIPAddressField(default='0.0.0.0')
     
     def __str__(self):
         return self.bandname

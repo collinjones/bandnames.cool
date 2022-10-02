@@ -1,3 +1,4 @@
+from ipaddress import ip_address
 from .models import Bandname
 import random
 from django.utils.timezone import now
@@ -67,7 +68,8 @@ def create_bandname(request, new_bandname, authenticated):
                                 username = request.user.username if authenticated \
                                                                  else "Anonymous",
                                 score = 0, 
-                                date_submitted=now().strftime("%Y-%m-%d"))
+                                date_submitted=now().strftime("%Y-%m-%d"),
+                                ip_address = get_client_ip(request))
 
         # Save the bandname
         new_bandname.save()
