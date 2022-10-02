@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.2736c8395c22.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -20,15 +20,15 @@ body {
 }
 
 .cursor-text {
-    cursor: url("../images/cursor-text.png"), auto;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto;
 }
 
 .cursor-default {
-    cursor: url("../images/cursor-default.png"), auto;
+    cursor: url("../images/cursor-default.7cf271181c71.png"), auto;
 }
 
 .cursor-horns {
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 h1 {
@@ -38,13 +38,13 @@ h1 {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('pixel.ttf');
+    src: url("pixel.6bb6308744b3.ttf");
 }
 
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 .pixelated-font {
@@ -53,7 +53,7 @@ input[type="text"] {
 
 a {
     color: #e48ce5;
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 #faq-text{
@@ -469,12 +469,12 @@ table.dataTable tbody td {
 
 #vote-div-buttons {
     position: relative;
-    width: 90px;
+    width: 60px;
     margin: auto;
 }
 
 #vote-img {
-    width:60px;
+    width:90px;
 }
 
 #bandname-selected {

@@ -459,12 +459,12 @@ table.dataTable tbody td {
 }
 
 #upvote-button {
-    width:50px;
-    margin-left: -3px;
+    width:30px;
+    margin-left: -1px;
 }
 
 #downvote-button {
-    width:50px;
+    width:30px;
 }
 
 #vote-div-buttons {
@@ -474,7 +474,7 @@ table.dataTable tbody td {
 }
 
 #vote-img {
-    width:90px;
+    width:60px;
 }
 
 #bandname-selected {
