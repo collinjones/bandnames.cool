@@ -94,6 +94,7 @@ var profanity_filter = "{{profanity_filter}}"
 
 <script>
 document.onload = function() {
+    console.log(localStorage.getItem('guided-tour'))
     if(localStorage.getItem('guided-tour') == null) {
         startTour();
         localStorage.setItem('guided-tour', 'yes');
