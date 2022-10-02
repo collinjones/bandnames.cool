@@ -92,6 +92,13 @@ var profanity_filter = "{{profanity_filter}}"
     console.log(vw)
 </script>
 
+<script>
+if(!localStorage.getItem('guided-tour')) {
+    loadTour();
+    localStorage.setItem('guided-tour', 'yes');
+}
+</script>
+
 
 {% endblock %}
 

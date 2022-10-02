@@ -484,7 +484,7 @@ table.dataTable tbody td {
 
 #pillars-div {
     width: 700px;
-    height: 890px;
+    height: 831px;
     margin: auto;
     position: relative;
 }
@@ -492,17 +492,19 @@ table.dataTable tbody td {
 #pillar-img-right {
     position: absolute;
     left: 100%;
-    top: -110px;
+    top: -111px;
     overflow-x:hidden;
     overflow-y:hidden;
+    height: 942px;
 }
 
 #pillar-img-left {
     position: absolute;
     right: 96.5%;
-    top: -110px;
+    top: -111px;
     overflow-x:hidden;
     overflow-y:hidden;
+    height: 942px;
 }
 
 @media only screen and (max-width: 700px) {
