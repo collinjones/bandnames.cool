@@ -60,6 +60,8 @@ def index(request):
 
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.id)
+        user.profile.last_ip_address = get_client_ip(request)
+        user.save()
         profanity_filter = user.profile.profanity_filter
 
     # Is database empty?

@@ -11,6 +11,7 @@ class Profile(models.Model):
     voted_bandnames = models.JSONField()
     cumulative_score = models.IntegerField(default=0)
     righteousness_level = models.CharField(default="Groupie", max_length=128) 
+    last_ip_address = models.GenericIPAddressField(default = '0.0.0.0')
 
     def __str__(self):
         return str(self.user)
