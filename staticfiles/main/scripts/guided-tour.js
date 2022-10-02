@@ -1,20 +1,21 @@
-////////  Load Tour Start Page (if not there now)  ////////
+function startTour() {
+    ////////  Load Tour Start Page (if not there now)  ////////
 
-if (window.location.href != "https://www.bandnames.cool/") {
-    window.location.href="https://www.bandnames.cool/";
+    if (window.location.href != "https://www.bandnames.cool") {
+        window.location.href="https://www.bandnames.cool/";
+    }
+
+    ////////  Resources  ////////
+
+    function injectCSS(css_link) {var head = document.getElementsByTagName("head")[0];var link = document.createElement("link");link.rel = "stylesheet";link.type = "text/css";link.href = css_link;link.crossorigin = "anonymous";head.appendChild(link);};
+    function injectJS(js_link) {var head = document.getElementsByTagName("head")[0];var script = document.createElement("script");script.src = js_link;script.defer;script.type="text/javascript";script.crossorigin = "anonymous";script.onload = function() { null };head.appendChild(script);};
+    function injectStyle(css) {var head = document.getElementsByTagName("head")[0];var style = document.createElement("style");style.type = "text/css";style.appendChild(document.createTextNode(css));head.appendChild(style);};
+    injectCSS("https://cdn.jsdelivr.net/npm/intro.js@5.1.0/minified/introjs.min.css");
+    injectStyle("    .introjs-button.introjs-nextbutton,    .introjs-button.introjs-donebutton {        color: #fff !important;        background-color: #367be5 !important;        border: 1px solid #245ac0 !important;        text-shadow: none;        box-shadow: none;    }    .introjs-button.introjs-nextbutton:hover,    .introjs-button.introjs-donebutton:hover {        color: #fff !important;        background-color: #245ac0 !important;        border: 1px solid #245ac0 !important;    }    .introjs-button {        box-sizing: content-box;        text-decoration: none;    }    .introjs-button.introjs-skipbutton {        color: #367be5;    }    .introjs-tooltip, .introjs-floating {        box-sizing: content-box;        position: absolute;    }");
+    injectJS("https://cdn.jsdelivr.net/npm/intro.js@5.1.0/intro.min.js");
+    loadTour() 
 }
-
-////////  Resources  ////////
-
-function injectCSS(css_link) {var head = document.getElementsByTagName("head")[0];var link = document.createElement("link");link.rel = "stylesheet";link.type = "text/css";link.href = css_link;link.crossorigin = "anonymous";head.appendChild(link);};
-function injectJS(js_link) {var head = document.getElementsByTagName("head")[0];var script = document.createElement("script");script.src = js_link;script.defer;script.type="text/javascript";script.crossorigin = "anonymous";script.onload = function() { null };head.appendChild(script);};
-function injectStyle(css) {var head = document.getElementsByTagName("head")[0];var style = document.createElement("style");style.type = "text/css";style.appendChild(document.createTextNode(css));head.appendChild(style);};
-injectCSS("https://cdn.jsdelivr.net/npm/intro.js@5.1.0/minified/introjs.min.css");
-injectStyle("    .introjs-button.introjs-nextbutton,    .introjs-button.introjs-donebutton {        color: #fff !important;        background-color: #367be5 !important;        border: 1px solid #245ac0 !important;        text-shadow: none;        box-shadow: none;    }    .introjs-button.introjs-nextbutton:hover,    .introjs-button.introjs-donebutton:hover {        color: #fff !important;        background-color: #245ac0 !important;        border: 1px solid #245ac0 !important;    }    .introjs-button {        box-sizing: content-box;        text-decoration: none;    }    .introjs-button.introjs-skipbutton {        color: #367be5;    }    .introjs-tooltip, .introjs-floating {        box-sizing: content-box;        position: absolute;    }");
-injectJS("https://cdn.jsdelivr.net/npm/intro.js@5.1.0/intro.min.js");
-
 ////////  Tour Code  ////////
-
 function loadTour() { if ( typeof introJs !== "undefined" ) {
 
     // IntroJS Tour
@@ -53,5 +54,4 @@ function loadTour() { if ( typeof introJs !== "undefined" ) {
     };
     startIntro();
 
-} else { window.setTimeout("loadTour();",100); } }
-loadTour()
+} else { window.setTimeout("loadTour();",100); }}
