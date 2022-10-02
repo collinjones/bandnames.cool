@@ -16,23 +16,6 @@ from django.conf import settings
 import django_heroku
 import dj_database_url
 
-import logging
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },
-    },
-}
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASE_URL = "postgres://zwibikahyiyveu:238ba98027834e8c27496131f955e18c2f21ae74a75dc3f4dd2b7e7463ed18b8@ec2-52-23-131-232.compute-1.amazonaws.com:5432/davfa3qiqfs8fn"
