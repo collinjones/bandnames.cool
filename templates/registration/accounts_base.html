@@ -47,6 +47,12 @@
         {% endblock %}
     </body>
 
+    <script>
+        $(document).ready(function() {
+          document.getElementsByTagName("html")[0].style.visibility = "visible";
+        });
+    </script>
+
     <!-- AJAX scripts -->
     <script type="text/javascript" src=" {% static 'accounts/scripts/profile.js' %} "></script>
     <script type="text/javascript" src=" {% static 'accounts/scripts/delete_bandname.js' %} "></script>

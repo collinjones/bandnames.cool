@@ -55,6 +55,11 @@
         {% endblock %}
     </body>
 
+    <script>
+        $(document).ready(function() {
+          document.getElementsByTagName("html")[0].style.visibility = "visible";
+        });
+    </script>
     
     <!-- AJAX scripts -->
     <script type="text/javascript" src=" {% static 'main/scripts/bn-submission.js' %} "></script>
