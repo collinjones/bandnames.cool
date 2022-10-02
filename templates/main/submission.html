@@ -93,10 +93,12 @@ var profanity_filter = "{{profanity_filter}}"
 </script>
 
 <script>
+document.onload = function() {
     if(localStorage.getItem('guided-tour') == null) {
         startTour();
         localStorage.setItem('guided-tour', 'yes');
     }
+}
 </script>
 
 
