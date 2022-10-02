@@ -18,19 +18,19 @@ function loadTour() { if ( typeof introJs !== "undefined" ) {
     intro.setOptions({
     steps: [
     {
-    intro: '<font size="3" color="#33477B"><center><b>Welcome</b></center><hr>Welcome to bandnames.cool, a site for submitting and voting on cool bandnames.</font>',
+    intro: '<font size="3" color="#33477B"><center><b>Welcome</b></center><hr>Welcome to bandnames.cool, a website where you can submit and vote on on cool bandnames.</font>',
     position: 'top'},{element: 'input[id=\'bandname\']',
-    intro: '<font size="3" color="#33477B"><center><b>Bandname Submission</b></center><hr>Submit a bandname here. You do not need an account to submit bandnames</font>',
+    intro: '<font size="3" color="#33477B"><center><b>Bandname Submission</b></center><hr>You can submit bandnames here. You do not need an account to submit bandnames!</font>',
     position: 'top'},{element: 'div[id=\'sketch-holder\']',
-    intro: '<font size="3" color="#33477B"><center><b>Bandname Wheel</b></center><hr>Spin the wheel to land on one of thousands of entries</font>',
+    intro: '<font size="3" color="#33477B"><center><b>Bandname Wheel</b></center><hr>Spin the wheel and discover thousands of user-submitted bandnames!</font>',
     position: 'top'},{element: 'img[id=\'upvote-button\']',
     intro: '<font size="3" color="#33477B"><center><b>Voting</b></center><hr>If you like a bandname, vote it up!</font>',
     position: 'top'},{element: 'img[id=\'downvote-button\']',
     intro: '<font size="3" color="#33477B"><center><b>Voting</b></center><hr>If you dislike a bandname, vote it down!</font>',
     position: 'top'},{element: 'img[id=\'scroll-img\']',
-    intro: '<font size="3" color="#33477B"><center><b>Voting History</b></center><hr>Bandnames that you vote on will appear here!</font>',
+    intro: '<font size="3" color="#33477B"><center><b>Voting History</b></center><hr>Bandnames you’ve voted on will appear here! Click “Bandname” or “Score” to sort your collected bandnames alphabetically, or by total user score.</font>',
     position: 'top'},{
-    intro: '<font size="3" color="#33477B"><center><b>Complete</b></center><hr>That\'s about it, have fun looking for cool bandnames!</font>',
+    intro: '<font size="3" color="#33477B"><center><b>Complete</b></center><hr>That’s about it! Have fun creating and discovering cool, new bandnames!</font>',
     position: 'top'},]
     });
     intro.setOption("disableInteraction", true);
