@@ -1,5 +1,3 @@
-from audioop import reverse
-from http.client import HTTPResponse
 from .models import Bandname
 from django.http import JsonResponse
 from .forms import CreateBandname, CreateBatchBandname
@@ -8,7 +6,6 @@ from django.template.loader import render_to_string
 from django.utils.timezone import now
 from .utils import *
 import math
-import re
 
 # `create` gets called when the user submits the bandname submission form
 def create(request):
@@ -45,15 +42,6 @@ def create(request):
             json_response = { 'response_msg': 'Form was not valid' }
 
     return JsonResponse(json_response, safe = False)
-
-
-def get_ip_address(request):
-    user_ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
-    if user_ip_address:
-        ip = user_ip_address.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
     
 # `vote` gets called when the user votes on a bandname
 def vote(request):
@@ -167,7 +155,8 @@ def batch_create(request):
                     new_bandname = Bandname(bandname=bandname,
                                             username=request.user.username,
                                             score=0,
-                                            date_submitted=now().strftime("%Y-%m-%d"))
+                                            date_submitted=now().strftime("%Y-%m-%d"), 
+                                            ip_address = get_client_ip(request))
                     new_bandname.save()
 
                 json_response = {"response_msg" : "These bandnames are delicious"}
@@ -235,31 +224,6 @@ def delete_bandname(request):
             }
 
     return JsonResponse(json_response, safe = False)
-
-def by_name(list):
-    return list.get('bandname')
-
-def by_score(list):
-    return list.get('score')
-
-def convert_bandname_objs_dict(list):
-    new_bandnames_list = []
-    for bandname in list:
-        new_bandnames_list.append({
-            "bandname": bandname.bandname,
-            "score": bandname.score,
-        })
-    return new_bandnames_list
-
-def sort_table(data, column_id, direction):
-    sort = False if direction == "asc" \
-                    else True
-    if column_id == 0:
-        data.sort(key = by_name, reverse = sort)
-        return data     
-    if column_id == 1:
-        data.sort(key = by_score, reverse = sort)
-        return data
 
 def get_voted_history(request):
     voted_bandnames_objs = []

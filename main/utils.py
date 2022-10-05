@@ -1,9 +1,7 @@
 from ipaddress import ip_address
 from .models import Bandname
-import random
 from django.utils.timezone import now
 from profanity.extras import ProfanityFilter
-import math
 from random import randint
 
 # Function to read in user list of bandnames
@@ -187,3 +185,36 @@ def create_vote_json_response(request, voted_bandname, cleaned_list, table_templ
             'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
         }
     return json_response
+
+def by_name(list):
+    return list.get('bandname')
+
+def by_score(list):
+    return list.get('score')
+
+def convert_bandname_objs_dict(list):
+    new_bandnames_list = []
+    for bandname in list:
+        new_bandnames_list.append({
+            "bandname": bandname.bandname,
+            "score": bandname.score,
+        })
+    return new_bandnames_list
+
+def sort_table(data, column_id, direction):
+    sort = False if direction == "asc" \
+                    else True
+    if column_id == 0:
+        data.sort(key = by_name, reverse = sort)
+        return data     
+    if column_id == 1:
+        data.sort(key = by_score, reverse = sort)
+        return data
+
+def get_ip_address(request):
+    user_ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
+    if user_ip_address:
+        ip = user_ip_address.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
