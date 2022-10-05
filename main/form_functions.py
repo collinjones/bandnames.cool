@@ -67,6 +67,7 @@ def vote(request):
     
     if request.method == "POST":
         
+        # User-Based Voting
         if request.user.is_authenticated:
             if request.POST['bandname'].strip() != default_bandname_selected_text:
             
@@ -111,18 +112,31 @@ def vote(request):
                 for new_bandname in bandnames:
                     cleaned_list.append(new_bandname.bandname)
 
-                save_vote(request, voted_bandname, user, first_vote, duplicate_vote)
+                save_vote(request, voted_bandname, first_vote, duplicate_vote, user = user)
                 json_response = create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user)
             else:
                 json_response = { 
                 'vote-msg': 'Spin the wheel!', 
                 'authenticated': "False"
             }
+        # IP-Based Voting
         else:
-            json_response = { 
-                'vote-msg': 'Not logged in', 
-                'authenticated': "False"
-            }
+            voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+            if (get_client_ip(request) not in voted_bandname.ip_addresses_voted):
+                save_vote(request, voted_bandname)
+                voted_bandname.ip_addresses_voted.append(get_client_ip(request))
+                voted_bandname.save()
+                bandnames = get_bandnames(Bandname.objects.count())
+                cleaned_list = []
+                for new_bandname in bandnames:
+                    cleaned_list.append(new_bandname.bandname)
+
+                json_response = create_vote_json_response(request, voted_bandname, cleaned_list)
+            else:
+                json_response = { 
+                    'vote-msg': 'Already voted!', 
+                    'authenticated': "False"
+                }
     return JsonResponse(json_response, safe = False) 
 
 # `batch_create` gets called when a user submits the batch creation form

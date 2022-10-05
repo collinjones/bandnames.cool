@@ -132,31 +132,33 @@ def get_bandnames(collection_len):
 
     return bandnames
 
-def save_vote(request, voted_bandname, user, first_vote, duplicate_vote):
+def save_vote(request, voted_bandname, first_vote = None, duplicate_vote = None, user = None):
 
     if request.POST['val'] == "up":
         voted_bandname.score += 1
     else:
         voted_bandname.score -= 1
 
-    # First one must be assignment, beyond that (as long as it isn't dupe) save a new key
-    if first_vote:
-        user.profile.voted_bandnames = {voted_bandname.bandname : {
-            "score" : voted_bandname.score,
-            "username" : voted_bandname.username,
-            "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
-        }}
-    elif not duplicate_vote:
-        user.profile.voted_bandnames[voted_bandname.bandname] = {
-            "score" : voted_bandname.score,
-            "username" : voted_bandname.username,
-            "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
-        }
+    if user:
+        # First one must be assignment, beyond that (as long as it isn't dupe) save a new key
+        if first_vote:
+            user.profile.voted_bandnames = {voted_bandname.bandname : {
+                "score" : voted_bandname.score,
+                "username" : voted_bandname.username,
+                "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
+            }}
+        elif not duplicate_vote:
+            user.profile.voted_bandnames[voted_bandname.bandname] = {
+                "score" : voted_bandname.score,
+                "username" : voted_bandname.username,
+                "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
+            }
+        user.save()
 
     voted_bandname.save()
-    user.save()
+    
 
-def create_vote_json_response(request, voted_bandname, cleaned_list, table_template, user):
+def create_vote_json_response(request, voted_bandname, cleaned_list, table_template = None, user = None):
     
     filter = ProfanityFilter()
     json_response = {
@@ -165,14 +167,23 @@ def create_vote_json_response(request, voted_bandname, cleaned_list, table_templ
             'vote-msg': 'Voted down'
     }
 
-    json_response['bandname_json'] = {
-        'bandname': filter.censor(voted_bandname.bandname) if user.profile.profanity_filter \
-                                                           else voted_bandname.bandname,
-        'username': voted_bandname.username,
-        'score': voted_bandname.score,
-        'authenticated': "True",
-        'new_bandnames': cleaned_list,
-        'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
-        'table_content_template': table_template
-    }
+    
+    if user:
+        json_response['bandname_json'] = {
+            'bandname': filter.censor(voted_bandname.bandname) if user.profile.profanity_filter \
+                                                            else voted_bandname.bandname,
+            'username': voted_bandname.username,
+            'score': voted_bandname.score,
+            'authenticated': "True",
+            'new_bandnames': cleaned_list,
+            'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
+            'table_content_template': table_template
+        }
+    else:
+        json_response['bandname_json'] = {
+            'score': voted_bandname.score,
+            'authenticated': "False",
+            'new_bandnames': cleaned_list,
+            'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
+        }
     return json_response
