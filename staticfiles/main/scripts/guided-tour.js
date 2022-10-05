@@ -28,9 +28,9 @@ function loadTour() { if ( typeof introJs !== "undefined" ) {
     position: 'top'},{element: 'img[id=\'downvote-button\']',
     intro: '<font size="3" color="#33477B"><center><b>Voting</b></center><hr>If you dislike a bandname, vote it down!</font>',
     position: 'top'},{element: 'img[id=\'scroll-img\']',
-    intro: '<font size="3" color="#33477B"><center><b>Voting History</b></center><hr>Bandnames you’ve voted on will appear here! Click “Bandname” or “Score” to sort your collected bandnames alphabetically, or by total user score.</font>',
+    intro: '<font size="3" color="#33477B"><center><b>Voting History</b></center><hr>If you have an account, bandnames you’ve voted on will appear here! Click “Bandname” or “Score” to sort your collected bandnames alphabetically, or by total user score.</font>',
     position: 'top'},{
-    intro: '<font size="3" color="#33477B"><center><b>Complete</b></center><hr>That’s about it! If you enjoy it, you can make an account to start tracking your voted bandnames as well as ones you have submitted.</font>',
+    intro: '<font size="3" color="#33477B"><center><b>Complete</b></center><hr>That’s about it! If you enjoy it, you can make an account to start tracking your voted bandnames as well as ones you’ve submitted.</font>',
     position: 'top'},]
     });
     intro.setOption("disableInteraction", true);
