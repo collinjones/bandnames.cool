@@ -107,7 +107,7 @@ def get_rows(request):
             page = math.ceil(start / length) + 1
             per_page = length
 
-            # This has no explination. Without it, sorting by lowest to highest score 
+            # This has no explanation. Without it, sorting by lowest to highest score 
             #   makes the user_submissions list act wonky. user_submissions[0] is not the start of the list if that makes sense.. 
             for sub in user_submissions:
                 pass
