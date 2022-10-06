@@ -106,7 +106,14 @@ def get_rows(request):
             length = int(_length)
             page = math.ceil(start / length) + 1
             per_page = length
+
+            # This has no explination. Without it, sorting by lowest to highest score 
+            #   makes the user_submissions list act wonky. user_submissions[0] is not the start of the list if that makes sense.. 
+            for sub in user_submissions:
+                pass
+
             user_submissions = user_submissions[start:start + length]
+
 
         data = [{'bandname': bandname.bandname, 'score': bandname.score} for bandname in user_submissions]
         response = {
