@@ -2,7 +2,7 @@ from seleniumbase import BaseCase
 
 class MyTourClass(BaseCase):
 
-    def test_google_tour(self):
+    def test_bandnames_tour(self):
         self.open('http://127.0.0.1:8000/')
         # self.wait_for_element('#bandname')
 

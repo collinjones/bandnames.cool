@@ -46,11 +46,17 @@ def ProfanityToggle(request):
 def ProfileView(request):
 
     form = ProfileForm
+    user_submissions = Bandname.objects.filter(username=request.user).all()
+    cumulative_score = 0
+    for name in user_submissions:
+        cumulative_score += name.score
+        
     if request.user.is_authenticated:        
         template = "registration/profile.html"
         ctxt = {
             "user": request.user,
             "profanity_filter": request.user.profile.profanity_filter,
+            "score": cumulative_score,
             "form": form
         }
     else:

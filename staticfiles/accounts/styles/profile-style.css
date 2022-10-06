@@ -37,10 +37,10 @@
 
 #profile-body-top {
     position: relative;
-    width: 180px;
+    width: 400px;
     margin: auto;
     text-align: center;
-    height: 180px;
+    height: 100%;
     padding: 10px;
 }
 
@@ -53,5 +53,6 @@
 }
 
 #profile-body-top-img {
-    width: 180px;
+    width: 100%;
+    height: 725px;
 }
