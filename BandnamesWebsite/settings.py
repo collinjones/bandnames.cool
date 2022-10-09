@@ -18,21 +18,18 @@ import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATABASE_URL = "postgres://hhasblwswnions:ec35b3edab685f72cb04bc2f50e10fd900786d1cf7a102d138a6f699fc6dfa41@ec2-44-205-177-160.compute-1.amazonaws.com:5432/dcv01nao81imql"
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u@e#2)9f2o)i02@nn3_q)guw9*509fe*2k@jd7v2=ehn5j7*k_'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-MONGODB_HOST = os.getenv('MONGODB_URI')
-MONGODB_USER = os.getenv('MONGODB_USER')
-MONGODB_PWD = os.getenv('MONGODB_PWD')
 
 # Application definition
 

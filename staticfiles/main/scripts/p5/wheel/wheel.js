@@ -29,6 +29,8 @@ class Wheel {
         this.color = color;          // color of the wheel 
         this.state = this.states.Stopped;  // initial state of the wheel
         this.position = position     // position of the wheel
+        this.rotations = 0;
+        this.rotations_final = 0;
 
         this.populateWheel();
 
@@ -119,19 +121,37 @@ class Wheel {
     }
 
     /* Stop the wheel if slow enough */
+    // Returns true if wheel stopped, false otherwise
     checkAndStopWheel() {
 
         // If angleV is less than the stopping threshold or the angleV is 0
         if (this.angleV < this.stopVelocity || this.angleV < 0) {
-            this.angleV = 0;
-            this.state = this.states.Stopped
 
+            // Stop the wheel
+            this.state = this.states.Stopped
+            this.angleV = 0;
+
+            // Save the amount of times it rotated then reset 
+            this.rotations_final = this.rotations
+            this.rotations = 0 
+            console.log(this.rotations_final)
+
+            // Choose the final bandname and return true
             this.chooseBandname();
             return true
         }
+
+        // Select the current bandname 
         this.chooseBandname();
+
+        // Save the current angle in
         this.pastAngle = this.angle;
-        this.state = this.states.Spinning
+
+        // Set the state to spinning if not
+        if (this.state != this.states.Spinning){
+            this.state = this.states.Spinning
+        }
+
         return false
     }
 
@@ -184,6 +204,7 @@ class Wheel {
         if (this.angle >= 360) {
             this.pastAngle = 0;
             this.angle = 0;
+            this.rotations += 1
         }
     }
 
@@ -246,11 +267,13 @@ class Wheel {
 
     /* Calls the other render functions in the proper order */
     render() {
+        
         this.renderWheel();
         this.renderBandnames();
         this.renderLines();
     }
+
+    get_rotations_final() {
+        return this.rotations_final
+    }
 };
-
-
-

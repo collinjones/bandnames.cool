@@ -12,6 +12,7 @@ let button;
 let spinButton
 let vinyl_img;
 let pick_of_destiny_img;
+var final_rotations;
 
 function mouseDragged() {
     if (mouseInsideCanvas()) {
@@ -91,6 +92,7 @@ function setup() {
     spinButton.mousePressed(spinWheel)
     spinButton = select('#stop-button')
     spinButton.mousePressed(stopWheel)
+    final_rotations = 0
 
     wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bandnames)
 
@@ -113,6 +115,8 @@ function draw() {
     clear()
 
     wheel.update();
+    final_rotations = wheel.get_rotations_final()
+    
 
     objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)
 
@@ -145,5 +149,6 @@ function draw() {
         document.getElementById("upvote-button").disabled = false; 
         document.getElementById("downvote-button").disabled = false; 
     }
+    
     
 }
