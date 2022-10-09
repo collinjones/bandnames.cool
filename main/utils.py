@@ -3,6 +3,37 @@ from .models import Bandname
 from django.utils.timezone import now
 from profanity.extras import ProfanityFilter
 from random import randint
+from django.contrib.auth.models import User
+
+def deleted_bandname_cleanup():
+    bandnames = Bandname.objects.all()
+    cleaned_list = []
+    for bandname in bandnames:
+        cleaned_list.append(bandname.bandname)
+
+    users = User.objects.all()
+    for user in users:
+        voted_bandnames = user.profile.voted_bandnames
+        if voted_bandnames:
+            if not isinstance(voted_bandnames, str):
+                for key in voted_bandnames.copy():
+                    if key not in cleaned_list:
+                        del user.profile.voted_bandnames[key]
+        user.save()
+
+def add_vote_obj():
+    users = User.objects.all()
+    for user in users:
+        voted_names = user.profile.voted_bandnames
+        if voted_names:
+            if not isinstance(voted_names, str):
+                for name in voted_names:
+                    try:
+                        bandname = Bandname.objects.get(bandname = name)
+                        print("Adding ", bandname.bandname, " to user: ", user.id)
+                        user.profile.voted_bandnames_list.add(bandname)
+                    except:
+                        pass
 
 # Function to read in user list of bandnames
 def read_in_list(bandnames_batch, num_bool, date_bool):

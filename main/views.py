@@ -6,42 +6,6 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from .utils import *
 from .form_functions import *
-import datetime
-
-# for every single bandname in database, 
-# go through every single voted_bandnames list and remove entries that 
-# don't exist anymore.
-
-
-def deleted_bandname_cleanup():
-    bandnames = Bandname.objects.all()
-    cleaned_list = []
-    for bandname in bandnames:
-        cleaned_list.append(bandname.bandname)
-
-    users = User.objects.all()
-    for user in users:
-        voted_bandnames = user.profile.voted_bandnames
-        if voted_bandnames:
-            if not isinstance(voted_bandnames, str):
-                for key in voted_bandnames.copy():
-                    if key not in cleaned_list:
-                        del user.profile.voted_bandnames[key]
-        user.save()
-
-def add_vote_obj():
-    users = User.objects.all()
-    for user in users:
-        voted_names = user.profile.voted_bandnames
-        if voted_names:
-            if not isinstance(voted_names, str):
-                for name in voted_names:
-                    try:
-                        bandname = Bandname.objects.get(bandname = name)
-                        print("Adding ", bandname.bandname, " to user: ", user.id)
-                        user.profile.voted_bandnames_list.add(bandname)
-                    except:
-                        pass
 
 # Sets up and renders the submission page
 def index(request):
