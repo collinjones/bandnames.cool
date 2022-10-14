@@ -42,24 +42,15 @@ function vote_down_dragged() {
     submit_button.src="static/images/dv1.png"
 }
 
-var mute_on = false
-
 function mute_clicked() {
-    var current_path = document.getElementById("mute-button").attributes[3].textContent
+    var enabled = document.getElementById("mute-button").attributes[0].textContent
     var mute_button = document.getElementById("mute-button")
-    if (current_path == "/static/images/sound_off.png"){
-        mute_button.src = "/static/images/sound_on.png"
-        mute_on = false
-    } 
-    else if (current_path == "/static/images/sound_on.png"){
+    if (enabled == "true"){
+        document.getElementById("mute-button").attributes[0].textContent = "false"
         mute_button.src = "/static/images/sound_off.png"
-        mute_on = true
-    }
-    else {
-        if (mute_on){
-            mute_button.src = "/static/images/sound_on.png"
-        } else {
-            mute_button.src = "/static/images/sound_off.png"
-        }
+    } 
+    else if (enabled == "false"){
+        document.getElementById("mute-button").attributes[0].textContent = "true"
+        mute_button.src = "/static/images/sound_on.png"
     }
 }

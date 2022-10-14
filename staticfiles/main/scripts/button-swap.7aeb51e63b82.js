@@ -45,12 +45,12 @@ function vote_down_dragged() {
 function mute_clicked() {
     var enabled = document.getElementById("mute-button").attributes[0].textContent
     var mute_button = document.getElementById("mute-button")
-    if (enabled == "true"){
-        document.getElementById("mute-button").attributes[0].textContent = "false"
-        mute_button.src = "/static/images/sound_off.png"
-    } 
-    else if (enabled == "false"){
-        document.getElementById("mute-button").attributes[0].textContent = "true"
+    console.log(enabled)
+    console.log('click')
+    if (current_path == "/static/images/sound_off.png"){
         mute_button.src = "/static/images/sound_on.png"
+    } 
+    else if (current_path == "/static/images/sound_on.png"){
+        mute_button.src = "/static/images/sound_off.png"
     }
 }
