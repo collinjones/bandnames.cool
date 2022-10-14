@@ -64,9 +64,9 @@ var profanity_filter = "{{profanity_filter}}"
         </div>
         <!-- Div for the p5.js sketch (Bandname Wheel) -->
         <div class = "sketch-div cursor-horns" id = "sketch-holder" style="touch-action:none">
-            <button id="spin-button" class="pixelated-font cursor-horns">Spin Wheel</button>
-            <button id="stop-button" class="pixelated-font cursor-horns">Stop Wheel</button>
-            <button id="mute-button" class="pixelated-font cursor-horns">Mute Wheel</button><br>
+            <input style = "width: 64px;" type="image" src="{% static 'images/spin_wheel_static.png' %}" id="spin-button" class="pixelated-font cursor-horns">
+            <input style = "width: 64px;" type="image" src="{% static 'images/stop_resting.png' %}" id="stop-button" class="pixelated-font cursor-horns">
+            <input onmousedown="mute_clicked()" style = "width: 64px;" type="image" src="{% static 'images/sound_on.png' %}" id="mute-button" class="pixelated-font cursor-horns"><br>
         </div>
         <!-- Div for the selected bandname from the wheel -->
         <div class="voted-history-div" id="voting-system">
@@ -99,7 +99,80 @@ $(document).ready( function () {
     }
 });
 </script>
+<script>
+var mute_on = false
 
+$(document).ready(function(){
+    $(document).mousemove(function(){
+         if($("#spin-button:hover").length != 0){
+            $("#spin-button").attr('src', "{% static 'images/spin_wheel.gif' %}")
+        } else{
+            $("#spin-button").attr('src', "{% static 'images/spin_wheel_static.png' %}")
+        }
+    });
+});
+
+$(document).ready(function(){
+    $(document).mousemove(function(){
+        var current_path = document.getElementById("mute-button").attributes[3].textContent
+        if (current_path == "/static/images/sound_on.png"){
+            mute_on = false
+            if($("#mute-button:hover").length != 0){
+                $("#mute-button").attr('src', "{% static 'images/sound_hover.png' %}")
+            } else{
+                $("#mute-button").attr('src', "{% static 'images/sound_on.png' %}")
+            }
+        }
+        if (current_path == "/static/images/sound_off.png") {
+            mute_on = true
+        }
+        if (current_path == "/static/images/sound_hover.png") {
+            // SOUND IS MUTED 
+            if (mute_on){
+
+                // USE IS HOVERING BUTTON
+                if($("#mute-button:hover").length != 0){
+                    $("#mute-button").attr('src', "{% static 'images/sound_hover.png' %}")
+                } else {
+                    $("#mute-button").attr('src', "{% static 'images/sound_off.png' %}")
+                }
+            } else {
+                // USE IS HOVERING BUTTON
+                if($("#mute-button:hover").length != 0){
+                    $("#mute-button").attr('src', "{% static 'images/sound_hover.png' %}")
+                } else {
+                    $("#mute-button").attr('src', "{% static 'images/sound_on.png' %}")
+                }
+            }   
+        }
+    });
+});
+
+$(document).ready(function(){
+    $(document).mousemove(function(){
+        if($("#stop-button:hover").length != 0){
+            $("#stop-button").attr('src', "{% static 'images/stop_hover.png' %}")
+        } else{
+            $("#stop-button").attr('src', "{% static 'images/stop_resting.png' %}")
+        }
+    });
+});
+
+$(document).ready(function(){
+    $(document).mousemove(function(){
+        
+        if($("#bandname-submit:hover").length != 0){
+            var current_path = document.getElementById("bandname-submit").attributes[8].textContent
+            console.log(current_path)
+            if (current_path != "static/images/button_clicked.png"){
+                $("#bandname-submit").attr('src', "{% static 'images/button_hover.png' %}")
+            }
+        } else{
+            $("#bandname-submit").attr('src', "{% static 'images/button.png' %}")
+        }
+    });
+});
+</script>
 
 {% endblock %}
 

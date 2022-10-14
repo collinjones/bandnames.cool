@@ -1,0 +1,2 @@
+export SECRET_KEY='django-insecure-u@e#2)9f2o)i02@nn3_q)guw9*509fe*2k@jd7v2=ehn5j7*k_'
+export DATABASE_URL='postgres://hhasblwswnions:ec35b3edab685f72cb04bc2f50e10fd900786d1cf7a102d138a6f699fc6dfa41@ec2-44-205-177-160.compute-1.amazonaws.com:5432/dcv01nao81imql' 

@@ -1,3 +1,4 @@
+
 $("[id^=delete-button-profile]").click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Deleting bandname... This may take a while..." }); 
