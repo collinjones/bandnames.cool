@@ -4,3 +4,4 @@ deploy.sh
 migrate.sh 
 run.sh 
 static.sh
+env.sh
