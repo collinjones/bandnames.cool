@@ -91,8 +91,6 @@ pure-eval==0.2.2
 py==1.11.0
 py-moneyed==2.0
 pycparser==2.21
-pygame==2.1.2
-pygame-gui==0.6.4
 Pygments==2.13.0
 pylev==1.4.0
 pymongo==4.3.2
