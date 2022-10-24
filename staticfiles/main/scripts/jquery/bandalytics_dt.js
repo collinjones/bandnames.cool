@@ -10,10 +10,11 @@ function get_column_titles(data) {
     var columns = [];
     $.each( data['data'][0], function( key, value ) {
         var my_item = {};
-        my_item.data = key;
-        my_item.title = key;
+        my_item.data = key
+        my_item.title = key.replace("_", " ");
         columns.push(my_item);
     });
+    console.log(columns)
     return columns
 }
 

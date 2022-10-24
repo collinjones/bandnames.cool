@@ -25,3 +25,7 @@
     left: 15px;
     bottom: 325px;
 }
+
+tr {
+    text-transform:capitalize;
+}
