@@ -2,6 +2,7 @@ from .models import Bandname
 from django.http import JsonResponse
 from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth.models import User
+from accounts.models import Profile
 from django.template.loader import render_to_string
 from django.utils.timezone import now
 from .utils import *
@@ -300,11 +301,28 @@ def get_voted_history(request):
                 return JsonResponse(response)
 
     response = {
-                "data": voted_bandnames_objs,
-                "page": 0,
-                "per_page": 0,
-                "recordsTotal": 0,
-                "recordsFiltered": 0,
-            }
+        "data": voted_bandnames_objs,
+        "page": 0,
+        "per_page": 0,
+        "recordsTotal": 0,
+        "recordsFiltered": 0,
+    }
     return JsonResponse(response)
 
+def get_top_ten_bandnames(request):
+    top_ten_bandnames = list(Bandname.objects.values("username", "bandname", "score").order_by("-score")[:10])
+    response = {
+        "data": top_ten_bandnames,
+    }
+    return JsonResponse(response)
+
+def get_top_ten_users(request):
+    top_ten_users = list(Profile.objects.values("user", "cumulative_score").order_by("-cumulative_score")[:10])
+    for index, entry in enumerate(top_ten_users):
+        user = User.objects.get(pk=entry['user'])
+        top_ten_users[index]['user'] = user.username
+        
+    response = {
+        "data": top_ten_users,
+    }
+    return JsonResponse(response)

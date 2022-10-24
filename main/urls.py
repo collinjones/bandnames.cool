@@ -1,14 +1,16 @@
 from django.urls import path
 from . import views
+from . import form_functions
 
 urlpatterns = [
     path('', views.index, name='submission'),
-    path('batch-submit', views.batch_submit, name='batchSubmission'),
-    path('batch-create', views.batch_create, name='batchCreation'),
-    path('create', views.create, name='create'),
-    path('vote', views.vote, name='vote'),
     path('faq', views.faq, name='faq'),
-    path('remove_bandname', views.remove_bandname, name='remove_bandname'),
-    path('delete_bandname', views.delete_bandname, name='delete_bandname'),
-    path('get_voted_history', views.get_voted_history, name='get_voted_history'),
+    path('bandalytics', views.bandalytics, name='bandalytics'),
+    path('batch-submit', views.batch_submit, name='batchSubmission'),
+    path('batch-create', form_functions.batch_create, name='batchCreation'),
+    path('create', form_functions.create, name='create'),
+    path('vote', form_functions.vote, name='vote'),
+    path('get_voted_history', form_functions.get_voted_history, name='get_voted_history'),
+    path('get_top_ten_bandnames', form_functions.get_top_ten_bandnames, name='get_top_ten_bandnames'),
+    path('get_top_ten_users', form_functions.get_top_ten_users, name='get_top_ten_users'),
 ]

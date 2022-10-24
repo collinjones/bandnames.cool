@@ -42,6 +42,13 @@ def index(request):
 
     return render(request, "../templates/main/submission.html", context=ctxt)
 
+def bandalytics(request):
+    template = "../templates/main/bandalytics.html"
+    ctxt = {
+        "title": "Bandalytics",
+    }
+    return render(request, template, context=ctxt)
+
 # Sets up and renders the FAQ page
 def faq(request):
     template = "../templates/main/faq.html"

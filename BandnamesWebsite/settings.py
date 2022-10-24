@@ -139,4 +139,5 @@ django_heroku.settings(locals())
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bandnames.cool','https://*.127.0.0.1']
 
-# CELERY_BROKER_URL = os.environ.get('REDIS_TLS_URL')
+CELERY_BROKER_URL = os.environ.get('REDIS_TLS_URL')
+

@@ -47,9 +47,13 @@ def ProfileView(request):
 
     form = ProfileForm
     user_submissions = Bandname.objects.filter(username=request.user).all()
+    user = User.objects.get(pk=request.user.id)
     cumulative_score = 0
     for name in user_submissions:
         cumulative_score += name.score
+
+    user.profile.cumulative_score = cumulative_score
+    user.save()
         
     if request.user.is_authenticated:        
         template = "registration/profile.html"

@@ -1,0 +1,18 @@
+.dataTables_wrapper {
+    position: absolute !important;
+    width: 500px !important;
+    bottom: 88px !important;
+    right: 52px !important;
+}
+
+.scroll-img-bandalytics {
+    transform: rotate(90deg);
+}
+
+.bandalytics-div {
+    position: relative;
+}
+
+.bandalytics-table {
+    position: absolute !important;
+}

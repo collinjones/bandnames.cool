@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+{% load profanity %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block body %}
+
+<link rel="stylesheet" type="text/css" href=" {% static 'main/styles/bandalytics.css' %} ">
+<script type="text/javascript" src=" {% static 'main/scripts/jquery/bandalytics_dt.js' %} "></script>
+
+<div id="bandalytics-div">
+    <image draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img-bandalytics"></image>
+
+    <select name="bandalytics_selection" id="bandalytics_selection">
+        <option onselect="top_ten_bandnames()" value="top_ten_bandnames">Top 10 Bandnames of All Time</option>
+        <option value="top_ten_users">Top 10 Users of All Time</option>
+    </select>
+    <table id="bandalytics-table"  class="display"></table>
+</div>
+
+
+{% endblock %}
