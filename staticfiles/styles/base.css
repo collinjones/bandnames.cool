@@ -33,11 +33,6 @@ body {
     cursor: url("../images/cursor-horns.png"), auto !important;
 }
 
-h1 {
-    color: black;
-    font-family: 'Pixelated';
-}
-
 @font-face {
     font-family: 'Pixelated';
     src: url('pixel.ttf');
@@ -60,10 +55,6 @@ a {
 
 #faq-text{
     color:white;
-}
-
-#faq-img {
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
 }
 
 #placcard-img{
@@ -380,17 +371,19 @@ table.dataTable tbody td {
 }
 
 #faq-text {
-    position: absolute;
-    top: 10px;
-    font-size: 15px;
-    margin-right: 6%;
-    left: 29px;
+    width: 100%;
+    color: white !important;
 }
   
 #faq-div {
-    position: relative;
-    width: 609px;
+    background-color:rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    max-width: 400px;
     margin: auto;
+    margin-bottom: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 10px;
 }
 
 #bandname-submit {
