@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from accounts.forms import ProfileForm
 from main.models import Bandname
 from .utils import *
+from main.utils import *
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
@@ -71,7 +72,8 @@ def get_rows(request):
                                                              else None
         direction = request.GET.get('order[0][dir]') if request.GET.get('order[0][dir]') != None \
                                                      else None
-        username = username=request.user.username 
+        username = request.user.username 
+        user = User.objects.get(pk=request.user.id)
 
         if column_id == 0 and direction == "desc":
             user_submissions = Bandname.objects.filter(username=username).all().order_by('-bandname')
@@ -115,7 +117,7 @@ def get_rows(request):
             user_submissions = user_submissions[start:start + length]
 
 
-        data = [{'bandname': bandname.bandname, 'score': bandname.score} for bandname in user_submissions]
+        data = [{'bandname': censor_bandname(bandname.bandname) if user.profile.profanity_filter else bandname.bandname, 'score': bandname.score} for bandname in user_submissions]
         response = {
             "data": data,
             "page": page,

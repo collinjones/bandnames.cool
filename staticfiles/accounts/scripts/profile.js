@@ -1,3 +1,11 @@
+var table;
+
+function reset_table(table, tableId) {
+    table.clear().destroy()
+    $(tableId + " tbody").empty();
+    $(tableId + " thead").empty();
+}
+
 $("#profile-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: null }); 
@@ -10,12 +18,29 @@ $("#profile-submit" ).click(function(e) {
         },
         success: function (data) {
             $.unblockUI();
+            var tableId = "#bandalytics-table"
+            reset_table(table, tableId);
+            table = $('#bandnames-table-profile').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "scrollY": "340",
+                "scrollX": false,
+                "order": [ 1, 'desc' ],
+                ajax: {
+                    "type" : "GET",
+                    "url": "/registration/profile/get_rows"
+                },
+                columns: [
+                    {data: "bandname"},
+                    {data: "score"},
+                ]
+            });
         }
     });
 });
 
 $(document).ready(function () {
-    $('#bandnames-table-profile').DataTable({
+    table = $('#bandnames-table-profile').DataTable({
         "processing": true,
         "serverSide": true,
         "scrollY": "340",

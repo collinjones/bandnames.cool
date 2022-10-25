@@ -30,7 +30,6 @@ def add_vote_obj():
                 for name in voted_names:
                     try:
                         bandname = Bandname.objects.get(bandname = name)
-                        print("Adding ", bandname.bandname, " to user: ", user.id)
                         user.profile.voted_bandnames_list.add(bandname)
                     except:
                         pass
@@ -82,6 +81,37 @@ def read_in_list(bandnames_batch, num_bool, date_bool):
 
     return clean_list
 
+def get_num_asterisks(str):
+    asterisks = ""
+    for _ in range(len(str)):
+        asterisks += "*"
+    return asterisks
+
+def censor_bandname(bandname):
+    bandname_lower = bandname.lower()
+    censored_bandname = bandname
+    censored_list = []
+    with open('static/main/filters/filter.txt', "r") as a_file:
+        for line in a_file:
+            line = line.strip()
+            if line in bandname_lower:
+                censored_list.append(line)
+                
+    censored_bandname_list = censored_bandname.split()
+    for filter in censored_list:
+        for i, word in enumerate(censored_bandname_list):
+            if filter in word.lower():
+                censored_bandname_list[i] = censored_bandname_list[i].lower().replace(filter, get_num_asterisks(filter))
+
+    censored_bandname = ' '.join(censored_bandname_list)
+    return censored_bandname
+
+def censor_all_bandnames():
+    bandnames = Bandname.objects.all()
+    for bandname in bandnames:
+        bandname.bandname_censored = censor_bandname(bandname.bandname)
+        bandname.save()
+
 # create_bandname return True on successfull creation, False otherwise (if it already exists)
 def create_bandname(request, new_bandname, authenticated):
 
@@ -91,9 +121,10 @@ def create_bandname(request, new_bandname, authenticated):
             return False
 
     except Bandname.DoesNotExist:
-        
+
         # Get the bandname string from the form and create a Bandname object
         new_bandname = Bandname(bandname = new_bandname,
+                                bandname_censored = censor_bandname(new_bandname),
                                 username = request.user.username if authenticated \
                                                                  else "Anonymous",
                                 score = 0, 

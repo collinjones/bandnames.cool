@@ -7,6 +7,7 @@ from traitlets import default
 class Bandname(models.Model):
 
     bandname = models.CharField(max_length=128, primary_key=True)
+    bandname_censored = models.CharField(max_length=128, default="")
     username = models.CharField(max_length=150)
     score = models.IntegerField()
     date_submitted = models.DateField(default=now().strftime("%Y-%m-%d"))

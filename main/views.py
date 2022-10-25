@@ -20,7 +20,7 @@ def index(request):
     bandnames = get_bandnames(collection_len)
 
     for bandname in bandnames:
-        cleaned_list.append(bandname.bandname)
+        cleaned_list.append((bandname.bandname, censor_bandname(bandname.bandname)))
 
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.id)

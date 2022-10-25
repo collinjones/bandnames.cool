@@ -9,8 +9,8 @@
 <script>
 var bandnames = {}
 var profanity_filter = "{{profanity_filter}}"
-'{% for bandname in bandnames %}'
-    bandnames["{{bandname}}"] = '{{bandname|censor}}'
+'{% for bandname, censored_bandname in bandnames %}'
+    bandnames["{{bandname}}"] = '{{censored_bandname}}'
 '{% endfor %}'
 </script>
 

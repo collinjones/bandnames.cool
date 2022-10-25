@@ -36,7 +36,7 @@ def create(request):
                                 'username': request.user.username if request.user.is_authenticated \
                                                                   else "Anonymous",
                                 'score': 0,
-                                'response_msg': "Bandname created successfully."
+                                'response_msg': "Bandname created successfully.",
                                 }
             else:
                 json_response = { 'response_msg': 'Bandname already exists' }
@@ -142,7 +142,6 @@ def batch_create(request):
             if form.is_valid():
 
                 new_bandname_str = form.cleaned_data['bandnames']
-                
 
                 # Convert submitted data into a list
                 batchList = read_in_list(form.cleaned_data['bandnames'], form.cleaned_data['numbered'], form.cleaned_data['dated'])
@@ -155,6 +154,7 @@ def batch_create(request):
                 # Bandnames are good to submit at this point
                 for bandname in batchList:
                     new_bandname = Bandname(bandname=bandname,
+                                            bandname_censored=censor_bandname(bandname),
                                             username=request.user.username,
                                             score=0,
                                             date_submitted=now().strftime("%Y-%m-%d"), 
@@ -247,8 +247,9 @@ def get_voted_history(request):
 
                     # Try to make an entry (otherwise delete because it was probably a leftover)
                     try:
+                        
                         json_entry = {
-                            "bandname": entry,
+                            "bandname": censor_bandname(entry) if user.profile.profanity_filter else entry,
                             "score": voted_bandnames[entry]['score'],
                             "username": voted_bandnames[entry]['username'],
                             "date_submitted": voted_bandnames[entry]['date_submitted'],
@@ -284,6 +285,7 @@ def get_voted_history(request):
                     #   score in the database
                     for entry in data: 
                         lookup_list.append(entry['bandname'])
+
                     bandnames = list(Bandname.objects.filter(bandname__in=lookup_list).order_by('bandname')) 
                     for bandname in bandnames:
                         for voted_name in user.profile.voted_bandnames:
