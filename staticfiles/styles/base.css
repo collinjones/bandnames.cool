@@ -477,6 +477,8 @@ table.dataTable tbody td {
 
 #bandname-selected {
     height: 50px;
+    background-color: rgba(0, 0, 0, 0.33);
+    border-radius: 5px;
 }
 
 #pillars-div {

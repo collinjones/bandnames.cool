@@ -337,14 +337,12 @@ def top_bandnames_7_days(request):
     today = str(today)
     past_week = str(past_week)
 
-    print(today)
-    print(past_week)
-
-    top_ten_bandnames = list(Bandname.objects.filter(
-            date_submitted__range = [past_week, today]
-        ).exclude(score__lte=0).values(
-            "username", "bandname", "score", "date_submitted"
-        ).order_by("-score")[:10]
+    # This should be standard Django ORM Formatting!
+    top_ten_bandnames = list(Bandname.objects
+        .filter(date_submitted__range = [past_week, today])
+        .exclude(score__lte=0)
+        .values("username", "bandname", "score", "date_submitted")
+        .order_by("-score")[:10]
     )
     
     response = {

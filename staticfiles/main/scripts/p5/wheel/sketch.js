@@ -124,9 +124,9 @@ function draw() {
         heading.innerHTML = "<span style='color: red'> No bandname selected - SPIN THE WHEEL</span>"
     } 
     else if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
-        var r = Math.floor(Math.random() * 255) + 1;
-        var g = Math.floor(Math.random() * 255) + 1;
-        var b = Math.floor(Math.random() * 255) + 1;
+        var r = Math.floor(Math.random() * 255) + 100;
+        var g = Math.floor(Math.random() * 255) + 100;
+        var b = Math.floor(Math.random() * 255) + 100;
         var rgb = r + ", " + g + ", " + b
         
         if (profanity_filter == "True"){
