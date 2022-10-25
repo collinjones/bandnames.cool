@@ -121,7 +121,7 @@ function draw() {
     const heading = document.getElementById('bandname-selected');
     /* No name selected yet */
     if (Object.keys(wheel.bandnameSelected).length === 0) {
-        heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> No bandname selected - SPIN THE WHEEL</span>"
+        heading.innerHTML = "<span> No bandname selected - SPIN THE WHEEL</span>"
     } 
     else if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
         var r = Math.floor(Math.random() * 255) + 100;
