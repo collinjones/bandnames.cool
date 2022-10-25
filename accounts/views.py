@@ -25,7 +25,8 @@ def Registration(request):
     # Set up form if not submitted
     form = UserCreationForm()
     ctxt = {
-        "form": form
+        "form": form,
+        "title": "Sign Up",
     }
     return render (request, "registration/signup.html", ctxt)
 
@@ -55,7 +56,8 @@ def ProfileView(request):
             "user": request.user,
             "profanity_filter": request.user.profile.profanity_filter,
             "score": set_user_score(user, user_submissions),
-            "form": form
+            "form": form,
+            "title": "Profile",
         }
     else:
         return redirect("/")

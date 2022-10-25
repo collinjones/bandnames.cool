@@ -33,7 +33,7 @@ def index(request):
         cleaned_list.append("NO BANDNAMES AVAILABLE")
 
     ctxt = {
-        "title"     : "Submission Page",
+        "title"     : "Home Page",
         "profanity_filter": profanity_filter,
         "bandnames": cleaned_list,
         "count": collection_len,
@@ -61,7 +61,7 @@ def faq(request):
 def batch_submit(request):
     form = CreateBatchBandname()
     ctxt = {
-        "title": "Batch Submission Page",
+        "title": "Batch Submission",
         "form": form
     }
     return render(request, "../templates/main/batch_submission.html", context=ctxt)
