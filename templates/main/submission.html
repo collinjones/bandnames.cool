@@ -115,7 +115,6 @@ $(document).ready(function(){
 $(document).ready(function(){
     $(document).mousemove(function(){
         var enabled = document.getElementById("mute-button").attributes[0].textContent
-        console.log(enabled)
         if($("#mute-button:hover").length != 0){
             if (enabled == "true"){
                 $("#mute-button").attr('src', "{% static 'images/sound_hover.png' %}")

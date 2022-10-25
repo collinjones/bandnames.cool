@@ -5,18 +5,18 @@
             <div id="nav-links">
                 <a href="{% url 'submission' %}" class = 'cursor-horns'>Home</a><span style="color:white;"> |</span>
                 <a id="profile-link" href="{% url 'profile' %}" class = 'cursor-horns'>Profile</a> <span style="color:white;"> |</span>
+                <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a><span style="color:white;"> |</span>
                 <a id="batch-submit-link" href="{% url 'batchSubmission' %}" class = 'cursor-horns'>Batch</a> <span style="color:white;"> |</span>
-                <a id="logout-link" href="{% url 'logout' %}" class = 'cursor-horns'>Log Out</a><span style="color:white;"> |</span>      
-                <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a><span style="color:white;"> |</span>  
-                <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a>
+                <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a><span style="color:white;"> |<br></span>
+                <a id="logout-link" href="{% url 'logout' %}" class = 'cursor-horns'>Log Out</a>
             </div>
             {% else %}<span id="logged-out-span" style="color:white; display: block;">You are not logged in </span>
             <div id="nav-links">
                 <a href="{% url 'submission' %}" class = 'cursor-horns'>Home</a><span style="color:white;"> | </span>
+                <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a><span style="color:white;"> | </span>
                 <a id="login-link" href="{% url 'login' %}" class = 'cursor-horns'>Log In</a><span style="color:white;"> | </span>
                 <a id="register-link" href="{% url 'registration' %}" class = 'cursor-horns'>Sign Up</a><span style="color:white;"> | </span>
-                <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a><span style="color:white;"> | </span>
-                <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a>
+                <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a>
             </div>
         {% endif %} 
         <a class = 'cursor-horns' target="_blank" href="https://twitter.com/bandnamescool" style=" width: 40px; margin:auto"><image  src = "{% static 'images/twitter.png' %}" style="width:30px; padding: 5px"/></a>

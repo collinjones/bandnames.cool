@@ -28,6 +28,7 @@
         <link rel="manifest" href=" {% static 'images/site.webmanifest' %} ">
 
         <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'styles/site_wide.css' %} ">
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">
         <link rel="stylesheet" type="text/css" href=" {% static 'main/styles/voting-history.css' %} ">
 
@@ -46,11 +47,17 @@
 
     </head>
 
+    <!-- BODY -->
     <body class = "cursor-default">
         {% include "main/navigation.html" %}
         {% block body %}
         {% endblock %}
     </body>
+
+    <!-- FOOTER -->
+    <footer id = "copyright-footer">
+        <span><small>&copy; Copyright 2022, Bandname Boys</small></span>
+    </footer> 
 
     <script>
         $(document).ready(function() {

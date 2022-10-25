@@ -14,7 +14,6 @@ function get_column_titles(data) {
         my_item.title = key.replace("_", " ");
         columns.push(my_item);
     });
-    console.log(columns)
     return columns
 }
 

@@ -1,3 +1,16 @@
+function add_bandname_to_voted_history(data) {
+    var bandname = data['bandname_json']['bandname']
+    var score = data['bandname_json']['score']
+    var table = $('#bandnames-table-voted').DataTable();
+
+    console.log(bandname, score)
+    console.log(table)
+    table.row.add({
+        "bandname": bandname,
+        "score": score
+    }).draw();
+}
+
 $("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Submitting bandname..." }); 
@@ -45,7 +58,7 @@ $("#upvote-button" ).click(function(e) {
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
                     $.getScript("/static/main/scripts/remove_vote.js")
-                    $('#bandnames-table-body').prepend(data['bandname_json']['table_content_template'])
+                    add_bandname_to_voted_history(data)
                 }
                 
                 var bandnames = {}
@@ -61,6 +74,7 @@ $("#upvote-button" ).click(function(e) {
         }
     });
 });
+
 $("#downvote-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Voting down..." }); 
@@ -79,7 +93,7 @@ $("#downvote-button" ).click(function(e) {
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
                     $.getScript("/static/main/scripts/remove_vote.js")
-                    $('#bandnames-table-body').prepend(data['bandname_json']['table_content_template'])
+                    add_bandname_to_voted_history(data)
                 }
                 var bandnames = {}
                 for (var i = 0; i < data['bandname_json']['filtered_new_bandnames'].length; i++) {
@@ -159,7 +173,3 @@ $(document).ready(function () {
         ]
     });
 });
-
-
-
-
