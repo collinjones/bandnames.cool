@@ -48,7 +48,7 @@ $("#upvote-button" ).click(function(e) {
         type: 'POST',
         url: '/vote',
         data: {
-            bandname: $('#bandname-selected').text(),
+            bandname: $('#bandname-selected').attr("value"),
             val: "up",
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
@@ -83,7 +83,7 @@ $("#downvote-button" ).click(function(e) {
         type: 'POST',
         url: '/vote',
         data: {
-            bandname: $('#bandname-selected').text(),
+            bandname: $('#bandname-selected').attr("value"),
             val: "down",
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },

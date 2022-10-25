@@ -130,10 +130,11 @@ function draw() {
         var rgb = r + ", " + g + ", " + b
         
         if (profanity_filter == "True"){
-            heading.innerHTML = "<span value='' style='color: rgb(%rgb)'>".replace("%rgb", rgb) + Object.values(wheel.bandnameSelected)[0] + "</span>";
+            heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) + Object.values(wheel.bandnameSelected)[0] + "</span>";
+            console.log(Object.keys(wheel.bandnameSelected)[0])
             heading.setAttribute("value", Object.keys(wheel.bandnameSelected)[0])
         } else {
-            heading.innerHTML = "<span value='' style='color: rgb(%rgb)'>".replace("%rgb", rgb) +  Object.keys(wheel.bandnameSelected)[0] + "</span>";
+            heading.innerHTML = "<span style='color: rgb(%rgb)'>".replace("%rgb", rgb) +  Object.keys(wheel.bandnameSelected)[0] + "</span>";
             heading.setAttribute("value", Object.keys(wheel.bandnameSelected)[0])
         }
         tick_sfx.play();

@@ -68,7 +68,6 @@ def vote(request):
                     first_vote = False
                 else:
                     first_vote = True
-
                 voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
 
                 if first_vote:
