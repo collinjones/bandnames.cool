@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.template.loader import render_to_string
 from django.utils.timezone import now
+from datetime import date
+from datetime import timedelta
 from .utils import *
 import math
 
@@ -324,5 +326,28 @@ def get_top_ten_users(request):
         
     response = {
         "data": top_ten_users,
+    }
+    return JsonResponse(response)
+
+def top_bandnames_7_days(request):
+
+    today = date.today()
+    past_week = today - timedelta(days=7)
+
+    today = str(today)
+    past_week = str(past_week)
+
+    print(today)
+    print(past_week)
+
+    top_ten_bandnames = list(Bandname.objects.filter(
+            date_submitted__range = [past_week, today]
+        ).exclude(score__lte=0).values(
+            "username", "bandname", "score", "date_submitted"
+        ).order_by("-score")[:10]
+    )
+    
+    response = {
+        "data": top_ten_bandnames,
     }
     return JsonResponse(response)

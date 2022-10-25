@@ -13,4 +13,5 @@ urlpatterns = [
     path('get_voted_history', form_functions.get_voted_history, name='get_voted_history'),
     path('get_top_ten_bandnames', form_functions.get_top_ten_bandnames, name='get_top_ten_bandnames'),
     path('get_top_ten_users', form_functions.get_top_ten_users, name='get_top_ten_users'),
+    path('top_bandnames_7_days', form_functions.top_bandnames_7_days, name='top_bandnames_7_days'),
 ]
