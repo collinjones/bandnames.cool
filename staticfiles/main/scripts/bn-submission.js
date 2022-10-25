@@ -25,6 +25,7 @@ $("#bandname-submit" ).click(function(e) {
             
             if (data.hasOwnProperty('response_msg')){
                 $.blockUI({ message: data['response_msg']});  
+                $('#bandname').val("")
                 setTimeout(function() {
                     if (data.hasOwnProperty('bandname')){ 
                         var bn_count = $('#bandnames-count')
