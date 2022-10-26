@@ -43,17 +43,3 @@ table.dataTable thead > tr > td.sorting_asc_disabled::after,
 table.dataTable thead > tr > td.sorting_desc_disabled::after {
     content: "" !important;
 }
-
-
-table.dataTable thead > tr > th.sorting::before, 
-table.dataTable thead > tr > th.sorting_asc::before, 
-table.dataTable thead > tr > th.sorting_desc::before, 
-table.dataTable thead > tr > th.sorting_asc_disabled::before, 
-table.dataTable thead > tr > th.sorting_desc_disabled::before, 
-table.dataTable thead > tr > td.sorting::before, 
-table.dataTable thead > tr > td.sorting_asc::before, 
-table.dataTable thead > tr > td.sorting_desc::before, 
-table.dataTable thead > tr > td.sorting_asc_disabled::before, 
-table.dataTable thead > tr > td.sorting_desc_disabled::before {
-    content: "" !important;
-}

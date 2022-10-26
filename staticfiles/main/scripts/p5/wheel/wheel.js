@@ -31,9 +31,7 @@ class Wheel {
         this.position = position     // position of the wheel
         this.rotations = 0;
         this.rotations_final = 0;
-
         this.populateWheel();
-
     }
 
     setNewBandnames(bandnames) {
@@ -45,43 +43,55 @@ class Wheel {
         this.bandnamesOnWheel = {}
         this.populateWheel();
     }
+    
+    replace_char_codes(keys, values) {
+
+        var regex_replace_tuples = [
+            [/&amp;/g, '&'],
+            [/&#x27;/g, "'"],
+            [/&quot;/g, '"']
+        ]
+
+        for (let idx in keys) {
+            for (let idy in regex_replace_tuples) {
+                keys[idx] = keys[idx]
+                    .replace(regex_replace_tuples[idy][0], regex_replace_tuples[idy][1]);
+                values[idx] = values[idx]
+                    .replace(regex_replace_tuples[idy][0], regex_replace_tuples[idy][1]);
+            }
+        }
+
+        return [keys, values]
+    }
 
     /* Populate wheel with bandnames */
     populateWheel() {
 
-        const keys = Object.keys(this.bandnames);
-        const values = Object.values(this.bandnames);
+        var keys = Object.keys(this.bandnames);
+        var values = Object.values(this.bandnames);
         var random_i;
 
-        for (var i = 0; i < keys.length; i++){
-            var key = keys[i]
-            var val = values[i]
-            key = key.replace("&#x27;", "'")
-            key = key.replace("&#x27;", "'")
-            key = key.replace("&amp;", "'")
-            key = key.replace("&quot;", '"')
-            key = key.replace("&quot;", '"')
-            val = val.replace("&#x27;", "'")
-            val = val.replace("&#x27;", "'")
-            val = val.replace("&amp;", "'")
-            val = val.replace("&quot;", '"')
-            val = val.replace("&quot;", '"')
-            keys[i] = key
-            values[i] = val
-        }
+        // Replace char codes (like &#x27; for ' and &quot; for ")
+        var cleaned_bandnames = this.replace_char_codes(keys, values)
+        keys = cleaned_bandnames[0]
+        values = cleaned_bandnames[1]
+
+        // Keep looping as long as the # of bandnames on the wheel is less than 10
         while (Object.keys(this.bandnamesOnWheel).length < 10) {
 
             /* Get a random index and select a bandname to put on the wheel */
             random_i = Math.floor(Math.random() * keys.length);
             this.bandnamesOnWheel[keys[random_i]] = values[random_i]
 
-            /* Exit if all bandnames available exausted */
-            if (Object.keys(this.bandnamesOnWheel).length == Object.keys(this.bandnames).length){
+            /* Exit if all bandnames supplied from Django are exausted */
+            if (Object.keys(this.bandnamesOnWheel).length == keys.length){
                 break;
             }
 
         }
         
+        // Depending on the # of bn on the wheel, get the degrees of an even separation 
+        //  between the bandnames on the wheel
         this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
     }
 
@@ -107,9 +117,6 @@ class Wheel {
         for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
             // Check if picker has gone over a line
             if ((this.angle > (this.evenSeparatorDeg * i)) && (this.angle < (this.evenSeparatorDeg * i) + this.evenSeparatorDeg)) {
-                
-                // clear the dictionary
-                // this.bandnameSelected = {}  
 
                 // Save previous bandname selected
                 this.previousBandnameSelected = this.bandnameSelected;
@@ -124,7 +131,7 @@ class Wheel {
     // Returns true if wheel stopped, false otherwise
     checkAndStopWheel() {
 
-        // If angleV is less than the stopping threshold or the angleV is 0
+        // WHEEL STOPPED
         if (this.angleV < this.stopVelocity || this.angleV < 0) {
 
             // Stop the wheel
@@ -134,18 +141,15 @@ class Wheel {
             // Save the amount of times it rotated then reset 
             this.rotations_final = this.rotations
             this.rotations = 0 
-            console.log(this.rotations_final)
 
             // Choose the final bandname and return true
             this.chooseBandname();
             return true
         }
 
-        // Select the current bandname 
-        this.chooseBandname();
-
-        // Save the current angle in
-        this.pastAngle = this.angle;
+        // WHEEL SPINNING 
+        this.chooseBandname();  // Select the current bandname 
+        this.pastAngle = this.angle;  // Save the last angle
 
         // Set the state to spinning if not
         if (this.state != this.states.Spinning){
@@ -173,7 +177,7 @@ class Wheel {
                 let v = createVector(mouseX - width / 2, mouseY - height / 2);
 
                 // Ensure mouse is heading downwards
-                if (dy > 0 && mouseX > width / 2) {
+                if (dy > 0) {
                     this.angle = this.pastAngle + dy * 0.5;
                     this.pastAngle = this.angle;
                 }

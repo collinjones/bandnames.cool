@@ -16,7 +16,7 @@ var final_rotations;
 
 function mouseDragged() {
     if (mouseInsideCanvas()) {
-        
+        // Set wheel heading to correct 
         wheel.angleV = 0;
         let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
         wheel.pAngle = v.heading();
@@ -70,7 +70,6 @@ function preload() {
     pick_of_destiny_img = loadImage('static/images/pod.png')
     font = loadFont('static/styles/pixel.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
-    tick_sfx.setVolume(0.1)
 }
 
 function setup() {
@@ -91,6 +90,7 @@ function setup() {
     spinButton = select('#stop-button')
     spinButton.mousePressed(stopWheel)
     final_rotations = 0
+    tick_sfx.setVolume(0.1)
 
     wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bandnames)
 
@@ -108,27 +108,31 @@ function objectsEqual(obj1, obj2) {
     return false
 }
 
+function getRandomRGB() {
+    var r = Math.floor(Math.random() * 255) + 100;
+    var g = Math.floor(Math.random() * 255) + 100;
+    var b = Math.floor(Math.random() * 255) + 100;
+    return r + ", " + g + ", " + b
+}
+
 function draw() {
 
-    clear()
+    // Clear the canvas and update the wheel
+    clear(); 
+    wheel.update(); 
 
-    wheel.update();
     final_rotations = wheel.get_rotations_final()
-    
-
-    objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)
 
     const heading = document.getElementById('bandname-selected');
+
     /* No name selected yet */
     if (Object.keys(wheel.bandnameSelected).length === 0) {
         heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> No bandname selected - SPIN THE WHEEL</span>"
     } 
+    /* A new name selected */
     else if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
-        var r = Math.floor(Math.random() * 255) + 100;
-        var g = Math.floor(Math.random() * 255) + 100;
-        var b = Math.floor(Math.random() * 255) + 100;
-        var rgb = r + ", " + g + ", " + b
-        
+
+        var rgb = getRandomRGB()  
         if (profanity_filter == "True"){
             heading.innerHTML = "<span value='' style='color: rgb(%rgb)'>".replace("%rgb", rgb) + Object.values(wheel.bandnameSelected)[0] + "</span>";
             heading.setAttribute("value", Object.keys(wheel.bandnameSelected)[0])
@@ -147,6 +151,5 @@ function draw() {
         document.getElementById("upvote-button").disabled = false; 
         document.getElementById("downvote-button").disabled = false; 
     }
-    
     
 }

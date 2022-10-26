@@ -345,8 +345,10 @@ def top_bandnames_7_days(request):
         .values("username", "bandname", "score", "date_submitted")
         .order_by("-score")[:10]
     )
-    
+    print(top_ten_bandnames)
     response = {
         "data": top_ten_bandnames,
     }
+
+    
     return JsonResponse(response)

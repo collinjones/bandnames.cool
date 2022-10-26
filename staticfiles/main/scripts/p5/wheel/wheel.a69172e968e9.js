@@ -177,7 +177,7 @@ class Wheel {
                 let v = createVector(mouseX - width / 2, mouseY - height / 2);
 
                 // Ensure mouse is heading downwards
-                if (dy > 0) {
+                if (dy > 0 && mouseX > width) {
                     this.angle = this.pastAngle + dy * 0.5;
                     this.pastAngle = this.angle;
                 }
