@@ -222,9 +222,9 @@ def create_vote_json_response(request, voted_bandname, cleaned_list, table_templ
     
     filter = ProfanityFilter()
     json_response = {
-            'vote-msg': 'Voted up'} if request.POST['val'] == 'up' \
+            'vote_msg': 'Voted up'} if request.POST['val'] == 'up' \
         else { 
-            'vote-msg': 'Voted down'
+            'vote_msg': 'Voted down'
     }
 
     

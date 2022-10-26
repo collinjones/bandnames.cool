@@ -8,7 +8,9 @@
 
 <script>
 var bandnames = {}
+var voted = false;
 var profanity_filter = "{{profanity_filter}}"
+
 '{% for bandname, censored_bandname in bandnames %}'
     bandnames["{{bandname}}"] = '{{censored_bandname}}'
 '{% endfor %}'
@@ -64,7 +66,7 @@ var profanity_filter = "{{profanity_filter}}"
         </div>
         <!-- Div for the p5.js sketch (Bandname Wheel) -->
         <div class = "sketch-div cursor-horns" id = "sketch-holder" style="touch-action:none">
-            <input style = "width: 48px;" type="image" src="{% static 'images/spin_wheel_static.png' %}" id="spin-button" class="pixelated-font cursor-horns">
+            <input alt="Click me or drag the wheel to select a bandname!" style = "width: 48px;" type="image" src="{% static 'images/spin_wheel_static.png' %}" id="spin-button" class="pixelated-font cursor-horns">
             <input style = "width: 48px;" type="image" src="{% static 'images/stop_resting.png' %}" id="stop-button" class="pixelated-font cursor-horns">
             <input data-enabled="true" onmousedown="mute_clicked()" style = "width: 48px;" type="image" src="{% static 'images/sound_on.png' %}" id="mute-button" class="pixelated-font cursor-horns"><br>
         </div>

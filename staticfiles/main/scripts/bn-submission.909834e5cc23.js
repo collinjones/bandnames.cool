@@ -52,8 +52,8 @@ $("#upvote-button" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            if (data.hasOwnProperty('vote-msg')){
-                $.blockUI({ message: data['vote-msg']});  
+            if (data.hasOwnProperty('vote_msg')){
+                $.blockUI({ message: data['vote_msg']});  
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
@@ -87,8 +87,8 @@ $("#downvote-button" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            if (data.hasOwnProperty('vote-msg')){
-                $.blockUI({ message: data['vote-msg']});
+            if (data.hasOwnProperty('vote_msg')){
+                $.blockUI({ message: data['vote_msg']});
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {

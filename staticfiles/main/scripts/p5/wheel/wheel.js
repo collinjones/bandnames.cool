@@ -24,7 +24,6 @@ class Wheel {
         this.pastAngle = 0;          // previous frame angle
         this.angleV = 0.0;           // initial angle velocity
         this.angleA = 0;             // initial angle acceleration
-        this.pAngle = 0;
         this.radius = radius;        // radius of the wheel
         this.color = color;          // color of the wheel 
         this.state = this.states.Stopped;  // initial state of the wheel

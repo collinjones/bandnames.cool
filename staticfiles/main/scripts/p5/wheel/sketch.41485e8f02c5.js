@@ -152,13 +152,10 @@ function draw() {
         document.getElementById("downvote-button").disabled = false; 
     }
 
+    console.log(voted)
     if (voted) {
         heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> No bandname selected - SPIN THE WHEEL</span>"
-        heading.setAttribute("value", "")
         wheel.angle = 0;
-        wheel.pastAngle = 0;
-        wheel.bandnameSelected = {}
-        wheel.previousBandnameSelected = {}
         voted = false;
     }
     

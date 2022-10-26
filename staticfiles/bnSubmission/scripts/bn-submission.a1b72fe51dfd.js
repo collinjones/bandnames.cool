@@ -31,8 +31,8 @@ $("#upvote-button" ).click(function(e) {
         },
         success: function (data) {
             $.unblockUI();
-            if (data.hasOwnProperty('vote-msg')){
-                $('#submission-status').html(data['vote-msg']);
+            if (data.hasOwnProperty('vote_msg')){
+                $('#submission-status').html(data['vote_msg']);
             }
         }
     });
@@ -50,8 +50,8 @@ $("#downvote-button" ).click(function(e) {
         },
         success: function (data) {
             $.unblockUI();
-            if (data.hasOwnProperty('vote-msg')){
-                $('#submission-status').html(data['vote-msg']);
+            if (data.hasOwnProperty('vote_msg')){
+                $('#submission-status').html(data['vote_msg']);
             }
         }
     });

@@ -154,12 +154,9 @@ function draw() {
 
     if (voted) {
         heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> No bandname selected - SPIN THE WHEEL</span>"
-        heading.setAttribute("value", "")
-        wheel.angle = 0;
-        wheel.pastAngle = 0;
-        wheel.bandnameSelected = {}
-        wheel.previousBandnameSelected = {}
+        // wheel.angle = 0;
         voted = false;
+        wheel.bandnameSelected = {}
     }
     
 }

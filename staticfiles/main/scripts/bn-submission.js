@@ -2,9 +2,6 @@ function add_bandname_to_voted_history(data) {
     var bandname = data['bandname_json']['bandname']
     var score = data['bandname_json']['score']
     var table = $('#bandnames-table-voted').DataTable();
-
-    console.log(bandname, score)
-    console.log(table)
     table.row.add({
         "bandname": bandname,
         "score": score
@@ -42,8 +39,10 @@ $("#bandname-submit" ).click(function(e) {
 });
 
 $("#upvote-button" ).click(function(e) {
+
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Voting up..." }); 
+    
     $.ajax({
         type: 'POST',
         url: '/vote',
@@ -53,8 +52,9 @@ $("#upvote-button" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            if (data.hasOwnProperty('vote-msg')){
-                $.blockUI({ message: data['vote-msg']});  
+            $('#bandname-selected').attr("value", "")
+            if (data.hasOwnProperty('vote_msg')){
+                $.blockUI({ message: data['vote_msg']});  
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
@@ -68,6 +68,7 @@ $("#upvote-button" ).click(function(e) {
                 }
                 wheel.setNewBandnames(bandnames)
                 wheel.repopulateWheel()
+                voted = true;
             }
             setTimeout(function() {
                 $.unblockUI();
@@ -88,8 +89,9 @@ $("#downvote-button" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            if (data.hasOwnProperty('vote-msg')){
-                $.blockUI({ message: data['vote-msg']});
+            $('#bandname-selected').attr("value", "")
+            if (data.hasOwnProperty('vote_msg')){
+                $.blockUI({ message: data['vote_msg']});
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
@@ -102,6 +104,7 @@ $("#downvote-button" ).click(function(e) {
                 }
                 wheel.setNewBandnames(bandnames)
                 wheel.repopulateWheel()
+                voted = true;
             }
             setTimeout(function() {
                 $.unblockUI();
