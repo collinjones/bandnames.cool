@@ -107,30 +107,42 @@ def vote(request):
                     )
                 else:
                     json_response = { 
-                    'vote_msg': 'Spin the wheel!', 
-                    'authenticated': "False"
-                }
+                        'vote_msg': 'Spin the wheel!', 
+                        'authenticated': "True"
+                    }
             else:
                 json_response = { 
-                'vote_msg': 'Spin the wheel!', 
-                'authenticated': "False"
-            }
+                    'vote_msg': 'Spin the wheel!', 
+                    'authenticated': "True"
+                }
         # IP-Based Voting
         else:
-            voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-            if (get_client_ip(request) not in voted_bandname.ip_addresses_voted):
-                save_vote(request, voted_bandname)
-                voted_bandname.ip_addresses_voted.append(get_client_ip(request))
-                voted_bandname.save()
-                bandnames = get_bandnames(Bandname.objects.count())
-                cleaned_list = []
-                for new_bandname in bandnames:
-                    cleaned_list.append(new_bandname.bandname)
+            if 'bandname' in request.POST:
+                if request.POST['bandname'] != '':
+                    voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+                    if (get_client_ip(request) not in voted_bandname.ip_addresses_voted):
+                        save_vote(request, voted_bandname)
+                        voted_bandname.ip_addresses_voted.append(get_client_ip(request))
+                        voted_bandname.save()
+                        bandnames = get_bandnames(Bandname.objects.count())
+                        cleaned_list = []
+                        for new_bandname in bandnames:
+                            cleaned_list.append(new_bandname.bandname)
 
-                json_response = create_vote_json_response(request, voted_bandname, cleaned_list)
+                        json_response = create_vote_json_response(request, voted_bandname, cleaned_list)
+                    else:
+                        json_response = { 
+                            'vote_msg': 'Already voted!', 
+                            'authenticated': "False"
+                        }
+                else:
+                    json_response = { 
+                        'vote_msg': 'Spin the wheel!', 
+                        'authenticated': "False"
+                    }
             else:
                 json_response = { 
-                    'vote_msg': 'Already voted!', 
+                    'vote_msg': 'Spin the wheel!', 
                     'authenticated': "False"
                 }
     return JsonResponse(json_response, safe = False) 
