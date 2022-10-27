@@ -201,20 +201,10 @@ class Wheel {
 
     /* Reset the wheel if its angle hits 360 degrees */
     checkAndResetAngle() {
-        console.log(this.angle)
         if (this.angle >= 360) {
             this.pastAngle = 0;
             this.angle = 0;
             this.rotations += 1
-        }
-
-        if (this.angle < 0) {
-            this.pastAngle = 360;
-            this.angle = 360;
-
-            if (this.rotations != 0){
-                this.rotations -= 1
-            }
         }
     }
 

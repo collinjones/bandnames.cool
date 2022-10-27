@@ -175,11 +175,8 @@ class Wheel {
                 let dy = mouseY - pmouseY;
                 let v = createVector(mouseX - width / 2, mouseY - height / 2);
 
-                // Ensure mouse is heading downwards
-                if (dy > 0) {
-                    this.angle = this.pastAngle + dy * 0.5;
-                    this.pastAngle = this.angle;
-                }
+                this.angle = this.pastAngle + dy * 0.5;
+                this.pastAngle = this.angle;
             }
         }
 
@@ -204,10 +201,20 @@ class Wheel {
 
     /* Reset the wheel if its angle hits 360 degrees */
     checkAndResetAngle() {
+        console.log(this.angle)
         if (this.angle >= 360) {
             this.pastAngle = 0;
             this.angle = 0;
             this.rotations += 1
+        }
+
+        if (this.angle < 0) {
+            this.pastAngle = 360;
+            this.angle = 360;
+
+            if (this.rotations != 0){
+                this.rotations -= 1
+            }
         }
     }
 

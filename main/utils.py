@@ -187,7 +187,7 @@ def get_bandnames(collection_len):
     # This will prevent segfault when collection_len is less than 11
     for x in range(collection_len):
         bandnames.append(Bandname.objects.all()[bandname_indices[x]])
-        if len(bandnames) == 11:
+        if len(bandnames) == 8:
             break
 
     return bandnames

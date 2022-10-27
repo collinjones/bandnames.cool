@@ -208,7 +208,7 @@ class Wheel {
             this.rotations += 1
         }
 
-        if (this.angle < 0) {
+        if (this.angle <= 0) {
             this.pastAngle = 360;
             this.angle = 360;
 
