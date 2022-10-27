@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from .utils import *
 from .form_functions import *
+from django.utils.timezone import now
 
 # Sets up and renders the submission page
 def index(request):
@@ -23,8 +24,10 @@ def index(request):
         cleaned_list.append((bandname.bandname, censor_bandname(bandname.bandname)))
 
     if request.user.is_authenticated:
+
         user = User.objects.get(pk=request.user.id)
         user.profile.last_ip_address = get_client_ip(request)
+        user.profile.last_logged_in = now().strftime("%Y-%m-%d")
         user.save()
         profanity_filter = user.profile.profanity_filter
 

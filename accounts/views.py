@@ -15,13 +15,6 @@ from django.http import JsonResponse
 
 
 def Registration(request):
-    # Handle form submission
-    if request.method == "POST": 
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect("/")
 
     # Set up form if not submitted
     form = UserCreationForm()

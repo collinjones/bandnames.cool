@@ -12,6 +12,7 @@ class Profile(models.Model):
     cumulative_score = models.IntegerField(default=0)
     righteousness_level = models.CharField(default="Groupie", max_length=128) 
     last_ip_address = models.GenericIPAddressField(default = '0.0.0.0')
+    last_logged_in = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return str(self.user)

@@ -21,68 +21,71 @@ var profanity_filter = "{{profanity_filter}}"
 <!-- p5.js sketches  -->
 <script src="{% static 'main/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
-
-<div id = 'pillars-div'>
-    <div style="position: relative;">
-        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-left"/>
-        <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-left"/>
-    </div>
-    <div>
-        <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-right"/>
-        <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-right"/>
-    </div>
-    
-    
-    <div class = "sketch-grid-container">
-        <div class = 'submission-contents-div'>
-            <!-- Submission form div -->
-            <div id = "submission-form">
-                <div id="submission-img-contents">
-                    <h2 id="submission-status"></h2>
-                    <div id="swap-contents">
-                        <h3 id="bandnames-count">Bandnames: {{count}}</h3>
-                        <h3> Submit a bandname </h3>
+<div id="outer-pillar-div">
+    <!-- <image draggable = false src="{% static 'images/background-cave.png' %}" id="bg-image"></image> -->
+    <div id = 'pillars-div'>
+        <div style="position: relative;">
+            <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-left"/>
+            <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-left"/>
+        </div>
+        <div>
+            <image draggable = false src="{% static 'images/pillar.png' %}" id="pillar-img-right"/>
+            <image draggable = false src="{% static 'gifs/torch2.gif' %}" id="torch-img-right"/>
+        </div>
+        
+        
+        <div class = "sketch-grid-container">
+            
+            <div class = 'submission-contents-div'>
+                <!-- Submission form div -->
+                <div id = "submission-form">
+                    <div id="submission-img-contents">
+                        <h2 id="submission-status"></h2>
+                        <div id="swap-contents">
+                            <h3 id="bandnames-count">Bandnames: {{count}}</h3>
+                            <h3> Submit a bandname </h3>
+                        </div>
+                        <form enctype="multipart/form-data" method="post" id="post-form">
+                            <input id="bandname" class = "cursor-text">
+                            <img class="noselect cursor-horns" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
+                        </form>
                     </div>
-                    <form enctype="multipart/form-data" method="post" id="post-form">
-                        <input id="bandname" class = "cursor-text">
-                        <img class="noselect cursor-horns" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
+                    <image draggable = false src="{% static 'images/placard-square.png' %}" id="submit-img"></image>
+                </div>
+                
+            </div>
+            <div class = "vote-div">
+                <h3 style="text-align: center; color: white; margin-bottom: 0;">Doth thou deem this bandname righteous?</h3>
+                <h3 class="vote-form-div" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
+                <div id = "vote-div-buttons">
+                    <image draggable = false src="{% static 'images/placard-vote.png' %}" id="vote-img"></image>
+                    <form enctype="multipart/form-data" method="post" id="vote-form">
+                        {% csrf_token %}
+                        <a id = "upvote-link"><img class="noselect cursor-horns"  onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" id="upvote-button"  type="submit" draggable = false value="Submit" src="static/images/uv1.png"/></a>
+                        <a id = "downvote-link"><img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" id="downvote-button"  type="submit" draggable = false value="Submit" src="static/images/dv1.png"/></a>
                     </form>
                 </div>
-                <image draggable = false src="{% static 'images/placard-square.png' %}" id="submit-img"></image>
             </div>
-            
-        </div>
-        <div class = "vote-div">
-            <h3 style="text-align: center; color: white; margin-bottom: 0;">Doth thou deem this bandname righteous?</h3>
-            <h3 class="vote-form-div" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
-            <div id = "vote-div-buttons">
-                <image draggable = false src="{% static 'images/placard-vote.png' %}" id="vote-img"></image>
-                <form enctype="multipart/form-data" method="post" id="vote-form">
-                    {% csrf_token %}
-                    <a id = "upvote-link"><img class="noselect cursor-horns"  onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" id="upvote-button"  type="submit" draggable = false value="Submit" src="static/images/uv1.png"/></a>
-                    <a id = "downvote-link"><img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" id="downvote-button"  type="submit" draggable = false value="Submit" src="static/images/dv1.png"/></a>
-                </form>
+            <!-- Div for the p5.js sketch (Bandname Wheel) -->
+            <div class = "sketch-div cursor-horns" id = "sketch-holder" style="touch-action:none">
+                <input alt="Click me or drag the wheel to select a bandname!" style = "width: 48px;" type="image" src="{% static 'images/spin_wheel_static.png' %}" id="spin-button" class="pixelated-font cursor-horns">
+                <input style = "width: 48px;" type="image" src="{% static 'images/stop_resting.png' %}" id="stop-button" class="pixelated-font cursor-horns">
+                <input data-enabled="true" onmousedown="mute_clicked()" style = "width: 48px;" type="image" src="{% static 'images/sound_on.png' %}" id="mute-button" class="pixelated-font cursor-horns"><br>
             </div>
-        </div>
-        <!-- Div for the p5.js sketch (Bandname Wheel) -->
-        <div class = "sketch-div cursor-horns" id = "sketch-holder" style="touch-action:none">
-            <input alt="Click me or drag the wheel to select a bandname!" style = "width: 48px;" type="image" src="{% static 'images/spin_wheel_static.png' %}" id="spin-button" class="pixelated-font cursor-horns">
-            <input style = "width: 48px;" type="image" src="{% static 'images/stop_resting.png' %}" id="stop-button" class="pixelated-font cursor-horns">
-            <input data-enabled="true" onmousedown="mute_clicked()" style = "width: 48px;" type="image" src="{% static 'images/sound_on.png' %}" id="mute-button" class="pixelated-font cursor-horns"><br>
-        </div>
-        <!-- Div for the selected bandname from the wheel -->
-        <div class="voted-history-div" id="voting-system">
-            <h3 style="text-align: center; color: white; margin-bottom: 0;">Annals of Voted Bandnames</h3>
-            <image draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img"></image>
-            <table id="bandnames-table-voted"  class="display">
-                <thead>
-                    <tr>
-                        <th>Bandname</th>
-                        <th class="score-header">Score</th>
-                    </tr>
-                </thead>
-                <tbody id='bandnames-table-voted-body'></tbody>
-            </table>
+            <!-- Div for the selected bandname from the wheel -->
+            <div class="voted-history-div" id="voting-system">
+                <h3 style="text-align: center; color: white; margin-bottom: 0;">Annals of Voted Bandnames</h3>
+                <image draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img"></image>
+                <table id="bandnames-table-voted"  class="display">
+                    <thead>
+                        <tr>
+                            <th>Bandname</th>
+                            <th class="score-header">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id='bandnames-table-voted-body'></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

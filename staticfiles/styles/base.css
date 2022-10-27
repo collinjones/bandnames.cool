@@ -563,3 +563,8 @@ table.dataTable tbody td {
     }
 }
 
+#bg-image {
+    position: absolute;
+    width:100%;
+}
+
