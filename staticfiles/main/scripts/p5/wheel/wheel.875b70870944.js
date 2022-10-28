@@ -306,7 +306,7 @@ class Wheel {
         // Space out the bandnames evenly 
         for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
 
-            fill(0, this.angleV * 10, this.angleV * 10)
+            fill(0, this.angleV * 100, this.angleV * 10)
 
             // Render with profanity off
             if (profanity_filter == "True"){
