@@ -17,33 +17,7 @@ var tick_sfx;
 var vinyl_img;
 var pick_of_destiny_img;
 var animation = [];
-
-class Sprite {
-    constructor(animation, x, y, speed) {
-      this.x = x;
-      this.y = y;
-      this.animation = animation;
-      this.w = this.animation[0].width;
-      this.len = this.animation.length;
-      this.speed = speed;
-      this.index = 0;
-    }
-  
-    show() {
-      let index = floor(this.index) % this.len;
-      image(this.animation[index], this.x, this.y);
-    }
-  
-    animate() {
-      this.index += this.speed;
-      this.x += this.speed * 15;
-  
-      if (this.x > width) {
-        this.x = -this.w;
-      }
-    }
-}
-
+var wheel_imgs = [];
 
 function mouseDragged() {
     if (mouseInsideCanvas()) {
@@ -97,7 +71,15 @@ function stopWheel() {
 }
 
 function preload() {
-    vinyl_img = loadImage('static/images/wheel.gif')
+    const dir_root = "static/gifs/wheel/frame_";
+    let file_type = ".gif";
+    let final_dir = "";
+    this.wheel_imgs = []
+
+    for (var x = 0; x <= 27; x++) {
+        final_dir = dir_root + x.toString() + file_type
+        this.wheel_imgs.push(loadImage(final_dir))
+    }
     pick_of_destiny_img = loadImage('static/images/pod.png')
     font = loadFont('static/styles/pixel.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
@@ -122,7 +104,7 @@ function setup() {
     final_rotations = 0
     tick_sfx.setVolume(0.1)
 
-    wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bandnames)
+    wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bandnames, wheel_imgs)
 
 }
 

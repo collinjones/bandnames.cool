@@ -18,18 +18,9 @@ class Clock {
 
 class Wheel {
 
-    constructor(position, radius, color, bandnames) {
-
-        const dir_root = "static/gifs/wheel/frame_";
-        let file_type = ".gif";
-        let final_dir = "";
-        this.wheel_imgs = []
-
-        for (var x = 0; x <= 27; x++) {
-            final_dir = dir_root + x.toString() + file_type
-            this.wheel_imgs.push(loadImage(final_dir))
-        }
-
+    constructor(position, radius, color, bandnames, wheel_imgs) {
+        
+        this.wheel_imgs = wheel_imgs;
         this.frame_counter = 0;
 
         /* Misc. attributes */
@@ -293,7 +284,7 @@ class Wheel {
     /* Render the wheel (ellipse) */
     renderWheel() {
         image(this.wheel_imgs[this.frame_counter], -(width/2)-75, -(height/2), 500, 500)
-        if(wheel.state == wheel.states.Spinning)
+        if(wheel.state == wheel.states.Spinning){
             if(millis() - this.clock.last_pulse > this.clock.interval){
                 this.frame_counter++;
                 if (this.frame_counter == 27) {
