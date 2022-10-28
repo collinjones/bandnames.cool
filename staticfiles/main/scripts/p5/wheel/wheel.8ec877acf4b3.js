@@ -2,41 +2,18 @@
 
 class Clock {
     constructor(interval) {
-        this.clock_started = millis();
-        this.last_trigger = millis();
-        this.current_time = millis();
-        this.base_interval = interval;
-        this.interval = this.base_interval ;
-    }
-
-    get_interval() {
-        return this.interval;
-    }
-
-    /* Sets the clock interval with a conversion from millis to sec */
-    set_interval(interval) {
-        this.interval = interval;
+      this.last_pulse = millis();
+      this.current_time = millis();
+      this.interval = interval * 1000
     }
     
-    // Update the clock
     tick() {
       this.current_time = millis(); // Update the current time
     }
     
-    /* Resets the time since last trigger */
-    reset_trigger() {
-      this.last_trigger = millis();
-    }
-    
-    /* Checks If the difference between the current time and the last trigger is 
-        greater than the interval, returns True if so.  */
-    trigger() {
-        if (this.current_time - this.last_trigger > this.interval) {
-            this.reset_trigger();
-            return true;
-        }
-        return false;
-    }
+    pulse() {
+      this.last_pulse = millis();
+    }  
 }
 
 class Wheel {
@@ -73,7 +50,7 @@ class Wheel {
         this.rotations = 0;
         this.rotations_final = 0;
         this.populateWheel();
-        this.clock = new Clock(100);
+        this.clock = new Clock(.05);
         this.alpha = 0;
     }
 
@@ -173,13 +150,9 @@ class Wheel {
     // Returns true if wheel stopped, false otherwise
     checkAndStopWheel() {
 
-        
-
         // WHEEL STOPPED
         if (this.angleV < this.stopVelocity || this.angleV < 0) {
-            
-            // Set the clock interval back to resting
-            this.clock.set_interval(100)
+
             // Stop the wheel
             this.state = this.states.Stopped
             this.angleV = 0;
@@ -197,13 +170,6 @@ class Wheel {
         this.chooseBandname();  // Select the current bandname 
         this.pastAngle = this.angle;  // Save the last angle
 
-        /* Speeds up or slows down the clock for the pentagram glow animation */
-        if ((this.angleV * 8) == 0) {
-            this.clock.set_interval(this.clock.base_interval)
-        } else {
-            this.clock.set_interval(this.clock.base_interval / (this.angleV * 10))
-        }
-        
         // Set the state to spinning if not
         if (this.state != this.states.Spinning){
             this.state = this.states.Spinning
@@ -225,7 +191,10 @@ class Wheel {
 
                 mousePosX = mouseY
                 mousePosY = mouseY
+
                 let dy = mouseY - pmouseY;
+                let v = createVector(mouseX - width / 2, mouseY - height / 2);
+
                 this.angle = this.pastAngle + dy * 0.5;
                 this.pastAngle = this.angle;
             }
@@ -287,6 +256,9 @@ class Wheel {
 
     /* Render the bandnames on the wheel */
     renderBandnames() {
+
+        
+
         // Set up the text settings. 
         this.setUpTextSettings();
 
@@ -325,13 +297,15 @@ class Wheel {
         tint(255, this.alpha);
 
         image(this.wheel_imgs[this.frame_counter], -(width/2)-75, -(height/2), 500, 500)
-        if(this.clock.trigger()){
-            this.frame_counter++;
-            if (this.frame_counter == 27) {
-                this.frame_counter = 0;
+        if(wheel.state == wheel.states.Spinning){
+            if(millis() - this.clock.last_pulse > this.clock.interval){
+                this.frame_counter++;
+                if (this.frame_counter == 27) {
+                    this.frame_counter = 0;
+                }
+                this.clock.pulse();
             }
         }
-        
     }
 
     /* Render the pointer */
