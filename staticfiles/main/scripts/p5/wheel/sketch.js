@@ -2,17 +2,48 @@
 
 var canvas;
 var wheel;
+
 var pAngle;
 var v2;
 var mousePosX;
 var mousePosY;
-let tick_sfx;
-let font;
-let button;
-let spinButton
-let vinyl_img;
-let pick_of_destiny_img;
 var final_rotations;
+
+var button;
+var spinButton;
+
+var font;
+var tick_sfx;
+var vinyl_img;
+var pick_of_destiny_img;
+var animation = [];
+
+class Sprite {
+    constructor(animation, x, y, speed) {
+      this.x = x;
+      this.y = y;
+      this.animation = animation;
+      this.w = this.animation[0].width;
+      this.len = this.animation.length;
+      this.speed = speed;
+      this.index = 0;
+    }
+  
+    show() {
+      let index = floor(this.index) % this.len;
+      image(this.animation[index], this.x, this.y);
+    }
+  
+    animate() {
+      this.index += this.speed;
+      this.x += this.speed * 15;
+  
+      if (this.x > width) {
+        this.x = -this.w;
+      }
+    }
+}
+
 
 function mouseDragged() {
     if (mouseInsideCanvas()) {
@@ -66,7 +97,7 @@ function stopWheel() {
 }
 
 function preload() {
-    vinyl_img = loadImage('static/images/vinyl.png')
+    vinyl_img = loadImage('static/images/wheel.gif')
     pick_of_destiny_img = loadImage('static/images/pod.png')
     font = loadFont('static/styles/pixel.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
@@ -76,7 +107,6 @@ function setup() {
 
     canvas = createCanvas(350, 500);
     canvas.parent('sketch-holder');
-
     angleMode(DEGREES);
     ellipseMode(CENTER);
     background(255, 204, 0, 0)

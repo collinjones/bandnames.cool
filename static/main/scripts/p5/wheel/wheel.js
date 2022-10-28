@@ -1,8 +1,36 @@
 /* p5 static/p5/wheel/wheel.js - class file containing the bandnames wheel */
 
+class Clock {
+    constructor(interval) {
+      this.last_pulse = millis();
+      this.current_time = millis();
+      this.interval = interval * 1000
+    }
+    
+    tick() {
+      this.current_time = millis(); // Update the current time
+    }
+    
+    pulse() {
+      this.last_pulse = millis();
+    }  
+}
+
 class Wheel {
 
     constructor(position, radius, color, bandnames) {
+
+        const dir_root = "static/gifs/wheel/frame_";
+        let file_type = ".gif";
+        let final_dir = "";
+        this.wheel_imgs = []
+
+        for (var x = 0; x <= 27; x++) {
+            final_dir = dir_root + x.toString() + file_type
+            this.wheel_imgs.push(loadImage(final_dir))
+        }
+
+        this.frame_counter = 0;
 
         /* Misc. attributes */
         this.states = { Stopped: "stopped", Spinning: "spinning" }  // States that the wheel can be in
@@ -31,6 +59,7 @@ class Wheel {
         this.rotations = 0;
         this.rotations_final = 0;
         this.populateWheel();
+        this.clock = new Clock(.05);
     }
 
     setNewBandnames(bandnames) {
@@ -59,7 +88,6 @@ class Wheel {
                     .replace(regex_replace_tuples[idy][0], regex_replace_tuples[idy][1]);
             }
         }
-
         return [keys, values]
     }
 
@@ -197,11 +225,11 @@ class Wheel {
         wheel.angle += wheel.angleV;
         wheel.angleV += wheel.angleA;
 
+        this.clock.tick();
     }
 
     /* Reset the wheel if its angle hits 360 degrees */
     checkAndResetAngle() {
-        console.log(this.angle)
         if (this.angle >= 360) {
             this.pastAngle = 0;
             this.angle = 0;
@@ -264,7 +292,16 @@ class Wheel {
 
     /* Render the wheel (ellipse) */
     renderWheel() {
-        image(vinyl_img, -(width/2)-75, -(height/2), 500, 500)
+        image(this.wheel_imgs[this.frame_counter], -(width/2)-75, -(height/2), 500, 500)
+        if(wheel.state == wheel.states.Spinning){
+            if(millis() - this.clock.last_pulse > this.clock.interval){
+                this.frame_counter++;
+                if (this.frame_counter == 27) {
+                    this.frame_counter = 0;
+                }
+                this.clock.pulse();
+            }
+        }
     }
 
     /* Render the pointer */
@@ -280,7 +317,7 @@ class Wheel {
         
         this.renderWheel();
         this.renderBandnames();
-        this.renderLines();
+        // this.renderLines();
     }
 
     get_rotations_final() {
