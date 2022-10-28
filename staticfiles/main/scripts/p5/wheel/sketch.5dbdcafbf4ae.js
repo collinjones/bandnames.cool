@@ -75,12 +75,11 @@ function preload() {
     pick_of_destiny_img = loadImage('static/images/pod.png')
     font = loadFont('static/styles/pixel.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
-    
     const dir_root = "static/gifs/wheel/frame_";
     let file_type = ".png";
     let final_dir = "";
 
-    for (var x = 1; x <= 26; x++) {
+    for (var x = 1; x <= 27; x++) {
         final_dir = dir_root + x.toString() + file_type
         this.wheel_imgs.push(loadImage(final_dir))
     }

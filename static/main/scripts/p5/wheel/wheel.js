@@ -329,7 +329,7 @@ class Wheel {
         image(this.wheel_imgs[this.frame_counter], -(width/2)-75, -(height/2), 500, 500)
         if(this.clock.trigger()){
             this.frame_counter++;
-            if (this.frame_counter == 27) {
+            if (this.frame_counter == 26) {
                 this.frame_counter = 0;
             }
         }
