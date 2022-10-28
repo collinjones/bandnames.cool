@@ -74,6 +74,7 @@ class Wheel {
         this.rotations_final = 0;
         this.populateWheel();
         this.clock = new Clock(100);
+        this.bn_glow_clock = new Clock(100);
         this.alpha = 0;
     }
 
@@ -173,13 +174,12 @@ class Wheel {
     // Returns true if wheel stopped, false otherwise
     checkAndStopWheel() {
 
-        
-
         // WHEEL STOPPED
         if (this.angleV < this.stopVelocity || this.angleV < 0) {
             
             // Set the clock interval back to resting
             this.clock.set_interval(100)
+            this.bn_glow_clock.set_interval(100)
             // Stop the wheel
             this.state = this.states.Stopped
             this.angleV = 0;
@@ -200,8 +200,10 @@ class Wheel {
         /* Speeds up or slows down the clock for the pentagram glow animation */
         if ((this.angleV * 8) == 0) {
             this.clock.set_interval(this.clock.base_interval)
+            this.bn_glow_clock.set_interval(this.bn_glow_clock.base_interval)
         } else {
             this.clock.set_interval(this.clock.base_interval / (this.angleV * 10))
+            this.bn_glow_clock.set_interval(this.bn_glow_clock.base_interval / (this.angleV * 10))
         }
         
         // Set the state to spinning if not
@@ -249,6 +251,7 @@ class Wheel {
         wheel.angleV += wheel.angleA;
 
         this.clock.tick();
+        this.bn_glow_clock.tick();
     }
 
     /* Reset the wheel if its angle hits 360 degrees */
@@ -303,6 +306,8 @@ class Wheel {
         // Space out the bandnames evenly 
         for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
 
+            fill(this.angleV * 10, 0, this.angleV * 10)
+
             // Render with profanity off
             if (profanity_filter == "True"){
                 text(Object.values(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
@@ -311,7 +316,12 @@ class Wheel {
             else {
                 text(Object.keys(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
             }
+
+            // Rotate each bandname by the even seperation in degrees
             rotate(this.evenSeparatorDeg)
+
+            
+            
         }
         //pop();
         

@@ -174,6 +174,8 @@ class Wheel {
     // Returns true if wheel stopped, false otherwise
     checkAndStopWheel() {
 
+        
+
         // WHEEL STOPPED
         if (this.angleV < this.stopVelocity || this.angleV < 0) {
             
@@ -305,16 +307,10 @@ class Wheel {
         rotate(-10)
         // Space out the bandnames evenly 
         for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
-            
             if(this.bn_glow_clock.trigger()){
-                drawingContext.shadowBlur = 10;
-                drawingContext.shadowColor = color(
-                    this.angleV * 10,
-                    0, 
-                    this.angleV * 10
-                );
+                
+                fill(this.angleV * 10, 0, 0, 255);
             }
-
             // Render with profanity off
             if (profanity_filter == "True"){
                 text(Object.values(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
