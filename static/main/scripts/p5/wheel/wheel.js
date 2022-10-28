@@ -52,7 +52,7 @@ class Wheel {
         /* Bandname & Line settings */
         this.bandnames = bandnames           // Pool of bandnames to choose from
         this.bandnamesOnWheel = {}           // list of bandnames currently on the wheel
-        this.bandnameSpaceFromWheel = 100;   // The amount of pixels from the center that the bandname is rendered
+        this.bandnameSpaceFromWheel = 75;   // The amount of pixels from the center that the bandname is rendered
         this.bandnameSelected = {};          // current bandname selected
         this.previousBandnameSelected = {};  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
@@ -291,7 +291,7 @@ class Wheel {
         this.setUpTextSettings();
 
         // push() and pop() again to prevent rotating the lines
-        push();
+        //push();
 
         if (this.alpha != 255) {
             fill(0, 0, 0, this.alpha)
@@ -299,7 +299,7 @@ class Wheel {
 
         // Rotate half the even separator 
         rotate(this.evenSeparatorDeg / 2)
-
+        rotate(-10)
         // Space out the bandnames evenly 
         for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
 
@@ -311,9 +311,11 @@ class Wheel {
             else {
                 text(Object.keys(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
             }
-            rotate(this.evenSeparatorDeg-.5)
+            rotate(this.evenSeparatorDeg)
         }
-        pop();
+        //pop();
+        
+
     }
 
     /* Render the wheel (ellipse) */

@@ -52,7 +52,7 @@ class Wheel {
         /* Bandname & Line settings */
         this.bandnames = bandnames           // Pool of bandnames to choose from
         this.bandnamesOnWheel = {}           // list of bandnames currently on the wheel
-        this.bandnameSpaceFromWheel = 75;   // The amount of pixels from the center that the bandname is rendered
+        this.bandnameSpaceFromWheel = 50;   // The amount of pixels from the center that the bandname is rendered
         this.bandnameSelected = {};          // current bandname selected
         this.previousBandnameSelected = {};  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
