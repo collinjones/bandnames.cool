@@ -71,18 +71,18 @@ function stopWheel() {
 }
 
 function preload() {
+    
+    pick_of_destiny_img = loadImage('static/images/pod.png')
+    font = loadFont('static/styles/pixel.ttf');
+    tick_sfx = loadSound('static/sounds/tick.mp3')
     const dir_root = "static/gifs/wheel/frame_";
     let file_type = ".gif";
     let final_dir = "";
-    this.wheel_imgs = []
 
     for (var x = 0; x <= 27; x++) {
         final_dir = dir_root + x.toString() + file_type
         this.wheel_imgs.push(loadImage(final_dir))
     }
-    pick_of_destiny_img = loadImage('static/images/pod.png')
-    font = loadFont('static/styles/pixel.ttf');
-    tick_sfx = loadSound('static/sounds/tick.mp3')
 }
 
 function setup() {
@@ -103,6 +103,8 @@ function setup() {
     spinButton.mousePressed(stopWheel)
     final_rotations = 0
     tick_sfx.setVolume(0.1)
+
+    
 
     wheel = new Wheel(createVector(0, 0), 500, color(255, 204, 0), bandnames, wheel_imgs)
 
