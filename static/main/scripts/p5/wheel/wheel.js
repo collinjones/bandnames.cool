@@ -354,8 +354,8 @@ class Wheel {
         tint(255, this.alpha);
 
         /* DRAW PICK OF DESTINY AS PICKER */
-        rotate(90)
-        image(pick_of_destiny_img, (height/2)/1.25, (-width/2)*1.9, 100, 100)
+        image(picker, width/2 + 50, height/2 - 35, 125, 100)
+        // image(picker, (height/2)/1.25, (-width/2)*1.9, 100, 100)
     }
 
     /* Calls the other render functions in the proper order */

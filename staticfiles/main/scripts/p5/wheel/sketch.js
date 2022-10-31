@@ -15,7 +15,7 @@ var spinButton;
 var font;
 var tick_sfx;
 var vinyl_img;
-var pick_of_destiny_img;
+var picker;
 var animation = [];
 var wheel_imgs = [];
 
@@ -72,7 +72,7 @@ function stopWheel() {
 
 function preload() {
     
-    pick_of_destiny_img = loadImage('static/images/pod.png')
+    picker = loadImage('static/images/picker.png')
     font = loadFont('static/styles/pixel.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
     
