@@ -7,13 +7,13 @@
 {% block body %}
 
 <script>
-var bandnames = {}
-var voted = false;
-var profanity_filter = "{{profanity_filter}}"
+    var bandnames = {}
+    var voted = false;
+    var profanity_filter = "{{profanity_filter}}"
 
-'{% for bandname, censored_bandname in bandnames %}'
-    bandnames["{{bandname}}"] = '{{censored_bandname}}'
-'{% endfor %}'
+    '{% for bandname, censored_bandname in bandnames %}'
+        bandnames["{{bandname}}"] = '{{censored_bandname}}'
+    '{% endfor %}'
 </script>
 
 <script src="{% static 'main/scripts/button-swap.js' %} "></script>
@@ -21,6 +21,7 @@ var profanity_filter = "{{profanity_filter}}"
 <!-- p5.js sketches  -->
 <script src="{% static 'main/scripts/p5/wheel/wheel.js' %} "></script>
 <script src="{% static 'main/scripts/p5/wheel/sketch.js' %} ", id = "wheel-script" data-bandnames ="{{bandnames}}"></script>
+
 <div id="outer-pillar-div">
     <!-- <image draggable = false src="{% static 'images/background-cave.png' %}" id="bg-image"></image> -->
     <div id = 'pillars-div'>

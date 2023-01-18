@@ -1,3 +1,5 @@
+# These functions return JSON responses, either successful or failed */ 
+
 from .models import Bandname
 from django.http import JsonResponse
 from .forms import CreateBandname, CreateBatchBandname

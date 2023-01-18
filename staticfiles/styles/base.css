@@ -330,6 +330,7 @@ table.dataTable tbody td {
         grid-area:  3 / 1 / 4 / 2 !important;
         margin: auto !important;
         margin-left: 20px !important;
+        margin-bottom: 40px !important;
     }
 }
 @media only screen and (max-width: 700px) {

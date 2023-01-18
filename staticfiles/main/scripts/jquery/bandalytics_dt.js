@@ -142,6 +142,7 @@ $(document).on('change','#bandalytics_selection',function(){
                 }
                 var columns = get_column_titles(data)
                 reset_table(table, tableId)
+                
                 table = $(tableId).DataTable({
                     "scrollY": "180",
                     "scrollX": false,
@@ -155,7 +156,6 @@ $(document).on('change','#bandalytics_selection',function(){
                         "type" : "GET",
                         "url": "/top_bandnames_7_days"
                     },
-                    "columns": columns
                 });
             }
         }); 
