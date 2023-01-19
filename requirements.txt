@@ -157,3 +157,4 @@ wsproto==1.2.0
 xattr==0.9.9
 yarg==0.1.9
 yarl==1.8.1
+django-mobile-detect==0.1

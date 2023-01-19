@@ -16,6 +16,8 @@ class Simulation {
         this.width_div = width / this.screen_div
         this.height_div = height / this.screen_div
         this.interactable = true;
+
+        this.mouseReleased = true;
         
         this.setup();
     }
@@ -51,15 +53,13 @@ class Simulation {
         /* Disable sketch interaction if mouse is hovering UI */
         if (this.gui.mouseHovering()) {
             this.interactable = false;
-        } else {
-            this.interactable = true;
-        }
+        } 
         
     }
 
     // Draws things to the screen
     draw() {
-        background('gray');
+        background(this.gui.settingsGUI.getValue("Background Color"));
 
         this.drawEmitters();
         this.drawPlatforms();
@@ -166,7 +166,7 @@ class Simulation {
             pos.x, pos.y, 
             this.gui.getValue("Circle Size"), 
             note, 
-            0, 0.5))
+            this.gui.getValue("Circle Friction") / 10, this.gui.getValue("Circle Bounciness") / 10))
     }
 
     createEmitter() {

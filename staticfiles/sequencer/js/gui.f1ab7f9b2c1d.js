@@ -241,7 +241,6 @@ class GUI {
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
             this.gui.getPanelPosition().y
         )
-        
         this.info.toggleVisibility();
     }
 

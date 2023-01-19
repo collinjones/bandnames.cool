@@ -69,6 +69,7 @@ class Circle {
         push();
         fill(this.color)
         noStroke();
+        smooth();
         translate(pos.x, pos.y)
         rotate(angle)
         ellipse(0, 0, this.r * 2, this.r * 2)

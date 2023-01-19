@@ -10,20 +10,25 @@ class GUI {
             this.generalSettings.bind(this)
         ).overrideStyle("General Settings", "width", "100%")
 
+        this.gui.addButton(
+            "Instructions",
+            this.instructions.bind(this)
+        ).overrideStyle("Instructions", "width", "100%")
+
         this.gui.addBoolean(
             "Gravity",
             true,
             this.toggleGravity.bind(this)
         )
 
-        /* Object-Specific Settings */
+        /* OBJECT DRAW TYPES */
         this.gui.addDropDown(
             "Object Type", 
             ["Circle", "Platform", "Emitter"], 
             this.changeObjectType.bind(this)
         )
 
-        /* Circle */
+        /* CIRCLE SETTINGS */
         this.gui.addHTML(
             "Circle Settings",
             "<center><b>Circle Settings</b></center>"
@@ -34,7 +39,17 @@ class GUI {
             5, 25, 1, this.changeCircleSize.bind(this)
         )
 
-        /* Platform */
+        this.gui.addRange(
+            "Circle Friction",
+            0, 10, 1, this.changeCircleFriction.bind(this)
+        ).setValue("Circle Friction", 3)
+
+        this.gui.addRange(
+            "Circle Bounciness",
+            0, 10, 1, this.changeCircleBounciness.bind(this)
+        ).setValue("Circle Bounciness", 8)
+
+        /* PLATFORM SETTINGS */
         this.gui.addHTML(
             "Platform Settings",
             "<center><b>Platform Settings</b></center>"
@@ -58,7 +73,7 @@ class GUI {
             this.changeRotationSpeed.bind(this)
         ).hideControl("Rotation Speed")
 
-        /* Emitter */
+        /* EMITTER SETTINGS */
         this.gui.addHTML(
             "Emitter Settings",
             "<center><b>Emitter Settings</b></center>"
@@ -96,6 +111,12 @@ class GUI {
 
         /* GENERAL SETTINGS */
 
+        this.settingsGUI.addColor(
+            "Background Color",
+            "#7a7d7f",
+            this.backgroundColor.bind(this)
+        )
+
         this.settingsGUI.addButton(
             "Fullscreen",
             this.fullscreen.bind(this)
@@ -119,10 +140,35 @@ class GUI {
             this.changeMIDIOutput.bind(this)
         )
 
-        
-
         var e = document.getElementsByClassName("qs_main")[1];
         e.id = "settingsGUI"
+
+        /* INSTRUCTIONS */
+        this.info = QuickSettings.create(
+            this.settingsGUI._hidden ? 
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + this.settingsGUI.getPanelPosition().x + this.settingsGUI.getPanelDimensions().width + 10, 10, "Instructions"
+        ).hide();
+
+        this.info.addHTML(
+            "Instructions",
+            "<center><b>Instructions</b></center>\
+                <p> Choose an Object Type.</p>\
+                <h3>Circles</h3>\
+                <p> Select a MIDI Input device and play some notes to spawn in circles, \
+                        or click with your mouse to generate random notes. <br><br> \
+                        Circles also have friction and bouncieness. </p>\
+                <h3>Platforms</h3>\
+                <p> Platforms cause a Circle to trigger its note. Create Platforms by clicking and dragging to choose a size. <br><br>\
+                        Choose <b>Static</b> to prevent the Platform from being pushed around, and <b>Fixed Rotation</b> to choose a fixed rotation speed. </p>\
+                <h3>Emitters</h3>\
+                <p> Emitters generate Circles. <b>Mode</b> and <b>Root</b> can be chosen for Emitters, as well as the <b>Size</b> and the <b>Delay</b> between emission. \
+                        Create Emitters by clicking with your mouse. </p>\
+            "
+        ).hideTitle("Instructions")
+
+        var e = document.getElementsByClassName("qs_main")[2];
+        e.id = "instructions"
 
     }
 
@@ -150,13 +196,20 @@ class GUI {
         if (this.currentObjectDrawType == "Circle") {
             this.gui.showControl("Circle Settings")
             this.gui.showControl("Circle Size")
+            this.gui.showControl("Circle Friction");
+            this.gui.showControl("Circle Bounciness")
         } else {
             this.gui.hideControl("Circle Settings")
             this.gui.hideControl("Circle Size")
+            this.gui.hideControl("Circle Friction");
+            this.gui.hideControl("Circle Bounciness")
         }
 
         /* PLATFORM */
         if (this.currentObjectDrawType == "Platform") {
+            if (this.getValue("Fixed Rotation")) {
+                this.gui.showControl("Rotation Speed")
+            }
             this.gui.showControl("Platform Settings")
             this.gui.showControl("Static")
             this.gui.showControl("Fixed Rotation")
@@ -164,6 +217,7 @@ class GUI {
             this.gui.hideControl("Platform Settings")
             this.gui.hideControl("Static")
             this.gui.hideControl("Fixed Rotation")
+            this.gui.hideControl("Rotation Speed")
         }
 
         /* EMITTER */
@@ -194,7 +248,9 @@ class GUI {
 
         /* When General Settings is selected, set position of new window to the right of sequencer controls */
         this.settingsGUI.setPosition(
-            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
+            this.info._hidden ? 
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
             this.gui.getPanelPosition().y
         )
 
@@ -209,6 +265,28 @@ class GUI {
         this.settingsGUI.toggleVisibility();
     }
 
+    instructions() {
+        if (this.settingsGUI._hidden) {
+            this.info.setPosition(
+                this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
+                this.gui.getPanelPosition().y
+            )
+        } else {
+            this.info.setPosition(
+                this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
+                this.gui.getPanelPosition().y
+            )
+        }
+        this.info.setPosition(
+            this.settingsGUI._hidden ? 
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
+            this.gui.getPanelPosition().y
+        )
+        
+        this.info.toggleVisibility();
+    }
+
     toggleGravity() {
         if(this.getValue("Gravity")) {
             this.simulation.world.gravity.y = 1
@@ -219,22 +297,22 @@ class GUI {
 
     /* UNUSED CALLBACKS */
     changeStaticPlatform() {}
+    changeRotationSpeed() {}
 
     changeCircleSize() {}
+    changeCircleFriction() {}
+    changeCircleBounciness() {}
 
     changeEmitterSize() {}
-
     changeEmitterDelay() {}
 
     changeRoot() {}
-
     changeMode() {}
 
     changeMIDIInput() {}
-
     changeMIDIOutput() {}
 
-    changeRotationSpeed() {}
+    backgroundColor() {}
 
     /* UTILITIES */
     getValue(title) {
@@ -242,6 +320,6 @@ class GUI {
     }
 
     mouseHovering() {
-        return this.gui.mouseHovering("gui") || this.settingsGUI.mouseHovering("settingsGUI");
+        return this.gui.mouseHovering("gui") || this.settingsGUI.mouseHovering("settingsGUI") || this.info.mouseHovering("instructions")
     }
 }

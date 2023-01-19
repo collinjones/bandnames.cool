@@ -8,7 +8,6 @@ class Platform {
             isStatic: isStatic,
             restitution: 1
         }
-        console.log(aV)
         this.angle = 0;
         this.angleV = aV;
         this.body = Bodies.rectangle(x, y, w, h, this.options);
@@ -30,6 +29,7 @@ class Platform {
         push();
         translate(pos.x, pos.y)
         
+        smooth();
         stroke(this.color)
         if(this.isStatic) {
             fill(this.color)

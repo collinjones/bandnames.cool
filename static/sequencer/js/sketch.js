@@ -1,3 +1,5 @@
+p5.disableFriendlyErrors = true; // disables FES
+
 var Engine = Matter.Engine,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
@@ -69,6 +71,8 @@ function mouseInBounds() {
 
 // Handles mouse pressed logic
 function mousePressed() {
+
+    simulation.mouseReleased = false;
     if (simulation.isInteractable()) {
         mouseWasClicked = true;
         if (mouseButton === LEFT) {
@@ -102,6 +106,7 @@ function mouseDragged() {
 
 // Handles mouse released logic
 function mouseReleased() {
+    simulation.mouseReleased = true;
     if (simulation.isInteractable()) {
         if (mouseWasClicked) {
             if (start_vector_set) {

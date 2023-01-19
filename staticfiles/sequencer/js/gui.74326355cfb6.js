@@ -127,7 +127,7 @@ class GUI {
         var e = document.getElementsByClassName("qs_main")[1];
         e.id = "settingsGUI"
 
-        /* INSTRUCTIONS */
+        console.log(this.settingsGUI._hidden)
         this.info = QuickSettings.create(
             this.settingsGUI._hidden ? 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
@@ -143,9 +143,6 @@ class GUI {
                 <p> Emitters generate Circles. Mode and Root can be chosen for Emitters. </p>\
             "
         ).hideTitle("Instructions")
-
-        var e = document.getElementsByClassName("qs_main")[2];
-        e.id = "instructions"
 
     }
 
@@ -217,9 +214,7 @@ class GUI {
 
         /* When General Settings is selected, set position of new window to the right of sequencer controls */
         this.settingsGUI.setPosition(
-            this.info._hidden ? 
-            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
-            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
             this.gui.getPanelPosition().y
         )
 
@@ -235,13 +230,12 @@ class GUI {
     }
 
     instructions() {
-        this.info.setPosition(
+        this.instructions.setPosition(
             this.settingsGUI._hidden ? 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
-            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
-            this.gui.getPanelPosition().y
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + this.settingsGUI.getPanelPosition().x + this.settingsGUI.getPanelDimensions().width + 10, 
+            10
         )
-        
         this.info.toggleVisibility();
     }
 
@@ -278,6 +272,6 @@ class GUI {
     }
 
     mouseHovering() {
-        return this.gui.mouseHovering("gui") || this.settingsGUI.mouseHovering("settingsGUI") || this.info.mouseHovering("instructions")
+        return this.gui.mouseHovering("gui") || this.settingsGUI.mouseHovering("settingsGUI");
     }
 }

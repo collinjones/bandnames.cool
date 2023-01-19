@@ -28,7 +28,9 @@ class Emitter {
         translate(this.pos.x, this.pos.y);
         noFill();
         stroke(0, 0, 0, 100)
+        smooth();
         ellipse(0, 0, this.size * 2, this.size * 2);
+        fill(0)
         text(str((this.trigger.getTimeUntilExecution() / 1000).toFixed(1)), this.size + 5, this.size)
         pop();
     }

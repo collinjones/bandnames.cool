@@ -33,20 +33,17 @@ class Mouse {
             // For Matter.Query.point pass "array of bodies" and "mouse position"
             var foundPhysics = Matter.Query.point(Composite.allBodies(simulation.world), event.mouse.position);
 
-            /* Circle hover */
-            if (foundPhysics[0] && foundPhysics[0].label == "Circle Body") {
-                for (let i = 0; i < simulation.circles.length; i++) {
-                    if (simulation.circles[i].body.id == foundPhysics[0].id) {
-                        var target = simulation.circles[i];
-                        //target.hover();
+            /* Platform hover */
+            if (foundPhysics[0] && foundPhysics[0].label == "Rectangle Body") {
+                for (let i = 0; i < simulation.platforms.length; i++) {
+                    if (simulation.platforms[i].body.id == foundPhysics[0].id) {
+                        simulation.interactable = false
                     }
                 }
-
-                /* Find hovering bodies again */
-                foundPhysics = Matter.Query.point(Composite.allBodies(simulation.world), event.mouse.position);
-                if (!foundPhysics[0] && target) {
-                    console.log('')
-                } 
+            } else {
+                if (simulation.mouseReleased) {
+                    simulation.interactable = true
+                }
             }
         });
     }

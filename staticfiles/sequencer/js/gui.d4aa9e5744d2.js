@@ -218,9 +218,9 @@ class GUI {
         /* When General Settings is selected, set position of new window to the right of sequencer controls */
         this.settingsGUI.setPosition(
             this.info._hidden ? 
-            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
-            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
-            this.gui.getPanelPosition().y
+            this.info.getPanelPosition().x + this.info.getPanelDimensions().width + 10 : 
+            this.info.getPanelPosition().x + this.info.getPanelDimensions().width * 2 + 20, 
+            10
         )
 
         /* If the window ends up outside of the screen bounds, set the new window to the left instead */
@@ -235,13 +235,13 @@ class GUI {
     }
 
     instructions() {
+        console.log(this.settingsGUI._hidden)
         this.info.setPosition(
             this.settingsGUI._hidden ? 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
-            this.gui.getPanelPosition().y
+            10
         )
-        
         this.info.toggleVisibility();
     }
 
