@@ -3,6 +3,7 @@ p5.disableFriendlyErrors = true; // disables FES
 var Engine = Matter.Engine,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
+    Body = Matter.Body
     Composite = Matter.Composite,
     Events = Matter.Events,
     Constraint = Matter.Constraint,
@@ -71,8 +72,10 @@ function mouseInBounds() {
 
 // Handles mouse pressed logic
 function mousePressed() {
-
+    
+    
     simulation.mouseReleased = false;
+    console.log(simulation.isInteractable())
     if (simulation.isInteractable()) {
         mouseWasClicked = true;
         if (mouseButton === LEFT) {
@@ -80,6 +83,8 @@ function mousePressed() {
                 simulation.createCircle(createVector(mouseX, mouseY), simulation.MIDIFactory.generateRandomNoteName());
             } else if (simulation.gui.currentObjectDrawType == "Emitter" && mouseInBounds()) {
                 simulation.createEmitter();
+            } else if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
+                simulation.createContainer(createVector(mouseX, mouseY));
             }
         }
     }
@@ -108,14 +113,12 @@ function mouseDragged() {
 function mouseReleased() {
     simulation.mouseReleased = true;
     if (simulation.isInteractable()) {
-        if (mouseWasClicked) {
-            if (start_vector_set) {
-                simulation.createPlatform(
-                    startMouseVector, angle, distance * 2, simulation.gui.getValue("Static")
-                );
-                start_vector_set = false;
-                drawing_rect = false;
-            }
+        if (start_vector_set) {
+            simulation.createPlatform(
+                startMouseVector, angle, distance * 2, simulation.gui.getValue("Static")
+            );
+            start_vector_set = false;
+            drawing_rect = false;
         }
         // isInteractable = false;
     }

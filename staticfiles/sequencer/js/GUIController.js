@@ -1,4 +1,4 @@
-class GUI {
+class GUIController {
     constructor (simulation, name) {
         this.simulation = simulation;
         this.gui = QuickSettings.create(10, 10, name)
@@ -21,10 +21,16 @@ class GUI {
             this.toggleGravity.bind(this)
         )
 
+        this.gui.addButton(
+            "Clear Scene",
+            this.clearScene.bind(this)
+        )
+        this.gui.overrideStyle("Clear Scene", "width", "100%")
+
         /* OBJECT DRAW TYPES */
         this.gui.addDropDown(
             "Object Type", 
-            ["Circle", "Platform", "Emitter"], 
+            ["Circle", "Platform", "Emitter", "Polygon"], 
             this.changeObjectType.bind(this)
         )
 
@@ -55,6 +61,16 @@ class GUI {
             "<center><b>Platform Settings</b></center>"
         ).hideTitle("Platform Settings").hideControl("Platform Settings")
 
+        this.gui.addRange(
+            "Platform Friction",
+            0, 10, 1, this.changePlatformFriction.bind(this)
+        ).setValue("Platform Friction", 3).hideControl("Platform Friction")
+
+        this.gui.addRange(
+            "Platform Bounciness",
+            0, 10, 1, this.changePlatformBounciness.bind(this)
+        ).setValue("Platform Bounciness", 8).hideControl("Platform Bounciness")
+
         this.gui.addBoolean(
             "Static",
             false,
@@ -72,6 +88,8 @@ class GUI {
             1, 20, 1,
             this.changeRotationSpeed.bind(this)
         ).hideControl("Rotation Speed")
+
+        
 
         /* EMITTER SETTINGS */
         this.gui.addHTML(
@@ -102,12 +120,37 @@ class GUI {
             this.changeRoot.bind(this)
         ).hideControl("Root")
 
+        this.gui.addDropDown(
+            "Octave",
+            [1, 2, 3, 4, 5],
+            this.changeOctave.bind(this)
+        ).hideControl("Octave")
+
+        this.gui.addDropDown(
+            "Octave Direction",
+            ["Up", "Down"],
+            this.changeOctaveDirection.bind(this)
+        ).hideControl("Octave Direction")
+
+        this.gui.addRange(
+            "Octave Range",
+            1, 5, 1, 
+            this.changeOctaveRange.bind(this)
+        ).hideControl("Octave Range")
+
         var e = document.getElementsByClassName("qs_main")[0];
         e.id = "gui"
 
         this.settingsGUI = QuickSettings.create(
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
             10, "General Settings").hide();
+
+        /* POLYGON SETTINGS */
+        this.gui.addHTML(
+            "Polygon Settings",
+            "<center><b>Polygon Settings</b></center>"
+        ).hideTitle("Polygon Settings").hideControl("Polygon Settings")
+
 
         /* GENERAL SETTINGS */
 
@@ -121,12 +164,6 @@ class GUI {
             "Fullscreen",
             this.fullscreen.bind(this)
         ).overrideStyle("Fullscreen", "width", "100%")
-
-        this.settingsGUI.addButton(
-            "Clear Scene",
-            this.clearScene.bind(this)
-        )
-        this.settingsGUI.overrideStyle("Clear Scene", "width", "100%")
 
         this.settingsGUI.addDropDown(
             "MIDI Input Device",
@@ -210,10 +247,14 @@ class GUI {
             if (this.getValue("Fixed Rotation")) {
                 this.gui.showControl("Rotation Speed")
             }
+            this.gui.showControl("Platform Bounciness")
+            this.gui.showControl("Platform Friction")
             this.gui.showControl("Platform Settings")
             this.gui.showControl("Static")
             this.gui.showControl("Fixed Rotation")
         } else {
+            this.gui.hideControl("Platform Bounciness")
+            this.gui.hideControl("Platform Friction")
             this.gui.hideControl("Platform Settings")
             this.gui.hideControl("Static")
             this.gui.hideControl("Fixed Rotation")
@@ -227,12 +268,27 @@ class GUI {
             this.gui.showControl("Mode")
             this.gui.showControl("Root")
             this.gui.showControl("Emitter Delay")
+            this.gui.showControl("Octave")
+            this.gui.showControl("Octave Range")
+            this.gui.showControl("Octave Direction")
         } else {
             this.gui.hideControl("Emitter Settings")
             this.gui.hideControl("Mode")
             this.gui.hideControl("Root")
             this.gui.hideControl("Emitter Delay")
             this.gui.hideControl("Emitter Size")
+            this.gui.hideControl("Octave")
+            this.gui.hideControl("Octave Range")
+            this.gui.hideControl("Octave Direction")
+        }
+
+        /* POLYGON */
+        if (this.currentObjectDrawType == "Polygon") {
+            this.gui.showControl("Polygon Settings")
+
+        } else {
+            this.gui.hideControl("Polygon Settings")
+
         }
     }
 
@@ -295,23 +351,54 @@ class GUI {
         }
     }
 
+
+    changeOctave() {
+        var max = 6;
+        if (this.getValue("Octave Direction").value == "Up") {
+            if (this.getValue("Octave").value + this.getValue("Octave Range") >= max) {
+                let overflow = (this.getValue("Octave").value + this.getValue("Octave Range")) - max;
+                console.log(overflow)
+                this.gui.removeControl("Octave Range");
+                this.gui.addRange(
+                    "Octave Range",
+                    1, overflow == 0 ? 1 : overflow, 1, 
+                    this.changeOctaveRange.bind(this)
+                ).setValue("Octave Range", 1)
+            } else {
+                this.gui.removeControl("Octave Range");
+                this.gui.addRange(
+                    "Octave Range",
+                    1, max - this.getValue("Octave").value, 1, 
+                    this.changeOctaveRange.bind(this)
+                ).setValue("Octave Range", 1)
+            }
+        }
+    }
+
     /* UNUSED CALLBACKS */
+
+    /* Platform Callbacks */
     changeStaticPlatform() {}
     changeRotationSpeed() {}
+    changePlatformBounciness() {}
+    changePlatformFriction() {}
 
+    /* Circle Callbacks */
     changeCircleSize() {}
     changeCircleFriction() {}
     changeCircleBounciness() {}
 
+    /* Emitter Callbacks */
     changeEmitterSize() {}
     changeEmitterDelay() {}
-
     changeRoot() {}
     changeMode() {}
+    changeOctaveRange() {}
+    changeOctaveDirection() {}
 
+    /* General Settings Callbacks */
     changeMIDIInput() {}
     changeMIDIOutput() {}
-
     backgroundColor() {}
 
     /* UTILITIES */
@@ -320,6 +407,13 @@ class GUI {
     }
 
     mouseHovering() {
-        return this.gui.mouseHovering("gui") || this.settingsGUI.mouseHovering("settingsGUI") || this.info.mouseHovering("instructions")
+        
+        if (this.gui.mouseHovering("gui")) {
+            return true
+        } else if (!this.settingsGUI._hidden && this.settingsGUI.mouseHovering("settingsGUI")) {
+            return true
+        } else if (!this.info._hidden && this.info.mouseHovering("instructions")) {
+            return true
+        }
     }
 }

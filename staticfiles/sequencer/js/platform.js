@@ -1,14 +1,14 @@
 class Platform {
-    constructor(simulation, x, y, w, h, a, aV, color, isStatic) {
+    constructor(simulation, x, y, w, h, a, aV, color, isStatic, friction, restitution) {
         this.simulation = simulation;
         this.isStatic = isStatic;
         this.color = color;
         this.options = {
             angle: a,
             isStatic: isStatic,
-            restitution: 1
+            friction: friction,
+            restitution: restitution
         }
-        console.log(aV)
         this.angle = 0;
         this.angleV = aV;
         this.body = Bodies.rectangle(x, y, w, h, this.options);
@@ -30,6 +30,7 @@ class Platform {
         push();
         translate(pos.x, pos.y)
         
+        smooth();
         stroke(this.color)
         if(this.isStatic) {
             fill(this.color)

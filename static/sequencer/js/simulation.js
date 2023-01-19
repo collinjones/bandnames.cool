@@ -9,6 +9,7 @@ class Simulation {
         this.circles = [];
         this.platforms = [];
         this.emitters = [];
+        this.containers = [];
 
         this.screen_boundary;
 
@@ -49,6 +50,7 @@ class Simulation {
     update() {
         this.updateEmitters();
         this.updatePlatforms();
+        this.updateContainers();
 
         /* Disable sketch interaction if mouse is hovering UI */
         if (this.gui.mouseHovering()) {
@@ -64,7 +66,14 @@ class Simulation {
         this.drawEmitters();
         this.drawPlatforms();
         this.drawCircles(); 
+        this.drawContainers();
         this.mouse.draw();
+    }
+
+    drawContainers() {
+        for (const container of this.containers) {
+            container.draw();
+        }
     }
 
     drawCircles() {
@@ -107,6 +116,12 @@ class Simulation {
         }
     }
 
+    updateContainers() {
+        for (const container of this.containers) {
+            container.update();
+        }
+    }
+
     /* Generate rotating platforms */
     generateRotatingPlatforms() {
         for (let y = 0; y < this.height_div; y++) {
@@ -120,7 +135,10 @@ class Simulation {
                     random(5),                                       // angle
                     random(0.05) + 0.01,                             // angle velocity
                     color(255, 204, 0))),
-                    true
+                    true,
+                    this.gui.getValue("Platform Friction"),
+                    this.gui.getValue("Platform Bounciness")
+
             }
         }
     }
@@ -187,6 +205,10 @@ class Simulation {
             isStatic));                           
     }
 
+    createContainer(pos) {
+        this.containers.push(new Container(simulation, 200, 10, this.gui.getValue("Sides"), pos))
+    }
+
     isInteractable() {
         return this.interactable;
     }
@@ -223,7 +245,7 @@ class Simulation {
         this.MIDIFactory = new MIDIFactory();
         this.MIDIFactory.deriveMode();
 
-        this.gui = new GUI(this, "Motion Sound Sequencer")
+        this.gui = new GUIController(this, "Motion Sound Sequencer")
     }
 
     

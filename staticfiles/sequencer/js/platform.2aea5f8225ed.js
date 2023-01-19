@@ -1,13 +1,12 @@
 class Platform {
-    constructor(simulation, x, y, w, h, a, aV, color, isStatic, friction, restitution) {
+    constructor(simulation, x, y, w, h, a, aV, color, isStatic) {
         this.simulation = simulation;
         this.isStatic = isStatic;
         this.color = color;
         this.options = {
             angle: a,
             isStatic: isStatic,
-            friction: friction,
-            restitution: restitution
+            restitution: 1
         }
         this.angle = 0;
         this.angleV = aV;

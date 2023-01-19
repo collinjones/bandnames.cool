@@ -28,8 +28,16 @@ class Emitter {
         translate(this.pos.x, this.pos.y);
         noFill();
         stroke(0, 0, 0, 100)
+        smooth();
         ellipse(0, 0, this.size * 2, this.size * 2);
-        text(str((this.trigger.getTimeUntilExecution() / 1000).toFixed(1)), this.size + 5, this.size)
+        fill(0)
+        if(this.trigger.getTimeUntilExecution() < 0) {
+            console.log('nce')
+            text("0.0", this.size + 5, this.size)
+        } else {
+            text(str((this.trigger.getTimeUntilExecution() / 1000).toFixed(1)), this.size + 5, this.size)
+        }
+        
         pop();
     }
     
