@@ -1,8 +1,12 @@
 class GUIController {
     constructor (simulation, name) {
         this.simulation = simulation;
-        this.gui = QuickSettings.create(10, 10, name)
+        this.gui = null;
+        this.info = null;
+        this.settings = null;
         this.currentObjectDrawType = "Circle";
+
+        this.gui = QuickSettings.create(10, 10, name)
 
         /* SEQUENCER CONTROLS */
         this.gui.addButton(
@@ -42,18 +46,18 @@ class GUIController {
 
         this.gui.addRange(
             "Circle Size",
-            5, 25, 1, this.changeCircleSize.bind(this)
+            5, 25, 5, 1, this.changeCircleSize.bind(this)
         )
 
         this.gui.addRange(
             "Circle Friction",
-            0, 10, 1, this.changeCircleFriction.bind(this)
-        ).setValue("Circle Friction", 3)
+            0, 10, 1, 1, this.changeCircleFriction.bind(this)
+        )
 
         this.gui.addRange(
             "Circle Bounciness",
-            0, 10, 1, this.changeCircleBounciness.bind(this)
-        ).setValue("Circle Bounciness", 8)
+            0, 10, 10, 1, this.changeCircleBounciness.bind(this)
+        )
 
         /* PLATFORM SETTINGS */
         this.gui.addHTML(
@@ -63,12 +67,12 @@ class GUIController {
 
         this.gui.addRange(
             "Platform Friction",
-            0, 10, 1, this.changePlatformFriction.bind(this)
+            0, 10, 1, 1, this.changePlatformFriction.bind(this)
         ).setValue("Platform Friction", 3).hideControl("Platform Friction")
 
         this.gui.addRange(
             "Platform Bounciness",
-            0, 10, 1, this.changePlatformBounciness.bind(this)
+            0, 10, 10, 1, this.changePlatformBounciness.bind(this)
         ).setValue("Platform Bounciness", 8).hideControl("Platform Bounciness")
 
         this.gui.addBoolean(
@@ -85,7 +89,7 @@ class GUIController {
 
         this.gui.addRange(
             "Rotation Speed",
-            1, 20, 1,
+            1, 20, 1, 1,
             this.changeRotationSpeed.bind(this)
         ).hideControl("Rotation Speed")
 
@@ -99,12 +103,12 @@ class GUIController {
 
         this.gui.addRange(
             "Emitter Size",
-            5, 25, 1, this.changeEmitterSize.bind(this)
+            5, 25, 10, 1, this.changeEmitterSize.bind(this)
         ).hideControl("Emitter Size")
 
         this.gui.addRange(
             "Emitter Delay",
-            1, 20, 1,
+            1, 20, 1, 1,
             this.changeEmitterDelay.bind(this)
         ).hideControl("Emitter Delay")
 
@@ -134,14 +138,14 @@ class GUIController {
 
         this.gui.addRange(
             "Octave Range",
-            1, 5, 1, 
+            1, 5, 1, 1, 
             this.changeOctaveRange.bind(this)
         ).hideControl("Octave Range")
 
         var e = document.getElementsByClassName("qs_main")[0];
         e.id = "gui"
 
-        this.settingsGUI = QuickSettings.create(
+        this.settings = QuickSettings.create(
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
             10, "General Settings").hide();
 
@@ -153,44 +157,56 @@ class GUIController {
 
         this.gui.addRange(
             "Sides",
-            3, 10, 1,
+            3, 25, 3, 1,
             this.changeContainerSides.bind(this)
         ).hideControl("Sides")
+
+        this.gui.addRange(
+            "Container Size", 
+            1, 10, 1, 1,
+            this.changeContainerSize.bind(this)
+        ).hideControl("Container Size")
+
+        this.gui.addRange(
+            "Side Length",
+            1, 250, 1, 1,
+            this.changeSideLength.bind(this)
+        ).hideControl("Side Length")
 
 
         /* GENERAL SETTINGS */
 
-        this.settingsGUI.addColor(
+        this.settings.addColor(
             "Background Color",
             "#7a7d7f",
             this.backgroundColor.bind(this)
         )
 
-        this.settingsGUI.addButton(
+        this.settings.addButton(
             "Fullscreen",
             this.fullscreen.bind(this)
         ).overrideStyle("Fullscreen", "width", "100%")
 
-        this.settingsGUI.addDropDown(
+        this.settings.addDropDown(
             "MIDI Input Device",
             this.simulation.MIDIIn_controller.MIDIInList,
             this.changeMIDIInput.bind(this)
         )
 
-        this.settingsGUI.addDropDown(
+        this.settings.addDropDown(
             "MIDI Output Device",
             this.simulation.MIDIOut_controller.MIDIOutList,
             this.changeMIDIOutput.bind(this)
         )
 
         var e = document.getElementsByClassName("qs_main")[1];
-        e.id = "settingsGUI"
+        e.id = "settings"
 
         /* INSTRUCTIONS */
         this.info = QuickSettings.create(
-            this.settingsGUI._hidden ? 
+            this.settings._hidden ? 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
-            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + this.settingsGUI.getPanelPosition().x + this.settingsGUI.getPanelDimensions().width + 10, 10, "Instructions"
+            this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + this.settings.getPanelPosition().x + this.settings.getPanelDimensions().width + 10, 10, "Instructions"
         ).hide();
 
         this.info.addHTML(
@@ -293,11 +309,14 @@ class GUIController {
         if (this.currentObjectDrawType == "Container") {
             this.gui.showControl("Container Settings")
             this.gui.showControl("Sides")
+            this.gui.showControl("Container Size")
+            this.gui.showControl("Side Length")
 
         } else {
             this.gui.hideControl("Container Settings")
             this.gui.hideControl("Sides")
-
+            this.gui.hideControl("Container Size")
+            this.gui.hideControl("Side Length")
         }
     }
 
@@ -312,7 +331,7 @@ class GUIController {
     generalSettings() {
 
         /* When General Settings is selected, set position of new window to the right of sequencer controls */
-        this.settingsGUI.setPosition(
+        this.settings.setPosition(
             this.info._hidden ? 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
@@ -320,18 +339,18 @@ class GUIController {
         )
 
         /* If the window ends up outside of the screen bounds, set the new window to the left instead */
-        if (this.settingsGUI.getPanelPosition().x + this.settingsGUI.getPanelDimensions().width > width) {
-            this.settingsGUI.setPosition(
+        if (this.settings.getPanelPosition().x + this.settings.getPanelDimensions().width > width) {
+            this.settings.setPosition(
                 this.gui.getPanelPosition().x - this.gui.getPanelDimensions().width - 10, 
                 this.gui.getPanelPosition().y
             )
         }
 
-        this.settingsGUI.toggleVisibility();
+        this.settings.toggleVisibility();
     }
 
     instructions() {
-        if (this.settingsGUI._hidden) {
+        if (this.settings._hidden) {
             this.info.setPosition(
                 this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
                 this.gui.getPanelPosition().y
@@ -343,7 +362,7 @@ class GUIController {
             )
         }
         this.info.setPosition(
-            this.settingsGUI._hidden ? 
+            this.settings._hidden ? 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width * 2 + 20, 
             this.gui.getPanelPosition().y
@@ -360,8 +379,8 @@ class GUIController {
         }
     }
 
-
     changeOctave() {
+        console.log()
         var max = 6;
         if (this.getValue("Octave Direction").value == "Up") {
             if (this.getValue("Octave").value + this.getValue("Octave Range") >= max) {
@@ -384,6 +403,12 @@ class GUIController {
         }
     }
 
+    changeSideLength() {
+        for (const container of this.simulation.containers) {
+            container.updateSideLength(map(this.getValue("Side Length"), 1, 250, 25, 250))
+        }
+    }
+
     /* UNUSED CALLBACKS */
 
     /* Platform Callbacks */
@@ -393,7 +418,9 @@ class GUIController {
     changePlatformFriction() {}
 
     /* Circle Callbacks */
-    changeCircleSize() {}
+    changeCircleSize() {
+        console.log('test')
+    }
     changeCircleFriction() {}
     changeCircleBounciness() {}
 
@@ -406,6 +433,7 @@ class GUIController {
     changeOctaveDirection() {}
 
     changeContainerSides() {}
+    changeContainerSize() {}
 
     /* General Settings Callbacks */
     changeMIDIInput() {}
@@ -417,11 +445,15 @@ class GUIController {
         return this.gui.getValue(title)
     }
 
+    output(name, value) {
+        console.log(name, value)
+    }
+
     mouseHovering() {
         
         if (this.gui.mouseHovering("gui")) {
             return true
-        } else if (!this.settingsGUI._hidden && this.settingsGUI.mouseHovering("settingsGUI")) {
+        } else if (!this.settings._hidden && this.settings.mouseHovering("settings")) {
             return true
         } else if (!this.info._hidden && this.info.mouseHovering("instructions")) {
             return true

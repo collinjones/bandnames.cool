@@ -61,7 +61,7 @@ class Simulation {
 
     // Draws things to the screen
     draw() {
-        background(this.gui.settingsGUI.getValue("Background Color"));
+        background(this.gui.settings.getValue("Background Color"));
 
         this.drawEmitters();
         this.drawPlatforms();
@@ -206,7 +206,7 @@ class Simulation {
     }
 
     createContainer(pos) {
-        this.containers.push(new Container(simulation, 150, 3, pos))
+        this.containers.push(new Container(simulation, this.gui.getValue("Container Size") * 100, 10, map(this.gui.getValue("Side Length"), 1, 250, 25, 250), this.gui.getValue("Sides"), pos))
     }
 
     isInteractable() {
@@ -222,8 +222,7 @@ class Simulation {
     }
 
     // Called once MIDI is enabled
-    midiEnabled() {    
-        
+    midiEnabled() {   
         this.MIDIOut_controller = new MIDIOutput();  // midi output controller
         this.MIDIIn_controller = new MIDIInput(this);  // midi output controller  
 
@@ -247,7 +246,5 @@ class Simulation {
 
         this.gui = new GUIController(this, "Motion Sound Sequencer")
     }
-
-    
 
 }

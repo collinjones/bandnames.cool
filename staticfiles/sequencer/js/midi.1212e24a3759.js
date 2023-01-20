@@ -55,13 +55,11 @@ class MIDIInput {
 
     constructor(simulation) {
         this.simulation = simulation;
+        this.MIDIIn = WebMidi.inputs != null ? WebMidi.inputs[0] : null;
+        this.MIDIIn_selector = null;
         this.MIDIInList = [];
+        this.MIDIIn.addListener("noteon", this.noteOn.bind(this));
 
-        /* Only if midi devices are found - setup the MIDI Input */
-        if (WebMidi.inputs.length != 0) {
-            this.MIDIIn = WebMidi.inputs[0]
-            this.MIDIIn.addListener("noteon", this.noteOn.bind(this));
-        }
         // request MIDI access
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess({

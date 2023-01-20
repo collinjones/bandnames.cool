@@ -73,7 +73,9 @@ function mouseInBounds() {
 // Handles mouse pressed logic
 function mousePressed() {
     
+    
     simulation.mouseReleased = false;
+    console.log(simulation.isInteractable())
     if (simulation.isInteractable()) {
         mouseWasClicked = true;
         if (mouseButton === LEFT) {

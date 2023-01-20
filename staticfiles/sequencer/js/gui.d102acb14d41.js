@@ -90,42 +90,42 @@ class GUI {
         var e = document.getElementsByClassName("qs_main")[0];
         e.id = "gui"
 
-        this.settingsGUI = QuickSettings.create(
+        this.settings = QuickSettings.create(
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
             10, "General Settings").hide();
 
         /* GENERAL SETTINGS */
 
-        this.settingsGUI.addButton(
+        this.settings.addButton(
             "Fullscreen",
             this.fullscreen.bind(this)
         ).overrideStyle("Fullscreen", "width", "100%")
 
-        this.settingsGUI.addButton(
+        this.settings.addButton(
             "Clear Scene",
             this.clearScene.bind(this)
         )
-        this.settingsGUI.overrideStyle("Clear Scene", "width", "100%")
+        this.settings.overrideStyle("Clear Scene", "width", "100%")
 
-        this.settingsGUI.addDropDown(
+        this.settings.addDropDown(
             "MIDI Input Device",
             this.simulation.MIDIIn_controller.MIDIInList,
             this.changeMIDIInput.bind(this)
         )
 
-        this.settingsGUI.addDropDown(
+        this.settings.addDropDown(
             "MIDI Output Device",
             this.simulation.MIDIOut_controller.MIDIOutList,
             this.changeMIDIOutput.bind(this)
         )
 
         var e = document.getElementsByClassName("qs_main")[1];
-        e.id = "settingsGUI"
+        e.id = "settings"
 
         this.info = QuickSettings.create(
-            this.settingsGUI._hidden ? 
+            this.settings._hidden ? 
                 this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10 : 
-                this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + this.settingsGUI.getPanelPosition().x + this.settingsGUI.getPanelDimensions().width + 10
+                this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + this.settings.getPanelPosition().x + this.settings.getPanelDimensions().width + 10
         )
 
         this.info.addHTML(
@@ -207,20 +207,20 @@ class GUI {
     generalSettings() {
 
         /* When General Settings is selected, set position of new window to the right of sequencer controls */
-        this.settingsGUI.setPosition(
+        this.settings.setPosition(
             this.gui.getPanelPosition().x + this.gui.getPanelDimensions().width + 10, 
             this.gui.getPanelPosition().y
         )
 
         /* If the window ends up outside of the screen bounds, set the new window to the left instead */
-        if (this.settingsGUI.getPanelPosition().x + this.settingsGUI.getPanelDimensions().width > width) {
-            this.settingsGUI.setPosition(
+        if (this.settings.getPanelPosition().x + this.settings.getPanelDimensions().width > width) {
+            this.settings.setPosition(
                 this.gui.getPanelPosition().x - this.gui.getPanelDimensions().width - 10, 
                 this.gui.getPanelPosition().y
             )
         }
 
-        this.settingsGUI.toggleVisibility();
+        this.settings.toggleVisibility();
     }
 
     toggleGravity() {
@@ -256,6 +256,6 @@ class GUI {
     }
 
     mouseHovering() {
-        return this.gui.mouseHovering("gui") || this.settingsGUI.mouseHovering("settingsGUI");
+        return this.gui.mouseHovering("gui") || this.settings.mouseHovering("settings");
     }
 }

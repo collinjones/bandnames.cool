@@ -47,7 +47,7 @@ class MIDIOutput {
     }
 
     changeMIDIOut() {
-        this.MIDIOut = WebMidi.getOutputByName(this.simulation.gui.gui.getValue("MIDI Output Device"));
+        this.MIDIOut = WebMidi.getOutputByName(this.simulation.gui.settings.getValue("MIDI Output Device"));
     }
 }
 
@@ -55,11 +55,13 @@ class MIDIInput {
 
     constructor(simulation) {
         this.simulation = simulation;
-        this.MIDIIn = WebMidi.inputs[0];
-        this.MIDIIn_selector = null;
         this.MIDIInList = [];
-        this.MIDIIn.addListener("noteon", this.noteOn.bind(this));
 
+        /* Only if midi devices are found - setup the MIDI Input */
+        if (WebMidi.inputs.length != 0) {
+            this.MIDIIn = WebMidi.inputs[0]
+            this.MIDIIn.addListener("noteon", this.noteOn.bind(this));
+        }
         // request MIDI access
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess({
@@ -75,7 +77,7 @@ class MIDIInput {
     }
 
     changeMIDIIn() {
-        let val = this.MIDIIn_selector.value();
+        let val = this.simulation.GUIController.settings.getValue("MIDI Input Device");
         this.MIDIIn.removeListener();
         this.MIDIIn = WebMidi.getInputByName(val);
         this.MIDIIn.addListener("noteon", this.noteOn.bind(this));

@@ -59,7 +59,7 @@ class Simulation {
 
     // Draws things to the screen
     draw() {
-        background(this.gui.settingsGUI.getValue("Background Color"));
+        background(this.gui.settings.getValue("Background Color"));
 
         this.drawEmitters();
         this.drawPlatforms();

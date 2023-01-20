@@ -73,9 +73,7 @@ function mouseInBounds() {
 // Handles mouse pressed logic
 function mousePressed() {
     
-    
     simulation.mouseReleased = false;
-    console.log(simulation.isInteractable())
     if (simulation.isInteractable()) {
         mouseWasClicked = true;
         if (mouseButton === LEFT) {
@@ -83,8 +81,8 @@ function mousePressed() {
                 simulation.createCircle(createVector(mouseX, mouseY), simulation.MIDIFactory.generateRandomNoteName());
             } else if (simulation.gui.currentObjectDrawType == "Emitter" && mouseInBounds()) {
                 simulation.createEmitter();
-            } else if (simulation.gui.currentObjectDrawType == "Polygon" && mouseInBounds()) {
-                simulation.createPolygon(createVector(mouseX, mouseY));
+            } else if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
+                simulation.createContainer(createVector(mouseX, mouseY));
             }
         }
     }
