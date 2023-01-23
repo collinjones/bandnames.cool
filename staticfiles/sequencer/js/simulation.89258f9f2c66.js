@@ -1,6 +1,6 @@
 class Simulation {
-
-    constructor(canvas) {
+     
+    constructor (canvas) {
         this.canvas = canvas;
         this.engine = null;
         this.world = null;
@@ -12,12 +12,6 @@ class Simulation {
         this.containers = [];
 
         this.screen_boundary;
-        this.boundary = {
-            "x": 0, 
-            "y": 0, 
-            "width": windowWidth, 
-            "height": windowHeight
-        }
 
         this.screen_div = 50;
         this.width_div = width / this.screen_div
@@ -25,43 +19,26 @@ class Simulation {
         this.interactable = true;
 
         this.mouseReleased = true;
-
+        
         this.setup();
     }
 
-
+    
 
     setup() {
         WebMidi.enable().then(this.midiEnabled.bind(this)).catch(err => alert(err));
 
-        this.engine = Engine.create({
-            friction: 0.05,
-        });
-
-        this.world = this.engine.world;
+        this.engine = Engine.create();
+        this.world = this.engine.world;  
         this.mouse = new Mouse(this);
+        this.engine.timing.timeScale = 0.5
 
         /* Add collision listener with collisionEvent as callback */
         Events.on(this.engine, 'collisionStart', this.collisionEvent.bind(this))
-        Events.on(this.engine, 'afterUpdate', this.removeObjectFromWorld.bind(this));
 
-        this.engine.timing.timeScale = 0.25
         Runner.run(this.engine);
-    }
-
-    /* If an object has left the screen, remove it from the world composite */
-    removeObjectFromWorld() {
-        for (var i = 0; i < this.world.bodies.length; i++) {
-            var body = this.world.bodies[i];
-            console.log(body.position.y , this.boundary.y + this.boundary.height)
-            if (body.position.x < this.boundary.x 
-             || body.position.x > this.boundary.x + this.boundary.width
-             || body.position.y < this.boundary.y 
-             || body.position.y > this.boundary.y + this.boundary.height
-                ) {
-                Composite.remove(this.world, body);
-            }
-        }
+        
+        
     }
 
     // Update game logic then draw to screen
@@ -79,8 +56,8 @@ class Simulation {
         /* Disable sketch interaction if mouse is hovering UI */
         if (this.gui.mouseHovering()) {
             this.interactable = false;
-        }
-
+        } 
+        
     }
 
     // Draws things to the screen
@@ -89,9 +66,9 @@ class Simulation {
 
         this.drawEmitters();
         this.drawPlatforms();
-        this.drawCircles();
+        this.drawCircles(); 
         this.drawContainers();
-        this.drawCurrentObjectPreview();
+        // this.drawCurrentObjectPreview();
         this.mouse.draw();
     }
 
@@ -109,7 +86,7 @@ class Simulation {
             if (circle.checkIfOutsideBounds()) {
                 this.circles.splice(i, 1)
             }
-
+    
             /* Break loop if all circles are destroyed */
             if (this.circles.length == 0) {
                 break;
@@ -132,22 +109,32 @@ class Simulation {
     drawContainerPreview() {
         let numberOfSides = this.gui.getValue("Sides")
         let containerWidth = 10;
-        let containerSize = this.gui.getValue("Container Size")
-        let lengthMultiplier = this.gui.getValue("Side Length")
+        let containerSize = map(this.gui.getValue("Container Size"), 1, 10, 25, 300)
+        let partLength = map(this.gui.getValue("Side Length"), 1, 10, 10, 300)
+
+        let lengthMultiplier = partLength * map(this.gui.getValue("Container Size"), 1, 10, -5, 10)
+
         var pos = createVector(mouseX, mouseY)
         var angleDiv = 360 / numberOfSides
-        var centerOffset = pos.x - containerSize * 25
-        var sideLength = pos.x - centerOffset
-
+        var centerOffset = containerSize / 2
+        var offset = pos.x - centerOffset
         translate(mouseX, mouseY)
         for (let i = 0; i < numberOfSides; i++) {
             push();
             noStroke();
             fill(255, 255, 255, 25)
             rotate(radians(i * angleDiv))
-            rect(sideLength, 0, containerWidth / 2, 
-            (sideLength * 2) * lengthMultiplier, 20)
+            rect(-containerSize / 2, 0, containerWidth / 2, partLength * lengthMultiplier, 20)
             pop();
+        //     var angle = i * angleDiv
+            
+        //     push();
+        //     fill("white")
+        //     noStroke()
+        //     translate(pos.x, pos.y)
+        //     rotate(angle)
+        //     rect(pos.x - centerOffset, pos.y, width /2, partLength, 20)
+        //     pop();
         }
     }
 
@@ -184,7 +171,7 @@ class Simulation {
                     (x * this.screen_div) + this.screen_div / 2,     // x pos
                     (y * this.screen_div) + this.screen_div / 2,     // y pos
                     this.screen_div,                                 // width
-                    this.screen_div / 10,                              // height
+                    this.screen_div/10,                              // height
                     random(5),                                       // angle
                     random(0.05) + 0.01,                             // angle velocity
                     color(255, 204, 0))),
@@ -202,7 +189,7 @@ class Simulation {
         var pairs = event.pairs;
 
         /* For each pair */
-        for (let i = 0; i < pairs.length; i++) {
+        for(let i = 0; i < pairs.length; i++) {
             var bodyA = pairs[i].bodyA;
             var bodyB = pairs[i].bodyB;
 
@@ -210,7 +197,7 @@ class Simulation {
                 bodyB.label == "Circle Body" && bodyA.label == "Rectangle Body") {
                 /* Find the circle body and handle its collision event */
                 if (bodyA.label == "Circle Body") {
-                    this.circleCollisionEvent(bodyA);
+                    this.circleCollisionEvent(bodyA); 
                 } else if (bodyB.label == "Circle Body") {
                     this.circleCollisionEvent(bodyB);
                 }
@@ -220,29 +207,29 @@ class Simulation {
 
     /* Function triggered on a circle collision event */
     circleCollisionEvent(body) {
-
+        
         /* Find the circle in the array of circles */
         for (let i = 0; i < this.circles.length; i++) {
             if (this.circles[i].body.id == body.id) {
                 this.circles[i].collisionEvent();
                 break;
             }
-        }
+        }  
     }
 
     /* Generate a new circle */
     createCircle(pos, note) {
         this.circles.push(new Circle(
-            this,
-            pos.x, pos.y,
-            this.gui.getValue("Circle Size"),
-            note)
-        )
+            this, 
+            pos.x, pos.y, 
+            this.gui.getValue("Circle Size"), 
+            note, 
+            this.gui.getValue("Circle Friction") / 10, this.gui.getValue("Circle Bounciness") / 10))
     }
 
     createEmitter() {
-        this.emitters.push(new Emitter(this,
-            createVector(mouseX, mouseY),
+        this.emitters.push(new Emitter(this, 
+            createVector(mouseX, mouseY), 
             this.gui.getValue("Emitter Size"),
             this.gui.getValue("Emitter Delay"))
         );
@@ -250,21 +237,25 @@ class Simulation {
 
     createPlatform(pos, angle, size, isStatic) {
         this.platforms.push(new Platform(
-            this, pos.x, pos.y,
-            size, 10,
-            angle,
-            this.gui.getValue("Fixed Rotation") ? this.gui.getValue("Rotation Speed") / 100 : 0,
-            color(255, 204, 0),
-            isStatic));
+            this, pos.x, pos.y, 
+            size, 10,                  
+            angle, 
+            this.gui.getValue("Fixed Rotation") ? this.gui.getValue("Rotation Speed") / 100: 0,
+            color(255, 204, 0), 
+            isStatic));                           
     }
 
-    createContainer(pos, preview) {
+    createContainer(pos) {
         let containerSize = this.gui.getValue("Container Size")
         let containerWidth = 10;
         let numberOfSides = this.gui.getValue("Sides")
 
+        if (numberOfSides == 3) {
+            partLength *= 2
+        }
+
         this.containers.push(new Container(
-            simulation, containerSize, containerWidth, numberOfSides, this.gui.getValue("Side Length"), pos, preview
+            simulation, containerSize, containerWidth, numberOfSides, pos
         ))
     }
 
@@ -281,14 +272,14 @@ class Simulation {
     }
 
     // Called once MIDI is enabled
-    midiEnabled() {
+    midiEnabled() {   
         this.MIDIOut_controller = new MIDIOutput();  // midi output controller
         this.MIDIIn_controller = new MIDIInput(this);  // midi output controller  
 
-        WebMidi.inputs.forEach(input =>
+        WebMidi.inputs.forEach(input => 
             this.MIDIIn_controller.MIDIInList.push(input.name)
         );
-        WebMidi.outputs.forEach(output =>
+        WebMidi.outputs.forEach(output => 
             this.MIDIOut_controller.MIDIOutList.push(output.name)
         );
 
@@ -304,6 +295,8 @@ class Simulation {
         this.MIDIFactory.deriveMode();
 
         this.gui = new GUIController(this, "Motion Sound Sequencer")
+
+        this.createContainer(createVector(width/2, height/2))
     }
 
 }

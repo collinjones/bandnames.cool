@@ -34,14 +34,13 @@ var g_flat = [174, 6, 177];
 var g_sharp = [109, 10, 111];
 
 class Circle {
-    constructor(simulation, x, y, r, note, fric, rest) {
+    constructor(simulation, x, y, r, note) {
         this.simulation = simulation; 
         var options = {
-            friction: fric,
-            restitution: rest,
+            friction: 0,
+            restitution: 0.8,
+            inertia: Infinity,
             frictionAir: 0,
-            frictionStatic: 0,
-            inertia: Infinity
         }
         this.r = r;
         this.MIDI_note = note;

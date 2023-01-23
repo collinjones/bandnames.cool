@@ -43,7 +43,9 @@ class MIDIOutput {
     }
 
     playNote(note) {
-        this.MIDIOut.playNote(note, {attack: 1, duration: 100});
+        if (this.MIDIOut) {
+            this.MIDIOut.playNote(note, {attack: 1, duration: 100});
+        }
     }
 
     changeMIDIOut() {

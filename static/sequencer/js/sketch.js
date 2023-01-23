@@ -18,7 +18,6 @@ var drawing_rect = false;
 var paused = false;
 var mouseWasClicked = false
 
-
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
     rectMode(CENTER)
@@ -26,7 +25,6 @@ function setup() {
 }
 
 function draw() {
-
     if (!paused) {
         simulation.run();
 

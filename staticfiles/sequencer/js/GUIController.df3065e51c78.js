@@ -5,6 +5,7 @@ class GUIController {
         this.info = null;
         this.settings = null;
         this.currentObjectDrawType = "Circle";
+
         this.gui = QuickSettings.create(10, 10, name)
 
         /* SEQUENCER CONTROLS */
@@ -18,9 +19,10 @@ class GUIController {
             this.instructions.bind(this)
         ).overrideStyle("Instructions", "width", "100%")
 
-        this.gui.addRange(
-            "Gravity Amount",
-            0, 1, 1, 0.1, this.changeGravityAmount.bind(this)
+        this.gui.addBoolean(
+            "Gravity",
+            true,
+            this.toggleGravity.bind(this)
         )
 
         this.gui.addButton(
@@ -45,6 +47,16 @@ class GUIController {
         this.gui.addRange(
             "Circle Size",
             5, 25, 5, 1, this.changeCircleSize.bind(this)
+        )
+
+        this.gui.addRange(
+            "Circle Friction",
+            0, 10, 1, 1, this.changeCircleFriction.bind(this)
+        )
+
+        this.gui.addRange(
+            "Circle Bounciness",
+            0, 10, 10, 1, this.changeCircleBounciness.bind(this)
         )
 
         /* PLATFORM SETTINGS */
@@ -145,7 +157,7 @@ class GUIController {
 
         this.gui.addRange(
             "Sides",
-            3, 50, 4, 1,
+            3, 25, 3, 1,
             this.changeContainerSides.bind(this)
         ).hideControl("Sides")
 
@@ -157,9 +169,10 @@ class GUIController {
 
         this.gui.addRange(
             "Side Length",
-            0.1, 1, 1, 0.01,
+            1, 250, 1, 1,
             this.changeSideLength.bind(this)
         ).hideControl("Side Length")
+
 
         /* GENERAL SETTINGS */
 
@@ -243,9 +256,13 @@ class GUIController {
         if (this.currentObjectDrawType == "Circle") {
             this.gui.showControl("Circle Settings")
             this.gui.showControl("Circle Size")
+            this.gui.showControl("Circle Friction");
+            this.gui.showControl("Circle Bounciness")
         } else {
             this.gui.hideControl("Circle Settings")
             this.gui.hideControl("Circle Size")
+            this.gui.hideControl("Circle Friction");
+            this.gui.hideControl("Circle Bounciness")
         }
 
         /* PLATFORM */
@@ -294,14 +311,12 @@ class GUIController {
             this.gui.showControl("Sides")
             this.gui.showControl("Container Size")
             this.gui.showControl("Side Length")
-            this.gui.showControl("Openness")
 
         } else {
             this.gui.hideControl("Container Settings")
             this.gui.hideControl("Sides")
             this.gui.hideControl("Container Size")
             this.gui.hideControl("Side Length")
-            this.gui.hideControl("Openness")
         }
     }
 
@@ -356,11 +371,21 @@ class GUIController {
         this.info.toggleVisibility();
     }
 
+    toggleGravity() {
+        if(this.getValue("Gravity")) {
+            this.simulation.world.gravity.y = 1
+        } else {
+            this.simulation.world.gravity.y = 0
+        }
+    }
+
     changeOctave() {
+        console.log()
         var max = 6;
         if (this.getValue("Octave Direction").value == "Up") {
             if (this.getValue("Octave").value + this.getValue("Octave Range") >= max) {
                 let overflow = (this.getValue("Octave").value + this.getValue("Octave Range")) - max;
+                console.log(overflow)
                 this.gui.removeControl("Octave Range");
                 this.gui.addRange(
                     "Octave Range",
@@ -380,29 +405,8 @@ class GUIController {
 
     changeSideLength() {
         for (const container of this.simulation.containers) {
-            container.updateSideLength(this.getValue("Side Length"))
+            container.updateSideLength(map(this.getValue("Side Length"), 1, 250, 25, 250))
         }
-    }
-
-    changeContainerSides() {
-        for (const container of this.simulation.containers) {
-            container.updateSides(this.getValue("Sides"))
-        }
-    }
-    changeContainerSize() {
-        for (const container of this.simulation.containers) {
-            container.updateSize(this.getValue("Container Size"))
-        }
-    }
-
-    changeOpenness() {
-        for (const container of this.simulation.containers) {
-            container.updateOpenness(this.getValue("Openness"))
-        }
-    }
-
-    changeGravityAmount() {
-        this.simulation.world.gravity.y = this.getValue("Gravity Amount")
     }
 
     /* UNUSED CALLBACKS */
@@ -414,7 +418,9 @@ class GUIController {
     changePlatformFriction() {}
 
     /* Circle Callbacks */
-    changeCircleSize() {}
+    changeCircleSize() {
+        console.log('test')
+    }
     changeCircleFriction() {}
     changeCircleBounciness() {}
 
@@ -426,8 +432,8 @@ class GUIController {
     changeOctaveRange() {}
     changeOctaveDirection() {}
 
-    
-
+    changeContainerSides() {}
+    changeContainerSize() {}
 
     /* General Settings Callbacks */
     changeMIDIInput() {}

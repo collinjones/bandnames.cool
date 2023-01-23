@@ -9,9 +9,9 @@ class Container {
         this.container = null;
 
         this.parts = [];              // Parts that make up the container
-        this.currentAngle = 1;        // Shared angle used for rotating the individual parts (not the entire container)
+        this.currentAngle = 1;       // Shared angle used for rotating the individual parts (not the entire container)
         this.angle = 0                // Current angle of entire container
-        this.angleV = 0.0             // Speed of rotation
+        this.angleV = 0.01            // Speed of rotation
         this.triangleAdjust = false;  // Triangle adjust. If enabled, gives the 3 sides shape an extra bit of sideLength. Side effect of how I calculate sideLength.
 
         this.centerOffset = this.pos.x - this.size * 25         // Center offset that determines the overall size of the container
@@ -42,9 +42,8 @@ class Container {
 
     update() {
         for (const part of this.parts) {
-
             /* Rotate container around the center point */
-            Body.rotate(part, this.angle + this.angleV, this.pos)
+            Body.rotate(part, this.angle + this.angleV, createVector(this.pos.x, this.pos.y))
         }
     }
 
@@ -66,10 +65,10 @@ class Container {
     }
 
     updateOpenness(newOpenness) {
-        console.log(newOpenness)
+        this.currentAngle = newOpenness
         for (const part of this.parts) {
-            /* Rotate container around the center point */
-            Body.rotate(part, radians(newOpenness))
+            // let newAngle = part.angle * this.currentAngle
+            Body.setAngle(part, part.angle + 25)
         }
     }
 
@@ -114,14 +113,14 @@ class Container {
                 )
             )
             Body.rotate(this.parts[i], newAngle, this.pos);
-            
-            // Body.rotate(this.parts[i], this.currentAngle);
 
         }
 
         this.container = Composite.create({
             bodies: this.parts,
         });
+
+        
 
         /* If regenerating, return composite to previous angle */
         if (regen) {
