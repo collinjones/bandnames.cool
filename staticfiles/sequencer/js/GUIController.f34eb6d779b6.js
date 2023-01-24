@@ -53,6 +53,16 @@ class GUIController {
             "<center><b>Platform Settings</b></center>"
         ).hideTitle("Platform Settings").hideControl("Platform Settings")
 
+        this.gui.addRange(
+            "Platform Friction",
+            0, 10, 1, 1, this.changePlatformFriction.bind(this)
+        ).hideControl("Platform Friction")
+
+        this.gui.addRange(
+            "Platform Bounciness",
+            0, 10, 10, 1, this.changePlatformBounciness.bind(this)
+        ).hideControl("Platform Bounciness")
+
         this.gui.addBoolean(
             "Static",
             false,
@@ -106,7 +116,13 @@ class GUIController {
             "Octave",
             [1, 2, 3, 4, 5],
             this.changeOctave.bind(this)
-        ).hideControl("Octave");
+        ).hideControl("Octave")
+
+        this.gui.addDropDown(
+            "Octave Direction",
+            ["Up", "Down"],
+            this.changeOctaveDirection.bind(this)
+        ).hideControl("Octave Direction")
 
         this.gui.addRange(
             "Octave Range",
@@ -144,25 +160,6 @@ class GUIController {
             0.1, 1, 1, 0.01,
             this.changeSideLength.bind(this)
         ).hideControl("Side Length")
-
-        this.gui.addRange(
-            "Container Speed",
-            0, .25, 0.01, 0.01,
-            this.changeContainerSpeed.bind(this)
-        ).hideControl("Container Speed")
-        
-        this.gui.addDropDown(
-            "Container Editor",
-            ["New Container"],
-            this.changeContainers.bind(this)
-        ).hideControl("Container Editor")
-
-        this.gui.addButton(
-            "Remove Container",
-            this.removeContainer.bind(this)
-        ).overrideStyle("Remove Container", "width", "100%").hideControl(
-            "Remove Container"
-        )
 
         /* GENERAL SETTINGS */
 
@@ -218,6 +215,7 @@ class GUIController {
 
         var e = document.getElementsByClassName("qs_main")[2];
         e.id = "instructions"
+
     }
 
     /* ACTIVE CALLBACKS */
@@ -225,11 +223,7 @@ class GUIController {
     fullscreen() {
         var fs = fullscreen()
         fullscreen(!fs)
-
-        this.gui.setPosition(10, 10);
-        this.info.hide();
-        this.settings.hide();
-
+        this.gui.setPosition(10, 10)
         resizeCanvas(windowWidth, windowHeight);
     }
 
@@ -259,10 +253,14 @@ class GUIController {
             if (this.getValue("Fixed Rotation")) {
                 this.gui.showControl("Rotation Speed")
             }
+            this.gui.showControl("Platform Bounciness")
+            this.gui.showControl("Platform Friction")
             this.gui.showControl("Platform Settings")
             this.gui.showControl("Static")
             this.gui.showControl("Fixed Rotation")
         } else {
+            this.gui.hideControl("Platform Bounciness")
+            this.gui.hideControl("Platform Friction")
             this.gui.hideControl("Platform Settings")
             this.gui.hideControl("Static")
             this.gui.hideControl("Fixed Rotation")
@@ -278,6 +276,7 @@ class GUIController {
             this.gui.showControl("Emitter Delay")
             this.gui.showControl("Octave")
             this.gui.showControl("Octave Range")
+            this.gui.showControl("Octave Direction")
         } else {
             this.gui.hideControl("Emitter Settings")
             this.gui.hideControl("Mode")
@@ -286,24 +285,23 @@ class GUIController {
             this.gui.hideControl("Emitter Size")
             this.gui.hideControl("Octave")
             this.gui.hideControl("Octave Range")
+            this.gui.hideControl("Octave Direction")
         }
 
         /* Container */
         if (this.currentObjectDrawType == "Container") {
             this.gui.showControl("Container Settings")
-            this.gui.showControl("Container Editor")
             this.gui.showControl("Sides")
             this.gui.showControl("Container Size")
             this.gui.showControl("Side Length")
-            this.gui.showControl("Container Speed")
+            this.gui.showControl("Openness")
 
         } else {
             this.gui.hideControl("Container Settings")
-            this.gui.hideControl("Container Editor")
             this.gui.hideControl("Sides")
             this.gui.hideControl("Container Size")
             this.gui.hideControl("Side Length")
-            this.gui.hideControl("Container Speed")
+            this.gui.hideControl("Openness")
         }
     }
 
@@ -313,11 +311,6 @@ class GUIController {
         } else {
             this.gui.hideControl("Rotation Speed")
         }
-    }
-
-    removeContainer() {
-        var containerID = this.getValue("Container Editor").value;
-        this.simulation.removeContainer(containerID);
     }
 
     generalSettings() {
@@ -363,68 +356,48 @@ class GUIController {
         this.info.toggleVisibility();
     }
 
-    changeOctave(data) {
+    changeOctave() {
         var max = 6;
-        this.simulation.MIDIFactory.changeOctave(data.value)
-
-        if (data.value + this.getValue("Octave Range") >= max) {
-            /* Get the overflow ammount */
-            let overflow = (data.value + this.getValue("Octave Range")) - max;
-            
-            /* Remove and re-add the control with updated octave range amounts */
-            this.gui.removeControl("Octave Range");  
-            this.gui.addRange(
-                "Octave Range",
-                1, overflow == 0 ? 1 : overflow, 1, 1,
-                this.changeOctaveRange.bind(this)
-            ).setValue("Octave Range", 1);
-
-        /* Otherwise update octave range adjusted to new octave */
-        } else {
-            /* Remove and re-add the control with updated octave range amounts */
-            this.gui.removeControl("Octave Range");
-            this.gui.addRange(
-                "Octave Range",
-                1, max - data.value, 1, 1,
-                this.changeOctaveRange.bind(this)
-            ).setValue("Octave Range", 1);
-
+        if (this.getValue("Octave Direction").value == "Up") {
+            if (this.getValue("Octave").value + this.getValue("Octave Range") >= max) {
+                let overflow = (this.getValue("Octave").value + this.getValue("Octave Range")) - max;
+                this.gui.removeControl("Octave Range");
+                this.gui.addRange(
+                    "Octave Range",
+                    1, overflow == 0 ? 1 : overflow, 1, 
+                    this.changeOctaveRange.bind(this)
+                ).setValue("Octave Range", 1)
+            } else {
+                this.gui.removeControl("Octave Range");
+                this.gui.addRange(
+                    "Octave Range",
+                    1, max - this.getValue("Octave").value, 1, 
+                    this.changeOctaveRange.bind(this)
+                ).setValue("Octave Range", 1)
+            }
         }
     }
 
     changeSideLength() {
-        var selectionID = Number(this.getValue("Container Editor").value) - 1
         for (const container of this.simulation.containers) {
-            if (container.id == selectionID) {
-                container.updateSideLength(this.getValue("Side Length"))
-            } 
-            
+            container.updateSideLength(this.getValue("Side Length"))
         }
     }
 
     changeContainerSides() {
-        var selectionID = Number(this.getValue("Container Editor").value) - 1
         for (const container of this.simulation.containers) {
-            if (container.id == selectionID) {
-                container.updateSides(this.getValue("Sides"))
-            }
+            container.updateSides(this.getValue("Sides"))
         }
     }
     changeContainerSize() {
-        var selectionID = Number(this.getValue("Container Editor").value) - 1
         for (const container of this.simulation.containers) {
-            if (container.id == selectionID) {
-                container.updateSize(this.getValue("Container Size"))
-            }
+            container.updateSize(this.getValue("Container Size"))
         }
     }
 
-    changeContainerSpeed() {
-        var selectionID = Number(this.getValue("Container Editor").value) - 1
+    changeOpenness() {
         for (const container of this.simulation.containers) {
-            if (container.id == selectionID) {
-                container.updateContainerSpeed(this.getValue("Container Speed"))
-            } 
+            container.updateOpenness(this.getValue("Openness"))
         }
     }
 
@@ -448,44 +421,16 @@ class GUIController {
     /* Emitter Callbacks */
     changeEmitterSize() {}
     changeEmitterDelay() {}
-
-    changeRoot(data) {
-        this.simulation.MIDIFactory.changeRoot(data.value)
-    }
-
-    changeMode(data) {
-        this.simulation.MIDIFactory.setMode(data.value)
-    }
-    
-    changeOctaveRange(data) {
-        this.simulation.MIDIFactory.setOctaveRange(data)
-    }
-
+    changeRoot() {}
+    changeMode() {}
+    changeOctaveRange() {}
     changeOctaveDirection() {}
 
-    changeContainers(){
-        var selectionID = Number(this.getValue("Container Editor").value) - 1;
-        if (!isNaN(selectionID)) {
-            this.gui.showControl("Remove Container")
-        } else {
-            this.gui.hideControl("Remove Container")
-        }
+    
 
-        for (const container of this.simulation.containers) {
-            if (container.id == selectionID) {
-                container.selected();
-            } else {
-                container.unselected();
-            }
-        }
-    }
 
     /* General Settings Callbacks */
-    changeMIDIInput() {
-        let newMIDIInput = this.settings.getValue("MIDI Input Device").value;
-        this.simulation.MIDIIn_controller.changeMIDIIn(newMIDIInput);
-    }
-
+    changeMIDIInput() {}
     changeMIDIOutput() {}
     backgroundColor() {}
 
@@ -507,20 +452,5 @@ class GUIController {
         } else if (!this.info._hidden && this.info.mouseHovering("instructions")) {
             return true
         }
-    }
-
-    updateContainersList() {
-        this.gui.removeControl("Container Editor")
-        let containerIDs = ["New Container"]
-
-        for(const container of this.simulation.containers) {
-            containerIDs.push(container.id + 1)
-        }
-
-        this.gui.addDropDown(
-            "Container Editor",
-            containerIDs,
-            this.changeContainers.bind(this)
-        )
     }
 }

@@ -31,13 +31,12 @@ class MIDIOutput {
     
     constructor(simulation) {
         this.simulation = simulation
+        this.MIDIOut = WebMidi.outputs[0];          // MIDI output device
         this.MIDIOutList = [];
 
         // request MIDI access
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess({sysex: false});
-            this.MIDIOut = WebMidi.outputs[0]; // MIDI output device
-            this.clock = WebMidi.getOutputByName("Scarlett 18i20 USB")
         } else {
             alert("No MIDI support in your browser.");
         }
@@ -59,9 +58,11 @@ class MIDIInput {
     constructor(simulation) {
         this.simulation = simulation;
         this.MIDIInList = [];
+        this.clock = null;
 
         /* Only if midi devices are found - setup the MIDI Input */
         if (WebMidi.inputs.length != 0) {
+            this.clock = WebMIDI.inputs[0]
             this.MIDIIn = WebMidi.inputs[0]
             this.MIDIIn.addListener("noteon", this.noteOn.bind(this));
         }
@@ -72,13 +73,20 @@ class MIDIInput {
         } else {
             alert("No MIDI support in your browser.");
         }
+
+        // listen for clock information
+        this.clock.addEventListener('midimessage', function(event) {
+            var data = event.data;
+            if (data[0] === 248) {
+            // clock information received
+            console.log("clock tick received");
+            }
+        });
     }
 
     /* Returns the note played */
     noteOn(e) {
-        if(this.MIDIIn) {
-            this.simulation.createCircle(createVector(mouseX, mouseY), e.note.identifier);
-        }
+        this.simulation.createCircle(createVector(mouseX, mouseY), e.note.identifier);
     }
 
     changeMIDIIn(newMIDI) {

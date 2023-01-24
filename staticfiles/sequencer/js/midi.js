@@ -31,12 +31,13 @@ class MIDIOutput {
     
     constructor(simulation) {
         this.simulation = simulation
-        this.MIDIOut = WebMidi.outputs[0];          // MIDI output device
         this.MIDIOutList = [];
 
         // request MIDI access
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess({sysex: false});
+            this.MIDIOut = WebMidi.outputs[0]; // MIDI output device
+            this.clock = WebMidi.getOutputByName("Scarlett 18i20 USB")
         } else {
             alert("No MIDI support in your browser.");
         }
@@ -75,11 +76,13 @@ class MIDIInput {
 
     /* Returns the note played */
     noteOn(e) {
-        this.simulation.createCircle(createVector(mouseX, mouseY), e.note.identifier);
+        if(this.MIDIIn) {
+            this.simulation.createCircle(createVector(mouseX, mouseY), e.note.identifier);
+        }
     }
 
-    changeMIDIIn() {
-        let val = this.simulation.GUIController.settings.getValue("MIDI Input Device");
+    changeMIDIIn(newMIDI) {
+        let val = newMIDI;
         this.MIDIIn.removeListener();
         this.MIDIIn = WebMidi.getInputByName(val);
         this.MIDIIn.addListener("noteon", this.noteOn.bind(this));

@@ -38,11 +38,9 @@ class Circle {
         this.simulation = simulation; 
         var options = {
             friction: 0,
-            restitution: 0.99,
+            restitution: 0.8,
             inertia: Infinity,
             frictionAir: 0,
-            frictionStatic: 0,
-            slop: 0
         }
         this.r = r;
         this.MIDI_note = note;

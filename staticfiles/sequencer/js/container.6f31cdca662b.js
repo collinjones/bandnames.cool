@@ -1,24 +1,22 @@
 class Container {
-    constructor(simulation, size, thickness, sides, sideLengthScale, pos, id, aV) {
-        this.simulation = simulation   // Reference to simulation
-        this.color = "white";          // Color of container
+    constructor(simulation, size, thickness, sides, sideLengthScale, pos) {
+        this.simulation = simulation
 
-        this.size = size;              // Size scalar for the centerOffset variable. Determines overall size of container.
-        this.thickness = thickness/2;  // thickness of container parts 
-        this.pos = pos;                // Center position of container
-        this.sides = sides;            // Number of sides
-        this.container = null;         // Matter.js composite 
-        this.id = id                   // Container ID
+        this.size = size;           // Size scalar for the centerOffset variable. Determines overall size of container.
+        this.thickness = thickness/2  // thickness of container parts 
+        this.pos = pos;             // Center position of container
+        this.sides = sides;         // Number of sides
+        this.container = null;
 
-        this.parts = [];                // Parts that make up the container
-        this.currentOpennessScale = 1;  // Shared angle used for rotating the individual parts (not the entire container)
-        this.angle = 0                  // Current angle of entire container
-        this.angleV = aV                // Speed of rotation
-        this.triangleAdjust = false;    // Triangle adjust. If enabled, gives the 3 sides shape an extra bit of sideLength. Side effect of how I calculate sideLength.
+        this.parts = [];              // Parts that make up the container
+        this.currentOpennessScale = 1;   // Shared angle used for rotating the individual parts (not the entire container)
+        this.angle = 0                // Current angle of entire container
+        this.angleV = 0.01             // Speed of rotation
+        this.triangleAdjust = false;  // Triangle adjust. If enabled, gives the 3 sides shape an extra bit of sideLength. Side effect of how I calculate sideLength.
 
-        this.centerOffset = this.pos.x - this.size * 25;   // Center offset that determines the overall size of the container
-        this.sideLength = this.pos.x - this.centerOffset;  // The length of one side. Generated from the calculating the (distance from the center to the offset * 2)
-        this.sideLengthScale = sideLengthScale             // A scalar for the length of the sides. ( 1.0 = 100% length, 0.1 = 10% length)
+        this.centerOffset = this.pos.x - this.size * 25         // Center offset that determines the overall size of the container
+        this.sideLength = this.pos.x - this.centerOffset  // The length of one side. Generated from the calculating the (distance from the center to the offset * 2)
+        this.sideLengthScale = sideLengthScale                  // A scalar for the length of the sides. ( 1.0 = 100% length, 0.1 = 10% length)
     
         this.setup();
     }
@@ -32,7 +30,7 @@ class Container {
             var pos = part.position;
             var angle = part.angle;
             push();
-            fill(this.color)
+            fill("white")
             noStroke()
             translate(pos.x, pos.y)
             rotate(angle)
@@ -135,20 +133,9 @@ class Container {
         Composite.add(this.simulation.world, this.container);
         
         for (const part of this.parts) {
-            part.restitution = 0.99;
             part.friction = 0;
-            part.frictionStatic = 0;
-            part.frictionAir = 0;
-            part.slop = 0;
+            part.restitution = 1;
         }
-    }
-
-    selected() {
-        this.color = color(134, 255, 130)
-    }
-
-    unselected() {
-        this.color = "white"
     }
 
 

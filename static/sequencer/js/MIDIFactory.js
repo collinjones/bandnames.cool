@@ -37,21 +37,50 @@ class MIDIFactory {
             "Natural Minor": this.natural_minor,
             "Harmonic Minor": this.harmonic_minor,
             "Melodic Minor": this.melodic_minor,
-            "Custom Mode": this.custom_mode,
         }
 
         this.currentMode = this.ionian;  /* Default mode */
         this.currentNoteNumbers = [];  // Array of midi values in the current mode
         this.currentNoteNames = [];  // Array of note names & octaves in the current mode
         this.root = 24;  // C
+        this.octave = 1;
+        this.octaveRange = 1;
+    }
+
+    setMode(newMode) {
+        this.currentMode = this.modes[newMode];
+        this.deriveMode();
+    }
+
+    changeRoot(newRoot) {
+        this.root = this.noteNames[newRoot];
+        this.deriveMode();
+    }
+
+    changeOctave(newOctave) {
+        this.octave = newOctave;
+        this.deriveMode();
+    }
+
+    setOctaveRange(newOctaveRange) {
+        this.octaveRange = newOctaveRange;
+        this.deriveMode();
     }
 
     deriveMode() {
         this.currentNoteNames = [];
         this.currentNoteNumbers = [];
-        
+
+        var ocataveOffset = 0;
+        if (this.octave == 1) {
+            ocataveOffset = 0;
+
+        } else {
+            ocataveOffset = (this.octave - 1) * 7;
+        }
+
         var j = 0;
-        for (let i = this.root; i < 85; i++) {
+        for (let i = this.root; i < 70; i++) {
             if(i != this.root) {
                 let q = j % this.currentMode.length
                 let final_val = this.currentNoteNumbers[this.currentNoteNumbers.length - 1] + this.currentMode[q]
@@ -63,24 +92,22 @@ class MIDIFactory {
                 this.currentNoteNumbers.push(i);
             }
         }
-        this.currentNoteNumbers = this.currentNoteNumbers.slice(
-            floor(this.currentNoteNumbers.length / 7), 
-            floor(this.currentNoteNumbers.length / 7) + 7
-        )
+
+        this.currentNoteNumbers.splice(0, ocataveOffset);
+        this.currentNoteNumbers.splice(7 * this.octaveRange, this.currentNoteNumbers.length)
         this.MIDIToName();
     }
 
+    midiToName(midiNote) {
+        let notes = Object.keys(this.noteNames)
+        var index = midiNote % 12;
+        var octave = Math.floor((midiNote - index) / 12);
+        return notes[index] + octave;
+    }
+
     MIDIToName() {
-        for (let i = 0; i < this.currentNoteNumbers.length; i++){
-            let noteInOctave = this.currentNoteNumbers[i] % 12;
-            let octave = this.currentNoteNumbers[i] / 12;
-            let notes = Object.keys(this.noteNames)
-            if (notes[noteInOctave] == "A" || notes[noteInOctave] == "B") {
-                octave = ceil(octave)
-            } else {
-                octave = floor(octave)
-            }
-            this.currentNoteNames.push(notes[noteInOctave] + octave)
+        for (const note of this.currentNoteNumbers){
+            this.currentNoteNames.push(this.midiToName(note))
         }
     }
 

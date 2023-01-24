@@ -45,7 +45,7 @@ class Simulation {
         Events.on(this.engine, 'collisionStart', this.collisionEvent.bind(this))
         Events.on(this.engine, 'afterUpdate', this.removeObjectFromWorld.bind(this));
 
-        this.engine.timing.timeScale = 0.5
+        this.engine.timing.timeScale = 0.25
         Runner.run(this.engine);
     }
 
@@ -53,6 +53,7 @@ class Simulation {
     removeObjectFromWorld() {
         for (var i = 0; i < this.world.bodies.length; i++) {
             var body = this.world.bodies[i];
+            console.log(body.position.y , this.boundary.y + this.boundary.height)
             if (body.position.x < this.boundary.x 
              || body.position.x > this.boundary.x + this.boundary.width
              || body.position.y < this.boundary.y 
@@ -76,7 +77,7 @@ class Simulation {
         this.updateContainers();
 
         /* Disable sketch interaction if mouse is hovering UI */
-        if (this.gui && this.gui.mouseHovering()) {
+        if (this.gui.mouseHovering()) {
             this.interactable = false;
         }
 
@@ -84,10 +85,7 @@ class Simulation {
 
     // Draws things to the screen
     draw() {
-        background(
-            this.gui ? 
-            this.gui.settings.getValue("Background Color") :
-            "black");
+        background(this.gui.settings.getValue("Background Color"));
 
         this.drawEmitters();
         this.drawPlatforms();
@@ -132,31 +130,29 @@ class Simulation {
     }
 
     drawContainerPreview() {
-        if (this.gui.getValue("Container Editor").value == "New Container") {
-            var numberOfSides = this.gui.getValue("Sides")
-            var containerWidth = 10;
-            var containerSize = this.gui.getValue("Container Size")
-            var lengthMultiplier = this.gui.getValue("Side Length")
-            var pos = createVector(mouseX, mouseY)
-            var angleDiv = 360 / numberOfSides
-            var centerOffset = pos.x - containerSize * 25
-            var sideLength = pos.x - centerOffset
+        let numberOfSides = this.gui.getValue("Sides")
+        let containerWidth = 10;
+        let containerSize = this.gui.getValue("Container Size")
+        let lengthMultiplier = this.gui.getValue("Side Length")
+        var pos = createVector(mouseX, mouseY)
+        var angleDiv = 360 / numberOfSides
+        var centerOffset = pos.x - containerSize * 25
+        var sideLength = pos.x - centerOffset
 
-            translate(mouseX, mouseY)
-            for (let i = 0; i < numberOfSides; i++) {
-                push();
-                noStroke();
-                fill(255, 255, 255, 25)
-                rotate(radians(i * angleDiv))
-                rect(sideLength, 0, containerWidth / 2, 
-                (sideLength * 2) * lengthMultiplier, 20)
-                pop();
-            }
+        translate(mouseX, mouseY)
+        for (let i = 0; i < numberOfSides; i++) {
+            push();
+            noStroke();
+            fill(255, 255, 255, 25)
+            rotate(radians(i * angleDiv))
+            rect(sideLength, 0, containerWidth / 2, 
+            (sideLength * 2) * lengthMultiplier, 20)
+            pop();
         }
     }
 
     drawCurrentObjectPreview() {
-        if (this.gui && this.gui.currentObjectDrawType == "Container") {
+        if (this.gui.currentObjectDrawType == "Container") {
             this.drawContainerPreview();
         }
     }
@@ -262,38 +258,14 @@ class Simulation {
             isStatic));
     }
 
-    removeContainer(containerID) {
-        for (let i = 0; i < this.containers.length; i++) {
-            if (this.containers[i].id == containerID - 1) {
-                this.containers[i].removeFromWorld();
-                this.containers.splice(i, 1);
-                this.gui.updateContainersList();
-                break;
-            }
-        }
-    }
-
-    createContainer(pos) {
+    createContainer(pos, preview) {
         let containerSize = this.gui.getValue("Container Size")
         let containerWidth = 10;
         let numberOfSides = this.gui.getValue("Sides")
-        let rotationSpeed = this.gui.getValue("Container Speed")
 
-        let newContainer = new Container(
-            this, 
-            containerSize, 
-            containerWidth, 
-            numberOfSides, 
-            this.gui.getValue("Side Length"), 
-            pos, 
-            this.containers.length,
-            rotationSpeed
-        )
-
-        this.containers.push(newContainer)
-
-        /* Add container to Containers list in GUI */
-        this.gui.updateContainersList()
+        this.containers.push(new Container(
+            simulation, containerSize, containerWidth, numberOfSides, this.gui.getValue("Side Length"), pos, preview
+        ))
     }
 
     isInteractable() {

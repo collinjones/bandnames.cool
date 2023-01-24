@@ -79,7 +79,7 @@ function mousePressed() {
                 simulation.createCircle(createVector(mouseX, mouseY), simulation.MIDIFactory.generateRandomNoteName());
             } else if (simulation.gui.currentObjectDrawType == "Emitter" && mouseInBounds()) {
                 simulation.createEmitter();
-            } else if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds() && simulation.gui.getValue("Container Editor").value == "New Container") {
+            } else if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
                 simulation.createContainer(createVector(mouseX, mouseY));
             }
         }
