@@ -146,6 +146,12 @@ class GUIController {
         ).hideControl("Side Length")
 
         this.gui.addRange(
+            "Side Thickness",
+            5, 50, 5, 1,
+            this.changeSideThickness.bind(this)
+        ).hideControl("Side Thickness")
+
+        this.gui.addRange(
             "Container Speed",
             0, .25, 0.01, 0.01,
             this.changeContainerSpeed.bind(this)
@@ -302,6 +308,7 @@ class GUIController {
             this.gui.showControl("Sides")
             this.gui.showControl("Container Size")
             this.gui.showControl("Side Length")
+            this.gui.showControl("Side Thickness")
             this.gui.showControl("Container Speed")
 
         } else {
@@ -310,6 +317,7 @@ class GUIController {
             this.gui.hideControl("Sides")
             this.gui.hideControl("Container Size")
             this.gui.hideControl("Side Length")
+            this.gui.hideControl("Side Thickness")
             this.gui.hideControl("Container Speed")
         }
     }
@@ -431,6 +439,15 @@ class GUIController {
         for (const container of this.simulation.containers) {
             if (container.id == selectionID) {
                 container.updateContainerSpeed(this.getValue("Container Speed"))
+            } 
+        }
+    }
+
+    changeSideThickness() {
+        var selectionID = Number(this.getValue("Container Editor").value) - 1
+        for (const container of this.simulation.containers) {
+            if (container.id == selectionID) {
+                container.setSideThickness(this.getValue("Side Thickness"))
             } 
         }
     }

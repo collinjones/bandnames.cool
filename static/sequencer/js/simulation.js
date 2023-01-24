@@ -134,7 +134,7 @@ class Simulation {
     drawContainerPreview() {
         if (this.gui.getValue("Container Editor").value == "New Container") {
             var numberOfSides = this.gui.getValue("Sides")
-            var containerWidth = 10;
+            var containerWidth = this.gui.getValue("Side Thickness") * 2;
             var containerSize = this.gui.getValue("Container Size")
             var lengthMultiplier = this.gui.getValue("Side Length")
             var pos = createVector(mouseX, mouseY)

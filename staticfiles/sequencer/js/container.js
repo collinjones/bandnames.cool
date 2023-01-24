@@ -68,6 +68,11 @@ class Container {
         this.generateShape();
     }
 
+    setSideThickness(newThickness) {
+        this.thickness = newThickness;
+        this.generateShape();
+    }
+
     updateSides(newSides) {
         this.sides = newSides;
 
