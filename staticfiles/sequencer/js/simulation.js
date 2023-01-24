@@ -45,7 +45,7 @@ class Simulation {
         Events.on(this.engine, 'collisionStart', this.collisionEvent.bind(this))
         Events.on(this.engine, 'afterUpdate', this.removeObjectFromWorld.bind(this));
 
-        this.engine.timing.timeScale = 0.5
+        this.engine.timing.timeScale = 0.25
         Runner.run(this.engine);
     }
 
