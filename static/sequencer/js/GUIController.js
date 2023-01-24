@@ -202,17 +202,24 @@ class GUIController {
         this.info.addHTML(
             "Instructions",
             "<center><b>Instructions</b></center>\
+                <p> Go to <b>General Settings</b> and choose your MIDI Input and Output device </p>\
+                <p> MIDI Input Device will be the device used to spawn in notes. MIDI Output device will be the device the notes are sent to. </p>\
                 <p> Choose an Object Type.</p>\
                 <h3>Circles</h3>\
                 <p> Select a MIDI Input device and play some notes to spawn in circles, \
                         or click with your mouse to generate random notes. <br><br> \
-                        Circles also have friction and bouncieness. </p>\
                 <h3>Platforms</h3>\
                 <p> Platforms cause a Circle to trigger its note. Create Platforms by clicking and dragging to choose a size. <br><br>\
                         Choose <b>Static</b> to prevent the Platform from being pushed around, and <b>Fixed Rotation</b> to choose a fixed rotation speed. </p>\
                 <h3>Emitters</h3>\
                 <p> Emitters generate Circles. <b>Mode</b> and <b>Root</b> can be chosen for Emitters, as well as the <b>Size</b> and the <b>Delay</b> between emission. \
                         Create Emitters by clicking with your mouse. </p>\
+                        <p> The octave and range of octaves can be chosen as well. </p>\
+                <h3> Containers </h3>\
+                <p> Containers can also trigger MIDI notes. The number of sides the container has can be set, along with \
+                    the size, the length of the sides, and the speed. </p>\
+                    <p> Choose 'New Container' in the <b>Container Editor</b> to create a new container, or edit \
+                    an existing container by selecting it from the dropdown. </p>\
             "
         ).hideTitle("Instructions")
 
