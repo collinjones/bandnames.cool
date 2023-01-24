@@ -3,5 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    print(request.device)
-    return render(request, "../templates/sequencer/base.html")
+    if (request.device.is_mobile):
+        return render(request, "../templates/sequencer/mobile.html")
+    else:
+        return render(request, "../templates/sequencer/base.html")
