@@ -7,7 +7,7 @@ class Platform {
             angle: a,
             isStatic: isStatic,
             friction: 0,
-            restitution: 0.99,
+            restitution: 0.9,
         }
         this.angle = 0;
         this.angleV = aV;
@@ -16,7 +16,7 @@ class Platform {
         this.h = h;
 
         /* Adjust restitution (not sure why, but when isStatic is true, restitution is set to 0) */
-        this.body.restitution = 0.99
+        this.body.restitution = 0.9
 
         if (!isStatic) {
             this.constraint = Constraint.create({

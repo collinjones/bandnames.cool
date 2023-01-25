@@ -327,6 +327,7 @@ class GUIController {
             this.gui.hideControl("Side Length")
             this.gui.hideControl("Side Thickness")
             this.gui.hideControl("Container Speed")
+            this.gui.hideControl("Remove Container")
         }
     }
 

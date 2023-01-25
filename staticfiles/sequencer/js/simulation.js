@@ -12,6 +12,7 @@ class Simulation {
         this.containers = [];
 
         this.screen_boundary;
+
         this.boundary = {
             "x": 0, 
             "y": 0, 
@@ -50,6 +51,15 @@ class Simulation {
 
     setTimeScale(newTimeScale) {
         this.engine.timing.timeScale = newTimeScale
+    }
+
+    updateBoundary() {
+        this.boundary = {
+            "x": 0, 
+            "y": 0, 
+            "width": windowWidth, 
+            "height": windowHeight
+        }
     }
 
     /* If an object has left the screen, remove it from the world composite */
@@ -231,6 +241,7 @@ class Simulation {
         /* Find the circle in the array of circles */
         for (let i = 0; i < this.circles.length; i++) {
             if (this.circles[i].body.id == body.id) {
+                console.log('hello')
                 this.circles[i].collisionEvent();
                 break;
             }

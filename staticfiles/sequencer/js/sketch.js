@@ -61,6 +61,7 @@ function drawRect() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    this.simulation.updateBoundary()
 }
 
 // Checks if the mouse is in bounds

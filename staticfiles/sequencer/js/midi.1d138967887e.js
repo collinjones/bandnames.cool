@@ -45,7 +45,6 @@ class MIDIOutput {
 
     playNote(note) {
         if (this.MIDIOut) {
-            console.log('nopte plated')
             this.MIDIOut.playNote(note, {attack: 1, duration: 100});
         } 
     }

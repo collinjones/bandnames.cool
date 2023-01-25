@@ -38,7 +38,7 @@ class Circle {
         this.simulation = simulation; 
         var options = {
             friction: 0,
-            restitution: 0.99,
+            restitution: .9,
             inertia: Infinity,
             frictionAir: 0,
             frictionStatic: 0,
@@ -50,6 +50,8 @@ class Circle {
         this.vel = this.body.velocity;
         this.color = null;
         this.constant_color = null;
+
+        this.noteGate = new TimedTrigger(.25)
         
         this.setup();
     }
@@ -60,7 +62,9 @@ class Circle {
     }
 
     collisionEvent() {
-        this.simulation.MIDIOut_controller.playNote(this.MIDI_note);
+        if(this.noteGate.canExecute()) {
+            this.simulation.MIDIOut_controller.playNote(this.MIDI_note);
+        }
     }
 
     draw() {
@@ -75,6 +79,8 @@ class Circle {
         rotate(angle)
         ellipse(0, 0, this.r * 2, this.r * 2)
         pop();
+
+        this.noteGate.update()
     }
 
     hover() {

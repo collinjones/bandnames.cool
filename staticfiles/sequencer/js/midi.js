@@ -45,12 +45,13 @@ class MIDIOutput {
 
     playNote(note) {
         if (this.MIDIOut) {
+            console.log('nopte plated')
             this.MIDIOut.playNote(note, {attack: 1, duration: 100});
         } 
     }
 
-    changeMIDIOut() {
-        this.MIDIOut = WebMidi.getOutputByName(this.simulation.gui.settings.getValue("MIDI Output Device"));
+    changeMIDIOut(newMIDIOut) {
+        this.MIDIOut = WebMidi.getOutputByName(newMIDIOut)
     }
 }
 

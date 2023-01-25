@@ -241,7 +241,6 @@ class Simulation {
         /* Find the circle in the array of circles */
         for (let i = 0; i < this.circles.length; i++) {
             if (this.circles[i].body.id == body.id) {
-                console.log('hello')
                 this.circles[i].collisionEvent();
                 break;
             }
