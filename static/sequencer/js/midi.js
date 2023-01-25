@@ -49,8 +49,8 @@ class MIDIOutput {
         } 
     }
 
-    changeMIDIOut() {
-        this.MIDIOut = WebMidi.getOutputByName(this.simulation.gui.settings.getValue("MIDI Output Device"));
+    changeMIDIOut(newMIDIOut) {
+        this.MIDIOut = WebMidi.getOutputByName(newMIDIOut)
     }
 }
 

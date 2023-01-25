@@ -524,7 +524,10 @@ class GUIController {
         this.simulation.MIDIIn_controller.changeMIDIIn(newMIDIInput);
     }
 
-    changeMIDIOutput() {}
+    changeMIDIOutput() {
+        let newMIDIOutput = this.settings.getValue("MIDI Output Device").value;
+        this.simulation.MIDIOut_controller.changeMIDIOut(newMIDIOutput);
+    }
     backgroundColor() {}
 
     /* UTILITIES */
