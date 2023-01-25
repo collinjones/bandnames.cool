@@ -44,9 +44,12 @@ class Simulation {
         /* Add collision listener with collisionEvent as callback */
         Events.on(this.engine, 'collisionStart', this.collisionEvent.bind(this))
         Events.on(this.engine, 'afterUpdate', this.removeObjectFromWorld.bind(this));
-
-        this.engine.timing.timeScale = 0.25
+        this.engine.timing.timeScale = 0.5
         Runner.run(this.engine);
+    }
+
+    setTimeScale(newTimeScale) {
+        this.engine.timing.timeScale = newTimeScale
     }
 
     /* If an object has left the screen, remove it from the world composite */
@@ -310,7 +313,7 @@ class Simulation {
 
     // Called once MIDI is enabled
     midiEnabled() {
-        this.MIDIOut_controller = new MIDIOutput();  // midi output controller
+        this.MIDIOut_controller = new MIDIOutput(this);  // midi output controller
         this.MIDIIn_controller = new MIDIInput(this);  // midi output controller  
 
         WebMidi.inputs.forEach(input =>

@@ -23,6 +23,12 @@ class GUIController {
             0, 1, 1, 0.1, this.changeGravityAmount.bind(this)
         )
 
+        this.gui.addRange(
+            "Time Scale",
+            0, 1, .5, 0.01, 
+            this.changeTimeScale.bind(this)
+        )
+
         this.gui.addButton(
             "Clear Scene",
             this.clearScene.bind(this)
@@ -210,10 +216,12 @@ class GUIController {
             "<center><b>Instructions</b></center>\
                 <p> Go to <b>General Settings</b> and choose your MIDI Input and Output device </p>\
                 <p> MIDI Input Device will be the device used to spawn in notes. MIDI Output device will be the device the notes are sent to. </p>\
+                <p> You can also choose the <b>Gravity</b> amount as well as the <b>Time Scale</b>, which will affect all non-static moving bodies, such as circles \
+                and non-static platforms. </p>\
                 <p> Choose an Object Type.</p>\
                 <h3>Circles</h3>\
                 <p> Select a MIDI Input device and play some notes to spawn in circles, \
-                        or click with your mouse to generate random notes. <br><br> \
+                        or click with your mouse to generate random notes. </p> \
                 <h3>Platforms</h3>\
                 <p> Platforms cause a Circle to trigger its note. Create Platforms by clicking and dragging to choose a size. <br><br>\
                         Choose <b>Static</b> to prevent the Platform from being pushed around, and <b>Fixed Rotation</b> to choose a fixed rotation speed. </p>\
@@ -473,6 +481,7 @@ class GUIController {
     changeEmitterSize() {}
     changeEmitterDelay() {}
 
+
     changeRoot(data) {
         this.simulation.MIDIFactory.changeRoot(data.value)
     }
@@ -502,6 +511,11 @@ class GUIController {
                 container.unselected();
             }
         }
+    }
+
+    changeTimeScale() {
+        const newTimeScale = this.getValue("Time Scale");
+        this.simulation.setTimeScale(newTimeScale);
     }
 
     /* General Settings Callbacks */
