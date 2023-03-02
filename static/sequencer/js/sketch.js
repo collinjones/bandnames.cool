@@ -17,6 +17,7 @@ var angle = 0;
 var drawing_rect = false;
 var paused = false;
 var mouseWasClicked = false
+var draggingContainer = false;
 
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
@@ -77,11 +78,13 @@ function mousePressed() {
         mouseWasClicked = true;
         if (mouseButton === LEFT) {
             if (simulation.gui.currentObjectDrawType == "Circle" && mouseInBounds()) {
-                simulation.createCircle(createVector(mouseX, mouseY), simulation.MIDIFactory.generateRandomNoteName());
+                simulation.createCircle(createVector(mouseX, mouseY), simulation.midiFactory.generateRandomNoteName());
             } else if (simulation.gui.currentObjectDrawType == "Emitter" && mouseInBounds()) {
                 simulation.createEmitter();
-            } else if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds() && simulation.gui.getValue("Container Editor").value == "New Container") {
-                simulation.createContainer(createVector(mouseX, mouseY));
+            } else if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
+                if (simulation.gui.getValue("Container Editor").value == "New Container") {
+                    simulation.createContainer(createVector(mouseX, mouseY));
+                }
             }
         }
     }
@@ -90,8 +93,21 @@ function mousePressed() {
 // Handles mouse dragged logic 
 function mouseDragged() {
     if (simulation.isInteractable()) {
-        if (simulation.gui.currentObjectDrawType == "Platform" && mouseInBounds()
-            && mouseButton === LEFT) {
+        if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
+            draggingContainer = true;
+            if (simulation.gui.getValue("Container Editor").value != "New Container") {
+                var selectionID = Number(simulation.gui.getValue("Container Editor").value) - 1;
+                
+                /* Find which container is selected based on the ID and call the selected logic */
+                for (const container of this.simulation.containers) {
+                    if (container.id == selectionID) {
+                        var mousePos = createVector(mouseX, mouseY);
+                        container.updatePosition(mousePos);
+                    }
+                }
+            }
+        } else if (simulation.gui.currentObjectDrawType == "Platform" && mouseInBounds()
+            && mouseButton === LEFT && !draggingContainer) {
             if (!start_vector_set) {
                 startMouseVector = createVector(mouseX, mouseY)
                 start_vector_set = true;
@@ -102,7 +118,7 @@ function mouseDragged() {
                 angle = angleV.heading();
                 drawing_rect = true;
             }
-        }
+        } 
     }
 }
 
@@ -117,6 +133,6 @@ function mouseReleased() {
             start_vector_set = false;
             drawing_rect = false;
         }
-        // isInteractable = false;
+        draggingContainer = false;
     }
 }

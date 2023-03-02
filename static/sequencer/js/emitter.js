@@ -17,7 +17,7 @@ class Emitter {
     addParticles() {
         if(this.trigger.canExecute()) {
             if (this.particles.length < this.max_particles) {
-                let note = this.simulation.MIDIFactory.generateRandomNoteName();
+                let note = this.simulation.midiFactory.generateRandomNoteName();
                 this.simulation.circles.push(new Circle(this.simulation, this.pos.x, this.pos.y, this.size, note, 0, 1))
             }
         }

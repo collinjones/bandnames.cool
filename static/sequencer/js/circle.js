@@ -38,7 +38,7 @@ class Circle {
         this.simulation = simulation; 
         var options = {
             friction: 0,
-            restitution: .9,
+            restitution: 1,
             inertia: Infinity,
             frictionAir: 0,
             frictionStatic: 0,

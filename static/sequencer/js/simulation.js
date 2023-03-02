@@ -197,18 +197,18 @@ class Simulation {
         for (let y = 0; y < this.height_div; y++) {
             this.platforms[y] = [];
             for (let x = 0; x < this.width_div; x++) {
-                this.platforms[y].push(new Platform(this,           // sim
+                this.platforms[y].push(new Platform(this,            // sim
                     (x * this.screen_div) + this.screen_div / 2,     // x pos
                     (y * this.screen_div) + this.screen_div / 2,     // y pos
                     this.screen_div,                                 // width
-                    this.screen_div / 10,                              // height
+                    this.screen_div / 10,                            // height
                     random(5),                                       // angle
                     random(0.05) + 0.01,                             // angle velocity
-                    color(255, 204, 0))),
+                    color(255, 204, 0),
                     true,
                     this.gui.getValue("Platform Friction"),
                     this.gui.getValue("Platform Bounciness")
-
+                ));
             }
         }
     }
@@ -227,26 +227,22 @@ class Simulation {
                 bodyB.label == "Circle Body" && bodyA.label == "Rectangle Body") {
                 /* Find the circle body and handle its collision event */
                 if (bodyA.label == "Circle Body") {
-                    this.circleCollisionEvent(bodyA);
+                    this.getCircleFromBody(bodyA).collisionEvent();
                 } else if (bodyB.label == "Circle Body") {
-                    this.circleCollisionEvent(bodyB);
+                    this.getCircleFromBody(bodyB).collisionEvent();
                 }
             }
         }
     }
 
-    /* Function triggered on a circle collision event */
-    circleCollisionEvent(body) {
-
+    getCircleFromBody(body) {
         /* Find the circle in the array of circles */
         for (let i = 0; i < this.circles.length; i++) {
             if (this.circles[i].body.id == body.id) {
-                console.log('hello')
-                this.circles[i].collisionEvent();
-                break;
+                return this.circles[i]
             }
         }
-    }
+    } 
 
     /* Generate a new circle */
     createCircle(pos, note) {
@@ -327,6 +323,7 @@ class Simulation {
         this.MIDIOut_controller = new MIDIOutput(this);  // midi output controller
         this.MIDIIn_controller = new MIDIInput(this);  // midi output controller  
 
+        /* Push the MIDI I/O names to the respective controller's list of names */
         WebMidi.inputs.forEach(input =>
             this.MIDIIn_controller.MIDIInList.push(input.name)
         );
@@ -334,6 +331,7 @@ class Simulation {
             this.MIDIOut_controller.MIDIOutList.push(output.name)
         );
 
+        /* If nothing was found, push a default empty msg to the lists */
         if (this.MIDIIn_controller.MIDIInList.length == 0) {
             this.MIDIIn_controller.MIDIInList.push("No MIDI Devices Found")
         }
@@ -342,10 +340,12 @@ class Simulation {
             this.MIDIOut_controller.MIDIOutList.push("No MIDI Devices Found")
         }
 
-        this.MIDIFactory = new MIDIFactory();
-        this.MIDIFactory.deriveMode();
+        /* Create the midiFactory */
+        this.midiFactory = new midiFactory();
 
-        this.gui = new GUIController(this, "Motion Sound Sequencer")
+        /*  Initialize the GUI after MIDI is finished since it relies on MIDI
+                to be initialized to be configured correctly */
+        this.gui = new GUI(this, "Motion Sound Sequencer")
     }
 
 }

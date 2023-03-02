@@ -1,4 +1,4 @@
-class MIDIFactory {
+class midiFactory {
     constructor() {
         this.noteNames = {
             "C": 24, 
@@ -45,6 +45,8 @@ class MIDIFactory {
         this.root = 24;  // C
         this.octave = 1;
         this.octaveRange = 1;
+
+        this.deriveMode();
     }
 
     setMode(newMode) {

@@ -15,15 +15,8 @@ class Container {
         this.angle = 0                  // Current angle of entire container
         this.angleV = aV                // Speed of rotation
         this.triangleAdjust = false;    // Triangle adjust. If enabled, gives the 3 sides shape an extra bit of sideLength. Side effect of how I calculate sideLength.
-
-        this.centerOffset = this.pos.x - this.size * 25;   // Center offset that determines the overall size of the container
-        this.sideLength = this.pos.x - this.centerOffset;  // The length of one side. Generated from the calculating the (distance from the center to the offset * 2)
         this.sideLengthScale = sideLengthScale             // A scalar for the length of the sides. ( 1.0 = 100% length, 0.1 = 10% length)
     
-        this.setup();
-    }
-
-    setup() {
         this.generateShape();
     }
 
@@ -68,6 +61,11 @@ class Container {
         this.generateShape();
     }
 
+    updatePosition(newPos) {
+        this.pos = newPos;
+        this.generateShape();
+    }
+
     setSideThickness(newThickness) {
         this.thickness = newThickness;
         this.generateShape();
@@ -97,6 +95,9 @@ class Container {
     }
 
     generateShape() {
+
+        this.centerOffset = this.pos.x - this.size * 25;   // Center offset that determines the overall size of the container
+        this.sideLength = this.pos.x - this.centerOffset;  // The length of one side. Generated from the calculating the (distance from the center to the offset * 2)
 
         var regen = false;
         var prevAngle = 0;
@@ -149,12 +150,17 @@ class Container {
     }
 
     selected() {
-        this.color = color(134, 255, 130)
+        this.color = color(134, 255, 130);
+
+        if (mouseIsPressed) {
+            console.log('hello')
+            this.pos = createVector(mouseX, mouseY)
+        }
+
     }
 
     unselected() {
         this.color = "white"
     }
-
 
 }

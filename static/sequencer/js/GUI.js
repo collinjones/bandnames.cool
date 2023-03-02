@@ -1,4 +1,4 @@
-class GUIController {
+class GUI {
     constructor (simulation, name) {
         this.simulation = simulation;
         this.gui = null;
@@ -20,12 +20,12 @@ class GUIController {
 
         this.gui.addRange(
             "Gravity Amount",
-            0, 1, 1, 0.1, this.changeGravityAmount.bind(this)
+            0, 1, 0.5, 0.1, this.changeGravityAmount.bind(this)
         )
 
         this.gui.addRange(
             "Time Scale",
-            0, 1, .5, 0.01, 
+            0, 1, 0.5, 0.1, 
             this.changeTimeScale.bind(this)
         )
 
@@ -98,13 +98,13 @@ class GUIController {
 
         this.gui.addDropDown(
             "Mode",
-            Object.keys(this.simulation.MIDIFactory.modes),
+            Object.keys(this.simulation.midiFactory.modes),
             this.changeMode.bind(this)
         ).hideControl("Mode")
 
         this.gui.addDropDown(
             "Root",
-            Object.keys(this.simulation.MIDIFactory.noteNames),
+            Object.keys(this.simulation.midiFactory.noteNames),
             this.changeRoot.bind(this)
         ).hideControl("Root")
 
@@ -259,6 +259,7 @@ class GUIController {
         this.simulation.emitters = [];
         this.simulation.platforms = [];
         this.simulation.containers = [];
+        this.updateContainersList()
         Composite.clear(this.simulation.engine.world)
         Engine.clear(this.simulation.engine)
     }
@@ -389,7 +390,7 @@ class GUIController {
 
     changeOctave(data) {
         var max = 6;
-        this.simulation.MIDIFactory.changeOctave(data.value)
+        this.simulation.midiFactory.changeOctave(data.value)
 
         if (data.value + this.getValue("Octave Range") >= max) {
             /* Get the overflow ammount */
@@ -484,27 +485,32 @@ class GUIController {
 
 
     changeRoot(data) {
-        this.simulation.MIDIFactory.changeRoot(data.value)
+        this.simulation.midiFactory.changeRoot(data.value)
     }
 
     changeMode(data) {
-        this.simulation.MIDIFactory.setMode(data.value)
+        this.simulation.midiFactory.setMode(data.value)
     }
     
     changeOctaveRange(data) {
-        this.simulation.MIDIFactory.setOctaveRange(data)
+        this.simulation.midiFactory.setOctaveRange(data)
     }
 
     changeOctaveDirection() {}
 
     changeContainers(){
+
+        /* Select container ID */
         var selectionID = Number(this.getValue("Container Editor").value) - 1;
+
+        /* Show Remove Container if a container is selected */
         if (!isNaN(selectionID)) {
             this.gui.showControl("Remove Container")
         } else {
             this.gui.hideControl("Remove Container")
         }
 
+        /* Find which container is selected based on the ID and call the selected logic */
         for (const container of this.simulation.containers) {
             if (container.id == selectionID) {
                 container.selected();
@@ -532,6 +538,7 @@ class GUIController {
     backgroundColor() {}
 
     /* UTILITIES */
+    
     getValue(title) {
         return this.gui.getValue(title)
     }
@@ -551,14 +558,19 @@ class GUIController {
         }
     }
 
+    /* Adds a new container to the Container Editor Dropdown */
     updateContainersList() {
+        
+        /* Remove the element and reinitialize */
         this.gui.removeControl("Container Editor")
         let containerIDs = ["New Container"]
 
+        /* For all containers in the current list of containers, push onto the dropdown */
         for(const container of this.simulation.containers) {
             containerIDs.push(container.id + 1)
         }
 
+        /* Configure and add the dropdown */
         this.gui.addDropDown(
             "Container Editor",
             containerIDs,
