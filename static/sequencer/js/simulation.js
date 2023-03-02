@@ -341,7 +341,7 @@ class Simulation {
         }
 
         /* Create the midiFactory */
-        this.midiFactory = new midiFactory();
+        this.midiFactory = new MIDIFactory();
 
         /*  Initialize the GUI after MIDI is finished since it relies on MIDI
                 to be initialized to be configured correctly */
