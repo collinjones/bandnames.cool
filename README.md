@@ -1,6 +1,6 @@
 # [bandnames.cool](https://www.bandnames.cool)
 
-bandnames.cool is a bandname aggregate website. We love cool band names. This website was created by a bunch of boys who loved keeping lists of cool band names they thought of.
+bandnames.cool is a bandname aggregate website. We love cool bandnames. This website was created by a bunch of boys who loved keeping lists of cool bandnames they thought of.
 
 # Features
 
