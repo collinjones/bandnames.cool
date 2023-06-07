@@ -1,10 +1,10 @@
 # accounts/views.py
 
 import math
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from accounts.forms import ProfileForm
 from main.models import Bandname
@@ -16,7 +16,18 @@ from django.http import JsonResponse
 
 def Registration(request):
 
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            print('test')
+            new_user = form.save()
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'])
+            login(request, new_user)
+            return HttpResponseRedirect("/")
+        
     # Set up form if not submitted
+
     form = UserCreationForm()
     ctxt = {
         "form": form,

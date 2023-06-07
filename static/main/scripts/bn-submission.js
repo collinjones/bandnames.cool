@@ -1,3 +1,4 @@
+/* Adds the bandname to the Annals of Voted Bandnames after submission */
 function add_bandname_to_voted_history(data) {
     var bandname = data['bandname_json']['bandname']
     var score = data['bandname_json']['score']
@@ -7,6 +8,14 @@ function add_bandname_to_voted_history(data) {
         "score": score
     }).draw();
 }
+
+$(document).keypress(
+    function (event) {
+        if (event.which == '13') {
+            event.preventDefault();
+        }
+    }
+);
 
 $("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing

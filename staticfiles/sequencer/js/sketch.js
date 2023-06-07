@@ -9,7 +9,7 @@ var Engine = Matter.Engine,
     Constraint = Matter.Constraint,
     MouseConstraint = Matter.MouseConstraint
 
-var simulation;
+var sequencer;
 var startMouseVector;
 var start_vector_set = false;
 var distance = 0;
@@ -22,19 +22,19 @@ var draggingContainer = false;
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
     rectMode(CENTER)
-    simulation = new Simulation(canvas);
+    sequencer = new Sequencer(canvas);
 }
 
 function draw() {
     if (!paused) {
-        simulation.run();
+        sequencer.run();
 
         if (drawing_rect) {
             drawRect();
         }
     }
 
-    // Prevent the simulation from running if the window is not focused
+    // Prevent the sequencer from running if the window is not focused
     if (!focused) {
         paused = true;
     } else {
@@ -48,7 +48,7 @@ function drawRect() {
     push();
     translate(startMouseVector.x, startMouseVector.y)
     stroke(color(255, 204, 0, 100))
-    if (simulation.gui.getValue("Static")) {
+    if (sequencer.gui.getValue("Static")) {
         fill(255, 204, 0);
     } else {
         noFill();
@@ -62,7 +62,7 @@ function drawRect() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    this.simulation.updateBoundary()
+    this.sequencer.updateBoundary()
 }
 
 // Checks if the mouse is in bounds
@@ -73,17 +73,17 @@ function mouseInBounds() {
 // Handles mouse pressed logic
 function mousePressed() {
     
-    simulation.mouseReleased = false;
-    if (simulation.isInteractable()) {
+    sequencer.mouseReleased = false;
+    if (sequencer.isInteractable()) {
         mouseWasClicked = true;
         if (mouseButton === LEFT) {
-            if (simulation.gui.currentObjectDrawType == "Circle" && mouseInBounds()) {
-                simulation.createCircle(createVector(mouseX, mouseY), simulation.midiFactory.generateRandomNoteName());
-            } else if (simulation.gui.currentObjectDrawType == "Emitter" && mouseInBounds()) {
-                simulation.createEmitter();
-            } else if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
-                if (simulation.gui.getValue("Container Editor").value == "New Container") {
-                    simulation.createContainer(createVector(mouseX, mouseY));
+            if (sequencer.gui.currentObjectDrawType == "Circle" && mouseInBounds()) {
+                sequencer.createCircle(createVector(mouseX, mouseY), sequencer.midiFactory.generateRandomNoteName());
+            } else if (sequencer.gui.currentObjectDrawType == "Emitter" && mouseInBounds()) {
+                sequencer.createEmitter();
+            } else if (sequencer.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
+                if (sequencer.gui.getValue("Container Editor").value == "New Container") {
+                    sequencer.createContainer(createVector(mouseX, mouseY));
                 }
             }
         }
@@ -92,21 +92,21 @@ function mousePressed() {
 
 // Handles mouse dragged logic 
 function mouseDragged() {
-    if (simulation.isInteractable()) {
-        if (simulation.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
+    if (sequencer.isInteractable()) {
+        if (sequencer.gui.currentObjectDrawType == "Container" && mouseInBounds()) {
             draggingContainer = true;
-            if (simulation.gui.getValue("Container Editor").value != "New Container") {
-                var selectionID = Number(simulation.gui.getValue("Container Editor").value) - 1;
+            if (sequencer.gui.getValue("Container Editor").value != "New Container") {
+                var selectionID = Number(sequencer.gui.getValue("Container Editor").value) - 1;
                 
                 /* Find which container is selected based on the ID and call the selected logic */
-                for (const container of this.simulation.containers) {
+                for (const container of this.sequencer.containers) {
                     if (container.id == selectionID) {
                         var mousePos = createVector(mouseX, mouseY);
                         container.updatePosition(mousePos);
                     }
                 }
             }
-        } else if (simulation.gui.currentObjectDrawType == "Platform" && mouseInBounds()
+        } else if (sequencer.gui.currentObjectDrawType == "Platform" && mouseInBounds()
             && mouseButton === LEFT && !draggingContainer) {
             if (!start_vector_set) {
                 startMouseVector = createVector(mouseX, mouseY)
@@ -124,11 +124,11 @@ function mouseDragged() {
 
 // Handles mouse released logic
 function mouseReleased() {
-    simulation.mouseReleased = true;
-    if (simulation.isInteractable()) {
+    sequencer.mouseReleased = true;
+    if (sequencer.isInteractable()) {
         if (start_vector_set) {
-            simulation.createPlatform(
-                startMouseVector, angle, distance * 2, simulation.gui.getValue("Static")
+            sequencer.createPlatform(
+                startMouseVector, angle, distance * 2, sequencer.gui.getValue("Static")
             );
             start_vector_set = false;
             drawing_rect = false;

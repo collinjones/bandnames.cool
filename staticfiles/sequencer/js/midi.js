@@ -24,18 +24,23 @@ class MIDI_Message {
         };
     }
 }
+
 MIDI_Message.NOTE_ON = 144;
 MIDI_Message.NOTE_OFF = 128;
 
 class MIDIOutput {
     
-    constructor(simulation) {
-        this.simulation = simulation
+    constructor(sequencer) {
+        this.sequencer = sequencer
         this.MIDIOutList = [];
+
+        if (WebMidi.outputs.length == 0) {
+            console.log('wow')
+        }
 
         // request MIDI access
         if (navigator.requestMIDIAccess) {
-            navigator.requestMIDIAccess({sysex: false});
+            navigator.requestMIDIAccess();
             this.MIDIOut = WebMidi.outputs[0]; // MIDI output device
             this.clock = WebMidi.getOutputByName("Scarlett 18i20 USB")
         } else {
@@ -57,19 +62,23 @@ class MIDIOutput {
 
 class MIDIInput {
 
-    constructor(simulation) {
-        this.simulation = simulation;
+    constructor(sequencer) {
+        this.sequencer = sequencer;
         this.MIDIInList = [];
+
+        if (WebMidi.inputs.length == 0) {
+            console.log('wow')
+        }
 
         /* Only if midi devices are found - setup the MIDI Input */
         if (WebMidi.inputs.length != 0) {
+            
             this.MIDIIn = WebMidi.inputs[0]
             this.MIDIIn.addListener("noteon", this.noteOn.bind(this));
         }
         // request MIDI access
         if (navigator.requestMIDIAccess) {
-            navigator.requestMIDIAccess({
-                sysex: false});
+            navigator.requestMIDIAccess();
         } else {
             alert("No MIDI support in your browser.");
         }
@@ -78,7 +87,7 @@ class MIDIInput {
     /* Returns the note played */
     noteOn(e) {
         if(this.MIDIIn) {
-            this.simulation.createCircle(createVector(mouseX, mouseY), e.note.identifier);
+            this.sequencer.createCircle(createVector(mouseX, mouseY), e.note.identifier);
         }
     }
 
