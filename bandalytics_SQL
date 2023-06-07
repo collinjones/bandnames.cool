@@ -1,5 +1,3 @@
--- Reminder these SQL statements work only when connected to the SQL server via a console. 
--- The django ORM will have different statements.
 
 -- ALLTIME
 
