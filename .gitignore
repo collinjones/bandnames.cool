@@ -1,8 +1,4 @@
 .DS_Store
-createUser.sh
-deploy.sh 
-migrate.sh 
 run.sh 
-static.sh
-env.sh
-bandalytics_SQL.txt
+dev_run.sh 
+

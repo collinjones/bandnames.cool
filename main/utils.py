@@ -160,7 +160,7 @@ def get_client_ip(request):
 def band_bins(collection_len):
 
     wheel_indices = []
-    wheel_capacity = 11
+    wheel_capacity = 8
     bin_size = int(collection_len / wheel_capacity)
     
     for x in range(wheel_capacity):
@@ -182,9 +182,11 @@ def band_bins(collection_len):
 def get_bandnames(collection_len):
     
     bandnames = []
-    bandname_indices = band_bins(collection_len) 
+    if collection_len > 8:
+        bandname_indices = band_bins(collection_len) 
+    else:
+        bandname_indices = [0]
 
-    # This will prevent segfault when collection_len is less than 11
     for x in range(collection_len):
         bandnames.append(Bandname.objects.all()[bandname_indices[x]])
         if len(bandnames) == 8:

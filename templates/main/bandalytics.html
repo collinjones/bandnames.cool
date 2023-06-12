@@ -10,8 +10,9 @@
 <script type="text/javascript" src=" {% static 'main/scripts/jquery/bandalytics_dt.js' %} "></script>
 
 <div id="bandalytics-div">
+    <span id='bandalytics-text'>Bandnalytics</span>
     <image draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img-bandalytics"></image>
-
+    
     <select name="bandalytics_selection" id="bandalytics_selection">
         <option onselect="top_ten_bandnames()" value="top_ten_bandnames">Top 10 Bandnames [All Time]</option>
         <option value="top_ten_users">Top 10 Users [All Time]</option>

@@ -17,8 +17,9 @@ def index(request):
     cleaned_list = []
     profanity_filter = True
 
-    # Get 11 bandnames for the wheel
-    bandnames = get_bandnames(collection_len)
+    # Get bandnames for the wheel
+    if collection_len != 0:
+        bandnames = get_bandnames(collection_len)
 
     for bandname in bandnames:
         cleaned_list.append((bandname.bandname, censor_bandname(bandname.bandname)))
@@ -32,11 +33,13 @@ def index(request):
         profanity_filter = user.profile.profanity_filter
 
     # Is database empty?
-    if len(cleaned_list) == 0:
-        cleaned_list.append("NO BANDNAMES AVAILABLE")
+    if collection_len == 0:
+        cleaned_list.append(('No Bandnames Available', 'No Bandnames Available'))
+
+    print(cleaned_list)
 
     ctxt = {
-        "title"     : "Home Page",
+        "title"     : "Bandnames.cool",
         "profanity_filter": profanity_filter,
         "bandnames": cleaned_list,
         "count": collection_len,
@@ -48,7 +51,7 @@ def index(request):
 def bandalytics(request):
     template = "../templates/main/bandalytics.html"
     ctxt = {
-        "title": "Bandalytics",
+        "title": "Bandnames.cool | Bandalytics",
     }
     return render(request, template, context=ctxt)
 
@@ -56,7 +59,7 @@ def bandalytics(request):
 def faq(request):
     template = "../templates/main/faq.html"
     ctxt = {
-        "title": "FAQ"
+        "title": "Bandnames.cool | FAQ"
     }
     return render(request, template, context=ctxt)
 
@@ -64,7 +67,7 @@ def faq(request):
 def batch_submit(request):
     form = CreateBatchBandname()
     ctxt = {
-        "title": "Batch Submission",
+        "title": "Bandnames.cool | Batch Submission",
         "form": form
     }
     return render(request, "../templates/main/batch_submission.html", context=ctxt)

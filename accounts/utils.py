@@ -1,3 +1,4 @@
+# Sets the user's score when they access their profile
 def set_user_score(user, user_bandnames):
     total_score = 0
     for bandname in user_bandnames:

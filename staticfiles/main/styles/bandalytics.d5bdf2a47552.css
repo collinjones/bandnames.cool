@@ -18,13 +18,7 @@
 }
 
 #bandalytics-text {
-    display: block;
-    text-align: center;
-    top: 102px;
-    position: absolute;
     width: 100%;
-    z-index: 1;
-    font-size: 35px;
 }
 
 #bandalytics-table {

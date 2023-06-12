@@ -28,7 +28,7 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -80,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'BandnamesWebsite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 DATABASES = {}
@@ -108,11 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -142,3 +138,18 @@ LOGOUT_REDIRECT_URL = "/"
 django_heroku.settings(locals())
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bandnames.cool','https://*.127.0.0.1']
+
+# Configure connection to development database and enable debug if 
+# the DJANGO_DEVELOPMENT environment variable is set to true
+if os.getenv('DJANGO_DEVELOPMENT') == 'true':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'collinjones',
+            'PASSWORD': 'devPass',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+    DEBUG = True

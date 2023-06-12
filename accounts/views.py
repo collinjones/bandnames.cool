@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from accounts.forms import ProfileForm
+from accounts.models import Profile
 from main.models import Bandname
 from .utils import *
 from main.utils import *
@@ -19,7 +20,10 @@ def Registration(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            print('test')
+            # new_profile = Profile(
+            #     user = form.cleaned_data['username']
+            #     profanity_filter = 
+            # )
             new_user = form.save()
             new_user = authenticate(username=form.cleaned_data['username'],
                                     password=form.cleaned_data['password1'])
@@ -27,27 +31,12 @@ def Registration(request):
             return HttpResponseRedirect("/")
         
     # Set up form if not submitted
-
     form = UserCreationForm()
     ctxt = {
         "form": form,
-        "title": "Sign Up",
+        "title": "Bandnames.cool | Sign Up",
     }
     return render (request, "registration/signup.html", ctxt)
-
-def ProfanityToggle(request):
-    if request.method == "POST": 
-        if request.user.is_authenticated:
-            user = User.objects.get(pk=request.user.id)
-            form = ProfileForm(request.POST)
-            if form.is_valid():
-                if form.cleaned_data['profanity_filter']:
-                    user.profile.profanity_filter = True
-                else:
-                    user.profile.profanity_filter = False
-                user.save()
-
-    return HttpResponse('great')
 
 def ProfileView(request):
 
@@ -62,12 +51,26 @@ def ProfileView(request):
             "profanity_filter": request.user.profile.profanity_filter,
             "score": set_user_score(user, user_submissions),
             "form": form,
-            "title": "Profile",
+            "title": "Bandnames.cool | Profile",
         }
     else:
         return redirect("/")
 
     return render(request, template, context=ctxt)
+
+def ProfanityToggle(request):
+    if request.method == "POST": 
+        if request.user.is_authenticated:
+            user = User.objects.get(pk=request.user.id)
+            form = ProfileForm(request.POST)
+            if form.is_valid():
+                if form.cleaned_data['profanity_filter']:
+                    user.profile.profanity_filter = True
+                else:
+                    user.profile.profanity_filter = False
+                user.save()
+
+    return HttpResponse('Profanity Toggled')
 
 def get_rows(request):
     if request.method == "GET":

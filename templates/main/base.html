@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 
 <html lang="en" class="default-cursor">
+
     <head>  
 
         <!-- Google tag (gtag.js) -->
@@ -27,10 +28,10 @@
         <link rel="icon" type="image/png" sizes="16x16" href=" {% static 'images/favicon-32x32.png' %} ">
         <link rel="manifest" href=" {% static 'images/site.webmanifest' %} ">
 
-        <!-- Custom CSS -->
-        <link rel="stylesheet" type="text/css" href=" {% static 'styles/site_wide.css' %} ">
-        <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">
-        <link rel="stylesheet" type="text/css" href=" {% static 'main/styles/voting-history.css' %} ">
+        <!-- Website CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'styles/site_wide.css' %} ">  <!-- Site Wide CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">       <!-- Homepage CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'main/styles/voting-history.css' %} "> <!-- Voting History CSS -->
 
         <!-- jQuery libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -56,9 +57,11 @@
 
     <!-- FOOTER -->
     <footer id = "copyright-footer">
-        <span><small>&copy; Copyright 2022, Bandname Boys</small></span>
+        <span><small>&copy; Copyright 2023, Bandname Boys</small></span>
     </footer> 
 
+
+    <!-- Load HTML element when everything has loaded -->
     <script>
         $(document).ready(function() {
           document.getElementsByTagName("html")[0].style.visibility = "visible";
