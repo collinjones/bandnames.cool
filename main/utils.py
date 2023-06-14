@@ -87,10 +87,13 @@ def get_num_asterisks(str):
         asterisks += "*"
     return asterisks
 
+# Censors a bandname if it contains a word in filter.txt
 def censor_bandname(bandname):
     bandname_lower = bandname.lower()
     censored_bandname = bandname
     censored_list = []
+
+    # For each line in filter.txt, strip the filter, and if the line is contained within censored_list, append it to a list of censors (there could be multiple)
     with open('static/main/filters/filter.txt', "r") as a_file:
         for line in a_file:
             line = line.strip()
@@ -112,17 +115,14 @@ def censor_all_bandnames():
         bandname.bandname_censored = censor_bandname(bandname.bandname)
         bandname.save()
 
-# create_bandname return True on successfull creation, False otherwise (if it already exists)
+# Creates a new bandname and saves it to the database. 
+# Returns true if successful, false otherwise. 
 def create_bandname(request, new_bandname, authenticated):
 
     try:
-        # Return a failed response if bandname exists in DB already 
         if (Bandname.objects.get(bandname = new_bandname)):
             return False
-
     except Bandname.DoesNotExist:
-
-        # Get the bandname string from the form and create a Bandname object
         new_bandname = Bandname(bandname = new_bandname,
                                 bandname_censored = censor_bandname(new_bandname),
                                 username = request.user.username if authenticated \
@@ -130,8 +130,6 @@ def create_bandname(request, new_bandname, authenticated):
                                 score = 0, 
                                 date_submitted=now().strftime("%Y-%m-%d"),
                                 ip_address = get_client_ip(request))
-
-        # Save the bandname
         new_bandname.save()
         return True
 
@@ -158,19 +156,20 @@ def get_client_ip(request):
 
 
 def band_bins(collection_len):
-
     wheel_indices = []
     wheel_capacity = 8
     bin_size = int(collection_len / wheel_capacity)
     
     for x in range(wheel_capacity):
-
+        # First pick (0) - Get random index between 0 and binsize
         if (x == 0):
-            rand_int = randint((bin_size*x), (bin_size*x) + bin_size)
+            rand_int = randint(0, bin_size)
 
+        # Middle picks (1 - 6)
         elif (x > 0 and x < (wheel_capacity - 1)):
             rand_int = randint((bin_size*x) + 1,(bin_size*x) + bin_size)
 
+        # Final pick (7)
         elif (x == (wheel_capacity - 1)):
             rand_int = randint((bin_size*x) + 1, (collection_len - 1)) 
 
@@ -184,17 +183,19 @@ def get_bandnames(collection_len):
     bandnames = []
     if collection_len > 8:
         bandname_indices = band_bins(collection_len) 
-    else:
-        bandname_indices = [0]
 
+    # Only use binning if more than 8 bandnames exist 
     for x in range(collection_len):
-        bandnames.append(Bandname.objects.all()[bandname_indices[x]])
+        if collection_len > 8:
+            bandnames.append(Bandname.objects.all()[bandname_indices[x]])
+        else:
+            bandnames.append(Bandname.objects.all()[x])
         if len(bandnames) == 8:
             break
 
     return bandnames
 
-def save_vote(request, voted_bandname, first_vote = None, duplicate_vote = None, user = None):
+def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
 
     if request.POST['val'] == "up":
         voted_bandname.score += 1
@@ -202,14 +203,7 @@ def save_vote(request, voted_bandname, first_vote = None, duplicate_vote = None,
         voted_bandname.score -= 1
 
     if user:
-        # First one must be assignment, beyond that (as long as it isn't dupe) save a new key
-        if first_vote:
-            user.profile.voted_bandnames = {voted_bandname.bandname : {
-                "score" : voted_bandname.score,
-                "username" : voted_bandname.username,
-                "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
-            }}
-        elif not duplicate_vote:
+        if not duplicate_vote:
             user.profile.voted_bandnames[voted_bandname.bandname] = {
                 "score" : voted_bandname.score,
                 "username" : voted_bandname.username,
@@ -229,7 +223,6 @@ def create_vote_json_response(request, voted_bandname, cleaned_list, table_templ
             'vote_msg': 'Voted down'
     }
 
-    
     if user:
         json_response['bandname_json'] = {
             'bandname': filter.censor(voted_bandname.bandname) if user.profile.profanity_filter \

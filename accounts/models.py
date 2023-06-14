@@ -8,7 +8,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profanity_filter = models.BooleanField(default=True)
-    voted_bandnames = models.JSONField(default={"none": "none"})
+    voted_bandnames = models.JSONField(default=dict)
     cumulative_score = models.IntegerField(default=0)
     righteousness_level = models.CharField(default="Groupie", max_length=128) 
     last_ip_address = models.GenericIPAddressField(default = '0.0.0.0')

@@ -21,14 +21,27 @@ def index(request):
     if collection_len != 0:
         bandnames = get_bandnames(collection_len)
 
+    # Censor each bandname
     for bandname in bandnames:
         cleaned_list.append((bandname.bandname, censor_bandname(bandname.bandname)))
 
+    # Sets up homepage if user is authenticated
     if request.user.is_authenticated:
-
         user = User.objects.get(pk=request.user.id)
         user.profile.last_ip_address = get_client_ip(request)
         user.profile.last_logged_in = now().strftime("%Y-%m-%d")
+
+        # Remove bandnames from user's voted list if that bandname doesn't exist anymore
+        # bandnames = Bandname.objects.all()
+        # for voted_bandname in user.profile.voted_bandnames:   
+        #     remove_bn_flag = True
+        #     for existing_bandname in bandnames:
+        #         if voted_bandname == existing_bandname:
+        #             remove_bn_flag = False
+        #             break 
+        #     if remove_bn_flag == True:
+        #         print(voted_bandname)
+
         user.save()
         profanity_filter = user.profile.profanity_filter
 
@@ -36,10 +49,8 @@ def index(request):
     if collection_len == 0:
         cleaned_list.append(('No Bandnames Available', 'No Bandnames Available'))
 
-    print(cleaned_list)
-
     ctxt = {
-        "title"     : "Bandnames.cool",
+        "title"     : "Bandnames.cool | Home",
         "profanity_filter": profanity_filter,
         "bandnames": cleaned_list,
         "count": collection_len,
