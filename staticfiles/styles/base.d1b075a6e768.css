@@ -261,7 +261,7 @@ table.dataTable tbody td {
     top: 15px;
 }
 
-.sketch-grid-container {
+.contents {
     margin: auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -274,7 +274,7 @@ table.dataTable tbody td {
 }
 
 @media only screen and (max-width: 700px) {
-    .sketch-grid-container {
+    .contents {
         margin-left: auto !important;
         margin-right: auto !important;
         grid-template-columns: 1fr !important;
@@ -339,7 +339,7 @@ table.dataTable tbody td {
     } 
 }
 
-.sketch-holder {
+.bandnames-wheel {
     height: 500px;
 }
 

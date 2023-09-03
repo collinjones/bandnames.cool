@@ -41,7 +41,7 @@ class Clock {
 
 class Wheel {
 
-    constructor(position, radius, color, bandnames, wheel_imgs) {
+    constructor(color, bandnames, wheel_imgs) {
 
         this.wheel_imgs = wheel_imgs;
         this.frame_counter = 0;
@@ -52,7 +52,7 @@ class Wheel {
         /* Bandname & Line settings */
         this.bandnames = bandnames           // Pool of bandnames to choose from
         this.bandnamesOnWheel = {}           // list of bandnames currently on the wheel
-        this.bandnameSpaceFromWheel = 75;   // The amount of pixels from the center that the bandname is rendered
+        this.bandnameSpaceFromCenter = 75;   // The amount of pixels from the center that the bandname is rendered
         this.bandnameSelected = {};          // current bandname selected
         this.previousBandnameSelected = {};  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
@@ -66,10 +66,8 @@ class Wheel {
         this.pastAngle = 0;          // previous frame angle
         this.angleV = 0.0;           // initial angle velocity
         this.angleA = 0;             // initial angle acceleration
-        this.radius = radius;        // radius of the wheel
         this.color = color;          // color of the wheel 
         this.state = this.states.Stopped;  // initial state of the wheel
-        this.position = position     // position of the wheel
         this.rotations = 0;
         this.rotations_final = 0;
         this.populateWheel();
@@ -155,17 +153,20 @@ class Wheel {
         const len = Object.keys(this.bandnamesOnWheel).length
         const keys = Object.keys(this.bandnamesOnWheel)
         const values = Object.values(this.bandnamesOnWheel)
+
         
         // For each bandname on the wheel
-        for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
+        for (var i = 0; i < keys.length; i++) {
+
             // Check if picker has gone over a line
+            
             if ((this.angle > (this.evenSeparatorDeg * i)) && (this.angle < (this.evenSeparatorDeg * i) + this.evenSeparatorDeg)) {
 
                 // Save previous bandname selected
                 this.previousBandnameSelected = this.bandnameSelected;
                 
                 // Select the bandname 
-                this.bandnameSelected = {[Object.keys(this.bandnamesOnWheel)[len - (i + 1)]]: Object.values(this.bandnamesOnWheel)[len - (i + 1)]}
+                this.bandnameSelected = {[keys[len - (i + 1)]]: values[len - (i + 1)]}
             }
         }
     }
@@ -180,6 +181,7 @@ class Wheel {
             // Set the clock interval back to resting
             this.clock.set_interval(100)
             this.bn_glow_clock.set_interval(100)
+            
             // Stop the wheel
             this.state = this.states.Stopped
             this.angleV = 0;
@@ -218,9 +220,7 @@ class Wheel {
     update() {
 
         // Ensure mouse is inside canvas
-        if ((mouseX > 0) && (mouseX < width) &&
-            (mouseY > 0) && (mouseY < height)) {
-
+        if (mouseInsideCanvas()) {
             if (mouseIsPressed) {
                 this.state = this.states.Spinning
                 this.angleV = 0;
@@ -234,15 +234,13 @@ class Wheel {
         }
 
         push();
-        
-        translate(0, height / 2);
+        translate(width/2, 50);
         rotate(this.angle);
         this.render();
-        translate(0, -height / 2);
-
+        translate(-width/2, 50);
         pop();
 
-        this.renderPointer();
+        // this.renderPointer();
         this.slowDownWheel();
         this.checkAndStopWheel();
         this.checkAndResetAngle();
@@ -272,18 +270,9 @@ class Wheel {
         }
     }
 
-    /* Render the lines on the wheel */
-    renderLines() {
-        for (var i = 0; i <= Object.keys(this.bandnamesOnWheel).length + 1; i++) {
-            line(0, 0, (this.radius / 2) - 8, 0)
-            rotate(this.evenSeparatorDeg)
-        }
-    }
-
     /* Settings for the text */
     setUpTextSettings() {
         textFont(font);
-        // textWrap(WORD)
         textSize(12);
         fill(0, 0, 0, 255)
     }
@@ -292,9 +281,6 @@ class Wheel {
     renderBandnames() {
         // Set up the text settings. 
         this.setUpTextSettings();
-
-        // push() and pop() again to prevent rotating the lines
-        //push();
 
         if (this.alpha != 255) {
             fill(0, 0, 0, this.alpha)
@@ -310,33 +296,31 @@ class Wheel {
 
             // Render with profanity off
             if (profanity_filter == "True"){
-                text(Object.values(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
+                text(Object.values(this.bandnamesOnWheel)[i], this.bandnameSpaceFromCenter, 0, 150, 100)
             }
             // Render with profanity on
             else {
-                text(Object.keys(this.bandnamesOnWheel)[i], this.bandnameSpaceFromWheel, 0, 150, 100)
+                text(Object.keys(this.bandnamesOnWheel)[i], this.bandnameSpaceFromCenter, 0, 150, 100)
             }
 
             // Rotate each bandname by the even seperation in degrees
             rotate(this.evenSeparatorDeg)
-
-            
-            
         }
-        //pop();
-        
+    }
 
+    fadeInWheel() {
+        if (this.alpha != 255){
+            this.alpha += 3;
+        }
+        tint(255, this.alpha);
     }
 
     /* Render the wheel (ellipse) */
     renderWheel() {
 
-        if (this.alpha != 255){
-            this.alpha += 3;
-        }
-        tint(255, this.alpha);
+        this.fadeInWheel();
 
-        image(this.wheel_imgs[this.frame_counter], -(width/2)-75, -(height/2), 500, 500)
+        image(this.wheel_imgs[this.frame_counter], -width/2, -75 - height/2, 500, 500)
         if(this.clock.trigger()){
             this.frame_counter++;
             if (this.frame_counter == 26) {
@@ -346,24 +330,10 @@ class Wheel {
         
     }
 
-    /* Render the pointer */
-    renderPointer() {
-        if (this.alpha != 255){
-            this.alpha += 3;
-        }
-        tint(255, this.alpha);
-
-        /* DRAW PICK OF DESTINY AS PICKER */
-        image(picker, width/2 + 50, height/2 - 35, 125, 100)
-        // image(picker, (height/2)/1.25, (-width/2)*1.9, 100, 100)
-    }
-
     /* Calls the other render functions in the proper order */
     render() {
-        
         this.renderWheel();
         this.renderBandnames();
-        // this.renderLines();
     }
 
     get_rotations_final() {

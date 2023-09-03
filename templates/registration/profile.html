@@ -6,29 +6,34 @@
 
 {% block body %}
 
-<div id = "profile-body-top" style="color:white" >
-    <image draggable = false src="{% static 'images/placard-batch.png' %}" id="profile-body-top-img"></image>
-    <div id="profile-body-top-contents">
-        <h1 style="text-align: center; color: white;">{{ user }}</h1>
-        <h3 style="color: white;">Overall Score: {{score}}</h1>
-        <h2 id='submission-status' style="text-align: center;"></h2>
-        <form id = "profile-form">
-            {% csrf_token %}
-            {{form.as_p}}
-            <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
-        </form>
-        <div id="user-ubmissions-div" style="color: rgb(255, 255, 255);">
-            <div id = "user-submissions-table">
-                <table id="bandnames-table-profile"  class="display dt-center">
-                    <thead>
-                        <tr>
-                            <th>Bandname</th>
-                            <th class="score-header">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody id='bandnames-table-body-profile'>
-                    </tbody>
-                </table>
+<div id = 'pillars-div'>
+    
+    <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
+    <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
+    <div id = "profile-body-top" style="color:white" >
+        <img draggable = false src="{% static 'images/placard-batch.png' %}" id="profile-body-top-img"></img>
+        <div id="profile-body-top-contents">
+            <h1 style="text-align: center; color: white;">{{ user }}</h1>
+            <h3 style="color: white;">Overall Score: {{score}}</h1>
+            <h2 id='submission-status' style="text-align: center;"></h2>
+            <form id = "profile-form">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
+            </form>
+            <div id="user-ubmissions-div" style="color: rgb(255, 255, 255);">
+                <div id = "user-submissions-table">
+                    <table id="bandnames-table-profile"  class="display dt-center">
+                        <thead>
+                            <tr>
+                                <th>Bandname</th>
+                                <th class="score-header">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id='bandnames-table-body-profile'>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

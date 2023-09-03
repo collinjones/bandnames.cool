@@ -195,6 +195,7 @@ def get_bandnames(collection_len):
 
     return bandnames
 
+# Saves a bandname vote to the database
 def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
 
     if request.POST['val'] == "up":
@@ -218,9 +219,9 @@ def create_vote_json_response(request, voted_bandname, cleaned_list, table_templ
     
     filter = ProfanityFilter()
     json_response = {
-            'vote_msg': 'Voted up'} if request.POST['val'] == 'up' \
+            'vote_msg': 'Voted up ' + voted_bandname.bandname} if request.POST['val'] == 'up' \
         else { 
-            'vote_msg': 'Voted down'
+            'vote_msg': 'Voted down ' + voted_bandname.bandname
     }
 
     if user:

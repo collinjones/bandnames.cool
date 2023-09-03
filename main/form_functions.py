@@ -51,7 +51,7 @@ def create(request):
 # `vote` gets called when the user votes on a bandname
 def vote(request):
 
-    default_bandname_selected_text = 'No bandname selected - SPIN THE WHEEL'
+    default_bandname_selected_text = 'No bandname selected - Click Here to Spin the Wheel!'
 
     json_response = { 
         'vote_msg': 'Error', 
@@ -62,7 +62,10 @@ def vote(request):
         # User-Based Voting - user is logged in
         if request.user.is_authenticated:
             if 'bandname' in request.POST:
+
+                # Ensure the user has spun the wheel to get a bandname
                 if request.POST['bandname'].strip() != default_bandname_selected_text and request.POST['bandname'] != '':
+                    
                     user = User.objects.get(pk=request.user.id)
                     voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
                     duplicate_vote = voted_bandname.bandname in user.profile.voted_bandnames

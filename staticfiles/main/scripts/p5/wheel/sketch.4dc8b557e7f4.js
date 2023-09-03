@@ -89,7 +89,7 @@ function preload() {
 function setup() {
 
     canvas = createCanvas(350, 500);
-    canvas.parent('sketch-holder');
+    canvas.parent('bandnames-wheel');
     angleMode(DEGREES);
     ellipseMode(CENTER);
     background(255, 204, 0, 0)

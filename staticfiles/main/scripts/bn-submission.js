@@ -1,3 +1,5 @@
+var unblockUI_timeout = 2000;
+
 /* Adds the bandname to the Annals of Voted Bandnames after submission */
 function add_bandname_to_voted_history(data) {
     var bandname = data['bandname_json']['bandname']
@@ -41,7 +43,7 @@ $("#bandname-submit" ).click(function(e) {
                         bn_count.html("Bandnames: " + count)
                     }
                     $.unblockUI();
-                }, 1000); 
+                }, unblockUI_timeout); 
             }
         }
     });
@@ -81,7 +83,7 @@ $("#upvote-button" ).click(function(e) {
             }
             setTimeout(function() {
                 $.unblockUI();
-            }, 1000); 
+            }, unblockUI_timeout); 
         }
     });
 });
@@ -117,7 +119,7 @@ $("#downvote-button" ).click(function(e) {
             }
             setTimeout(function() {
                 $.unblockUI();
-            }, 1000); 
+            }, unblockUI_timeout); 
         }
     });
 });

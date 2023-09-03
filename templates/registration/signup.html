@@ -3,42 +3,47 @@
 {% block title %} {{ title }} {% endblock %}
 {% block body %}
 
-<div id="signup-div">
-    <image draggable=false src="{% static 'images/placard-square.png' %}" id="signup-img"></image>
-    <div id="signup-div-content">
-        <h1 style="color: white">Register</h1>
-        <form role="form" class="form-horizontal" method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="input-group" style="color:rgb(255, 255, 255);">
-                {% if field.name == "username" %}
-                    <span>Username</span><br>
-                    <!--  -->
-                    <input id="{{ field.id_for_label }}" name="{{ field.html_name }}" placeholder="Username" style="height: 20px;" maxlength="30">
-                    <br><br><span>Password</span>
-                {% elif field.name == "password1" %}
-                    <input placeholder="Password" style="height: 20px;" type="password", id="{{ field.id_for_label }}" 
-                        maxlength="30" name="{{ field.html_name }}" type="password">
-                {% elif field.name == "password2" %}
-                    <input placeholder="Confirm Password" style="height: 20px;" type="password" id="{{ field.id_for_label }}" 
-                        maxlength="30" name="{{ field.html_name }}" type="password">             
-                {% endif %}
-            </div>
-            {% endfor %}
-            {{ form.errors }}
-            {{ form.non_field_errors }}
-            {% if form.errors %}
+<div id = 'pillars-div'>
+    
+    <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
+    <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
+    <div id="signup-div">
+        <img draggable=false src="{% static 'images/placard-square.png' %}" id="signup-img"></img>
+        <div id="signup-div-content">
+            <h1 style="color: white">Register</h1>
+            <form role="form" class="form-horizontal" method="POST">
+                {% csrf_token %}
                 {% for field in form %}
-                    {% for error in field.errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
-                    {% endfor %}
+                <div class="input-group" style="color:rgb(255, 255, 255);">
+                    {% if field.name == "username" %}
+                        <span>Username</span><br>
+                        <!--  -->
+                        <input id="{{ field.id_for_label }}" name="{{ field.html_name }}" placeholder="Username" style="height: 20px;" maxlength="30">
+                        <br><br><span>Password</span>
+                    {% elif field.name == "password1" %}
+                        <input placeholder="Password" style="height: 20px;" type="password", id="{{ field.id_for_label }}" 
+                            maxlength="30" name="{{ field.html_name }}" type="password">
+                    {% elif field.name == "password2" %}
+                        <input placeholder="Confirm Password" style="height: 20px;" type="password" id="{{ field.id_for_label }}" 
+                            maxlength="30" name="{{ field.html_name }}" type="password">             
+                    {% endif %}
+                </div>
                 {% endfor %}
-            {% endif %}
-            <button id="user-signup" type="submit" style="font-family: Pixelated; margin-top: 10px;">Register</button>
-            <!-- <input type="hidden" name="next" value="{{ next }}" /> -->
-        </form>
+                {{ form.errors }}
+                {{ form.non_field_errors }}
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                <button id="user-signup" type="submit" style="font-family: Pixelated; margin-top: 10px;">Register</button>
+                <!-- <input type="hidden" name="next" value="{{ next }}" /> -->
+            </form>
+        </div>
     </div>
 </div>
 

@@ -9,16 +9,21 @@
 <link rel="stylesheet" type="text/css" href=" {% static 'main/styles/bandalytics.css' %} ">
 <script type="text/javascript" src=" {% static 'main/scripts/jquery/bandalytics_dt.js' %} "></script>
 
-<div id="bandalytics-div">
-    <span id='bandalytics-text'>Bandnalytics</span>
-    <image draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img-bandalytics"></image>
+<div id = 'pillars-div'>
     
-    <select name="bandalytics_selection" id="bandalytics_selection">
-        <option onselect="top_ten_bandnames()" value="top_ten_bandnames">Top 10 Bandnames [All Time]</option>
-        <option value="top_ten_users">Top 10 Users [All Time]</option>
-        <option value="top_bandnames_7_days">Top Bandnames [Past 7 Days]</option>
-    </select>
-    <table id="bandalytics-table"  class="display"></table>
+    <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
+    <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
+    <div id="bandalytics-div">
+        <span id='bandalytics-text'>Bandnalytics</span>
+        <img draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img-bandalytics"></img>
+        
+        <select name="bandalytics_selection" id="bandalytics_selection">
+            <option onselect="top_ten_bandnames()" value="top_ten_bandnames">Top 10 Bandnames [All Time]</option>
+            <option value="top_ten_users">Top 10 Users [All Time]</option>
+            <option value="top_bandnames_7_days">Top Bandnames [Past 7 Days]</option>
+        </select>
+        <table id="bandalytics-table"  class="display"></table>
+    </div>
 </div>
 
 

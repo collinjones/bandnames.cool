@@ -10,7 +10,7 @@ class MyTourClass(BaseCase):
         self.add_tour_step("Welcome to bandnames.cool, a site for submitting and voting on cool bandnames.", title="Welcome")
         self.add_tour_step("Submit a bandname here. You do not need an account to submit bandnames", "input[id='bandname']" ,title="Bandname Submission")
 
-        self.add_tour_step("Spin the wheel to land on one of thousands of entries", "div[id='sketch-holder']" ,title="Bandname Wheel")
+        self.add_tour_step("Spin the wheel to land on one of thousands of entries", "div[id='bandnames-wheel']" ,title="Bandname Wheel")
 
         self.add_tour_step("If you like a bandname, vote it up!", "img[id='upvote-button']" ,title="Voting")
         self.add_tour_step("If you dislike a bandname, vote it down!", "img[id='downvote-button']" ,title="Voting")
