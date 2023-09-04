@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Bandname
 
 class BandnameAdmin(admin.ModelAdmin):
-    search_fields = ['bandname']
+    search_fields = ['bandname', 'username']
     list_display = ('bandname', 'score', 'date_submitted', 'username')
 
 # Register your models here.
