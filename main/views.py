@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .utils import *
 from .form_functions import *
 from django.utils.timezone import now
+import random
 
 # Sets up and renders the submission page
 def index(request):
@@ -16,6 +17,10 @@ def index(request):
     collection_len = Bandname.objects.count()
     cleaned_list = []
     profanity_filter = True
+
+    with open('static/main/quips/bandname_quips.txt') as f:
+        random_quip = random.choice(f.readlines())
+        random_quip = random_quip.replace("&&&", str(Bandname.objects.count()))
 
     # Get bandnames for the wheel
     if collection_len != 0:
@@ -31,17 +36,6 @@ def index(request):
         user.profile.last_ip_address = get_client_ip(request)
         user.profile.last_logged_in = now().strftime("%Y-%m-%d")
 
-        # Remove bandnames from user's voted list if that bandname doesn't exist anymore
-        # bandnames = Bandname.objects.all()
-        # for voted_bandname in user.profile.voted_bandnames:   
-        #     remove_bn_flag = True
-        #     for existing_bandname in bandnames:
-        #         if voted_bandname == existing_bandname:
-        #             remove_bn_flag = False
-        #             break 
-        #     if remove_bn_flag == True:
-        #         print(voted_bandname)
-
         user.save()
         profanity_filter = user.profile.profanity_filter
 
@@ -54,7 +48,8 @@ def index(request):
         "profanity_filter": profanity_filter,
         "bandnames": cleaned_list,
         "count": collection_len,
-        "form"      : form
+        "form"      : form,
+        "footer_text": random_quip,
     }
 
     return render(request, "../templates/main/submission.html", context=ctxt)

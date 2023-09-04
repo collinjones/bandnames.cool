@@ -5,13 +5,15 @@
 {% block body %}
 
 <div id='pillars-div'>
+    
+    <div id="transparent-background"></div>
 
     <img class="noselect" draggable=false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left" />
     <img class="noselect" draggable=false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right" />
     <div id="login-div">
         <img draggable=false src="{% static 'images/placard-square.png' %}" id="login-img"></img>
         <div id='login-form'>
-            <h1>Login</h1>
+            <h1 style="color: white">Login</h1>
             <form role="form" class="form-horizontal" method="post">
                 {% csrf_token %}
                 {% for field in form %}

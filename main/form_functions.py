@@ -24,10 +24,18 @@ def create(request):
             new_bandname_str = form.cleaned_data['bandname']
 
             # Check for rejects and return if found
-            if check_for_reject(new_bandname_str):
+            reject_response = check_for_reject(new_bandname_str)
+            if reject_response == "Empty":
+                response = "Enter a bandname to submit"
+            elif reject_response == "Slur":
+                response = "Please do not submit anything too vulgar"
+            else:
+                response = "Why would you submit that?"    
+            
+            if reject_response != False:
                 json_response = { 
-                    'response_msg': 'Why would you try to submit that?',
-                    'text_color': 'red'
+                        'response_msg': response,
+                        'text_color': 'red'
                 }
                 return JsonResponse(json_response, safe = False)
 
@@ -38,7 +46,7 @@ def create(request):
                                 'username': request.user.username if request.user.is_authenticated \
                                                                   else "Anonymous",
                                 'score': 0,
-                                'response_msg': "Bandname created successfully.",
+                                'response_msg': "Submitted bandname: '" + new_bandname_str + "'",
                                 }
             else:
                 json_response = { 'response_msg': 'Bandname already exists' }
@@ -51,7 +59,7 @@ def create(request):
 # `vote` gets called when the user votes on a bandname
 def vote(request):
 
-    default_bandname_selected_text = 'No bandname selected - Click Here to Spin the Wheel!'
+    default_bandname_selected_text = 'Click Here to Spin the Wheel!'
 
     json_response = { 
         'vote_msg': 'Error', 
@@ -73,7 +81,7 @@ def vote(request):
                     # Return early if duplicate vote
                     if duplicate_vote:
                         json_response = { 
-                            'vote_msg': 'Already voted', 
+                            'vote_msg': "Already voted: '" + voted_bandname.bandname + "'",
                             'authenticated': "True"
                         }
                         return JsonResponse(json_response, safe = False) 
@@ -108,6 +116,7 @@ def vote(request):
                     'vote_msg': 'Spin the wheel!', 
                     'authenticated': "True"
                 }
+
         # IP-Based Voting - anonymous user
         else:
             if 'bandname' in request.POST:
@@ -125,17 +134,17 @@ def vote(request):
                         json_response = create_vote_json_response(request, voted_bandname, cleaned_list)
                     else:
                         json_response = { 
-                            'vote_msg': 'Already voted!', 
+                            'vote_msg': "Already voted: '" + voted_bandname.bandname + "'",
                             'authenticated': "False"
                         }
                 else:
                     json_response = { 
-                        'vote_msg': 'Spin the wheel!', 
+                        'vote_msg': 'Spin the wheel first!', 
                         'authenticated': "False"
                     }
             else:
                 json_response = { 
-                    'vote_msg': 'Spin the wheel!', 
+                    'vote_msg': 'Spin the wheel first!', 
                     'authenticated': "False"
                 }
     return JsonResponse(json_response, safe = False) 

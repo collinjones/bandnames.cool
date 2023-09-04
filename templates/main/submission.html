@@ -17,51 +17,63 @@
 </script>
 
 <div id = 'pillars-div'>
+    <div id="transparent-background"></div>
+
+    <!-- Torches -->
+    <img class="noselect" draggable="false" src="{% static 'gifs/torch.gif' %}" id="torch-gif-left"/>
+    <img class="noselect" draggable="false" src="{% static 'gifs/torch.gif' %}" id="torch-gif-right"/>
     
+    <!-- Pillars -->
     <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
     <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
     
     <div class = "contents">
 
-        <div id="background-hallway">
-            <img class="noselect" draggable = false src="{% static 'images/hallway_bg.png' %}" id="hallway-img"/>
-        </div>
+        <!-- Background hallway -->
+        <div id="background-hallway"><img class="noselect" draggable = false src="{% static 'images/hallway_bg.png' %}" id="hallway-img"/></div>
 
+        <img id="selector" src="{% static 'images/merle_selector.png' %}"/>
+
+        <!-- Bandnames Wheel -->
         <div class = "sketch-div cursor-horns" id = "bandnames-wheel" style="touch-action:none"></div>
         
+        <!-- Vote on bandname -->
         <div class = "vote-div">
             <!-- <h3 style="text-align: center; color: white; margin-bottom: 0;">Doth thou deem this bandname righteous?</h3> -->
             <h3 class="vote-form-div cursor-horns" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
-            <div id = "vote-div-buttons">
-                <form enctype="multipart/form-data" method="post" id="vote-form">
-                    {% csrf_token %}
-                    <a id = "upvote-link"><img class="noselect cursor-horns"  onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" id="upvote-button"  type="submit" draggable = false value="Submit" src="static/images/uv1.png"/></a>
-                    <a id = "downvote-link"><img class="noselect cursor-horns" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" id="downvote-button"  type="submit" draggable = false value="Submit" src="static/images/dv1.png"/></a>
-                </form>
-            </div>
+            <form enctype="multipart/form-data" method="post" id="vote-form">
+                {% csrf_token %}
+                <a onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" type="submit" draggable = false value="Submit"  id = "upvote-link">
+                    <span id="upvote-text">Upvote</span>
+                    <img class="noselect cursor-horns" id="upvote-button" src="static/images/uv1.png"/>
+                </a>
+                <a id = "downvote-link" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" type="submit" draggable = false value="Submit" >
+                    <span id="downvote-text">Downvote</span>
+                    <img id="downvote-button" class="noselect cursor-horns" src="static/images/dv1.png"/>
+                </a>
+            </form>
         </div>
         
-        <!-- <div id="wheel-controls"> 
-            <input alt="Click me or drag the wheel to select a bandname!" style = "width: 48px;" type="image" src="{% static 'images/spin_wheel_static.png' %}" id="spin-button" class="pixelated-font cursor-horns"> -->
-            <!-- <input style = "width: 48px;" type="image" src="{% static 'images/stop_resting.png' %}" id="stop-button" class="pixelated-font cursor-horns">
-            <input data-enabled="true" onmousedown="mute_clicked()" style = "width: 48px;" type="image" src="{% static 'images/sound_on.png' %}" id="mute-button" class="pixelated-font cursor-horns">     -->
-        <!-- </div> -->
-        
+        <!-- Submit bandname -->
         <div class = 'submission-contents-div'>
-            <!-- Submission form div -->
+            <img class="noselect" id="bn-submit-bg-image" draggable = false src="static/images/win95rununc.png"/>
+            <h3 id="bn-submission-header"> Submit a bandname </h3>
             <div id = "submission-form">
-                <div id="submission-form-contents">
-                    <h2 id="submission-status"></h2>
-                    <div id="swap-contents">
-                        <h3> Submit a bandname </h3>
-                    </div>
-                    <form enctype="multipart/form-data" method="post" id="post-form">
-                        <input id="bandname" class = "cursor-text">
-                        <img class="noselect cursor-horns" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable = false value="Submit" src="static/images/button.png"/>
-                    </form>
+                <a href="{% url 'faq' %}" id="submit-form-faq-link"></a>
+                {% if user.is_authenticated %}
+                <p id="bn-submission-text">Submit a bandname to the wheel. To view the bandnames you have submitted, select 'Profile'.</p>
+                <a href="{% url 'profile' %}" id="submit-form-profile-link"><p id="submit-form-profile-text">Profile</p></a>
+                {% else %}
+                <p id="bn-submission-text">Submit a bandname to the wheel. Select 'Register' and create an account to view your submitted bandnames.</p>
+                <a href="{% url 'login' %}" id="submit-form-login-link"><p id="submit-form-login-text">Login</p></a>
+                <a href="{% url 'registration' %}" id="submit-form-register-link"><p id="submit-form-register-text">Register</p></a>
+                {% endif %} 
+                <form enctype="multipart/form-data" method="post" id="post-form">
+                    <input id="bandname" class="cursor-text" placeholder="Start typing...">
+                    <input class="noselect cursor-horns" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable=false value="Submit"/>
+                </form>
                 </div>
             </div>
-            
         </div>
         
         <!-- Div for the selected bandname from the wheel -->
@@ -94,76 +106,7 @@
     var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
 </script>
 
-<!-- Guided Tour -->
-<script>
-$(document).ready( function () {
-    if(localStorage.getItem('guided-tour') == null) {
-        startTour();
-        localStorage.setItem('guided-tour', 'yes');
-    }
-});
-</script>
-
-<script>
-// $(document).ready(function(){
-//     $(document).mousemove(function(){
-//          if($("#spin-button:hover").length != 0){
-//             $("#spin-button").attr('src', "{% static 'images/spin_wheel.gif' %}")
-//         } else{
-//             $("#spin-button").attr('src', "{% static 'images/spin_wheel_static.png' %}")
-//         }
-//     });
-// });
-
-// $(document).ready(function(){
-//     $(document).mousemove(function(){
-//         var enabled = document.getElementById("mute-button").attributes[0].textContent
-//         if($("#mute-button:hover").length != 0){
-//             if (enabled == "true"){
-//                 $("#mute-button").attr('src', "{% static 'images/sound_hover.png' %}")
-//             }
-//             else {
-//                 $("#mute-button").attr('src', "{% static 'images/sound_off.png' %}")
-//             }
-//         } else{
-//             if (enabled == "true"){
-//                 $("#mute-button").attr('src', "{% static 'images/sound_on.png' %}")
-//             }
-//             else {
-//                 $("#mute-button").attr('src', "{% static 'images/sound_off.png' %}")
-//             }
-//         }
-//     });
-// });
-
-// $(document).ready(function(){
-//     $(document).mousemove(function(){
-//         if($("#stop-button:hover").length != 0){
-//             $("#stop-button").attr('src', "{% static 'images/stop_hover.png' %}")
-//         } else{
-//             $("#stop-button").attr('src', "{% static 'images/stop_resting.png' %}")
-//         }
-//     });
-// });
-
-$(document).ready(function(){
-    $(document).mousemove(function(){
-        
-        if($("#bandname-submit:hover").length != 0){
-            var current_path = document.getElementById("bandname-submit").attributes[8].textContent
-            if (current_path != "static/images/button_clicked.png"){
-                $("#bandname-submit").attr('src', "{% static 'images/button_hover.png' %}")
-            }
-        } else{
-            $("#bandname-submit").attr('src', "{% static 'images/button.png' %}")
-        }
-    });
-});
-</script>
-
 <!-- AJAX scripts -->
 <script type="text/javascript" src=" {% static 'main/scripts/bn-submission.js' %} "></script>
 
 {% endblock %}
-
-

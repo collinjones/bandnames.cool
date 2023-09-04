@@ -40,13 +40,9 @@ $(document).ready(function () {
 
                 console.log(data)
                 if(data == "True") {
-                    console.log('setting to false')
-                    $("#profanity_switch").html("Profanity Off")
-                    $("#profanity_switch").prop( "checked", false );
+                    $("#profanity_switch").prop( "checked", true );
                 } else {
-                    console.log('setting to true')
-                    $("#profanity_switch").html("Profanity On")
-                    $("#profanity_switch").prop('checked', true );
+                    $("#profanity_switch").prop( "checked", false );
                 }
 
                 var tableId = "#bandalytics-table"

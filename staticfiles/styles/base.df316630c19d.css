@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.691fa0504a2d.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -16,12 +16,12 @@ body {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('../fonts/pixel.ttf');
+    src: url("../fonts/pixel.6bb6308744b3.ttf");
 }
 
 @font-face {
     font-family: 'Win95';
-    src: url('../fonts/win95.ttf');
+    src: url("../fonts/win95.772fa67643ce.ttf");
 }
 
 @media only screen and (max-width: 700px) {
@@ -31,21 +31,21 @@ body {
 }
 
 .cursor-text {
-    cursor: url("../images/cursor-text.png"), auto;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto;
 }
 
 .cursor-default {
-    cursor: url("../images/cursor-default.png"), auto;
+    cursor: url("../images/cursor-default.7cf271181c71.png"), auto;
 }
 
 .cursor-horns {
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 .pixelated-font {
@@ -55,7 +55,7 @@ input[type="text"] {
 /* Links */
 a {
     color: #e48ce5;
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 .current {
@@ -72,13 +72,11 @@ a {
     image-rendering: crisp-edges;
 }
 
-#user-submissions-div {
+#user-ubmissions-div {
     width: 400px;
-    height: 65%;
+    height: 61%;
     margin: auto;
     position: relative;
-    background-color: rgba(149, 113, 29, 0.7);
-    border-radius: 25px;
 }
 
 .score-header {
@@ -87,10 +85,6 @@ a {
 
 .bandnames-table-profile {
     margin: 0;
-}
-
-.dataTables_wrapper .dataTables_length {
-    margin: 5px;
 }
 
 table.dataTable {
@@ -163,9 +157,6 @@ table.dataTable tbody td {
     height: 25px;
 }
 
-#dataTables_wrapper{
-    height:83%;
-}
 .tableHeaders {
     text-align: center;
 }
@@ -224,9 +215,9 @@ table.dataTable tbody td {
 }
 
 #website-logo {
-    width: 433px;
+    width: 430px;
     position: absolute;
-    bottom: 102px;
+    bottom: 124px;
     image-rendering: crisp-edges;
     transform: translateX(-50%);
 }
@@ -266,11 +257,10 @@ table.dataTable tbody td {
 
 #nav-div {
     text-align: center;
+    top: 13.8px;
     width: 100%;
     margin: auto;
     padding-top: 250px;
-    position: relative;
-    z-index: 2;
 }
 
 #outer-nav-div {
@@ -332,6 +322,7 @@ table.dataTable tbody td {
         display: inherit;
         left: 50%;
         transform: translateX(-50%);
+        z-index: -2;
     }
 }
 
@@ -371,24 +362,27 @@ table.dataTable tbody td {
 
 #vote-form {
     text-align: center;
-    width: 100%;
-    height:50%;
+    width: 50px;
+    position: absolute;
+    top: 10px;
+    left: 20px;
 }
 
 #faq-text {
     text-align: center;
     width: 100%;
     color: white !important;
-    height: 98%;
+    height: 821px;
     overflow-y: scroll;
 }
 
 #faq-div {
     border-radius: 10px;
-    width: 100%;
-    height:100%;
+    width: 749px;
     margin: auto;
+    top: 52px;
     position: relative;
+    left: -25px;
 }
 
 .image {
@@ -458,36 +452,30 @@ table.dataTable tbody td {
 
 #upvote-button {
     width: 30px;
-    position: absolute;
-    left: 164px;
 }
 
 #upvote-link {
-    width: 200px;
-    height: 50px;
-    position: absolute;
-    left: 145px;
+    width: 30px;
+    position: relative;
+    top: -11px;
+    left: -59px;
 }
 
 #downvote-link {
-    position: absolute;
-    width: 176px;
-    height: 50px;
-    left: 402px;
+    width: 30px;
+    position: relative;
+    top: -56px;
+    left: 57px;
 }
 
 #downvote-button {
     width: 30px;
-    position: absolute;
-    left: 8px;
-    top: 3px;
 }
 
-#downvote-text{
-    position: absolute;
-    top: 15px;
-    left: 68px;
-    font-size: 15px;
+#vote-div-buttons {
+    position: relative;
+    width: 90px;
+    margin: auto;
 }
 
 #vote-img {
@@ -696,19 +684,4 @@ table.dataTable tbody td {
     width:100%;
     height:100%;
     text-align: center;
-}
-
-#upvote-text{
-    position: absolute;
-    top:15px;
-    left: 68px;
-    font-size: 15px;
-}
-
-#selector {
-    position: absolute;
-    top: -99px;
-    left: 562px;
-    width: 119px;
-    transform: rotate(-30deg);
 }

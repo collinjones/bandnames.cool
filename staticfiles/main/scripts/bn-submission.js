@@ -49,7 +49,7 @@ $("#bandname-submit" ).click(function(e) {
     });
 });
 
-$("#upvote-button" ).click(function(e) {
+$("#upvote-link" ).click(function(e) {
 
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Voting up..." }); 
@@ -88,7 +88,7 @@ $("#upvote-button" ).click(function(e) {
     });
 });
 
-$("#downvote-button" ).click(function(e) {
+$("#downvote-link" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Voting down..." }); 
     $.ajax({

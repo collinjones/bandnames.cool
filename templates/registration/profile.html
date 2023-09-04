@@ -1,4 +1,4 @@
-{% extends 'registration/accounts_base.html' %}
+{% extends 'main/base.html' %}
 
 {% load static %}
 {% load profanity %}
@@ -7,46 +7,40 @@
 {% block body %}
 
 <div id = 'pillars-div'>
+
+    <div id="transparent-background"></div>
     
     <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
     <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
-    <div id = "profile-body-top" style="color:white" >
-        <img draggable = false src="{% static 'images/placard-batch.png' %}" id="profile-body-top-img"></img>
-        <div id="profile-body-top-contents">
-            <h1 style="text-align: center; color: white;">{{ user }}</h1>
-            <h3 style="color: white;">Overall Score: {{score}}</h1>
-            <h2 id='submission-status' style="text-align: center;"></h2>
-            <form id = "profile-form">
-                {% csrf_token %}
-                {{form.as_p}}
-                <input id="profile-submit" type="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit"></button>
-            </form>
-            <div id="user-ubmissions-div" style="color: rgb(255, 255, 255);">
-                <div id = "user-submissions-table">
-                    <table id="bandnames-table-profile"  class="display dt-center">
-                        <thead>
-                            <tr>
-                                <th>Bandname</th>
-                                <th class="score-header">Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id='bandnames-table-body-profile'>
-                        </tbody>
-                    </table>
-                </div>
+
+    <div id = "profile-body" style="color:white" >
+        <h1 style="text-align: center; color: white;">{{ user }}</h1>
+        <h3 style="color: white;">User Score: {{score}}</h1>
+        <h2 id='submission-status' style="text-align: center;"></h2>
+        <form id = "profile-form">
+            {% csrf_token %}
+            {{form.as_p}}
+            {% if profanity_filter == False%}
+                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="0">Profanity Filter</input>
+            {% else %}
+                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="1" checked>Profanity Filter</input>
+            {% endif %}
+        </form>
+        <div id="user-submissions-div" style="color: rgb(255, 255, 255);">
+            <div id = "user-submissions-table">
+                <table id="bandnames-table-profile"  class="display dt-center">
+                    <thead>
+                        <tr>
+                            <th>Bandname</th>
+                            <th class="score-header">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id='bandnames-table-body-profile'>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
-
-<script>
-    if("{{user.profile.profanity_filter}}" == "True"){
-        document.getElementById('id_profanity_filter').checked = true;
-    }
-</script>
-
-
-
 {%endblock%}
-
