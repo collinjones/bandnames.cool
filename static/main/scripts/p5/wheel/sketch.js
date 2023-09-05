@@ -55,7 +55,7 @@ function draw() {
 
     /* No name selected yet */
     if (Object.keys(wheel.bandnameSelected).length === 0) {
-        heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> No bandname selected - Click Here to Spin the Wheel! </span>"
+        heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click Here to Spin the Wheel! </span>"
     } 
     /* A new name selected */
     else if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {

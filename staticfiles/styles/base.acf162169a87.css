@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.691fa0504a2d.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -16,12 +16,12 @@ body {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('../fonts/pixel.ttf');
+    src: url("../fonts/pixel.6bb6308744b3.ttf");
 }
 
 @font-face {
     font-family: 'Win95';
-    src: url('../fonts/win95.ttf');
+    src: url("../fonts/win95.772fa67643ce.ttf");
 }
 
 @media only screen and (max-width: 700px) {
@@ -31,21 +31,21 @@ body {
 }
 
 .cursor-text {
-    cursor: url("../images/cursor-text.png"), auto;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto;
 }
 
 .cursor-default {
-    cursor: url("../images/cursor-default.png"), auto;
+    cursor: url("../images/cursor-default.7cf271181c71.png"), auto;
 }
 
 .cursor-horns {
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 .pixelated-font {
@@ -55,7 +55,7 @@ input[type="text"] {
 /* Links */
 a {
     color: #e48ce5;
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 .current {
@@ -163,9 +163,9 @@ table.dataTable tbody td {
     height: 25px;
 }
 
-/* #dataTables_wrapper{
+#dataTables_wrapper{
     height:83%;
-} */
+}
 .tableHeaders {
     text-align: center;
 }
@@ -216,54 +216,43 @@ table.dataTable tbody td {
 }
 
 #arch-sign {
-    width: 527px;
+    width: 52%;
     position: absolute;
+    bottom: 643px;
     image-rendering: crisp-edges;
     z-index: 1;
-    transform: translateX(-50%);
-    left: 50%;
-    height: 161px;
-}
-
-#website-logo {
-    width: 100%;
-    height: 40%;
-    left: 50%;
-    position: absolute;
 }
 
 #website-logo-img {
-    width: 317px;
+    width: 433px;
     position: absolute;
-    bottom: 16px;
+    bottom: 102px;
     image-rendering: crisp-edges;
-    z-index: 2;
-    left: -215px;
+    transform: translateX(-50%);
 }
 
 #website-logo-gif {
-    width: 110px;
+    width: 433px;
     position: absolute;
-    bottom: 17px;
+    bottom: 102px;
     image-rendering: crisp-edges;
-    z-index: 2;
-    left: 106px;
+    transform: translateX(-50%);
 }
 
 #arch-div {
-    height: inherit;
-    position: absolute;
-    width: inherit;
+    height: 100%;
+    /* position: relative;
+    display: flex;
+    justify-content: center; */
 }
 
 #arch-img {
-    width: 1200px;
+    width: 1197px;
     image-rendering: crisp-edges;
     position: absolute;
     height: 330px;
-    z-index: 1;
-    transform: translateX(-50%);
-    left: 50%;
+    z-index: -1;
+    left: -9px;
 }
 
 #voting-system {
@@ -271,7 +260,6 @@ table.dataTable tbody td {
     position: relative;
     width: 400px;
     margin: auto;
-    margin-top: 50px;
 }
 
 #bandname-submit {
@@ -280,14 +268,14 @@ table.dataTable tbody td {
     background-color: transparent;
     border: none;
     position: absolute;
-    top: -74px;
+    top: -35px;
     left: 76px;
     font-size: 16px;
 }
 
 #nav-div {
     width: 100%;
-    height: 330px;
+    height: 320px; 
 }
 
 #outer-nav-div {
@@ -305,14 +293,12 @@ table.dataTable tbody td {
 
 #nav-links {
     position: absolute;
-    width: 100%;
-    top: 162px;
+    margin: auto;
+    width: 52%;
+    top: 195px;
     z-index: 2;
     text-align: center;
-    font-size: 16px;
-    margin: auto;
-    left: 50%;
-    transform: translateX(-50%);
+    font-size: 21px;
 }
 
 #submission-form {
@@ -327,10 +313,10 @@ table.dataTable tbody td {
     width: 750px;
     height: 100%;
     justify-items: center;
+
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: -25px;
 }
 
 .submission-contents-div {
@@ -351,6 +337,9 @@ table.dataTable tbody td {
     .contents {
         margin-left: auto !important;
         margin-right: auto !important;
+        display: inherit;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 
@@ -362,7 +351,6 @@ table.dataTable tbody td {
     height: 286px;
     left: 50%;
     transform: translateX(-50%);
-    top: -73px;
 }
 
 #wheel-controls {
@@ -520,20 +508,23 @@ table.dataTable tbody td {
     background-color: rgba(0, 0, 0, 0.33);
     border-radius: 5px;
     margin-bottom: 45px;
+    margin-top: 57px;
 }
 
 #background-hallway {
     position: absolute;
     filter: brightness(50%);
-    z-index: -3;
+    z-index: -2;
+    left: 0px;
     width: 100%;
-    height: 1142px;
-    top: -201px;
+    height: 914px;
 }
 
 #hallway-img {
     width: 750px;
-    height: 100%;
+    height: 125%;
+    top: -200px;
+    position: absolute;
 }
 
 #pillars-div {
@@ -551,7 +542,6 @@ table.dataTable tbody td {
     overflow-y: hidden;
     height: 942px;
     image-rendering: crisp-edges;
-    z-index: 1;
 }
 
 #pillar-img-left {
@@ -562,12 +552,13 @@ table.dataTable tbody td {
     overflow-y: hidden;
     height: 942px;
     image-rendering: crisp-edges;
-    z-index: 1;
 }
 
 @media only screen and (max-width: 700px) {
     #pillars-div {
         width: 100%;
+        position: unset;
+        position: relative;
     }
 }
 
@@ -614,7 +605,7 @@ table.dataTable tbody td {
 
 #bn-submission-header {
     position: absolute;
-    top: 390px;
+    top: 427px;
     right: 375px;
     color: white;
 }
@@ -623,7 +614,7 @@ table.dataTable tbody td {
     background-color: #fdf8ff;
     outline: none;
     position: absolute;
-    top: -126px;
+    top: -87px;
     left: 27px;
     width: 308px;
     height: 16px;
@@ -641,13 +632,13 @@ table.dataTable tbody td {
     font-size: 14px;
     font-family: "Win95";
     color: black;
-    top: -196px;
+    top: -157px;
     left: 26px;
 }
 
 #submit-form-faq-link{
     position: absolute;
-    top: -220px;
+    top: -183px;
     left: 334px;
     width: 17px;
     height: 14px;
@@ -655,7 +646,7 @@ table.dataTable tbody td {
 
 #submit-form-profile-link{
     position: absolute;
-    top: -73px;
+    top: -35px;
     left: 173px;
     width: 89px;
     height: 25px;
@@ -670,7 +661,7 @@ table.dataTable tbody td {
 
 #submit-form-login-link{
     position: absolute;
-    top: -73px;
+    top: -35px;
     left: 173px;
     width: 89px;
     height: 25px;
@@ -685,7 +676,7 @@ table.dataTable tbody td {
 
 #submit-form-register-link{
     position: absolute;
-    top: -73px;
+    top: -35px;
     left: 272px;
     width: 89px;
     height: 25px;
@@ -700,12 +691,12 @@ table.dataTable tbody td {
 
 #transparent-background{
     position: absolute;
-    width: 754px;
+    width: 855px;
     height: 133%;
     top: -192px;
-    left: -26px;
+    left: -28px;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: -3;
+    z-index: -2;
 }
 
 #profile-body{
@@ -713,7 +704,6 @@ table.dataTable tbody td {
     width:100%;
     height:100%;
     text-align: center;
-    overflow: scroll;
 }
 
 #upvote-text{
@@ -725,10 +715,10 @@ table.dataTable tbody td {
 
 #selector {
     position: absolute;
-    top: -167px;
+    top: -99px;
     left: 562px;
     width: 119px;
-    transform: rotate(-40deg);
+    transform: rotate(-30deg);
 }
 
 
@@ -826,8 +816,8 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
 }
 
 #sign-div {
-    width: 100%;
-    height: 50%;
+    width: 52%;
+    height: 62%;
     margin: auto;
     padding-top: 41px;
 }

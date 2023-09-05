@@ -1,16 +1,5 @@
 var unblockUI_timeout = 2000;
 
-/* Adds the bandname to the Annals of Voted Bandnames after submission */
-function add_bandname_to_voted_history(data) {
-    var bandname = data['bandname_json']['bandname']
-    var score = data['bandname_json']['score']
-    var table = $('#bandnames-table-voted').DataTable();
-    table.row.add({
-        "bandname": bandname,
-        "score": score
-    }).draw();
-}
-
 $(document).keypress(
     function (event) {
         if (event.which == '13') {
@@ -144,26 +133,5 @@ $("[id^=delete-button]").click(function(e) {
             document.getElementById(data['bandname']).remove();
             $.unblockUI();
         }
-    });
-});
-
-$(document).ready(function () {
-    $('#bandnames-table-voted').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "scrollY": "160",
-        "scrollX": false,
-        "order": [ 1, 'desc' ],
-        "columnDefs": [
-            { "width": "20px", "targets": 1 }
-        ],
-        ajax: {
-            "type" : "GET",
-            "url": "/get_voted_history"
-        },
-        columns: [
-            {data: "bandname"},
-            {data: "score"},
-        ]
     });
 });

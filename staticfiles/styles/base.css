@@ -74,10 +74,10 @@ a {
 
 #user-submissions-div {
     width: 400px;
-    height: 61%;
+    height: 65%;
     margin: auto;
     position: relative;
-    background-color: rgba(149, 113, 29, 0.7);
+    background-color: rgba(116, 173, 112, 0.7);
     border-radius: 25px;
 }
 
@@ -87,6 +87,10 @@ a {
 
 .bandnames-table-profile {
     margin: 0;
+}
+
+.dataTables_wrapper .dataTables_length {
+    margin: 5px;
 }
 
 table.dataTable {
@@ -159,6 +163,9 @@ table.dataTable tbody td {
     height: 25px;
 }
 
+#dataTables_wrapper{
+    height:83%;
+}
 .tableHeaders {
     text-align: center;
 }
@@ -209,34 +216,43 @@ table.dataTable tbody td {
 }
 
 #arch-sign {
-    width: 550px;
+    width: 52%;
     position: absolute;
-    bottom: 66px;
+    bottom: 643px;
     image-rendering: crisp-edges;
-
+    z-index: 1;
 }
 
-#website-logo {
-    width: 430px;
+#website-logo-img {
+    width: 433px;
     position: absolute;
-    bottom: 124px;
+    bottom: 102px;
+    image-rendering: crisp-edges;
+    transform: translateX(-50%);
+}
+
+#website-logo-gif {
+    width: 433px;
+    position: absolute;
+    bottom: 102px;
     image-rendering: crisp-edges;
     transform: translateX(-50%);
 }
 
 #arch-div {
-    position: relative;
+    height: 100%;
+    /* position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: center; */
 }
 
 #arch-img {
     width: 1197px;
     image-rendering: crisp-edges;
     position: absolute;
-    bottom: 0;
     height: 330px;
     z-index: -1;
+    left: -9px;
 }
 
 #voting-system {
@@ -258,12 +274,8 @@ table.dataTable tbody td {
 }
 
 #nav-div {
-    text-align: center;
     width: 100%;
-    margin: auto;
-    padding-top: 250px;
-    position: relative;
-    z-index: 2;
+    height: 320px; 
 }
 
 #outer-nav-div {
@@ -282,8 +294,11 @@ table.dataTable tbody td {
 #nav-links {
     position: absolute;
     margin: auto;
-    width: 100%;
-    top: 146px;
+    width: 52%;
+    top: 195px;
+    z-index: 2;
+    text-align: center;
+    font-size: 21px;
 }
 
 #submission-form {
@@ -696,4 +711,113 @@ table.dataTable tbody td {
     top:15px;
     left: 68px;
     font-size: 15px;
+}
+
+#selector {
+    position: absolute;
+    top: -99px;
+    left: 562px;
+    width: 119px;
+    transform: rotate(-30deg);
+}
+
+
+#bandnames-table-div-profile{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#profile-form{
+    text-align: center;
+    margin-bottom: 25px;
+    
+}
+
+#bandnames-table-profile-wrapper{
+    width: 400px;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: rgb(150, 218, 156) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background: rgb(169, 169, 169) !important;
+    margin:       auto !important;
+    padding:      1px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    float:       left;
+    text-align:  left !important;
+    padding-top: 0.3em;
+}
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #9f9f9f !important;
+}
+
+#profile-body-top {
+    position: relative;
+    width: 400px;
+    margin: auto;
+    text-align: center;
+    height: 100%;
+    padding: 10px;
+}
+
+#profile-body-top-contents {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: auto;
+    width: 100%;
+}
+
+#profile-body-top-img {
+    width: 100%;
+    height: 725px;
+}
+
+table.dataTable thead > tr > th.sorting::after, 
+table.dataTable thead > tr > th.sorting_asc::after, 
+table.dataTable thead > tr > th.sorting_desc::after, 
+table.dataTable thead > tr > th.sorting_asc_disabled::after, 
+table.dataTable thead > tr > th.sorting_desc_disabled::after, 
+table.dataTable thead > tr > td.sorting::after, 
+table.dataTable thead > tr > td.sorting_asc::after, 
+table.dataTable thead > tr > td.sorting_desc::after, 
+table.dataTable thead > tr > td.sorting_asc_disabled::after, 
+table.dataTable thead > tr > td.sorting_desc_disabled::after {
+    content: "" !important;
+}
+
+
+table.dataTable thead > tr > th.sorting::before, 
+table.dataTable thead > tr > th.sorting_asc::before, 
+table.dataTable thead > tr > th.sorting_desc::before, 
+table.dataTable thead > tr > th.sorting_asc_disabled::before, 
+table.dataTable thead > tr > th.sorting_desc_disabled::before, 
+table.dataTable thead > tr > td.sorting::before, 
+table.dataTable thead > tr > td.sorting_asc::before, 
+table.dataTable thead > tr > td.sorting_desc::before, 
+table.dataTable thead > tr > td.sorting_asc_disabled::before, 
+table.dataTable thead > tr > td.sorting_desc_disabled::before {
+    content: "" !important;
+}
+
+#profile-header{
+    width: 400px;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+#sign-div {
+    width: 52%;
+    height: 62%;
+    margin: auto;
+    padding-top: 41px;
 }

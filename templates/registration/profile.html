@@ -14,19 +14,18 @@
     <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
 
     <div id = "profile-body" style="color:white" >
-        <h1 style="text-align: center; color: white;">{{ user }}</h1>
-        <h3 style="color: white;">User Score: {{score}}</h1>
-        <h2 id='submission-status' style="text-align: center;"></h2>
+        <h1 id="profile-header" style="text-align: center; color: white;">{{ user }} | {{score}}</h1>
         <form id = "profile-form">
             {% csrf_token %}
             {{form.as_p}}
             {% if profanity_filter == False%}
-                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="0">Profanity Filter</input>
+                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="0"><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
             {% else %}
-                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="1" checked>Profanity Filter</input>
+                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="1" checked><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
             {% endif %}
         </form>
         <div id="user-submissions-div" style="color: rgb(255, 255, 255);">
+            <h2>Submissions</h2>
             <div id = "user-submissions-table">
                 <table id="bandnames-table-profile"  class="display dt-center">
                     <thead>
@@ -39,6 +38,20 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+         <div class="voted-history-div" id="voting-system">
+            <h3 id="annals-header">Annals of Voted Bandnames</h3>
+            <img draggable = false class='noselect' src="{% static 'images/scroll.png' %}" id="scroll-img"></img>
+            <table id="bandnames-table-voted"  class="display">
+                <thead>
+                    <tr>
+                        <th>Bandname</th>
+                        <th class="score-header">Score</th>
+                    </tr>
+                </thead>
+                <tbody id='bandnames-table-voted-body'></tbody>
+            </table>
         </div>
     </div>
 </div>

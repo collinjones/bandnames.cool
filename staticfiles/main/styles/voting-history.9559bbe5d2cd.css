@@ -1,60 +1,26 @@
-
-#bandnames-table-div-profile{
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+.dataTables_wrapper {
+    position: absolute !important;
+    width: 310px !important;
+    bottom: 0px !important;
+    right: 47px !important;
+    height: 92%;
 }
 
-#profile-form{
-    text-align: center;
-}
-
-#bandnames-table-profile-wrapper{
-    width: 400px;
-    margin-left: auto;
-    margin-right:auto;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background: rgb(150, 218, 156) !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    background: rgb(169, 169, 169) !important;
-    margin:       auto !important;
-    padding:      1px !important;
-}
-
-.dataTables_wrapper .dataTables_paginate {
-    float:       left;
-    text-align:  left !important;
-    padding-top: 0.3em;
-}
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
-    color: #9f9f9f !important;
+    color: rgb(252, 252, 252) !important;
 }
 
-#profile-body-top {
-    position: relative;
-    width: 400px;
-    margin: auto;
-    text-align: center;
-    height: 100%;
-    padding: 10px;
-}
+.dataTables_wrapper .dataTables_filter {
+    float: left !important;
+    text-align: left !important;
+  }
 
-#profile-body-top-contents {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin: auto;
-    width: 100%;
-}
+.dataTables_scrollHeadInner table{  width:100% !important; }
 
-#profile-body-top-img {
-    width: 100%;
-    height: 725px;
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 1px !important;
 }
 
 table.dataTable thead > tr > th.sorting::after, 
@@ -82,4 +48,13 @@ table.dataTable thead > tr > td.sorting_desc::before,
 table.dataTable thead > tr > td.sorting_asc_disabled::before, 
 table.dataTable thead > tr > td.sorting_desc_disabled::before {
     content: "" !important;
+}
+
+#annals-header {
+    text-align: center; 
+    color: rgb(0, 0, 0); 
+    margin-bottom: 0;
+    position: absolute;
+    width: 100%;
+    top: -4px;
 }

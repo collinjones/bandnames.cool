@@ -1,4 +1,5 @@
 var table;
+var unblockUI_timeout = 100;
 
 function reset_table(table, tableId) {
     table.clear().destroy()
@@ -7,6 +8,25 @@ function reset_table(table, tableId) {
 }
 
 $(document).ready(function () {
+
+    $('#bandnames-table-voted').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "scrollY": "160",
+        "scrollX": false,
+        "order": [ 1, 'desc' ],
+        "columnDefs": [
+            { "width": "20px", "targets": 1 }
+        ],
+        ajax: {
+            "type" : "GET",
+            "url": "/get_voted_history"
+        },
+        columns: [
+            {data: "bandname"},
+            {data: "score"},
+        ]
+    });
 
     table = $('#bandnames-table-profile').DataTable({
         "processing": true,
@@ -37,9 +57,7 @@ $(document).ready(function () {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             },
             success: function (data) {
-                $.unblockUI();
 
-                console.log(data)
                 if (data == "True") {
                     $("#profanity_switch").prop('checked', false)
                 } else {
@@ -63,6 +81,9 @@ $(document).ready(function () {
                         {data: "score"},
                     ]
                 });
+                setTimeout(function() {
+                    $.unblockUI();
+                }, unblockUI_timeout); 
             }
         });
     });

@@ -25,20 +25,19 @@ def create(request):
 
             # Check for rejects and return if found
             reject_response = check_for_reject(new_bandname_str)
-            if reject_response == "Empty":
-                response = "Enter a bandname to submit"
-            elif reject_response == "Slur":
-                response = "Please do not submit anything too vulgar"
-            else:
-                response = "Why would you submit that?"    
-            
             if reject_response != False:
+                if reject_response == "Empty":
+                    response = "Enter a bandname to submit"
+                elif reject_response == "Slur":
+                    response = "Please do not submit anything too vulgar"
+                else:
+                    response = "Why would you submit that?"  
                 json_response = { 
                         'response_msg': response,
                         'text_color': 'red'
                 }
-                return JsonResponse(json_response, safe = False)
-
+                return JsonResponse(json_response, safe = False)  
+            
             # Try to create a new bandname 
             if create_bandname(request, new_bandname_str, request.user.is_authenticated):
                 json_response = {
