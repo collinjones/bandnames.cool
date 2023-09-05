@@ -4,27 +4,36 @@
 {% block title %} Login {% endblock %}
 {% block body %}
 
-<div id = "login-div">
-  <image draggable = false src="{% static 'images/placard-square.png' %}" id="login-img"></image>
-  <div id = 'login-form'>
-    <h1>Login</h1>
-    <form role="form" class="form-horizontal" method="post">
-      {% csrf_token %}
-      {% for field in form %}
-      <div class="input-group" style="color:white;">
-        {% if field.name == "username" %}
-          <label for="{{ field.id_for_label }}">{{field.name}}</label>
-          <input style="margin-bottom: 10px;" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" /> 
-        {% elif forloop.last %}
-          <label for="{{ field.id_for_label }}" style="display: block;">{{field.name}}</label>
-          <input type="password"  style="margin-bottom: 10px; width: 75%; height: 20px;" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" /> 
-        {% endif %}
+<div id='pillars-div'>
+    
+    <div id="transparent-background"></div>
+
+    <img class="noselect" draggable=false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left" />
+    <img class="noselect" draggable=false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right" />
+    <div id="login-div">
+        <img draggable=false src="{% static 'images/placard-square.png' %}" id="login-img"></img>
+        <div id='login-form'>
+            <h1 style="color: white">Login</h1>
+            <form role="form" class="form-horizontal" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="input-group" style="color:white;">
+                    {% if field.name == "username" %}
+                    <label for="{{ field.id_for_label }}">{{field.name}}</label>
+                    <input style="margin-bottom: 10px;" id="{{ field.id_for_label }}" maxlength="30"
+                        name="{{ field.html_name }}" type="text" />
+                    {% elif forloop.last %}
+                    <label for="{{ field.id_for_label }}" style="display: block;">{{field.name}}</label>
+                    <input type="password" style="margin-bottom: 10px; width: 75%; height: 20px;"
+                        id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" type="text" />
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button style="margin-top: 10px;" id="login-button" type="submit">Log In</button>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </form>
         </div>
-      {% endfor %}
-      <button style="margin-top: 10px;" id="login-button" type="submit">Log In</button>
-      <input type="hidden" name="next" value="{{ next }}" />
-    </form>
-  </div>
+    </div>
 </div>
 
 {%endblock%}

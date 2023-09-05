@@ -135,19 +135,19 @@ class GUI {
 
         this.gui.addRange(
             "Sides",
-            3, 50, 4, 1,
+            3, 50, 6, 1,
             this.changeContainerSides.bind(this)
         ).hideControl("Sides")
 
         this.gui.addRange(
             "Container Size", 
-            1, 10, 1, 1,
+            1, 10, 5, 1,
             this.changeContainerSize.bind(this)
         ).hideControl("Container Size")
 
         this.gui.addRange(
             "Side Length",
-            0.1, 1, 1, 0.01,
+            0.1, 1, 0.6, 0.01,
             this.changeSideLength.bind(this)
         ).hideControl("Side Length")
 
@@ -312,24 +312,31 @@ class GUI {
 
         /* Container */
         if (this.currentObjectDrawType == "Container") {
-            this.gui.showControl("Container Settings")
-            this.gui.showControl("Container Editor")
-            this.gui.showControl("Sides")
-            this.gui.showControl("Container Size")
-            this.gui.showControl("Side Length")
-            this.gui.showControl("Side Thickness")
-            this.gui.showControl("Container Speed")
-
+            this.showContainerControls();
         } else {
-            this.gui.hideControl("Container Settings")
-            this.gui.hideControl("Container Editor")
-            this.gui.hideControl("Sides")
-            this.gui.hideControl("Container Size")
-            this.gui.hideControl("Side Length")
-            this.gui.hideControl("Side Thickness")
-            this.gui.hideControl("Container Speed")
-            this.gui.hideControl("Remove Container")
+            this.hideContainerControls();
         }
+    }
+
+    showContainerControls() {
+        this.gui.showControl("Container Settings")
+        this.gui.showControl("Container Editor")
+        this.gui.showControl("Sides")
+        this.gui.showControl("Container Size")
+        this.gui.showControl("Side Length")
+        this.gui.showControl("Side Thickness")
+        this.gui.showControl("Container Speed")
+    }
+
+    hideContainerControls() {
+        this.gui.hideControl("Container Settings")
+        this.gui.hideControl("Container Editor")
+        this.gui.hideControl("Sides")
+        this.gui.hideControl("Container Size")
+        this.gui.hideControl("Side Length")
+        this.gui.hideControl("Side Thickness")
+        this.gui.hideControl("Container Speed")
+        this.gui.hideControl("Remove Container")
     }
 
     changeFixedRotation() {
@@ -560,7 +567,7 @@ class GUI {
 
     /* Adds a new container to the Container Editor Dropdown */
     updateContainersList() {
-        
+
         /* Remove the element and reinitialize */
         this.gui.removeControl("Container Editor")
         let containerIDs = ["New Container"]
@@ -569,12 +576,17 @@ class GUI {
         for(const container of this.simulation.containers) {
             containerIDs.push(container.id + 1)
         }
-
+      
         /* Configure and add the dropdown */
         this.gui.addDropDown(
             "Container Editor",
             containerIDs,
             this.changeContainers.bind(this)
         )
+
+        /* If the current object draw type isn't set to container, hide the control */
+        if (this.currentObjectDrawType != "Container") {
+            this.gui.hideControl("Container Editor")
+        }
     }
 }

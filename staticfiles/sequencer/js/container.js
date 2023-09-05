@@ -153,7 +153,6 @@ class Container {
         this.color = color(134, 255, 130);
 
         if (mouseIsPressed) {
-            console.log('hello')
             this.pos = createVector(mouseX, mouseY)
         }
 

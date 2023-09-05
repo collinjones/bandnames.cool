@@ -1,37 +1,31 @@
 {% load static %}
-<div id = "outer-nav-div">
-    <div id="inner-nav-div">
-        {% if user.is_authenticated %}
-            <div id="nav-links">
-                <a href="{% url 'submission' %}" class = 'cursor-horns'>Home</a><span style="color:white;"> |</span>
-                <a id="profile-link" href="{% url 'profile' %}" class = 'cursor-horns'>Profile</a> <span style="color:white;"> |</span>
-                <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a><span style="color:white;"> |</span>
-                <a id="batch-submit-link" href="{% url 'batchSubmission' %}" class = 'cursor-horns'>Batch</a> <span style="color:white;"> |</span>
-                <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a><span style="color:white;"> |<br></span>
-                <a id="logout-link" href="{% url 'logout' %}" class = 'cursor-horns'>Log Out</a>
+<div id="nav-div">
+    <div id="arch-div">
+        <img class="noselect" draggable=false src="{% static 'images/arch.png' %}" id="arch-img"/>
+        <div id="sign-div">
+            <img class="noselect" draggable = false src="{% static 'images/arch_sign.png' %}" id="arch-sign"></img>
+            <div id="website-logo">
+                <a href="{% url 'submission' %}"><img class="noselect" draggable = false src="{% static 'images/bandnames.png' %}" id="website-logo-img"></img></a>
+                <img class="noselect" draggable = false src="{% static 'gifs/cool.gif' %}" id="website-logo-gif"></img>
             </div>
-            {% else %}<span id="logged-out-span" style="color:white; display: block;">You are not logged in </span>
-            <div id="nav-links">
-                <a href="{% url 'submission' %}" class = 'cursor-horns'>Home</a><span style="color:white;"> | </span>
-                <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a><span style="color:white;"> | </span>
-                <a id="login-link" href="{% url 'login' %}" class = 'cursor-horns'>Log In</a><span style="color:white;"> | </span>
-                <a id="register-link" href="{% url 'registration' %}" class = 'cursor-horns'>Sign Up</a><span style="color:white;"> | </span>
-                <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a>
+            <div class="noselect" id="nav-links">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'submission' %}" class = 'cursor-horns'>Home</a><span style="color:white;"> |</span>
+                    <a id="profile-link" href="{% url 'profile' %}" class = 'cursor-horns'>Profile</a> <span style="color:white;"> |</span>
+                    <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a><span style="color:white;"> |</span>
+                    <a id="batch-submit-link" href="{% url 'batchSubmission' %}" class = 'cursor-horns'>Batch</a> <span style="color:white;"> |</span>
+                    <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a><span style="color:white;"> |</span>
+                    <a id="logout-link" href="{% url 'logout' %}" class = 'cursor-horns'>Log Out</a>
+                {% else %}
+                    <a href="{% url 'submission' %}" class = 'cursor-horns'>Home</a><span style="color:white;"> | </span>
+                    <a id = 'bandalytics-link' href="{% url 'bandalytics' %}" class = 'cursor-horns'>Bandalytics</a><span style="color:white;"> | </span>
+                    <a id="login-link" href="{% url 'login' %}" class = 'cursor-horns'>Log In</a><span style="color:white;"> | </span>
+                    <a id="register-link" href="{% url 'registration' %}" class = 'cursor-horns'>Register</a><span style="color:white;"> | </span>
+                    <a id = 'faq-link' href="{% url 'faq' %}" class = 'cursor-horns'>FAQ</a>
+                {% endif %} 
+                <!-- <a class = 'cursor-horns' target="_blank" href="https://twitter.com/bandnamescool" style=" width: 40px; margin:auto"><img  src = "{% static 'images/twitter.png' %}" style="width:30px; padding: 5px"/></a>
+                <a class = 'cursor-horns' target="_blank" href="https://www.paypal.com/donate/?hosted_button_id=UYBJ7CXLRJUS4" style="width: 40px; margin:auto"><img  src = "{% static 'images/coffee.png' %}" style="width:30px; padding: 5px"/></a> -->
             </div>
-        {% endif %} 
-        <a class = 'cursor-horns' target="_blank" href="https://twitter.com/bandnamescool" style=" width: 40px; margin:auto"><image  src = "{% static 'images/twitter.png' %}" style="width:30px; padding: 5px"/></a>
-        <a class = 'cursor-horns' target="_blank" href="https://www.paypal.com/donate/?hosted_button_id=UYBJ7CXLRJUS4" style="width: 40px; margin:auto"><image  src = "{% static 'images/coffee.png' %}" style="width:30px; padding: 5px"/></a>
         </div>
-        <image draggable = false src="{% static 'images/stone-placard.png' %}" id="nav-img"></image>
     </div>
 </div>
-
-<script>
-    current = 0;
-    for (var i = 0; i < document.links.length; i++) {
-        if (document.links[i].href === document.URL) {
-            current = i;
-        }
-    }
-    document.links[current].className = 'current cursor-horns';
-</script>

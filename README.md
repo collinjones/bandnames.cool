@@ -14,6 +14,8 @@ bandnames.cool is a bandname aggregate website. We love cool bandnames. This web
 
 🎹 See how your bandnames are scoring on your profile!
 
+📚 View site-wide statistics such as top rated bandnames/users and more!
+
 ---
 
 ## Python Version

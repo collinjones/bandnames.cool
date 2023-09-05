@@ -44,7 +44,7 @@
         <title> {% block title %} {% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-        <script type="text/javascript" src=" {% static 'main/scripts/guided-tour.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'accounts/scripts/profile.js' %} "></script>
 
     </head>
 
@@ -57,7 +57,11 @@
 
     <!-- FOOTER -->
     <footer id = "copyright-footer">
-        <span><small>&copy; Copyright 2023, Bandname Boys</small></span>
+        <marquee direction="left"
+                style="border:BLACK 2px SOLID"
+                scrollamount="3">
+            {{ footer_text }}
+        </marquee>
     </footer> 
 
 

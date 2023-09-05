@@ -7,25 +7,32 @@
 
 
 <!-- Body -->
-<div id = 'batch-outer-div'>
-    <image draggable = false src="{% static 'images/placard-batch.png' %}" id="batch-img"></image>
-    <div id = "batch-inner-div">
-        <h1>Batch Submit</h1>
-        <span id="batch-submission-response"></span>
-        <p> Submit a list of bandnames by copy and pasting them into this text box</p>
-        <span> Formats accepted: </span>
-        <ul>
-            <li>Untagged: Bandname</li>
-            <li>Numbered: 1. Bandname</li>
-            <li>Dated:    Bandname (05/05/1984)</li>
-            <li>Both:     1. Bandname (05/05/1984)</li>
-        </ul>
-        <div id="batch-submission-form-container">
-            <form enctype="multipart/form-data" method="post" id="batch-submission-form">
-                {% csrf_token %}
-                {{form.as_p}}
-                <button id="batch_submit_button" name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Batch</button>
-            </form>
+<div id = 'pillars-div'>
+
+    <div id="transparent-background"></div>
+    
+    <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
+    <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
+    <div id = 'batch-outer-div'>
+        <img draggable = false src="{% static 'images/placard-batch.png' %}" id="batch-img"></img>
+        <div id = "batch-inner-div">
+            <h1>Batch Submit</h1>
+            <span id="batch-submission-response"></span>
+            <p> Submit a list of bandnames by copy and pasting them into this text box</p>
+            <span> Formats accepted: </span>
+            <ul>
+                <li>Untagged: Bandname</li>
+                <li>Numbered: 1. Bandname</li>
+                <li>Dated:    Bandname (05/05/1984)</li>
+                <li>Both:     1. Bandname (05/05/1984)</li>
+            </ul>
+            <div id="batch-submission-form-container">
+                <form enctype="multipart/form-data" method="post" id="batch-submission-form">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button id="batch_submit_button" name="submit" style="font-family: Pixelated; margin: 5px;" type="submit" value="Submit">Submit Batch</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

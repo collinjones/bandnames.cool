@@ -6,7 +6,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from accounts.forms import ProfileForm
 from accounts.models import Profile
 from main.models import Bandname
 from .utils import *
@@ -40,17 +39,16 @@ def Registration(request):
 
 def ProfileView(request):
 
-    form = ProfileForm
     user_submissions = Bandname.objects.filter(username=request.user).all()
     user = User.objects.get(pk=request.user.id)
         
     if request.user.is_authenticated:        
         template = "registration/profile.html"
+        print(user.profile.profanity_filter)
         ctxt = {
             "user": request.user,
             "profanity_filter": request.user.profile.profanity_filter,
             "score": set_user_score(user, user_submissions),
-            "form": form,
             "title": "Bandnames.cool | Profile",
         }
     else:
@@ -59,18 +57,19 @@ def ProfileView(request):
     return render(request, template, context=ctxt)
 
 def ProfanityToggle(request):
-    if request.method == "POST": 
-        if request.user.is_authenticated:
-            user = User.objects.get(pk=request.user.id)
-            form = ProfileForm(request.POST)
-            if form.is_valid():
-                if form.cleaned_data['profanity_filter']:
-                    user.profile.profanity_filter = True
-                else:
-                    user.profile.profanity_filter = False
-                user.save()
 
-    return HttpResponse('Profanity Toggled')
+    if request.method == "POST": 
+
+        user = User.objects.get(pk=request.user.id)
+        profanity = user.profile.profanity_filter
+
+        if (profanity == True):
+            user.profile.profanity_filter = False
+        else:
+            user.profile.profanity_filter = True
+        user.save()
+
+    return HttpResponse(profanity)
 
 def get_rows(request):
     if request.method == "GET":

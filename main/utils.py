@@ -139,10 +139,10 @@ def check_for_reject(bandname):
     auto_reject_words = open('static/main/filters/slurs.txt', "r")
     for slur in auto_reject_words:
         if slur.strip().lower() in bandname.strip().lower():
-            return True
+            return "Slur"
     
     if bandname == "":
-        return True
+        return "Empty"
     
     return False
 
@@ -195,9 +195,12 @@ def get_bandnames(collection_len):
 
     return bandnames
 
+# Saves a bandname vote to the database
 def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
 
-    if request.POST['val'] == "up":
+    vote_value = request.POST['val']
+
+    if vote_value == "up":
         voted_bandname.score += 1
     else:
         voted_bandname.score -= 1
@@ -215,12 +218,14 @@ def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
     
 
 def create_vote_json_response(request, voted_bandname, cleaned_list, table_template = None, user = None):
+
+    vote_value = request.POST['val']
     
     filter = ProfanityFilter()
     json_response = {
-            'vote_msg': 'Voted up'} if request.POST['val'] == 'up' \
+            'vote_msg': "Voted up '" + voted_bandname.bandname + "'"} if vote_value == 'up' \
         else { 
-            'vote_msg': 'Voted down'
+            'vote_msg': "Voted down '" + voted_bandname.bandname + "'"
     }
 
     if user:
