@@ -1,4 +1,4 @@
-class midiFactory {
+class MIDIFactory {
     constructor() {
         this.noteNames = {
             "C": 24, 
