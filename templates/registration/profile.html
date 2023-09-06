@@ -13,13 +13,15 @@
     <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
     <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
 
+    <h1 id="profile-header" style="text-align: center; color: white;">{{ user }} | {{score}}</h1>
     <div id = "profile-body" style="color:white" >
-        <h1 id="profile-header" style="text-align: center; color: white;">{{ user }} | {{score}}</h1>
+        
         <form id = "profile-form">
             {% csrf_token %}
             {{form.as_p}}
             {% if profanity_filter == False%}
                 <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="0"><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
+                
             {% else %}
                 <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="1" checked><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
             {% endif %}

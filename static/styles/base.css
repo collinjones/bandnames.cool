@@ -25,12 +25,6 @@ body {
     src: url('../fonts/win95.ttf');
 }
 
-@media only screen and (max-width: 700px) {
-    html {
-        overflow-x: hidden;
-    }
-}
-
 .cursor-text {
     cursor: url("../images/cursor-text.png"), auto;
 }
@@ -337,16 +331,10 @@ table.dataTable tbody td {
 .vote-div {
     text-align: center;
     margin: auto;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     width: 430px;
     height: 175px;
-}
-
-@media only screen and (max-width: 700px) {
-    .contents {
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
+    margin-top: 42px;
 }
 
 #bandnames-wheel {
@@ -354,7 +342,7 @@ table.dataTable tbody td {
     position: relative;
     z-index: -2;
     margin-top: -100px;
-    height: 286px;
+    height: 300px;
     left: 50%;
     transform: translateX(-50%);
     top: -73px;
