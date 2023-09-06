@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.691fa0504a2d.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -17,12 +17,12 @@ body {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('../fonts/pixel.ttf');
+    src: url("../fonts/pixel.6bb6308744b3.ttf");
 }
 
 @font-face {
     font-family: 'Win95';
-    src: url('../fonts/win95.ttf');
+    src: url("../fonts/win95.772fa67643ce.ttf");
 }
 
 @media only screen and (max-width: 700px) {
@@ -32,21 +32,21 @@ body {
 }
 
 .cursor-text {
-    cursor: url("../images/cursor-text.png"), auto;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto;
 }
 
 .cursor-default {
-    cursor: url("../images/cursor-default.png"), auto;
+    cursor: url("../images/cursor-default.7cf271181c71.png"), auto;
 }
 
 .cursor-horns {
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 .pixelated-font {
@@ -56,7 +56,7 @@ input[type="text"] {
 /* Links */
 a {
     color: #e48ce5;
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 .current {
@@ -220,7 +220,7 @@ table.dataTable tbody td {
     width: 527px;
     position: absolute;
     image-rendering: crisp-edges;
-    z-index: 2;
+    z-index: 1;
     transform: translateX(-50%);
     left: 50%;
     height: 161px;
@@ -271,14 +271,13 @@ table.dataTable tbody td {
 
 #bandname-submit {
     font-family: 'Win95';
-    width: 89px;
+    width: 84px;
     background-color: transparent;
     border: none;
     position: absolute;
-    left: 281px;
+    top: -74px;
+    left: 76px;
     font-size: 16px;
-    margin-top: 155px;
-    padding: 0;
 }
 
 #nav-div {
@@ -300,14 +299,15 @@ table.dataTable tbody td {
 }
 
 #nav-links {
-    font-size: 16px;
     position: absolute;
-    z-index: 2;
     width: 100%;
+    top: 162px;
+    z-index: 2;
+    text-align: center;
+    font-size: 16px;
+    margin: auto;
     left: 50%;
     transform: translateX(-50%);
-    text-align: center;
-    margin-top: 119px;
 }
 
 #submission-form {
@@ -609,20 +609,20 @@ table.dataTable tbody td {
 
 #bn-submission-header {
     position: absolute;
+    top: 390px;
     right: 375px;
     color: white;
-    margin-top: 3px;
 }
 
 #bandname {
     background-color: #fdf8ff;
     outline: none;
     position: absolute;
-    left: 233px;
+    top: -126px;
+    left: 27px;
     width: 308px;
     height: 16px;
     font-family: 'Win95';
-    margin-top: 103px;
 }
 
 #post-form {
@@ -630,47 +630,46 @@ table.dataTable tbody td {
 }
 
 #bn-submission-text{
+    position: absolute;
+    text-align: left;
+    width: 334px;
     font-size: 14px;
     font-family: "Win95";
     color: black;
-    position: absolute;
-    left: 229px;
-    width: 340px;
-    height: 49px;
-    margin-bottom: 0px;
-    margin-top: 46px;
-    text-align: left;
+    top: -196px;
+    left: 26px;
 }
 
 #submit-form-faq-link{
     position: absolute;
-    left: 540px;
-    width: 19px;
-    height: 17px;
-    margin-top: 5px;
+    top: -220px;
+    left: 334px;
+    width: 17px;
+    height: 14px;
 }
 
 #submit-form-profile-link{
     position: absolute;
-    left: 381px;
+    top: -73px;
+    left: 173px;
     width: 89px;
     height: 25px;
     font-family: "Win95";
-    margin-top: 155px;
 }
 
 #submit-form-profile-text{
     margin: 0;
     color: black;
+    
 }
 
 #submit-form-login-link{
     position: absolute;
-    left: 381px;
+    top: -73px;
+    left: 173px;
     width: 89px;
     height: 25px;
     font-family: "Win95";
-    margin-top: 155px;
 }
 
 #submit-form-login-text{
@@ -681,11 +680,11 @@ table.dataTable tbody td {
 
 #submit-form-register-link{
     position: absolute;
-    left: 480px;
+    top: -73px;
+    left: 272px;
     width: 89px;
     height: 25px;
     font-family: "Win95";
-    margin-top: 155px;
 }
 
 #submit-form-register-text{
@@ -721,11 +720,10 @@ table.dataTable tbody td {
 
 #selector {
     position: absolute;
-    top: -178px;
-    left: 541px;
+    top: -167px;
+    left: 562px;
     width: 119px;
-    transform: rotate(-45deg);
-    z-index: 1;
+    transform: rotate(-40deg);
 }
 
 

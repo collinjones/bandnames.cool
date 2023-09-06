@@ -3,7 +3,7 @@ from . import views
 from . import form_functions
 
 urlpatterns = [
-    path('', views.index, name='submission'),
+    path('', views.index, name='index'),
     path('faq', views.faq, name='faq'),
     path('bandalytics', views.bandalytics, name='bandalytics'),
     path('batch-submit', views.batch_submit, name='batchSubmission'),

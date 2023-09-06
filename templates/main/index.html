@@ -18,20 +18,24 @@
 
 <div id = 'pillars-div'>
 
-    <!-- Torches -->
-    <img class="noselect" draggable="false" src="{% static 'gifs/torch.gif' %}" id="torch-gif-left"/>
-    <img class="noselect" draggable="false" src="{% static 'gifs/torch.gif' %}" id="torch-gif-right"/>
+    <div id="pillars-imgs">
+        <!-- Torches -->
+        <img class="noselect" draggable="false" src="{% static 'gifs/torch.gif' %}" id="torch-gif-left"/>
+        <img class="noselect" draggable="false" src="{% static 'gifs/torch.gif' %}" id="torch-gif-right"/>
+
+        <!-- Pillars -->
+        <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
+        <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
+
+        <!-- Bandname Pointer -->
+        <img id="selector" src="{% static 'images/merle_selector.png' %}"/>
+    </div>
     
-    <!-- Pillars -->
-    <img class="noselect" draggable = false src="{% static 'images/pillar_left.png' %}" id="pillar-img-left"/>
-    <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
     
     <div class = "contents">
 
         <!-- Background hallway -->
         <div id="background-hallway"><img class="noselect" draggable = false src="{% static 'images/hallway_bg.png' %}" id="hallway-img"/></div>
-
-        <img id="selector" src="{% static 'images/merle_selector.png' %}"/>
 
         <!-- Bandnames Wheel -->
         <div class = "sketch-div cursor-horns" id = "bandnames-wheel" style="touch-action:none"></div>
@@ -55,24 +59,21 @@
         
         <!-- Submit bandname -->
         <div class = 'submission-contents-div'>
-            <img class="noselect" id="bn-submit-bg-image" draggable = false src="static/images/win95rununc.png"/>
             <h3 id="bn-submission-header"> Submit a bandname </h3>
-            <div id = "submission-form">
-                <a href="{% url 'faq' %}" id="submit-form-faq-link"></a>
-                {% if user.is_authenticated %}
-                <p id="bn-submission-text">Submit a bandname to the wheel. To view the bandnames you have submitted, select 'Profile'.</p>
-                <a href="{% url 'profile' %}" id="submit-form-profile-link"><p id="submit-form-profile-text">Profile</p></a>
-                {% else %}
-                <p id="bn-submission-text">Submit a bandname to the wheel. Select 'Register' and create an account to view your submitted bandnames.</p>
-                <a href="{% url 'login' %}" id="submit-form-login-link"><p id="submit-form-login-text">Login</p></a>
-                <a href="{% url 'registration' %}" id="submit-form-register-link"><p id="submit-form-register-text">Register</p></a>
-                {% endif %} 
-                <form enctype="multipart/form-data" method="post" id="post-form">
-                    <input id="bandname" class="cursor-text" placeholder="Start typing...">
-                    <input class="noselect cursor-horns" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable=false value="Submit"/>
-                </form>
-                </div>
-            </div>
+            <a href="{% url 'faq' %}" id="submit-form-faq-link"></a>
+            {% if user.is_authenticated %}
+            <p id="bn-submission-text">Submit a bandname to the wheel. To view the bandnames you have submitted, select 'Profile'.</p>
+            <a href="{% url 'profile' %}" id="submit-form-profile-link"><p id="submit-form-profile-text">Profile</p></a>
+            {% else %}
+            <p id="bn-submission-text">Submit a bandname to the wheel. Select 'Register' and create an account to view your submitted bandnames.</p>
+            <a href="{% url 'login' %}" id="submit-form-login-link"><p id="submit-form-login-text">Login</p></a>
+            <a href="{% url 'registration' %}" id="submit-form-register-link"><p id="submit-form-register-text">Register</p></a>
+            {% endif %} 
+            <form enctype="multipart/form-data" method="post" id="post-form">
+                <input id="bandname" class="cursor-text" placeholder="Start typing...">
+                <input class="noselect cursor-horns" onmousedown="clicked()" onmouseup="resting()" onmouseout="dragged()" id="bandname-submit"  type="submit" draggable=false value="Submit"/>
+            </form>
+            <img class="noselect" id="bn-submit-bg-image" draggable = false src="static/images/win95rununc.png"/>
         </div> 
     </div>
 </div>

@@ -52,7 +52,7 @@ def index(request):
         "footer_text": random_quip,
     }
 
-    return render(request, "../templates/main/submission.html", context=ctxt)
+    return render(request, "../templates/main/index.html", context=ctxt)
 
 def bandalytics(request):
     template = "../templates/main/bandalytics.html"
