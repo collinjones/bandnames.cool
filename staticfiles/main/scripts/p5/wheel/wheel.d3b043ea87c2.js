@@ -80,7 +80,6 @@ class Wheel {
 
     setNewBandnames(bandnames) {
         this.bandnames = bandnames
-        this.repopulateWheel();
     }
 
     /* Repopulate wheel with new bandnames */
@@ -110,6 +109,7 @@ class Wheel {
 
     /* Populate wheel with bandnames */
     populateWheel() {
+
         var keys = Object.keys(this.bandnames);
         var values = Object.values(this.bandnames);
         var random_i;

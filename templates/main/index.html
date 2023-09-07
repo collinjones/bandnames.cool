@@ -14,6 +14,14 @@
     '{% for bandname, censored_bandname in bandnames %}'
         bandnames["{{bandname}}"] = '{{censored_bandname}}'
     '{% endfor %}'
+
+    function refresh_bn_wheel(bandnames) { 
+        var refreshed_bandnames = {}
+        for (var i = 0; i < bandnames['bandnames'].length; i++) {
+            refreshed_bandnames[bandnames['bandnames'][i][0]] = bandnames['bandnames'][i][1]
+        }
+        wheel.setNewBandnames(refreshed_bandnames)
+    }    
 </script>
 
 <div id = 'pillars-div'>
@@ -28,9 +36,8 @@
         <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
 
         <!-- Bandname Pointer -->
-        <img id="selector" src="{% static 'images/merle_selector.png' %}"/>
+        <img id="selector" class="noselect"draggable="false" src="{% static 'images/merle_selector.png' %}"/>
     </div>
-    
     
     <div class = "contents">
 
@@ -40,6 +47,8 @@
         <!-- Bandnames Wheel -->
         <div class = "sketch-div cursor-horns" id = "bandnames-wheel" style="touch-action:none"></div>
         
+        <!-- Doth thou deem this band righteous? -->
+        <h3 id="doth-text" class="center" style="color: white; margin-top: 0px;">Doth thou deem this band righteous?</h3>
         <!-- Vote on bandname -->
         <div class = "vote-div">
             <!-- <h3 style="text-align: center; color: white; margin-bottom: 0;">Doth thou deem this bandname righteous?</h3> -->

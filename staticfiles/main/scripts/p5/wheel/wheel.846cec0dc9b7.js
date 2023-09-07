@@ -110,6 +110,7 @@ class Wheel {
 
     /* Populate wheel with bandnames */
     populateWheel() {
+        console.log(this.bandnames)
         var keys = Object.keys(this.bandnames);
         var values = Object.values(this.bandnames);
         var random_i;

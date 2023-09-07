@@ -1,7 +1,7 @@
 # These functions return JSON responses, either successful or failed */ 
 
 from .models import Bandname
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth.models import User
 from accounts.models import Profile
@@ -97,7 +97,7 @@ def vote(request):
                     ) 
 
                     # Refresh the wheel with new bandnames
-                    bandnames = get_bandnames(Bandname.objects.count())
+                    bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
                     for new_bandname in bandnames:
                         cleaned_list.append(new_bandname.bandname)
 
@@ -125,7 +125,7 @@ def vote(request):
                         save_vote(request, voted_bandname)
                         voted_bandname.ip_addresses_voted.append(get_client_ip(request))
                         voted_bandname.save()
-                        bandnames = get_bandnames(Bandname.objects.count())
+                        bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
                         cleaned_list = []
                         for new_bandname in bandnames:
                             cleaned_list.append(new_bandname.bandname)
@@ -367,5 +367,13 @@ def top_bandnames_7_days(request):
     
     response = {
         "data": top_ten_bandnames,
+    }
+    return JsonResponse(response)
+
+def refresh_wheel(request):
+    bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
+    cleaned_list = censor_bandnames(bandnames)
+    response = {
+        "bandnames": cleaned_list
     }
     return JsonResponse(response)

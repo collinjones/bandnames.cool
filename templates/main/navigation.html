@@ -4,8 +4,13 @@
     <div id="sign-div">
         <img class="noselect" draggable = false src="{% static 'images/arch_sign.png' %}" id="arch-sign"></img>
         <div id="website-logo">
-            <a href="{% url 'index' %}"><img class="noselect" draggable = false src="{% static 'images/bandnames.png' %}" id="website-logo-img"></img></a>
-            <img class="noselect" draggable = false src="{% static 'gifs/cool.gif' %}" id="website-logo-gif"></img>
+            <a href="{% url 'index' %}">
+                <img class="noselect" draggable = false src="{% static 'images/bandnames.png' %}" id="website-logo-img"></img>
+            </a>
+            <a href="/refresh_wheel">
+                <img class="noselect static" draggable=false src="{% static 'images/cool.png' %}">
+                <img id="website-logo-gif" class="noselect active" draggable=false src="{% static 'gifs/cool.gif' %}" id="website-logo-gif">
+            </a>
         </div>
         <div class="noselect" id="nav-links">
             {% if user.is_authenticated %}

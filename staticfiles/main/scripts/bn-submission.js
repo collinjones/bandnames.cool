@@ -167,3 +167,21 @@ $(document).ready(function () {
         ]
     });
 });
+
+$("#website-logo-gif").click(function(e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: "Refreshing Wheel..." }); 
+    $.ajax({
+        type: 'GET',
+        url: '/refresh_wheel',
+        data: {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            refresh_bn_wheel(data);
+            setTimeout(function() {
+                $.unblockUI();
+            }, 500); 
+        }
+    });
+})

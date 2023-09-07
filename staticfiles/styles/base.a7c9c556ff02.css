@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.691fa0504a2d.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -17,30 +17,30 @@ body {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('../fonts/pixel.ttf');
+    src: url("../fonts/pixel.6bb6308744b3.ttf");
 }
 
 @font-face {
     font-family: 'Win95';
-    src: url('../fonts/win95.ttf');
+    src: url("../fonts/win95.772fa67643ce.ttf");
 }
 
 .cursor-text {
-    cursor: url("../images/cursor-text.png"), auto;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto;
 }
 
 .cursor-default {
-    cursor: url("../images/cursor-default.png"), auto;
+    cursor: url("../images/cursor-default.7cf271181c71.png"), auto;
 }
 
 .cursor-horns {
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 .pixelated-font {
@@ -50,7 +50,7 @@ input[type="text"] {
 /* Links */
 a {
     color: #e48ce5;
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 .current {
@@ -334,6 +334,7 @@ table.dataTable tbody td {
     margin-bottom: 15px;
     width: 430px;
     height: 175px;
+    margin-top: 42px;
 }
 
 #bandnames-wheel {
@@ -814,25 +815,4 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     height: 50%;
     margin: auto;
     padding-top: 41px;
-}
-
-.center {
-    text-align: center;
-}
-
-#doth-text {
-    visibility: hidden;
-}
-
-.static {
-    width: 110px;
-    position: absolute;
-    bottom: 17px;
-    image-rendering: crisp-edges;
-    z-index: 2;
-    left: 106px;
-}
-
-.static:hover {
-    opacity: 0
 }

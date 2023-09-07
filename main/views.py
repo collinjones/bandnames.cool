@@ -1,13 +1,10 @@
-from unicodedata import name
 from django.shortcuts import render
 from .models import Bandname
 from .forms import CreateBandname, CreateBatchBandname
-from django.contrib.auth import login
 from django.contrib.auth.models import User
 from .utils import *
 from .form_functions import *
 from django.utils.timezone import now
-import random
 
 # Sets up and renders the submission page
 def index(request):
@@ -17,19 +14,11 @@ def index(request):
     collection_len = Bandname.objects.count()
     cleaned_list = []
     profanity_filter = True
-
-    with open('static/main/quips/bandname_quips.txt') as f:
-        random_quip = random.choice(f.readlines())
-        random_quip = random_quip.replace("&&&", str(Bandname.objects.count()))
-
-    # Get bandnames for the wheel
-    if collection_len != 0:
-        bandnames = get_bandnames(collection_len)
-
-    # Censor each bandname
-    for bandname in bandnames:
-        cleaned_list.append((bandname.bandname, censor_bandname(bandname.bandname)))
-
+    
+    random_quip = get_random_quip('static/main/quips/bandname_quips.txt')
+    bandnames = get_random_bandnames_for_wheel(collection_len)
+    cleaned_list = censor_bandnames(bandnames)
+    
     # Sets up homepage if user is authenticated
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.id)

@@ -1,5 +1,7 @@
 /* p5 static/p5/wheel/wheel.js - class file containing the bandnames wheel */
 
+var doth_text;
+
 class Clock {
     constructor(interval) {
         this.clock_started = millis();
@@ -58,26 +60,27 @@ class Wheel {
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
 
         /* Wheel settings */
-        this.stopVelocity = 0.10;  // lower numbers stop the wheel at a higher velocity
+        this.stopVelocity = 0.10;          // lower numbers stop the wheel at a higher velocity
         this.slower_velocity_threshold = 0.50;
-        this.slowRate = -0.01;       // lower numbers slow the wheel faster
+        this.slowRate = -0.01;             // lower numbers slow the wheel faster
         this.slow_rate_slower = -0.05;
-        this.angle = 0;              // initial angle of wheel
-        this.pastAngle = 0;          // previous frame angle
-        this.angleV = 0.0;           // initial angle velocity
-        this.angleA = 0;             // initial angle acceleration
-        this.color = color;          // color of the wheel 
+        this.angle = 0;                    // initial angle of wheel
+        this.pastAngle = 0;                // previous frame angle
+        this.angleV = 0.0;                 // initial angle velocity
+        this.angleA = 0;                   // initial angle acceleration
+        this.color = color;                // color of the wheel 
         this.state = this.states.Stopped;  // initial state of the wheel
         this.rotations = 0;
         this.rotations_final = 0;
-        this.populateWheel();
         this.clock = new Clock(100);
         this.bn_glow_clock = new Clock(100);
         this.alpha = 0;
+        this.populateWheel();
     }
 
     setNewBandnames(bandnames) {
         this.bandnames = bandnames
+        this.repopulateWheel();
     }
 
     /* Repopulate wheel with new bandnames */
@@ -107,7 +110,6 @@ class Wheel {
 
     /* Populate wheel with bandnames */
     populateWheel() {
-
         var keys = Object.keys(this.bandnames);
         var values = Object.values(this.bandnames);
         var random_i;
@@ -128,7 +130,6 @@ class Wheel {
             if (Object.keys(this.bandnamesOnWheel).length == keys.length){
                 break;
             }
-
         }
         
         // Depending on the # of bn on the wheel, get the degrees of an even separation 
@@ -139,6 +140,8 @@ class Wheel {
     /* Slow the wheel down if its spinning */
     slowDownWheel() {
         if (this.state == this.states.Spinning) {
+
+            doth_text.css('visibility', 'hidden')
             if (this.angleV <= this.slower_velocity_threshold){
                 this.angleV += this.angleV * this.slow_rate_slower;
             } else {
@@ -156,10 +159,7 @@ class Wheel {
 
         
         // For each bandname on the wheel
-        for (var i = 0; i < keys.length; i++) {
-
-            // Check if picker has gone over a line
-            
+        for (var i = 0; i < keys.length; i++) {  
             if ((this.angle > (this.evenSeparatorDeg * i)) && (this.angle < (this.evenSeparatorDeg * i) + this.evenSeparatorDeg)) {
 
                 // Save previous bandname selected
@@ -191,11 +191,13 @@ class Wheel {
             this.rotations = 0 
 
             // Choose the final bandname and return true
+            doth_text.css('visibility', 'visible')
             this.chooseBandname();
             return true
         }
 
         // WHEEL SPINNING 
+        doth_text.css('visibility', 'hidden')
         this.chooseBandname();  // Select the current bandname 
         this.pastAngle = this.angle;  // Save the last angle
 
@@ -219,7 +221,6 @@ class Wheel {
     /* Main wheel logic, updates the wheel */
     update() {
 
-        // Ensure mouse is inside canvas
         if (mouseInsideCanvas()) {
             if (mouseIsPressed) {
                 this.state = this.states.Spinning
@@ -279,6 +280,7 @@ class Wheel {
 
     /* Render the bandnames on the wheel */
     renderBandnames() {
+
         // Set up the text settings. 
         this.setUpTextSettings();
 

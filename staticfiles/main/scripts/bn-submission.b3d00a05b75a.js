@@ -178,6 +178,7 @@ $("#website-logo-gif").click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
+            console.log(data)
             refresh_bn_wheel(data);
             setTimeout(function() {
                 $.unblockUI();

@@ -4,6 +4,7 @@ from django.utils.timezone import now
 from profanity.extras import ProfanityFilter
 from random import randint
 from django.contrib.auth.models import User
+import random
 
 def deleted_bandname_cleanup():
     bandnames = Bandname.objects.all()
@@ -109,6 +110,13 @@ def censor_bandname(bandname):
     censored_bandname = ' '.join(censored_bandname_list)
     return censored_bandname
 
+def censor_bandnames(bandnames):
+    cleaned_list = []
+    # Censor each bandname
+    for bandname in bandnames:
+        cleaned_list.append((bandname.bandname, censor_bandname(bandname.bandname)))
+    return cleaned_list
+
 def censor_all_bandnames():
     bandnames = Bandname.objects.all()
     for bandname in bandnames:
@@ -177,23 +185,23 @@ def band_bins(collection_len):
         
     return wheel_indices  
 
-# get_bandnames returns a list of 11 random bandnames 
-def get_bandnames(collection_len):
-    
-    bandnames = []
-    if collection_len > 8:
-        bandname_indices = band_bins(collection_len) 
-
-    # Only use binning if more than 8 bandnames exist 
-    for x in range(collection_len):
+# get_random_bandnames_for_wheel returns a list of 11 random bandnames 
+def get_random_bandnames_for_wheel(collection_len):
+    if collection_len != 0:
+        bandnames = []
         if collection_len > 8:
-            bandnames.append(Bandname.objects.all()[bandname_indices[x]])
-        else:
-            bandnames.append(Bandname.objects.all()[x])
-        if len(bandnames) == 8:
-            break
+            bandname_indices = band_bins(collection_len) 
 
-    return bandnames
+        # Only use binning if more than 8 bandnames exist 
+        for x in range(collection_len):
+            if collection_len > 8:
+                bandnames.append(Bandname.objects.all()[bandname_indices[x]])
+            else:
+                bandnames.append(Bandname.objects.all()[x])
+            if len(bandnames) == 8:
+                break
+
+        return bandnames
 
 # Saves a bandname vote to the database
 def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
@@ -280,3 +288,9 @@ def get_ip_address(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def get_random_quip(fpath):
+    with open(fpath) as f:
+        random_quip = random.choice(f.readlines())
+        random_quip = random_quip.replace("&&&", str(Bandname.objects.count()))
+        return random_quip

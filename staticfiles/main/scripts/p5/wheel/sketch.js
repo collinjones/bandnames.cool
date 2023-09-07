@@ -12,6 +12,7 @@ var final_rotations;
 // var button;
 var spinButton;
 // var stopButton;
+doth_text = $('#doth-text')
 
 var font;
 var tick_sfx;
@@ -55,6 +56,7 @@ function draw() {
 
     /* No name selected yet */
     if (Object.keys(wheel.bandnameSelected).length === 0) {
+        doth_text.css('visibility', 'hidden')
         heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click Here to Spin the Wheel! </span>"
     } 
     /* A new name selected */
@@ -148,7 +150,6 @@ function preload() {
     picker = loadImage('static/images/picker.png')
     font = loadFont('static/fonts/pixel.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
-    
     const dir_root = "static/gifs/wheel/frame_";
     let file_type = ".png";
     let final_dir = "";
