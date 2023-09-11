@@ -24,11 +24,10 @@ def index(request):
         user = User.objects.get(pk=request.user.id)
         user.profile.last_ip_address = get_client_ip(request)
         user.profile.last_logged_in = now().strftime("%Y-%m-%d")
-
         user.save()
         profanity_filter = user.profile.profanity_filter
 
-    # Is database empty?
+    # If Database is empty just display no bandnames available
     if collection_len == 0:
         cleaned_list.append(('No Bandnames Available', 'No Bandnames Available'))
 

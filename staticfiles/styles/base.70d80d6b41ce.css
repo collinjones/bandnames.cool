@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.691fa0504a2d.png");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -17,30 +17,30 @@ body {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('../fonts/pixel.ttf');
+    src: url("../fonts/pixel.6bb6308744b3.ttf");
 }
 
 @font-face {
     font-family: 'Win95';
-    src: url('../fonts/win95.ttf');
+    src: url("../fonts/win95.772fa67643ce.ttf");
 }
 
 .cursor-text {
-    cursor: url("../images/cursor-text.png"), auto;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto;
 }
 
 .cursor-default {
-    cursor: url("../images/cursor-default.png"), auto;
+    cursor: url("../images/cursor-default.7cf271181c71.png"), auto;
 }
 
 .cursor-horns {
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 input[type="text"] {
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 .pixelated-font {
@@ -50,7 +50,7 @@ input[type="text"] {
 /* Links */
 a {
     color: #e48ce5;
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 .current {
@@ -65,7 +65,6 @@ a {
     width: 400px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 #user-submissions-div {
@@ -107,7 +106,6 @@ table.dataTable {
     width: 250px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 .odd {
@@ -137,7 +135,6 @@ table.dataTable {
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     width: 450px;
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 table.dataTable tbody td {
@@ -205,14 +202,12 @@ table.dataTable tbody td {
     width: 100%;
     height: 490px;
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 #nav-img {
     width: 425px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 #arch-sign {
@@ -258,7 +253,6 @@ table.dataTable tbody td {
     z-index: 1;
     transform: translateX(-50%);
     left: 50%;
-    pointer-events: none;
 }
 
 #voting-system {
@@ -439,13 +433,11 @@ table.dataTable tbody td {
 #login-img {
     width: 300px;
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 #signup-img {
     width: 300px;
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 #signup-div {
@@ -503,7 +495,6 @@ table.dataTable tbody td {
 #vote-img {
     width: 60px;
     image-rendering: crisp-edges;
-    pointer-events: none;
 }
 
 #bandname-selected {
@@ -525,7 +516,6 @@ table.dataTable tbody td {
 #hallway-img {
     width: 750px;
     height: 100%;
-    pointer-events: none;
 }
 
 #pillars-div {
@@ -533,7 +523,6 @@ table.dataTable tbody td {
     height: 942px;
     margin: auto;
     position: relative;
-    pointer-events: none;
 }
 
 #pillar-img-right {
@@ -545,7 +534,6 @@ table.dataTable tbody td {
     height: 942px;
     image-rendering: crisp-edges;
     z-index: 1;
-    pointer-events: none;
 }
 
 #pillar-img-left {
@@ -557,7 +545,6 @@ table.dataTable tbody td {
     height: 942px;
     image-rendering: crisp-edges;
     z-index: 1;
-    pointer-events: none;
 }
 
 @media only screen and (max-width: 700px) {
@@ -657,7 +644,6 @@ table.dataTable tbody td {
     height: 25px;
     font-family: "Win95";
     margin-top: 155px;
-    text-decoration: none;
 }
 
 #submit-form-profile-text{
@@ -672,7 +658,6 @@ table.dataTable tbody td {
     height: 25px;
     font-family: "Win95";
     margin-top: 155px;
-    text-decoration: none;
 }
 
 #submit-form-login-text{
@@ -688,26 +673,9 @@ table.dataTable tbody td {
     height: 25px;
     font-family: "Win95";
     margin-top: 155px;
-    text-decoration: none;
 }
 
 #submit-form-register-text{
-    margin: 0;
-    color: black;
-    
-}
-
-#submit-form-logout-link{
-    position: absolute;
-    left: 480px;
-    width: 89px;
-    height: 25px;
-    font-family: "Win95";
-    margin-top: 155px;
-    text-decoration: none;
-}
-
-#submit-form-logout-text{
     margin: 0;
     color: black;
     
@@ -806,7 +774,6 @@ table.dataTable tbody td {
 #profile-body-top-img {
     width: 100%;
     height: 725px;
-    pointer-events: none;
 }
 
 table.dataTable thead > tr > th.sorting::after, 

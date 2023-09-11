@@ -73,6 +73,7 @@
             {% if user.is_authenticated %}
             <p id="bn-submission-text">Submit a bandname to the wheel. To view the bandnames you have submitted, select 'Profile'.</p>
             <a href="{% url 'profile' %}" id="submit-form-profile-link"><p id="submit-form-profile-text">Profile</p></a>
+            <a href="{% url 'logout' %}" id="submit-form-logout-link"><p id="submit-form-logout-text">Logout</p></a>
             {% else %}
             <p id="bn-submission-text">Submit a bandname to the wheel. Select 'Register' and create an account to view your submitted bandnames.</p>
             <a href="{% url 'login' %}" id="submit-form-login-link"><p id="submit-form-login-text">Login</p></a>

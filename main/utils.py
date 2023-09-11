@@ -1,4 +1,3 @@
-from ipaddress import ip_address
 from .models import Bandname
 from django.utils.timezone import now
 from profanity.extras import ProfanityFilter

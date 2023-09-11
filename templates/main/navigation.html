@@ -8,8 +8,7 @@
                 <img class="noselect" draggable = false src="{% static 'images/bandnames.png' %}" id="website-logo-img"></img>
             </a>
             <a href="/refresh_wheel">
-                <img class="noselect static" draggable=false src="{% static 'images/cool.png' %}">
-                <img id="website-logo-gif" class="noselect active" draggable=false src="{% static 'gifs/cool.gif' %}" id="website-logo-gif">
+                <img id="website-logo-gif" onmouseleave="set_logo_static()" onmouseover="set_logo_active()" class="noselect active" draggable=false src="{% static 'gifs/cool.gif' %}" id="website-logo-gif">
             </a>
         </div>
         <div class="noselect" id="nav-links">
@@ -32,3 +31,20 @@
         </div>
     </div>
 </div>
+
+<!-- Swaps the .cool logo between png and gif depending on if the user is hovering or not  -->
+<script>
+    function set_logo_active(){
+        var logo = document.getElementById("website-logo-gif");
+        logo.src = "{% static 'gifs/cool.gif' %}";
+        logo.classList.remove("static");
+        logo.classList.add("active");
+    }
+
+    function set_logo_static(){
+        var logo = document.getElementById("website-logo-gif");
+        logo.src = "{% static 'images/cool.png' %}";
+        logo.classList.remove("active");
+        logo.classList.add("static");
+    }
+</script>

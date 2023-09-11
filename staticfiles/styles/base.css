@@ -836,3 +836,7 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
 .static:hover {
     opacity: 0
 }
+
+.win95-font {
+    font-family: "Win95";
+}

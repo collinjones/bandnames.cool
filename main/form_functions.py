@@ -1,7 +1,7 @@
 # These functions return JSON responses, either successful or failed */ 
 
 from .models import Bandname
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth.models import User
 from accounts.models import Profile
@@ -11,6 +11,9 @@ from datetime import date
 from datetime import timedelta
 from .utils import *
 import math
+from django.http import HttpResponse
+from django.utils import timezone
+from datetime import timedelta 
 
 # `create` gets called when the user submits the bandname submission form
 def create(request):
@@ -349,6 +352,13 @@ def get_top_ten_users(request):
     }
     return JsonResponse(response)
 
+def get_bandnames_submitted_today(request):
+    today = date.today()
+    bandnames_submitted_today_count = len(list(Bandname.objects
+        .filter(date_submitted = today)))
+    print(bandnames_submitted_today_count)
+    
+
 def top_bandnames_7_days(request):
 
     today = date.today()
@@ -370,10 +380,18 @@ def top_bandnames_7_days(request):
     }
     return JsonResponse(response)
 
+# Refreshes the bandname wheel with new bandnames if .cool was pressed
 def refresh_wheel(request):
-    bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
-    cleaned_list = censor_bandnames(bandnames)
-    response = {
-        "bandnames": cleaned_list
-    }
-    return JsonResponse(response)
+
+    valid_referers = ['http://127.0.0.1:8000/', 'https://www.bandnames.cool/']
+    referer = request.META['HTTP_REFERER']
+    
+    if referer in valid_referers:
+        bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
+        cleaned_list = censor_bandnames(bandnames)
+        response = {
+            "bandnames": cleaned_list
+        }
+        return JsonResponse(response)
+    else:
+        return HttpResponse(status=204)
