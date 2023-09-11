@@ -65,7 +65,7 @@ a {
     width: 400px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 #user-submissions-div {
@@ -107,7 +107,7 @@ table.dataTable {
     width: 250px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 .odd {
@@ -137,7 +137,7 @@ table.dataTable {
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     width: 450px;
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 table.dataTable tbody td {
@@ -205,14 +205,14 @@ table.dataTable tbody td {
     width: 100%;
     height: 490px;
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 #nav-img {
     width: 425px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 #arch-sign {
@@ -258,7 +258,7 @@ table.dataTable tbody td {
     z-index: 1;
     transform: translateX(-50%);
     left: 50%;
-    pointer-events: none;
+    
 }
 
 #voting-system {
@@ -439,13 +439,13 @@ table.dataTable tbody td {
 #login-img {
     width: 300px;
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 #signup-img {
     width: 300px;
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 #signup-div {
@@ -503,7 +503,7 @@ table.dataTable tbody td {
 #vote-img {
     width: 60px;
     image-rendering: crisp-edges;
-    pointer-events: none;
+    
 }
 
 #bandname-selected {
@@ -525,7 +525,7 @@ table.dataTable tbody td {
 #hallway-img {
     width: 750px;
     height: 100%;
-    pointer-events: none;
+    
 }
 
 #pillars-div {
@@ -533,7 +533,7 @@ table.dataTable tbody td {
     height: 942px;
     margin: auto;
     position: relative;
-    pointer-events: none;
+    
 }
 
 #pillar-img-right {
@@ -545,7 +545,7 @@ table.dataTable tbody td {
     height: 942px;
     image-rendering: crisp-edges;
     z-index: 1;
-    pointer-events: none;
+    
 }
 
 #pillar-img-left {
@@ -557,7 +557,7 @@ table.dataTable tbody td {
     height: 942px;
     image-rendering: crisp-edges;
     z-index: 1;
-    pointer-events: none;
+    
 }
 
 @media only screen and (max-width: 700px) {
@@ -806,7 +806,7 @@ table.dataTable tbody td {
 #profile-body-top-img {
     width: 100%;
     height: 725px;
-    pointer-events: none;
+    
 }
 
 table.dataTable thead > tr > th.sorting::after, 
