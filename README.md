@@ -1,7 +1,4 @@
-
-[<img src="static/images/'Website Logo w Merle.png'")
-
-[![Foo](https://www.bandnames.cool/)](http://google.com.au/)
+[<img src="static/images/website_logo.png>](http://google.com.au/)
 
 
 bandnames.cool is a bandname aggregate website. We love cool bandnames. This website was created by a bunch of boys who loved keeping lists of cool bandnames they thought of.
