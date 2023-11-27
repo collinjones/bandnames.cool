@@ -19,7 +19,7 @@ bandnames.cool is a bandname aggregate website. We love cool bandnames. This web
 ---
 
 ## Python Version
-Uses `Python 3.10.8`
+Uses `Python 3.11.6`
 
 ## Technical Details
 I use env variables to protect the database since I don't want anyone messing with it, but the code is free to browse.
