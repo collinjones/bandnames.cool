@@ -383,15 +383,9 @@ def top_bandnames_7_days(request):
 # Refreshes the bandname wheel with new bandnames if .cool was pressed
 def refresh_wheel(request):
 
-    valid_referers = ['http://127.0.0.1:8000/', 'https://www.bandnames.cool/']
-    referer = request.META['HTTP_REFERER']
-    
-    if referer in valid_referers:
-        bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
-        cleaned_list = censor_bandnames(bandnames)
-        response = {
-            "bandnames": cleaned_list
-        }
-        return JsonResponse(response)
-    else:
-        return HttpResponse(status=204)
+    bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
+    cleaned_list = censor_bandnames(bandnames)
+    response = {
+        "bandnames": cleaned_list
+    }
+    return JsonResponse(response)
