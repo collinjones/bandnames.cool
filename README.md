@@ -2,7 +2,7 @@
 [<img src="static/images/website_logo.png">](https://www.bandnames.cool/)
 
 Bandnames.cool is a website driven by a community of people who love coming up with bandnames. Submit your own or spin the wheel to find out the name of your next band! 
-Built from a place of nostalgia for days of geo cities, Bandnames.cool is three boys' passion project. We hope that our website inpires you to finally start that band. 
+Built from a place of nostalgia for days of geo cities, Bandnames.cool is three boys' passion project, and our hopes are that our website inpires you to finally start that band. 
 
 # Features
 
