@@ -23,10 +23,5 @@ Built from a place of nostalgia for days of geo cities, Bandnames.cool is three 
 ## Python Version
 Uses `Python 3.11.6`
 
-## Technical Details
-I use env variables to protect the database since I don't want anyone messing with it, but the code is free to browse.
-
-The two apps in this project are `accounts` and `main`. `main` handles most of the website logic, while I have `accounts` handle the management of a user's profile. 
-
 ### p5.js
 The interactable bandname wheel is a p5.js I built then embedded. I'm able to pass data to the sketch to populate the wheel, then use some simple geometry with the wheel to calculate where the picker has "landed". Finally the sketch updates the innerHTML of an element on the page, which I can then reference using jQuery when a user decides to vote on it. 
