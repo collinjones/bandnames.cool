@@ -31,3 +31,5 @@ The interactable bandname wheel is a p5.js I built then embedded. I'm able to pa
 
 ### scaling
 A problem I ran into with the DataTables table plugin for jQuery was increasingly long response times when populating a table with 5 - 600 bandnames. The solution was server-side processing with pagination. The server only ever returns 100 bandnames at the maximum now, so the site can scale without issue. 
+
+test
