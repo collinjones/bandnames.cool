@@ -1,6 +1,6 @@
 auth_test.py::SubmissionTest::test_submitting_batch_date_num
 --------------------------------------------------------------------
-Last Page: http://127.0.0.1:8000/accounts/profile/
+Last Page: http://127.0.0.1:8000/registration/profile/
   Browser: firefox (104.0.2)
    Driver: geckodriver (0.31.0)
 Timestamp: 1663916567  (Unix Timestamp)
