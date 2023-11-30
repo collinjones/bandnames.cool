@@ -1,4 +1,4 @@
-# accounts/forms.py
+# registration/forms.py
 from django import forms
 
 class Vote(forms.Form):

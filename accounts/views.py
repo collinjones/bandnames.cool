@@ -1,4 +1,4 @@
-# accounts/views.py
+# registration/views.py
 
 import math
 from django.http import HttpResponse, HttpResponseRedirect
@@ -6,30 +6,27 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from accounts.models import Profile
 from main.models import Bandname
 from .utils import *
 from main.utils import *
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
+def accounts(request):
 
-def Registration(request):
-
+    # If user submitted the registration form, get it
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+
+        # Save new user and log them in
         if form.is_valid():
-            # new_profile = Profile(
-            #     user = form.cleaned_data['username']
-            #     profanity_filter = 
-            # )
             new_user = form.save()
             new_user = authenticate(username=form.cleaned_data['username'],
                                     password=form.cleaned_data['password1'])
             login(request, new_user)
             return HttpResponseRedirect("/")
         
-    # Set up form if not submitted
+    # Display registration form otherwise
     form = UserCreationForm()
     ctxt = {
         "form": form,
@@ -71,6 +68,7 @@ def ProfanityToggle(request):
 
     return HttpResponse(profanity)
 
+# Server-side pagination for the user submissions table
 def get_rows(request):
     if request.method == "GET":
         search_query = request.GET.get('search[value]')
