@@ -56,11 +56,11 @@
             <form enctype="multipart/form-data" method="post" id="vote-form">
                 {% csrf_token %}
                 <a onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" type="submit" draggable = false value="Submit"  id = "upvote-link">
-                    <span id="upvote-text">Righteous</span>
+                    <span id="upvote-text">Upvote</span>
                     <img class="noselect cursor-horns" id="upvote-button" src="static/images/uv1.png"/>
                 </a>
                 <a id = "downvote-link" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" type="submit" draggable = false value="Submit" >
-                    <span id="downvote-text">Blasphemous</span>
+                    <span id="downvote-text">Downvote</span>
                     <img id="downvote-button" class="noselect cursor-horns" src="static/images/dv1.png"/>
                 </a>
             </form>
@@ -77,7 +77,7 @@
             {% else %}
             <p id="bn-submission-text">Submit a bandname to the wheel. Select 'Register' and create an account to view your submitted bandnames.</p>
             <a href="{% url 'login' %}" id="submit-form-login-link"><p id="submit-form-login-text">Login</p></a>
-            <a href="{% url 'accounts' %}" id="submit-form-register-link"><p id="submit-form-register-text">Register</p></a>
+            <a href="{% url 'registration' %}" id="submit-form-register-link"><p id="submit-form-register-text">Register</p></a>
             {% endif %} 
             <form enctype="multipart/form-data" method="post" id="post-form">
                 <input id="bandname" class="cursor-text" placeholder="Start typing...">
