@@ -200,7 +200,24 @@ def get_random_bandnames_for_wheel(collection_len):
             if len(bandnames) == 8:
                 break
 
+        # If a band has a score <= -3, it has the inverted percent 
+        # chance (-2 is 80%, -8 is 20%, etc) of being rerolled for a band that has a score of 0 or higher. 
+        for i, bandname in enumerate(bandnames):
+            if bandname.score <= -3:
+                chance_of_being_rerolled = convert_negative_score_to_chance(bandname.score)
+                print('Chance of being rerolled: ' + str(chance_of_being_rerolled))
+                if round(random.uniform(0, 1), 1) < chance_of_being_rerolled:
+                    random_idx = randint(0, collection_len - 1)
+                    righteous_bandname = Bandname.objects.all().exclude(score__lte=-1)[random_idx]
+                    bandnames[i] = righteous_bandname
+                    
         return bandnames
+    
+def convert_negative_score_to_chance(score):
+    if score <= -10:
+        return 0.0
+    else:
+        return round((10 + score) / 10, 2)
 
 # Saves a bandname vote to the database
 def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
