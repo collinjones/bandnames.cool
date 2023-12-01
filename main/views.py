@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .utils import *
 from .form_functions import *
 from django.utils.timezone import now
+from django.shortcuts import redirect
 
 # Sets up and renders the submission page
 def index(request):
@@ -65,3 +66,17 @@ def batch_submit(request):
         "form": form
     }
     return render(request, "../templates/main/batch_submission.html", context=ctxt)
+
+# Refreshes the bandname wheel with new bandnames if .cool was pressed
+def refresh_wheel(request):
+
+    if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/' or \
+    request.META.get('HTTP_REFERER') == 'https://www.bandnames.cool/':
+        bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
+        cleaned_list = censor_bandnames(bandnames)
+        response = {
+            "bandnames": cleaned_list
+        }
+        return JsonResponse(response)
+    else:
+        return redirect('/')

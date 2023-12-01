@@ -41,7 +41,6 @@ def ProfileView(request):
         
     if request.user.is_authenticated:        
         template = "registration/profile.html"
-        print(user.profile.profanity_filter)
         ctxt = {
             "user": request.user,
             "profanity_filter": request.user.profile.profanity_filter,

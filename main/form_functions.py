@@ -7,13 +7,9 @@ from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.template.loader import render_to_string
 from django.utils.timezone import now
-from datetime import date
-from datetime import timedelta
+from datetime import date, timedelta
 from .utils import *
-import math
-from django.http import HttpResponse
-from django.utils import timezone
-from datetime import timedelta 
+import math 
 
 # `create` gets called when the user submits the bandname submission form
 def create(request):
@@ -377,15 +373,5 @@ def top_bandnames_7_days(request):
     
     response = {
         "data": top_ten_bandnames,
-    }
-    return JsonResponse(response)
-
-# Refreshes the bandname wheel with new bandnames if .cool was pressed
-def refresh_wheel(request):
-
-    bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
-    cleaned_list = censor_bandnames(bandnames)
-    response = {
-        "bandnames": cleaned_list
     }
     return JsonResponse(response)

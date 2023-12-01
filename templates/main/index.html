@@ -15,6 +15,7 @@
         bandnames["{{bandname}}"] = '{{censored_bandname}}'
     '{% endfor %}'
 
+    // Format new bandnames to be added to the wheel
     function refresh_bn_wheel(bandnames) { 
         var refreshed_bandnames = {}
         for (var i = 0; i < bandnames['bandnames'].length; i++) {
