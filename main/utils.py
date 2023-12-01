@@ -187,11 +187,14 @@ def band_bins(collection_len):
 # get_random_bandnames_for_wheel returns a list of 11 random bandnames 
 def get_random_bandnames_for_wheel(collection_len):
     if collection_len != 0:
+        reroll_chance_threshold = -3
         bandnames = []
-        if collection_len > 8:
-            bandname_indices = band_bins(collection_len) 
+        righteous_bandnames = Bandname.objects.all().exclude(score__lte=-1)
+        righteous_bandnames_len = righteous_bandnames.count()
 
         # Only use binning if more than 8 bandnames exist 
+        if collection_len > 8:
+            bandname_indices = band_bins(collection_len) 
         for x in range(collection_len):
             if collection_len > 8:
                 bandnames.append(Bandname.objects.all()[bandname_indices[x]])
@@ -200,23 +203,14 @@ def get_random_bandnames_for_wheel(collection_len):
             if len(bandnames) == 8:
                 break
 
-        # If a band has a score <= -3, it has the inverted percent 
-        # chance (-2 is 80%, -8 is 20%, etc) of being rerolled for a band that has a score of 0 or higher. 
+        # Algorithm to potentially reroll bandnames with a score of -3 or lower
+        # The lower the score, the higher the chance of being rerolled, max is -10 (100%). 
         for i, bandname in enumerate(bandnames):
-            if bandname.score <= -3:
-                chance_of_being_rerolled = convert_negative_score_to_chance(bandname.score)
-                if round(random.uniform(0, 1), 1) < chance_of_being_rerolled:
-                    random_idx = randint(0, collection_len - 1)
-                    righteous_bandname = Bandname.objects.all().exclude(score__lte=-1)[random_idx]
-                    bandnames[i] = righteous_bandname
+            if bandname.score <= reroll_chance_threshold:
+                if round(random.uniform(0, 1), 1) < 1.0 if bandname.score <= -10 else (-1*bandname.score/10):
+                    bandnames[i] = Bandname.objects.all().exclude(score__lte=-1)[randint(0, righteous_bandnames_len)]
 
         return bandnames
-    
-def convert_negative_score_to_chance(score):
-    if score <= -10:
-        return 1.0
-    else:
-        return (-1*score/10)
 
 # Saves a bandname vote to the database
 def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
