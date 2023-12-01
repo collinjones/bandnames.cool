@@ -8,11 +8,11 @@ bandnames.cool is a bandname aggregate website. We love cool bandnames. This web
 
 🥁 Submit bandnames to the community! 
 
-⚙️ Spin a wheel that delivers you a new bandname each time you vote!
+🌀 Spin a wheel that delivers you a new bandname each time you vote!
 
 🎸 Collect bandnames that you voted on!
 
-🎹 See how your bandnames are scoring on your profile!
+💯 See how your bandnames are scoring on your profile!
 
 📚 View site-wide statistics such as top rated bandnames/users and more!
 
