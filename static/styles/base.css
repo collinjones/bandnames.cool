@@ -352,6 +352,7 @@ table.dataTable tbody td {
     transform: translateX(-50%);
     top: -73px;
     touch-action: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 #wheel-controls {
