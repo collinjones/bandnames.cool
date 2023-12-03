@@ -8,7 +8,6 @@ function reset_table(table, tableId) {
 
 function get_column_titles(data) {
     var columns = [];
-    console.log(data)
     $.each( data['data'][0], function( key, value ) {
 
         var my_item = {};
@@ -178,6 +177,7 @@ $(document).on('change','#bandalytics_selection',function(){
                 }
                 var columns = get_column_titles(data)
                 reset_table(table, tableId)
+                console.log(data)
 
                 table = $(tableId).DataTable({
                     "scrollY": "180",

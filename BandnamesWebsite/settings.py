@@ -17,6 +17,7 @@ from django.conf import settings
 import django_heroku
 import dj_database_url
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -111,7 +112,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -138,9 +138,11 @@ django_heroku.settings(locals())
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bandnames.cool','https://*.127.0.0.1']
 
+print(os.getenv('DJANGO_DEVELOPMENT'))
 # Configure connection to development database and enable debug if 
 # the DJANGO_DEVELOPMENT environment variable is set to true
 if os.getenv('DJANGO_DEVELOPMENT') == 'true':
+    print('Running in Dev Environment')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -152,3 +154,5 @@ if os.getenv('DJANGO_DEVELOPMENT') == 'true':
         }
     }
     DEBUG = True
+else:
+    print('Running in Production Environment')

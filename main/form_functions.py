@@ -10,6 +10,7 @@ from django.utils.timezone import now
 from datetime import date, timedelta
 from .utils import *
 import math 
+from django.utils.timezone import get_current_timezone
 
 # `create` gets called when the user submits the bandname submission form
 def create(request):
@@ -39,11 +40,15 @@ def create(request):
             
             # Try to create a new bandname 
             if create_bandname(request, new_bandname_str, request.user.is_authenticated):
+                tz = get_current_timezone()
+                stored_date = timezone.now()
+                desired_date = stored_date + tz.utcoffset(stored_date)
                 json_response = {
                                 'bandname': new_bandname_str,
                                 'username': request.user.username if request.user.is_authenticated \
                                                                   else "Anonymous",
                                 'score': 0,
+                                'date_submitted': desired_date,
                                 'response_msg': "Submitted bandname: '" + new_bandname_str + "'",
                                 }
             else:
@@ -347,6 +352,35 @@ def get_top_ten_users(request):
         "data": top_ten_users,
     }
     return JsonResponse(response)
+
+def get_righteous_ratio(request):
+    total = Bandname.objects.count()
+    righteous_count = len(list(Bandname.objects.filter(score__gt=0)))
+    blasphemous_count = len(list(Bandname.objects.filter(score__lt=0)))
+    limbo_count = len(list(Bandname.objects.filter(score=0)))
+
+    righteous_percentage = (righteous_count / total) * 100
+    blasphemous_percentage = (blasphemous_count / total) * 100
+    limbo_percentage = (limbo_count / total) * 100
+
+    # "righteous_percentage": righteous_percentage,
+    # "blasphemous_percentage": blasphemous_percentage,
+    # "righteous_count": righteous_count,
+    # "blasphemous_count": blasphemous_count,
+
+    response = {
+        "data": [{
+            "Righteous": round(righteous_percentage, 2),
+            "Blasphemous": round(blasphemous_percentage, 2),
+            "Limbo": round(limbo_percentage, 2),
+        }]
+    }
+    return JsonResponse(response)
+
+def calculate_percentage(split1, split2, total):
+    percentage1 = (split1 / total) * 100
+    percentage2 = (split2 / total) * 100
+    return percentage1, percentage2
 
 def get_bandnames_submitted_today(request):
     today = date.today()
