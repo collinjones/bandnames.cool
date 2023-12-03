@@ -14,7 +14,8 @@
       "justMyCode": true,
       "env": {
         "DJANGO_DEVELOPMENT": "true"
-      }
+      },
+      "postDebugTask": "kill_server"
     },
     {
       "name": "Bandnames.cool Prod",
@@ -26,7 +27,8 @@
       "justMyCode": true,
       "env": {
         "DJANGO_DEVELOPMENT": "false"
-      }
+      },
+      "postDebugTask": "kill_server"
     },
   ]
 }

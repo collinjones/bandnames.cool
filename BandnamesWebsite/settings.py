@@ -142,7 +142,10 @@ print(os.getenv('DJANGO_DEVELOPMENT'))
 # Configure connection to development database and enable debug if 
 # the DJANGO_DEVELOPMENT environment variable is set to true
 if os.getenv('DJANGO_DEVELOPMENT') == 'true':
-    print('Running in Dev Environment')
+    print('== STARTING DEV ENVIRONMENT ==\n')
+    print('Debug mode is enabled')
+    print('Database is set to local postgresql database\n')
+    print("========================================\n")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -155,4 +158,8 @@ if os.getenv('DJANGO_DEVELOPMENT') == 'true':
     }
     DEBUG = True
 else:
-    print('Running in Production Environment')
+    print('== STARTING DEV ENVIRONMENT ==\n')
+    print('Debug mode is disabled')
+    print('Database is set to production heroku/aws database')
+    print('BE CAREFUL!!\n')
+    print("========================================\n")

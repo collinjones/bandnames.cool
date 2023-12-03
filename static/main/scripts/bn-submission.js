@@ -1,16 +1,5 @@
 var unblockUI_timeout = 2000;
 
-/* Adds the bandname to the Annals of Voted Bandnames after submission */
-function add_bandname_to_voted_history(data) {
-    var bandname = data['bandname_json']['bandname']
-    var score = data['bandname_json']['score']
-    var table = $('#bandnames-table-voted').DataTable();
-    table.row.add({
-        "bandname": bandname,
-        "score": score
-    }).draw();
-}
-
 $(document).keypress(
     function (event) {
         if (event.which == '13') {
@@ -63,14 +52,13 @@ $("#upvote-link" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            $('#bandname-selected').attr("value", "")
+            $('#bandname-selected').attr("value", data['bandname'])
             if (data.hasOwnProperty('vote_msg')){
                 $.blockUI({ message: data['vote_msg']});  
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
                     $.getScript("/static/main/scripts/remove_vote.js")
-                    add_bandname_to_voted_history(data)
                 }
                 
                 var bandnames = {}
@@ -100,14 +88,13 @@ $("#downvote-link" ).click(function(e) {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            $('#bandname-selected').attr("value", "")
+            $('#bandname-selected').attr("value", data['bandname'])
             if (data.hasOwnProperty('vote_msg')){
                 $.blockUI({ message: data['vote_msg']});
             }
             if (data.hasOwnProperty('bandname_json')) {
                 if (data['bandname_json']['authenticated'] == "True") {
                     $.getScript("/static/main/scripts/remove_vote.js")
-                    add_bandname_to_voted_history(data)
                 }
                 var bandnames = {}
                 for (var i = 0; i < data['bandname_json']['filtered_new_bandnames'].length; i++) {

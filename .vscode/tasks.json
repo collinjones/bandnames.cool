@@ -5,5 +5,10 @@
         "label": "collectstatic",
         "command": "python3 manage.py collectstatic",
         "type": "shell"
+    },
+    {
+        "label": "kill_server",
+        "command": "./kill_server.sh",
+        "type": "shell"
     }]
 }

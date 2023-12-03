@@ -115,7 +115,7 @@ def censor_bandnames(bandnames):
     cleaned_list = []
     # Censor each bandname
     for bandname in bandnames:
-        cleaned_list.append((bandname.bandname, censor_bandname(bandname.bandname)))
+        cleaned_list.append((bandname, censor_bandname(bandname)))
     return cleaned_list
 
 def censor_all_bandnames():
@@ -185,6 +185,7 @@ def band_bins(collection_len):
         wheel_indices.append(rand_int)
         
     return wheel_indices  
+    
 
 # get_random_bandnames_for_wheel returns a list of 11 random bandnames 
 def get_random_bandnames_for_wheel(collection_len):
@@ -212,60 +213,34 @@ def get_random_bandnames_for_wheel(collection_len):
                 if round(random.uniform(0, 1), 1) < 1.0 if bandname.score <= -10 else (-1*bandname.score/10):
                     bandnames[i] = Bandname.objects.all().exclude(score__lte=-1)[randint(0, righteous_bandnames_len - 1)]
 
-        return bandnames
+        return_list = []
+        for new_bandname in bandnames:
+            return_list.append(new_bandname.bandname)
+        return return_list
 
-# Saves a bandname vote to the database
-def save_vote(request, voted_bandname, duplicate_vote = None, user = None):
+def save_vote(judgement, bandname, ip_address, user = None):
+    """
+    Updates a bandname's score/ip addresses voted list. 
+        If a user is supplied, the bandname is added to their voted bandnames list.
+    """
 
-    vote_value = request.POST['val']
-
-    if vote_value == "up":
-        voted_bandname.score += 1
+    bandname.ip_addresses_voted.append(ip_address)
+    print(bandname.ip_addresses_voted)
+    # Get the vote direction and update the bandname's score
+    if judgement == "up":
+        bandname.score += 1
     else:
-        voted_bandname.score -= 1
+        bandname.score -= 1
 
+    # If user was supplied, add the bandname to their voted_bandnames list
     if user:
-        if not duplicate_vote:
-            user.profile.voted_bandnames[voted_bandname.bandname] = {
-                "score" : voted_bandname.score,
-                "username" : voted_bandname.username,
-                "date_submitted" : voted_bandname.date_submitted.strftime('%m/%d/%Y'),
-            }
+        user.profile.voted_bandnames[bandname] = {
+            "score" : bandname.score,
+            "username" : bandname.username,
+            "date_submitted" : bandname.date_submitted.strftime('%m/%d/%Y'),
+        }
         user.save()
-
-    voted_bandname.save()
-    
-
-def create_vote_json_response(request, voted_bandname, cleaned_list, table_template = None, user = None):
-
-    vote_value = request.POST['val']
-    
-    filter = ProfanityFilter()
-    json_response = {
-            'vote_msg': "Voted up '" + voted_bandname.bandname + "'"} if vote_value == 'up' \
-        else { 
-            'vote_msg': "Voted down '" + voted_bandname.bandname + "'"
-    }
-
-    if user:
-        json_response['bandname_json'] = {
-            'bandname': filter.censor(voted_bandname.bandname) if user.profile.profanity_filter \
-                                                            else voted_bandname.bandname,
-            'username': voted_bandname.username,
-            'score': voted_bandname.score,
-            'authenticated': "True",
-            'new_bandnames': cleaned_list,
-            'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
-            'table_content_template': table_template
-        }
-    else:
-        json_response['bandname_json'] = {
-            'score': voted_bandname.score,
-            'authenticated': "False",
-            'new_bandnames': cleaned_list,
-            'filtered_new_bandnames': [filter.censor(x) for x in cleaned_list],
-        }
-    return json_response
+    bandname.save()
 
 def by_name(list):
     return list.get('bandname')
@@ -306,8 +281,50 @@ def get_random_quip(fpath):
         random_quip = random_quip.replace("&&&", str(Bandname.objects.count()))
         return random_quip
     
-def get_mytimezone_date(original_datetime):
-    new_datetime = datetime.strptime(original_datetime, '%Y-%m-%d')
-    tz = timezone.get_current_timezone()
-    timzone_datetime = timezone.make_aware(new_datetime, tz, True)
-    return timzone_datetime.date()
+def build_judgement_json(request, judgement, bandname, default_bandname_selected_text):
+    ip = get_client_ip(request)
+    voted = True
+    if 'bandname' in request.POST:
+
+        # Get the user object if authenticated
+        user = User.objects.get(pk=request.user.id) if request.user.is_authenticated else None
+
+        # Ensure requester has spun the wheel
+        if request.POST['bandname'].strip() != default_bandname_selected_text and request.POST['bandname'] != '':
+
+            # Ensure user has not already voted on the bandname
+            if request.user.is_authenticated:
+                if bandname not in user.profile.voted_bandnames:
+                    voted = False
+            
+            # Ensure the IP address has not already voted on the bandname
+            if ip not in bandname.ip_addresses_voted:
+                voted = False
+            else:
+                voted = True
+
+            if not voted:
+                save_vote(judgement, bandname, ip, user)
+                refresh_list = get_random_bandnames_for_wheel(Bandname.objects.count())
+                json_response = {
+                        'vote_msg': "Voted up '" + bandname.bandname + "'"} if judgement == 'up' \
+                    else { 
+                        'vote_msg': "Voted down '" + bandname.bandname + "'"
+                }
+                json_response['bandname_json'] = {
+                    'authenticated': "False",
+                    'new_bandnames': refresh_list,
+                    'filtered_new_bandnames': [ProfanityFilter().censor(x) for x in refresh_list],
+                }
+            else:
+                json_response = { 
+                    'vote_msg': "Already voted: '" + bandname.bandname + "'", 
+                    'authenticated': request.user.is_authenticated
+                }
+        else:
+            json_response = { 
+                'vote_msg': "Spin the wheel!", 
+                'authenticated': request.user.is_authenticated
+            }
+
+    return json_response

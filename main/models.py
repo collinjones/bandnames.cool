@@ -15,4 +15,4 @@ class Bandname(models.Model):
     ip_addresses_voted = ArrayField(models.GenericIPAddressField(default = '0.0.0.0'), default = ['0.0.0.0'])
     
     def __str__(self):
-        return  self.bandname
+        return  str(self.bandname)
