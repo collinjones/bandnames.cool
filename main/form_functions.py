@@ -62,94 +62,21 @@ def create(request):
 # `vote` gets called when the user votes on a bandname
 def vote(request):
 
+    # TODO - Get this dynamically somehow. Possibly from the request. 
     default_bandname_selected_text = 'Click Here to Spin the Wheel!'
-
     json_response = { 
         'vote_msg': 'Error', 
-        'authenticated': "False"
+        'authenticated': request.user.is_authenticated
     }
+    
     if request.method == "POST":
-        
-        # User-Based Voting - user is logged in
-        if request.user.is_authenticated:
-            if 'bandname' in request.POST:
 
-                # Ensure the user has spun the wheel to get a bandname
-                if request.POST['bandname'].strip() != default_bandname_selected_text and request.POST['bandname'] != '':
-                    
-                    user = User.objects.get(pk=request.user.id)
-                    voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-                    duplicate_vote = voted_bandname.bandname in user.profile.voted_bandnames
+        # Get bandname as an object
+        print(request.POST['bandname'])
+        voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
 
-                    # Return early if duplicate vote
-                    if duplicate_vote:
-                        json_response = { 
-                            'vote_msg': "Already voted: '" + voted_bandname.bandname + "'",
-                            'authenticated': "True"
-                        }
-                        return JsonResponse(json_response, safe = False) 
+        json_response = build_judgement_json(request, request.POST['val'], voted_bandname, default_bandname_selected_text)
 
-                    voted_list_count = len(user.profile.voted_bandnames)       
-                    cleaned_list = []
-                    table_template = render_to_string(
-                        "../templates/main/voted_table_content.html", 
-                        context = {
-                            "bandname" : voted_bandname,
-                            "id" : voted_list_count
-                        },
-                        request = request
-                    ) 
-
-                    # Refresh the wheel with new bandnames
-                    bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
-                    for new_bandname in bandnames:
-                        cleaned_list.append(new_bandname.bandname)
-
-                    save_vote(request, voted_bandname, duplicate_vote, user = user)
-                    json_response = create_vote_json_response(
-                        request, voted_bandname, cleaned_list, table_template, user
-                    )
-                else:
-                    json_response = { 
-                        'vote_msg': 'Spin the wheel!', 
-                        'authenticated': "True"
-                    }
-            else:
-                json_response = { 
-                    'vote_msg': 'Spin the wheel!', 
-                    'authenticated': "True"
-                }
-
-        # IP-Based Voting - anonymous user
-        else:
-            if 'bandname' in request.POST:
-                if request.POST['bandname'] != '':
-                    voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-                    if (get_client_ip(request) not in voted_bandname.ip_addresses_voted):
-                        save_vote(request, voted_bandname)
-                        voted_bandname.ip_addresses_voted.append(get_client_ip(request))
-                        voted_bandname.save()
-                        bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
-                        cleaned_list = []
-                        for new_bandname in bandnames:
-                            cleaned_list.append(new_bandname.bandname)
-
-                        json_response = create_vote_json_response(request, voted_bandname, cleaned_list)
-                    else:
-                        json_response = { 
-                            'vote_msg': "Already voted: '" + voted_bandname.bandname + "'",
-                            'authenticated': "False"
-                        }
-                else:
-                    json_response = { 
-                        'vote_msg': 'Spin the wheel first!', 
-                        'authenticated': "False"
-                    }
-            else:
-                json_response = { 
-                    'vote_msg': 'Spin the wheel first!', 
-                    'authenticated': "False"
-                }
     return JsonResponse(json_response, safe = False) 
 
 # `batch_create` gets called when a user submits the batch creation form
@@ -188,65 +115,6 @@ def batch_create(request):
 
         else:
             json_response = {"response_msg" : "Please login to submit a batch"}
-
-    return JsonResponse(json_response, safe = False)
-
-# `remove_bandname` called when a user clicks the remove button (trashcan) next to a voted bandname
-def remove_bandname(request):
-
-    json_response = {'response_msg': "Some error occurred"}
-
-    # Ensure the request method is POST and the user is logged in
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-
-            user = User.objects.get(pk=request.user.id)
-            bandname_str = request.POST['bandname']
-            bandname_obj = Bandname.objects.get(bandname=bandname_str)
-
-            try:
-                del user.profile.voted_bandnames[bandname_str]
-            except:
-                print('please refresh')
-
-            bandname_obj.score -= 1
-
-            user.save()
-            bandname_obj.save()
-
-            json_response = { 
-                'bandname': bandname_str,
-                'response_msg': 'Your vote on %s has been uncast' % bandname_str,
-            }
-
-    return JsonResponse(json_response, safe = False)
-
-# `delete_bandname` called when a user clicks the remove button (trashcan) next to a user bandname
-def delete_bandname(request):
-
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-
-            user = User.objects.get(pk=request.user.id)
-            bandname_str = request.POST['bandname']
-            bandname_obj = Bandname.objects.get(bandname=bandname_str)
-            all_users = User.objects.filter()
-
-            # Remove the bandname from other users' voted bandnames list
-            for user in all_users.iterator():
-                try:
-                    if bandname_str in user.profile.voted_bandnames:
-                        del user.profile.voted_bandnames[bandname_str]
-                except:
-                    pass # Bandname not in voted list
-
-            # Delete the bandname
-            bandname_obj.delete()
-
-            json_response = { 
-                'bandname': bandname_str,
-                'response_msg': 'Your bandname %s has been deleted' % bandname_str,
-            }
 
     return JsonResponse(json_response, safe = False)
 
