@@ -234,7 +234,7 @@ def save_vote(judgement, bandname, ip_address, user = None):
 
     # If user was supplied, add the bandname to their voted_bandnames list
     if user:
-        user.profile.voted_bandnames[bandname] = {
+        user.profile.voted_bandnames[bandname.bandname] = {
             "score" : bandname.score,
             "username" : bandname.username,
             "date_submitted" : bandname.date_submitted.strftime('%m/%d/%Y'),
