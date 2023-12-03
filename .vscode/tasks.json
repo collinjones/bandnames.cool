@@ -1,0 +1,9 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+    {
+        "label": "collectstatic",
+        "command": "python3 manage.py collectstatic",
+        "type": "shell"
+    }]
+}

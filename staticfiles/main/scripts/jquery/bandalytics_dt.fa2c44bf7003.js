@@ -8,7 +8,6 @@ function reset_table(table, tableId) {
 
 function get_column_titles(data) {
     var columns = [];
-    console.log(data)
     $.each( data['data'][0], function( key, value ) {
 
         var my_item = {};
@@ -173,12 +172,12 @@ $(document).on('change','#bandalytics_selection',function(){
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             },
             success: function (data) {
+                console.log(columns)
                 if (data.hasOwnProperty('response_msg')){
                     $('#submission-status').html(data['response_msg']);
                 }
                 var columns = get_column_titles(data)
                 reset_table(table, tableId)
-
                 table = $(tableId).DataTable({
                     "scrollY": "180",
                     "scrollX": false,

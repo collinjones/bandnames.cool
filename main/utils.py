@@ -4,6 +4,8 @@ from profanity.extras import ProfanityFilter
 from random import randint
 from django.contrib.auth.models import User
 import random
+from datetime import datetime
+from django.utils import timezone
 
 def deleted_bandname_cleanup():
     bandnames = Bandname.objects.all()
@@ -208,7 +210,7 @@ def get_random_bandnames_for_wheel(collection_len):
         for i, bandname in enumerate(bandnames):
             if bandname.score <= reroll_chance_threshold:
                 if round(random.uniform(0, 1), 1) < 1.0 if bandname.score <= -10 else (-1*bandname.score/10):
-                    bandnames[i] = Bandname.objects.all().exclude(score__lte=-1)[randint(0, righteous_bandnames_len)]
+                    bandnames[i] = Bandname.objects.all().exclude(score__lte=-1)[randint(0, righteous_bandnames_len - 1)]
 
         return bandnames
 
@@ -303,3 +305,9 @@ def get_random_quip(fpath):
         random_quip = random.choice(f.readlines())
         random_quip = random_quip.replace("&&&", str(Bandname.objects.count()))
         return random_quip
+    
+def get_mytimezone_date(original_datetime):
+    new_datetime = datetime.strptime(original_datetime, '%Y-%m-%d')
+    tz = timezone.get_current_timezone()
+    timzone_datetime = timezone.make_aware(new_datetime, tz, True)
+    return timzone_datetime.date()

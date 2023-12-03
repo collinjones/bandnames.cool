@@ -8,10 +8,14 @@ function reset_table(table, tableId) {
 
 function get_column_titles(data) {
     var columns = [];
+    console.log(data)
     $.each( data['data'][0], function( key, value ) {
+
         var my_item = {};
         my_item.data = key
         my_item.title = key.replace("_", " ");
+
+        // Replace date submitted with Submitted
         if (my_item.title == "date submitted") {
             my_item.title = "Submitted"
         }
@@ -140,7 +144,6 @@ $(document).on('change','#bandalytics_selection',function(){
                 if (data.hasOwnProperty('response_msg')){
                     $('#submission-status').html(data['response_msg']);
                 }
-                var columns = get_column_titles(data)
                 reset_table(table, tableId)
                 
                 table = $(tableId).DataTable({
@@ -156,6 +159,40 @@ $(document).on('change','#bandalytics_selection',function(){
                         "type" : "GET",
                         "url": "/top_bandnames_7_days"
                     },
+                });
+            }
+        }); 
+    }
+
+    else if (selectedVal == "righteous_ratio") {
+        $.ajax({
+            type: 'GET',
+            url: '/get_righteous_ratio',
+            data: {
+                user: $(this).attr("value"),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                if (data.hasOwnProperty('response_msg')){
+                    $('#submission-status').html(data['response_msg']);
+                }
+                var columns = get_column_titles(data)
+                reset_table(table, tableId)
+
+                table = $(tableId).DataTable({
+                    "scrollY": "180",
+                    "scrollX": false,
+                    "paging": false,
+                    "bInfo" : false,
+                    "autoWidth": false, 
+                    "searching": false,
+                    "bDestroy": true,
+                    "order": [ 2, 'desc' ],
+                    ajax: {
+                        "type" : "GET",
+                        "url": "/get_righteous_ratio"
+                    },
+                    "columns": columns
                 });
             }
         }); 

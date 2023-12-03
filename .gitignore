@@ -1,4 +1,6 @@
 .DS_Store
+migrate.sh
 run.sh 
+dev_migrate.sh
 dev_run.sh 
 kill_server.sh
