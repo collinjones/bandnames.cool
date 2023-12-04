@@ -70,12 +70,7 @@ def vote(request):
     }
     
     if request.method == "POST":
-
-        # Get bandname as an object
-        print(request.POST['bandname'])
-        voted_bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-
-        json_response = build_judgement_json(request, request.POST['val'], voted_bandname, default_bandname_selected_text)
+        json_response = build_judgement_json(request, request.POST['val'], default_bandname_selected_text)
 
     return JsonResponse(json_response, safe = False) 
 

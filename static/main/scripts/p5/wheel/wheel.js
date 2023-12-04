@@ -88,6 +88,13 @@ class Wheel {
         this.bandnamesOnWheel = {}
         this.populateWheel();
     }
+
+    reset_wheel() {
+        this.angle = 0;
+        this.pastAngle = 0;
+        this.bandnameSelected = {}
+        this.previousBandnameSelected = {}
+    }
     
     replace_char_codes(keys, values) {
 
@@ -141,8 +148,9 @@ class Wheel {
     slowDownWheel() {
         if (this.state == this.states.Spinning) {
 
+            // While wheel is spinning, hide the doth_test and slow down the wheel
             doth_text.css('visibility', 'hidden')
-            if (this.angleV <= this.slower_velocity_threshold){
+            if (abs(this.angleV) <= this.slower_velocity_threshold){
                 this.angleV += this.angleV * this.slow_rate_slower;
             } else {
                 this.angleV += this.angleV * this.slowRate;
@@ -153,19 +161,20 @@ class Wheel {
     /* Selects the bandname relative to what angle the wheel is at */
     chooseBandname() {
 
-        const len = Object.keys(this.bandnamesOnWheel).length
         const keys = Object.keys(this.bandnamesOnWheel)
         const values = Object.values(this.bandnamesOnWheel)
-
+        const len = keys.length
         
         // For each bandname on the wheel
-        for (var i = 0; i < keys.length; i++) {  
-            if ((this.angle > (this.evenSeparatorDeg * i)) && (this.angle < (this.evenSeparatorDeg * i) + this.evenSeparatorDeg)) {
+        for (var i = 0; i < len; i++) {  
+            let angle_slice = this.evenSeparatorDeg * i
 
-                // Save previous bandname selected
+            // Angle is greater than the even separator times the index of the wheel 
+            // Angle is less than the 
+            if ((this.angle > angle_slice) 
+             && (this.angle < angle_slice + this.evenSeparatorDeg)) {
+
                 this.previousBandnameSelected = this.bandnameSelected;
-                
-                // Select the bandname 
                 this.bandnameSelected = {[keys[len - (i + 1)]]: values[len - (i + 1)]}
             }
         }
@@ -176,7 +185,7 @@ class Wheel {
     checkAndStopWheel() {
 
         // WHEEL STOPPED
-        if (this.angleV < this.stopVelocity || this.angleV < 0) {
+        if (abs(this.angleV) < this.stopVelocity || abs(this.angleV) < 0) {
             
             // Set the clock interval back to resting
             this.clock.set_interval(100)
@@ -223,37 +232,46 @@ class Wheel {
 
         if (mouseInsideCanvas()) {
             if (mouseIsPressed) {
+
+                // Set the state to spinning if not and reset the angle velocity
                 this.state = this.states.Spinning
                 this.angleV = 0;
 
-                mousePosX = mouseY
-                mousePosY = mouseY
+                // Get change in mouse position X and Y
                 let dy = mouseY - pmouseY;
-                this.angle = this.pastAngle + dy * 0.5;
+                let dx = -(mouseX - pmouseX);
+                if (mouseX <= width/2) {
+                    dy *= -1; // flip dy if mouse is on the left side of the wheel
+                }
+
+                // Dampen the speed of the wheel while dragging and update the angle
+                let drag_dampener = 0.25 // lower numbers make the wheel spin slower
+                this.angle = this.pastAngle + ((dx + dy) * drag_dampener);
                 this.pastAngle = this.angle;
             }
         }
 
-        push();
-        translate(width/2, 50);
+        // Rotate the wheel (img) and bandnames
+        let dist_from_top = 50
+        translate(width/2, dist_from_top);
         rotate(this.angle);
         this.render();
-        translate(-width/2, 50);
-        pop();
+        translate(-width/2, dist_from_top);
 
-        // this.renderPointer();
         this.slowDownWheel();
         this.checkAndStopWheel();
         this.checkAndResetAngle();
 
+        // Update angle and angle velocity
         wheel.angle += wheel.angleV;
         wheel.angleV += wheel.angleA;
 
+        // tick the clocks
         this.clock.tick();
         this.bn_glow_clock.tick();
     }
 
-    /* Reset the wheel if its angle hits 360 degrees */
+    /* Reset the wheel if angle crosses 360/0 degrees */
     checkAndResetAngle() {
         if (this.angle >= 360) {
             this.pastAngle = 0;
@@ -289,8 +307,9 @@ class Wheel {
         }
 
         // Rotate half the even separator 
-        rotate(this.evenSeparatorDeg / 2)
+        rotate(this.evenSeparatorDeg/2)
         rotate(-10)
+
         // Space out the bandnames evenly 
         for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
 

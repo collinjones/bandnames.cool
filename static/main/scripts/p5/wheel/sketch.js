@@ -30,12 +30,8 @@ function setup() {
     background(255, 204, 0, 0)
     frameRate(60);
 
-    // button = select('#mute-button')
-    // button.mousePressed(muteCanvas)
     spinButton = select('#bandname-selected')
     spinButton.mousePressed(spinWheel)
-    // stopButton = select('#stop-button')
-    // stopButton.mousePressed(stopWheel)
 
     final_rotations = 0
     tick_sfx.setVolume(0.1)
@@ -74,21 +70,18 @@ function draw() {
     }
 
     if (wheel.state == "spinning" || Object.keys(wheel.bandnameSelected).length === 0) {
-        document.getElementById("upvote-button").disabled = true; 
-        document.getElementById("downvote-button").disabled = true; 
+        document.getElementById("upvote-link").disabled = true; 
+        document.getElementById("downvote-link").disabled = true; 
     }
     else {
-        document.getElementById("upvote-button").disabled = false; 
-        document.getElementById("downvote-button").disabled = false; 
+        document.getElementById("upvote-link").disabled = false; 
+        document.getElementById("downvote-link").disabled = false; 
     }
 
     if (voted) {
         heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> No bandname selected - SPIN THE WHEEL</span>"
         heading.setAttribute("value", "")
-        wheel.angle = 0;
-        wheel.pastAngle = 0;
-        wheel.bandnameSelected = {}
-        wheel.previousBandnameSelected = {}
+        wheel.reset_wheel()
         voted = false;
     }
     
@@ -108,6 +101,7 @@ function mouseReleased() {
         if (mousePosX != mouseX && mousePosY != mouseY) {
             let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
             wheel.angleV = v2.heading() - wheel.pAngle;
+            
         }
     }
 }
@@ -153,8 +147,9 @@ function preload() {
     const dir_root = "static/gifs/wheel/frame_";
     let file_type = ".png";
     let final_dir = "";
+    let wheel_imgs_count = 26
 
-    for (var x = 1; x <= 26; x++) {
+    for (var x = 1; x <= wheel_imgs_count; x++) {
         final_dir = dir_root + x.toString() + file_type
         this.wheel_imgs.push(loadImage(final_dir))
     }
