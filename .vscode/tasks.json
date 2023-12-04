@@ -8,7 +8,7 @@
     },
     {
         "label": "kill_server",
-        "command": "./kill_server.sh",
+        "command": "scripts/kill_server.sh",
         "type": "shell"
     }]
 }

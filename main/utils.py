@@ -281,17 +281,15 @@ def get_random_quip(fpath):
         random_quip = random_quip.replace("&&&", str(Bandname.objects.count()))
         return random_quip
     
-def build_judgement_json(request, judgement, bandname, default_bandname_selected_text):
+def build_judgement_json(request, judgement, default_bandname_selected_text):
     ip = get_client_ip(request)
     voted = True
     if 'bandname' in request.POST:
-
         # Get the user object if authenticated
         user = User.objects.get(pk=request.user.id) if request.user.is_authenticated else None
-
-        # Ensure requester has spun the wheel
-        if request.POST['bandname'].strip() != default_bandname_selected_text and request.POST['bandname'] != '':
-
+        if request.POST['bandname'] != '':
+            bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+            
             # Ensure user has not already voted on the bandname
             if request.user.is_authenticated:
                 if bandname not in user.profile.voted_bandnames:
@@ -321,10 +319,15 @@ def build_judgement_json(request, judgement, bandname, default_bandname_selected
                     'vote_msg': "Already voted: '" + bandname.bandname + "'", 
                     'authenticated': request.user.is_authenticated
                 }
-        else:
+        else: 
             json_response = { 
                 'vote_msg': "Spin the wheel!", 
                 'authenticated': request.user.is_authenticated
             }
+    else:
+        json_response = { 
+            'vote_msg': "Spin the wheel!", 
+            'authenticated': request.user.is_authenticated
+        }
 
     return json_response
