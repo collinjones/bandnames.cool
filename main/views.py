@@ -9,7 +9,6 @@ from django.shortcuts import redirect
 
 # Sets up and renders the submission page
 def index(request):
-    
     form = CreateBandname()
     bandnames = []
     collection_len = Bandname.objects.count()
