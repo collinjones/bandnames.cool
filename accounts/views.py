@@ -11,6 +11,7 @@ from .utils import *
 from main.utils import *
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from .forms import SetPasswordForm
 
 def accounts(request):
 
@@ -31,6 +32,7 @@ def accounts(request):
     ctxt = {
         "form": form,
         "title": "Bandnames.cool | Sign Up",
+        "footer_text": "© 2023 Bandnames.cool",
     }
     return render (request, "registration/signup.html", ctxt)
 
@@ -46,6 +48,8 @@ def ProfileView(request):
             "profanity_filter": request.user.profile.profanity_filter,
             "score": set_user_score(user, user_submissions),
             "title": "Bandnames.cool | Profile",
+            "footer_text": "© 2023 Bandnames.cool",
+            
         }
     else:
         return redirect("/")
@@ -129,3 +133,9 @@ def get_rows(request):
             "recordsFiltered": submission_count,
         }
         return JsonResponse(response)
+    
+def password_change(request):
+    user = request.user 
+    print('hello')
+    form = SetPasswordForm(user)
+    return render(request, 'registration/password_reset_form.html', {'form': form})
