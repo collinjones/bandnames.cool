@@ -8,11 +8,8 @@ var v2;
 var mousePosX;
 var mousePosY;
 var final_rotations;
-
-// var button;
 var spinButton;
-// var stopButton;
-doth_text = $('#doth-text')
+var doth_text = $('#doth-text')
 
 var font;
 var tick_sfx;
@@ -31,7 +28,7 @@ function setup() {
     frameRate(60);
 
     spinButton = select('#bandname-selected')
-    spinButton.mousePressed(spinWheel)
+    spinButton.mousePressed(handleSpinButton)
 
     final_rotations = 0
     tick_sfx.setVolume(0.1)
@@ -84,12 +81,19 @@ function draw() {
         wheel.reset_wheel()
         voted = false;
     }
+
     
 }
 
-function mouseDragged() {
+function mousePressed() {
     if (mouseInsideCanvas()) {
-        // Set wheel heading to correct 
+        wheel.mouseStartedInsideCanvas = true
+    }
+
+}
+
+function mouseDragged() {
+    if (wheel.mouseStartedInsideCanvas) { 
         wheel.angleV = 0;
         let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
         wheel.pAngle = v.heading();
@@ -97,12 +101,13 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-    if (mouseInsideCanvas()) {
-        if (mousePosX != mouseX && mousePosY != mouseY) {
+    if (mousePosX != mouseX && mousePosY != mouseY) {
+        if (wheel.mouseStartedInsideCanvas) {
             let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
             wheel.angleV = v2.heading() - wheel.pAngle;
-            
         }
+        wheel.mouseStartedInsideCanvas = false
+        
     }
 }
 
@@ -127,16 +132,15 @@ function muteCanvas() {
 }
 
 // Function for spin wheel button
-function spinWheel() {
-    if (wheel.angleV < 10) {
-        wheel.angleV = Math.random() * 20 + 5;
-    }
-}
+function handleSpinButton() {
 
-function stopWheel() {
-    if (wheel.state == "spinning") {
-        wheel.angleV = 0;
-    }
+    if (wheel.state == wheel.states.Spinning) {
+        console.log("Stopping wheel")
+        wheel.stop(override=true)
+    } else {
+        console.log("Spinning wheel")
+        wheel.spin(Math.random() * 20 + 5)
+    } 
 }
 
 function preload() {

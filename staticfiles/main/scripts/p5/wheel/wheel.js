@@ -7,17 +7,21 @@ class Clock {
         this.clock_started = millis();
         this.last_trigger = millis();
         this.current_time = millis();
-        this.base_interval = interval;
-        this.interval = this.base_interval ;
+        this.immutable_interval = interval;
+        this.mutable_interval = this.base_interval ;
+    }
+
+    reset_interval() {
+        this.mutable_interval = this.base_interval;
     }
 
     get_interval() {
-        return this.interval;
+        return this.mutable_interval;
     }
 
     /* Sets the clock interval with a conversion from millis to sec */
-    set_interval(interval) {
-        this.interval = interval;
+    set_interval(new_interval) {
+        this.mutable_interval = new_interval;
     }
     
     // Update the clock
@@ -33,7 +37,7 @@ class Clock {
     /* Checks If the difference between the current time and the last trigger is 
         greater than the interval, returns True if so.  */
     trigger() {
-        if (this.current_time - this.last_trigger > this.interval) {
+        if (this.current_time - this.last_trigger > this.mutable_interval) {
             this.reset_trigger();
             return true;
         }
@@ -67,6 +71,7 @@ class Wheel {
         this.angle = 0;                    // initial angle of wheel
         this.pastAngle = 0;                // previous frame angle
         this.angleV = 0.0;                 // initial angle velocity
+        this.maxAngleV = 40;              // initial max angle velocity
         this.angleA = 0;                   // initial angle acceleration
         this.color = color;                // color of the wheel 
         this.state = this.states.Stopped;  // initial state of the wheel
@@ -75,6 +80,7 @@ class Wheel {
         this.clock = new Clock(100);
         this.bn_glow_clock = new Clock(100);
         this.alpha = 0;
+        this.mouseStartedInsideCanvas = false;
         this.populateWheel();
     }
 
@@ -115,6 +121,10 @@ class Wheel {
         return [keys, values]
     }
 
+    setState(state) {
+        this.state = state;
+    }
+
     /* Populate wheel with bandnames */
     populateWheel() {
         var keys = Object.keys(this.bandnames);
@@ -144,17 +154,28 @@ class Wheel {
         this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
     }
 
-    /* Slow the wheel down if its spinning */
-    slowDownWheel() {
-        if (this.state == this.states.Spinning) {
+    hideText() {
+        doth_text.css('visibility', 'hidden')
+    }
 
-            // While wheel is spinning, hide the doth_test and slow down the wheel
-            doth_text.css('visibility', 'hidden')
+
+
+    /* Slow the wheel down if its spinning */
+    handleSpinning() {
+        if (abs(this.angleV) > this.stopVelocity) {
+            this.setState(this.states.Spinning)
+
+            this.hideText();
+
+            // Slow the wheel down
             if (abs(this.angleV) <= this.slower_velocity_threshold){
                 this.angleV += this.angleV * this.slow_rate_slower;
             } else {
                 this.angleV += this.angleV * this.slowRate;
             }
+
+            this.chooseBandname();  // Select the current bandname 
+            this.pastAngle = this.angle;  // Save the last angle
         }
     }
 
@@ -182,35 +203,94 @@ class Wheel {
 
     /* Stop the wheel if slow enough */
     // Returns true if wheel stopped, false otherwise
-    checkAndStopWheel() {
+    stop(override = false) {
 
         // WHEEL STOPPED
-        if (abs(this.angleV) < this.stopVelocity || abs(this.angleV) < 0) {
+        if (abs(this.angleV) < this.stopVelocity || override) {
             
             // Set the clock interval back to resting
-            this.clock.set_interval(100)
-            this.bn_glow_clock.set_interval(100)
-            
-            // Stop the wheel
-            this.state = this.states.Stopped
-            this.angleV = 0;
+            this.clock.reset_interval()
+            this.bn_glow_clock.reset_interval()
 
-            // Save the amount of times it rotated then reset 
+            this.state = this.states.Stopped
             this.rotations_final = this.rotations
+            this.angleV = 0;
             this.rotations = 0 
 
-            // Choose the final bandname and return true
             doth_text.css('visibility', 'visible')
             this.chooseBandname();
             return true
         }
 
-        // WHEEL SPINNING 
-        doth_text.css('visibility', 'hidden')
-        this.chooseBandname();  // Select the current bandname 
-        this.pastAngle = this.angle;  // Save the last angle
+        return false
+    }
 
+    sumMouseDyDx() {
+        let dy = mouseY - pmouseY;
+        let dx = -(mouseX - pmouseX);
+        if (mouseX <= width/2) {
+            dy *= -1; // flip dy if mouse is on the left side of the wheel
+        }
+        return dy + dx
+    }
+
+    rotateWheel() {
+        // Rotate the wheel (img) and bandnames
+        let dist_from_top = 50
+        translate(width/2, dist_from_top);
+        rotate(this.angle);
+        this.render();
+        translate(-width/2, dist_from_top);
+    }
+
+    /* Main wheel logic, updates the wheel */
+    update() {
+
+        this.handleCanvasDrag();
+        this.rotateWheel();
+        this.adjustPentagramAnimationSpeed();
+        this.handleSpinning();
+        this.stop();
+
+        
+
+        this.handleAngleBounds();
+        this.handleAngleVelocity();
+        
+        wheel.angle += wheel.angleV;
+        wheel.angleV += wheel.angleA;
+
+        this.updateClocks();
+    }
+
+    updateClocks() {
+        // tick the clocks
+        this.clock.tick();
+        this.bn_glow_clock.tick();
+    }
+
+    handleCanvasDrag() {
+        // Dragging inside canvas
+
+        if (this.mouseStartedInsideCanvas && mouseIsPressed) {
+
+            // Set the state to Stopped if not and reset the angle velocity
+            this.state = this.states.Stopped
+            this.angleV = 0;
+
+            // Get change in mouse position X and Y while dragging
+            let sumMouseChange = this.sumMouseDyDx()
+
+            // Dampen the speed of the wheel while dragging and update the angle
+            let drag_dampener = 0.25 // lower numbers make the wheel spin slower
+            this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+            this.pastAngle = this.angle;
+        }
+    }
+
+    adjustPentagramAnimationSpeed() {
         /* Speeds up or slows down the clock for the pentagram glow animation */
+
         if ((this.angleV * 8) == 0) {
             this.clock.set_interval(this.clock.base_interval)
             this.bn_glow_clock.set_interval(this.bn_glow_clock.base_interval)
@@ -218,61 +298,25 @@ class Wheel {
             this.clock.set_interval(this.clock.base_interval / (this.angleV * 10))
             this.bn_glow_clock.set_interval(this.bn_glow_clock.base_interval / (this.angleV * 10))
         }
-        
-        // Set the state to spinning if not
-        if (this.state != this.states.Spinning){
-            this.state = this.states.Spinning
-        }
-
-        return false
     }
 
-    /* Main wheel logic, updates the wheel */
-    update() {
-
-        if (mouseInsideCanvas()) {
-            if (mouseIsPressed) {
-
-                // Set the state to spinning if not and reset the angle velocity
-                this.state = this.states.Spinning
-                this.angleV = 0;
-
-                // Get change in mouse position X and Y
-                let dy = mouseY - pmouseY;
-                let dx = -(mouseX - pmouseX);
-                if (mouseX <= width/2) {
-                    dy *= -1; // flip dy if mouse is on the left side of the wheel
-                }
-
-                // Dampen the speed of the wheel while dragging and update the angle
-                let drag_dampener = 0.25 // lower numbers make the wheel spin slower
-                this.angle = this.pastAngle + ((dx + dy) * drag_dampener);
-                this.pastAngle = this.angle;
+    handleAngleVelocity() {
+        // Update angle and angle velocity
+        if (wheel.angleV > wheel.maxAngleV) {
+            if (wheel.angleV > 0) {
+                wheel.angleV = wheel.maxAngleV;
+            } else {
+                wheel.angleV = -wheel.maxAngleV;
             }
         }
+    }
 
-        // Rotate the wheel (img) and bandnames
-        let dist_from_top = 50
-        translate(width/2, dist_from_top);
-        rotate(this.angle);
-        this.render();
-        translate(-width/2, dist_from_top);
-
-        this.slowDownWheel();
-        this.checkAndStopWheel();
-        this.checkAndResetAngle();
-
-        // Update angle and angle velocity
-        wheel.angle += wheel.angleV;
-        wheel.angleV += wheel.angleA;
-
-        // tick the clocks
-        this.clock.tick();
-        this.bn_glow_clock.tick();
+    resetAngle(angle) {
     }
 
     /* Reset the wheel if angle crosses 360/0 degrees */
-    checkAndResetAngle() {
+    handleAngleBounds() {
+
         if (this.angle >= 360) {
             this.pastAngle = 0;
             this.angle = 0;
@@ -349,6 +393,11 @@ class Wheel {
             }
         }
         
+    }
+
+    spin(aV) {
+        this.angleV = aV;
+        this.state = this.states.Spinning;
     }
 
     /* Calls the other render functions in the proper order */

@@ -203,10 +203,10 @@ class Wheel {
 
     /* Stop the wheel if slow enough */
     // Returns true if wheel stopped, false otherwise
-    stop(override = false) {
+    stop() {
 
         // WHEEL STOPPED
-        if (abs(this.angleV) < this.stopVelocity || override) {
+        if (abs(this.angleV) < this.stopVelocity) {
             
             // Set the clock interval back to resting
             this.clock.reset_interval()
