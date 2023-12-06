@@ -128,7 +128,7 @@ function muteCanvas() {
 
 // Function for spin wheel button
 function spinWheel() {
-    if (wheel.angleV < 10) {
+    if (abs(wheel.angleV) < 10) {
         wheel.angleV = Math.random() * 20 + 5;
     }
 }

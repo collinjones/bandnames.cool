@@ -67,6 +67,7 @@ class Wheel {
         this.angle = 0;                    // initial angle of wheel
         this.pastAngle = 0;                // previous frame angle
         this.angleV = 0.0;                 // initial angle velocity
+        this.maxAngleV = 40;              // initial max angle velocity
         this.angleA = 0;                   // initial angle acceleration
         this.color = color;                // color of the wheel 
         this.state = this.states.Stopped;  // initial state of the wheel
@@ -185,7 +186,7 @@ class Wheel {
     checkAndStopWheel() {
 
         // WHEEL STOPPED
-        if (abs(this.angleV) < this.stopVelocity || abs(this.angleV) < 0) {
+        if (abs(this.angleV) < this.stopVelocity) {
             
             // Set the clock interval back to resting
             this.clock.set_interval(100)
@@ -227,28 +228,32 @@ class Wheel {
         return false
     }
 
+    sumMouseDyDx() {
+        let dy = mouseY - pmouseY;
+        let dx = -(mouseX - pmouseX);
+        if (mouseX <= width/2) {
+            dy *= -1; // flip dy if mouse is on the left side of the wheel
+        }
+        return dy + dx
+    }
+
     /* Main wheel logic, updates the wheel */
     update() {
 
-        if (mouseInsideCanvas()) {
-            if (mouseIsPressed) {
+        // Dragging inside canvas
+        if (mouseInsideCanvas() && mouseIsPressed) {
 
-                // Set the state to spinning if not and reset the angle velocity
-                this.state = this.states.Spinning
-                this.angleV = 0;
+            // Set the state to Stopped if not and reset the angle velocity
+            this.state = this.states.Stopped
+            this.angleV = 0;
 
-                // Get change in mouse position X and Y
-                let dy = mouseY - pmouseY;
-                let dx = -(mouseX - pmouseX);
-                if (mouseX <= width/2) {
-                    dy *= -1; // flip dy if mouse is on the left side of the wheel
-                }
+            // Get change in mouse position X and Y while dragging
+            let sumMouseChange = this.sumMouseDyDx()
 
-                // Dampen the speed of the wheel while dragging and update the angle
-                let drag_dampener = 0.25 // lower numbers make the wheel spin slower
-                this.angle = this.pastAngle + ((dx + dy) * drag_dampener);
-                this.pastAngle = this.angle;
-            }
+            // Dampen the speed of the wheel while dragging and update the angle
+            let drag_dampener = 0.25 // lower numbers make the wheel spin slower
+            this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+            this.pastAngle = this.angle;
         }
 
         // Rotate the wheel (img) and bandnames
@@ -263,6 +268,14 @@ class Wheel {
         this.checkAndResetAngle();
 
         // Update angle and angle velocity
+        if (wheel.angleV > wheel.maxAngleV) {
+            if (wheel.angleV > 0) {
+                wheel.angleV = wheel.maxAngleV;
+            } else {
+                wheel.angleV = -wheel.maxAngleV;
+            }
+        }
+        console.log(wheel.angleV)
         wheel.angle += wheel.angleV;
         wheel.angleV += wheel.angleA;
 
@@ -273,6 +286,7 @@ class Wheel {
 
     /* Reset the wheel if angle crosses 360/0 degrees */
     checkAndResetAngle() {
+        
         if (this.angle >= 360) {
             this.pastAngle = 0;
             this.angle = 0;
