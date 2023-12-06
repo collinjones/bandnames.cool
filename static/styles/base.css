@@ -906,23 +906,3 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     }
     50%  { transform: translate(0, 15px); }
 }
-
-/* .torch_glow {
-    color: #fff;
-    text-align: center;
-    -webkit-animation: glow 3s ease-in-out infinite alternate;
-    -moz-animation: glow 3s ease-in-out infinite alternate;
-    animation: glow 3s ease-in-out infinite alternate;
-  }
-  
-@keyframes torch_glow {
-    from {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(208, 108, 36), 0 0 40px #e66b00, 0 0 50px #e67300, 0 0 60px #e67f00, 0 0 70px #e67b00;
-    }
-    to {
-      text-shadow: 0 0 20px #fff, 0 0 30px #ff7f4d, 0 0 40px #ff8b4d, 0 0 50px #ffb84d, 0 0 60px #ffbb4d, 0 0 70px #ff9d4d, 0 0 80px #ffa64d;
-    }
-    0% { transform: translate(0,  0px); }
-    50%  { transform: translate(0, 15px); }
-    100%   { transform: translate(0, -0px); }  
-} */
