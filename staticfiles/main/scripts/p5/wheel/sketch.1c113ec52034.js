@@ -28,7 +28,8 @@ function setup() {
     frameRate(60);
 
     spinButton = select('#bandname-selected')
-    spinButton.mousePressed(handleSpinButton)
+    spinButton.mousePressed(spinWheel)
+    spinButton.mousePressed(stopWheel)
 
     final_rotations = 0
     tick_sfx.setVolume(0.1)
@@ -38,6 +39,7 @@ function setup() {
 }
 
 function draw() {
+    console.log(wheel.state)
 
     // Clear the canvas and update the wheel
     clear(); 
@@ -132,15 +134,16 @@ function muteCanvas() {
 }
 
 // Function for spin wheel button
-function handleSpinButton() {
-
-    if (wheel.state == wheel.states.Spinning) {
-        console.log("Stopping wheel")
-        wheel.stop(override=true)
-    } else {
-        console.log("Spinning wheel")
+function spinWheel() {
+    if (wheel.state == wheel.states.Stopped) {
         wheel.spin(Math.random() * 20 + 5)
     } 
+}
+
+function stopWheel() {
+    if (wheel.state == wheel.states.Spinning) {
+        wheel.stop()
+    }
 }
 
 function preload() {
