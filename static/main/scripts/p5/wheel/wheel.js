@@ -76,6 +76,7 @@ class Wheel {
         this.clock = new Clock(100);
         this.bn_glow_clock = new Clock(100);
         this.alpha = 0;
+        this.mouseStartedInsideCanvas = false;
         this.populateWheel();
     }
 
@@ -241,7 +242,7 @@ class Wheel {
     update() {
 
         // Dragging inside canvas
-        if (mouseInsideCanvas() && mouseIsPressed) {
+        if (this.mouseStartedInsideCanvas && mouseIsPressed) {
 
             // Set the state to Stopped if not and reset the angle velocity
             this.state = this.states.Stopped
@@ -275,7 +276,6 @@ class Wheel {
                 wheel.angleV = -wheel.maxAngleV;
             }
         }
-        console.log(wheel.angleV)
         wheel.angle += wheel.angleV;
         wheel.angleV += wheel.angleA;
 
@@ -286,7 +286,7 @@ class Wheel {
 
     /* Reset the wheel if angle crosses 360/0 degrees */
     checkAndResetAngle() {
-        
+
         if (this.angle >= 360) {
             this.pastAngle = 0;
             this.angle = 0;

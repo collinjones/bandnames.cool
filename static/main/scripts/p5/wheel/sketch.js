@@ -84,12 +84,19 @@ function draw() {
         wheel.reset_wheel()
         voted = false;
     }
+
     
 }
 
-function mouseDragged() {
+function mousePressed() {
     if (mouseInsideCanvas()) {
-        // Set wheel heading to correct 
+        wheel.mouseStartedInsideCanvas = true
+    }
+
+}
+
+function mouseDragged() {
+    if (wheel.mouseStartedInsideCanvas) { 
         wheel.angleV = 0;
         let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
         wheel.pAngle = v.heading();
@@ -97,12 +104,13 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-    if (mouseInsideCanvas()) {
-        if (mousePosX != mouseX && mousePosY != mouseY) {
+    if (mousePosX != mouseX && mousePosY != mouseY) {
+        if (wheel.mouseStartedInsideCanvas) {
             let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
             wheel.angleV = v2.heading() - wheel.pAngle;
-            
         }
+        wheel.mouseStartedInsideCanvas = false
+        
     }
 }
 
