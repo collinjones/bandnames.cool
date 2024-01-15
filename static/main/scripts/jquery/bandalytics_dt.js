@@ -190,7 +190,7 @@ $(document).on('change','#bandalytics_selection',function(){
                     "autoWidth": false, 
                     "searching": false,
                     "bDestroy": true,
-                    "order": [ 1, 'desc' ],
+                    "order": [ 2, 'desc' ],
                     ajax: {
                         "type" : "GET",
                         "url": "/get_recent_bandnames"
