@@ -132,37 +132,6 @@ $(document).on('change','#bandalytics_selection',function(){
             }
         }); 
     }
-    else if (selectedVal == "top_bandnames_7_days") {
-        $.ajax({
-            type: 'GET',
-            url: '/top_bandnames_7_days',
-            data: {
-                user: $(this).attr("value"),
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success: function (data) {
-                if (data.hasOwnProperty('response_msg')){
-                    $('#submission-status').html(data['response_msg']);
-                }
-                reset_table(table, tableId)
-                
-                table = $(tableId).DataTable({
-                    "scrollY": "180",
-                    "scrollX": false,
-                    "paging": false,
-                    "bInfo" : false,
-                    "autoWidth": false, 
-                    "searching": false,
-                    "bDestroy": true,
-                    "order": [ 2, 'desc' ],
-                    ajax: {
-                        "type" : "GET",
-                        "url": "/top_bandnames_7_days"
-                    },
-                });
-            }
-        }); 
-    }
 
     else if (selectedVal == "righteous_ratio") {
         $.ajax({
@@ -191,6 +160,40 @@ $(document).on('change','#bandalytics_selection',function(){
                     ajax: {
                         "type" : "GET",
                         "url": "/get_righteous_ratio"
+                    },
+                    "columns": columns
+                });
+            }
+        }); 
+    }
+
+    else if (selectedVal == "get_recent_bandnames") {
+        $.ajax({
+            type: 'GET',
+            url: '/get_recent_bandnames',
+            data: {
+                user: $(this).attr("value"),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                if (data.hasOwnProperty('response_msg')){
+                    $('#submission-status').html(data['response_msg']);
+                }
+                var columns = get_column_titles(data)
+                reset_table(table, tableId)
+
+                table = $(tableId).DataTable({
+                    "scrollY": "180",
+                    "scrollX": false,
+                    "paging": false,
+                    "bInfo" : false,
+                    "autoWidth": false, 
+                    "searching": false,
+                    "bDestroy": true,
+                    "order": [ 1, 'asc' ],
+                    ajax: {
+                        "type" : "GET",
+                        "url": "/get_recent_bandnames"
                     },
                     "columns": columns
                 });

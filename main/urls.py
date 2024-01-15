@@ -14,6 +14,6 @@ urlpatterns = [
     path('get_top_ten_bandnames', form_functions.get_top_ten_bandnames, name='get_top_ten_bandnames'),
     path('get_top_ten_users', form_functions.get_top_ten_users, name='get_top_ten_users'),
     path('get_righteous_ratio', form_functions.get_righteous_ratio, name='get_righteous_ratio'),
-    path('top_bandnames_7_days', form_functions.top_bandnames_7_days, name='top_bandnames_7_days'),
+    path('get_recent_bandnames', form_functions.recent_bandnames, name='get_recent_bandnames'),
     path('refresh_wheel', views.refresh_wheel, name='refresh_wheel'),
 ]
