@@ -12,7 +12,7 @@ from main.utils import *
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from .forms import SetPasswordForm
-import datetime
+from datetime import datetime
 
 def accounts(request):
 
@@ -33,7 +33,7 @@ def accounts(request):
     context = {
         "form": form,
         "title": "Bandnames.cool | Sign Up",
-        "footer_text": f"© {datetime.datetime.now().year} Bandnames.cool",
+        "footer_text": f"© {datetime.now().year} Bandnames.cool",
     }
     return render(request, "registration/signup.html", context)
 
@@ -49,7 +49,7 @@ def ProfileView(request):
             "profanity_filter": request.user.profile.profanity_filter,
             "score": set_user_score(user, user_submissions),
             "title": "Bandnames.cool | Profile",
-            "footer_text": f"© {datetime.datetime.now().year} Bandnames.cool",
+            "footer_text": f"© {datetime.now().year} Bandnames.cool",
             
         }
     else:
