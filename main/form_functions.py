@@ -236,7 +236,7 @@ def calculate_percentage(split1, split2, total):
     return percentage1, percentage2
  
 def recent_bandnames(request):
-    bandnames = list(Bandname.objects.values("bandname", "date_submitted").order_by('-date_submitted')[:10])
+    bandnames = list(Bandname.objects.values("bandname", "username", "date_submitted").order_by('-date_submitted')[:10])
     for bandname in bandnames:
         bandname['date_submitted'] = bandname['date_submitted'].strftime("%Y-%m-%d")
     
