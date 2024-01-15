@@ -5,12 +5,10 @@ from django.http import JsonResponse
 from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth.models import User
 from accounts.models import Profile
-from django.template.loader import render_to_string
 from django.utils.timezone import now
 from datetime import date, timedelta
 from .utils import *
 import math 
-from django.utils.timezone import get_current_timezone
 
 # `create` gets called when the user submits the bandname submission form
 def create(request):
@@ -40,15 +38,12 @@ def create(request):
             
             # Try to create a new bandname 
             if create_bandname(request, new_bandname_str, request.user.is_authenticated):
-                tz = get_current_timezone()
-                stored_date = timezone.now()
-                desired_date = stored_date + tz.utcoffset(stored_date)
                 json_response = {
                                 'bandname': new_bandname_str,
                                 'username': request.user.username if request.user.is_authenticated \
                                                                   else "Anonymous",
                                 'score': 0,
-                                'date_submitted': desired_date,
+                                'date_submitted': datetime.datetime.today(),
                                 'response_msg': "Submitted bandname: '" + new_bandname_str + "'",
                                 }
             else:
@@ -226,11 +221,6 @@ def get_righteous_ratio(request):
     blasphemous_percentage = (blasphemous_count / total) * 100
     limbo_percentage = (limbo_count / total) * 100
 
-    # "righteous_percentage": righteous_percentage,
-    # "blasphemous_percentage": blasphemous_percentage,
-    # "righteous_count": righteous_count,
-    # "blasphemous_count": blasphemous_count,
-
     response = {
         "data": [{
             "Righteous": round(righteous_percentage, 2),
@@ -244,31 +234,10 @@ def calculate_percentage(split1, split2, total):
     percentage1 = (split1 / total) * 100
     percentage2 = (split2 / total) * 100
     return percentage1, percentage2
-
-def get_bandnames_submitted_today(request):
-    today = date.today()
-    bandnames_submitted_today_count = len(list(Bandname.objects
-        .filter(date_submitted = today)))
-    print(bandnames_submitted_today_count)
+ 
+def recent_bandnames(request):
+    bandnames = list(Bandname.objects.values("bandname", "date_submitted").order_by('-date_submitted')[:10])
+    for bandname in bandnames:
+        bandname['date_submitted'] = bandname['date_submitted'].strftime("%Y-%m-%d")
     
-
-def top_bandnames_7_days(request):
-
-    today = date.today()
-    past_week = today - timedelta(days=7)
-
-    today = str(today)
-    past_week = str(past_week)
-
-    # This should be standard Django ORM Formatting!
-    top_ten_bandnames = list(Bandname.objects
-        .filter(date_submitted__range = [past_week, today])
-        .exclude(score__lte=0)
-        .values("username", "bandname", "score", "date_submitted")
-        .order_by("-score")[:10]
-    )
-    
-    response = {
-        "data": top_ten_bandnames,
-    }
-    return JsonResponse(response)
+    return JsonResponse({"data": bandnames})

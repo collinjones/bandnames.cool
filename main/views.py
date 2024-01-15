@@ -9,12 +9,9 @@ from django.shortcuts import redirect
 
 # Sets up and renders the submission page
 def index(request):
-    bandname_submission_form = CreateBandname()
     collection_len = Bandname.objects.count()
     profanity_filter = True
-    random_quip = get_random_quip('static/main/quips/bandname_quips.txt')
-    bandnames = get_random_bandnames_for_wheel(collection_len)
-    censored_bandnames = censor_bandnames(bandnames)
+    censored_bandnames = censor_bandnames(get_random_bandnames_for_wheel(collection_len))
     
     # Sets up homepage if user is authenticated
     if request.user.is_authenticated:
@@ -33,8 +30,8 @@ def index(request):
         "profanity_filter": profanity_filter,
         "bandnames": censored_bandnames,
         "count": collection_len,
-        "form": bandname_submission_form,
-        "footer_text": random_quip,
+        "form": CreateBandname(),
+        "footer_text": get_random_quip('static/main/quips/bandname_quips.txt'),
     }
     return render(request, "main/index.html", context=context)
 
