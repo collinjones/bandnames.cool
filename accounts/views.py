@@ -41,6 +41,7 @@ def ProfileView(request):
     user_submissions = Bandname.objects.filter(username=request.user).all()
     user = User.objects.get(pk=request.user.id)
 
+    # Remove bandnames from users' judgement history if they've been deleted
     deleted_bandname_cleanup(request)
         
     if request.user.is_authenticated:
