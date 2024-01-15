@@ -2,49 +2,6 @@
 
 var doth_text;
 
-class Clock {
-    constructor(interval) {
-        this.clock_started = millis();
-        this.last_trigger = millis();
-        this.current_time = millis();
-        this.immutable_interval = interval;
-        this.mutable_interval = this.base_interval ;
-    }
-
-    reset_interval() {
-        this.mutable_interval = this.base_interval;
-    }
-
-    get_interval() {
-        return this.mutable_interval;
-    }
-
-    /* Sets the clock interval with a conversion from millis to sec */
-    set_interval(new_interval) {
-        this.mutable_interval = new_interval;
-    }
-    
-    // Update the clock
-    tick() {
-      this.current_time = millis(); // Update the current time
-    }
-    
-    /* Resets the time since last trigger */
-    reset_trigger() {
-      this.last_trigger = millis();
-    }
-    
-    /* Checks If the difference between the current time and the last trigger is 
-        greater than the interval, returns True if so.  */
-    trigger() {
-        if (this.current_time - this.last_trigger > this.mutable_interval) {
-            this.reset_trigger();
-            return true;
-        }
-        return false;
-    }
-}
-
 class Wheel {
 
     constructor(color, bandnames, wheel_imgs) {
@@ -154,18 +111,12 @@ class Wheel {
         this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
     }
 
-    hideText() {
-        doth_text.css('visibility', 'hidden')
-    }
-
-
-
     /* Slow the wheel down if its spinning */
     handleSpinning() {
         if (abs(this.angleV) > this.stopVelocity) {
             this.setState(this.states.Spinning)
 
-            this.hideText();
+            this.hideDothText();
 
             // Slow the wheel down
             if (abs(this.angleV) <= this.slower_velocity_threshold){
@@ -201,28 +152,43 @@ class Wheel {
         }
     }
 
-    /* Stop the wheel if slow enough */
-    // Returns true if wheel stopped, false otherwise
-    stop(override = false) {
+    stopWheelIfNecessary(override = false) {
+
+        const canStopWheel = this.isBelowStopVelocity(
+            this.angleV, this.stopVelocity
+        ) || override
 
         // WHEEL STOPPED
-        if (abs(this.angleV) < this.stopVelocity || override) {
-            
-            // Set the clock interval back to resting
-            this.clock.reset_interval()
-            this.bn_glow_clock.reset_interval()
-
-            this.state = this.states.Stopped
-            this.rotations_final = this.rotations
-            this.angleV = 0;
-            this.rotations = 0 
-
-            doth_text.css('visibility', 'visible')
+        if (canStopWheel) {
+            this.resetWheelState();
+            this.showDothText();
             this.chooseBandname();
-            return true
         }
+    }
 
-        return false
+    isBelowStopVelocity(currentVelocity, thresholdVelocity) {
+        return Math.abs(currentVelocity) < thresholdVelocity;
+    }
+
+    resetClocks() {
+        this.clock.reset_interval()
+        this.bn_glow_clock.reset_interval()
+    }
+
+    resetWheelState() {
+        this.resetClocks()
+        this.state = this.states.Stopped
+        this.rotations_final = this.rotations
+        this.angleV = 0;
+        this.rotations = 0 
+    }
+
+    showDothText() {
+        doth_text.css('visibility', 'visible')
+    }
+
+    hideDothText() {
+        doth_text.css('visibility', 'hidden')
     }
 
     sumMouseDyDx() {
@@ -250,10 +216,7 @@ class Wheel {
         this.rotateWheel();
         this.adjustPentagramAnimationSpeed();
         this.handleSpinning();
-        this.stop();
-
-        
-
+        this.stopWheelIfNecessary();
         this.handleAngleBounds();
         this.handleAngleVelocity();
         

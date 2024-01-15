@@ -138,28 +138,24 @@ django_heroku.settings(locals())
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bandnames.cool','https://*.127.0.0.1']
 
-print(os.getenv('DJANGO_DEVELOPMENT'))
 # Configure connection to development database and enable debug if 
 # the DJANGO_DEVELOPMENT environment variable is set to true
 if os.getenv('DJANGO_DEVELOPMENT') == 'true':
-    print('== STARTING DEV ENVIRONMENT ==\n')
-    print('Debug mode is enabled')
-    print('Database is set to local postgresql database\n')
-    print("========================================\n")
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'collinjones',
-            'PASSWORD': 'devPass',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'collinjones',
+        'PASSWORD': 'devPass',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
     DEBUG = True
+    ENVIRONMENT = "DEV"
+    
 else:
-    print('== STARTING DEV ENVIRONMENT ==\n')
-    print('Debug mode is disabled')
-    print('Database is set to production heroku/aws database')
+    ENVIRONMENT = "PROD"
     print('BE CAREFUL!!\n')
-    print("========================================\n")
+
+print(f'\n== STARTING {ENVIRONMENT} ENVIRONMENT ==\n')
+print(f'Debug mode: {DEBUG}')
+print(f"Database: {DATABASES['default']}\n")

@@ -12,6 +12,7 @@ from main.utils import *
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from .forms import SetPasswordForm
+import datetime
 
 def accounts(request):
 
@@ -29,32 +30,32 @@ def accounts(request):
         
     # Display registration form otherwise
     form = UserCreationForm()
-    ctxt = {
+    context = {
         "form": form,
         "title": "Bandnames.cool | Sign Up",
-        "footer_text": "© 2023 Bandnames.cool",
+        "footer_text": f"© {datetime.datetime.now().year} Bandnames.cool",
     }
-    return render (request, "registration/signup.html", ctxt)
+    return render(request, "registration/signup.html", context)
 
 def ProfileView(request):
-
     user_submissions = Bandname.objects.filter(username=request.user).all()
     user = User.objects.get(pk=request.user.id)
+
+    deleted_bandname_cleanup(request)
         
-    if request.user.is_authenticated:        
-        template = "registration/profile.html"
+    if request.user.is_authenticated:
         ctxt = {
             "user": request.user,
             "profanity_filter": request.user.profile.profanity_filter,
             "score": set_user_score(user, user_submissions),
             "title": "Bandnames.cool | Profile",
-            "footer_text": "© 2023 Bandnames.cool",
+            "footer_text": f"© {datetime.datetime.now().year} Bandnames.cool",
             
         }
     else:
         return redirect("/")
 
-    return render(request, template, context=ctxt)
+    return render(request, "registration/profile.html", context=ctxt)
 
 def ProfanityToggle(request):
 
