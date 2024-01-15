@@ -4,24 +4,25 @@ from profanity.extras import ProfanityFilter
 from random import randint
 from django.contrib.auth.models import User
 import random
-from datetime import datetime
-from django.utils import timezone
+from .logger import SimpleLogger
+import datetime
+logger = SimpleLogger(log_file=f'{datetime.date.today()}_app.log').get_logger()
 
-def deleted_bandname_cleanup():
-    bandnames = Bandname.objects.all()
-    cleaned_list = []
-    for bandname in bandnames:
-        cleaned_list.append(bandname.bandname)
+def deleted_bandname_cleanup(request):
+    """
+    Deletes bandnames from the user's voted_bandnames list if they have been deleted from the database.
+    Runs each time the user visits their profile page. 
+    """
+    bandnames = Bandname.objects.values_list(flat=True)
+    current_user = User.objects.get(pk=request.user.id)
+    voted_bandnames = current_user.profile.voted_bandnames
 
-    users = User.objects.all()
-    for user in users:
-        voted_bandnames = user.profile.voted_bandnames
-        if voted_bandnames:
-            if not isinstance(voted_bandnames, str):
-                for key in voted_bandnames.copy():
-                    if key not in cleaned_list:
-                        del user.profile.voted_bandnames[key]
-        user.save()
+    if voted_bandnames:
+        for key in voted_bandnames.copy():
+            if key not in bandnames:
+                logger.info(f"Bandname {key} does not exist anymore and has been removed from {current_user.username} judgement history.")
+                del current_user.profile.voted_bandnames[key]
+    current_user.save()
 
 def add_vote_obj():
     users = User.objects.all()
