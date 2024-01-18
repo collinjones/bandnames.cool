@@ -25,7 +25,6 @@ class Wheel {
         this.stopVelocity = 0.10;          // lower numbers stop the wheel at a higher velocity
         this.slower_velocity_threshold = 0.50;
         this.slowRate = -0.01;             // lower numbers slow the wheel faster
-        this.slow_rate_slower = -0.05;
         this.angle = 0;                    // initial angle of wheel
         this.pastAngle = 0;                // previous frame angle
         this.angleV = 0.0;                 // initial angle velocity
@@ -54,9 +53,10 @@ class Wheel {
         this.stopWheelIfNecessary();
         this.handleAngleBounds();
         this.handleAngleVelocity();
+
         
-        wheel.angle += wheel.angleV;
-        wheel.angleV += wheel.angleA;
+        this.angle += this.angleV;
+        this.angleV += this.angleA;
 
         this.updateClocks();
     }
@@ -143,12 +143,7 @@ class Wheel {
             this.disableElement(formElements);
 
             // Slow the wheel down
-            if (abs(this.angleV) <= this.slower_velocity_threshold){
-                this.angleV += this.angleV * this.slow_rate_slower;
-            } else {
-                this.angleV += this.angleV * this.slowRate;
-            }
-
+            this.angleV += this.angleV * this.slowRate;
             this.chooseBandname();  // Select the current bandname 
             this.pastAngle = this.angle;  // Save the last angle
         }
@@ -267,8 +262,8 @@ class Wheel {
     }
 
     handleCanvasDrag() {
-        // Dragging inside canvas
 
+        // Dragging inside canvas
         if (this.mouseStartedInsideCanvas && mouseIsPressed) {
 
             // Set the state to Stopped if not and reset the angle velocity
@@ -300,11 +295,11 @@ class Wheel {
 
     handleAngleVelocity() {
         // Update angle and angle velocity
-        if (wheel.angleV > wheel.maxAngleV) {
-            if (wheel.angleV > 0) {
-                wheel.angleV = wheel.maxAngleV;
+        if (this.angleV > this.maxAngleV) {
+            if (this.angleV > 0) {
+                this.angleV = this.maxAngleV;
             } else {
-                wheel.angleV = -wheel.maxAngleV;
+                this.angleV = -this.maxAngleV;
             }
         }
     }

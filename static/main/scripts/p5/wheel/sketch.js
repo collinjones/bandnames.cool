@@ -1,23 +1,18 @@
 /* static/p5/wheel/sketch.js - p5 sketch for the bandname wheel */
 
-var canvas;
-var wheel;
+var canvas, wheel;
 
-var pAngle;
-var v2;
-var mousePosX;
-var mousePosY;
+var pAngle, v2, mousePosX, mousePosY;
 var final_rotations;
 var spinButton;
 var doth_text = $('#doth-text')
 var genreElement = $('#genres-div')
 
 var font;
-var tick_sfx;
-var vinyl_img;
-var picker;
+var tick_sfx, vinyl_img, picker;
 var animation = [];
 var wheel_imgs = [];
+var isDragging = false;
 
 function setup() {
 
@@ -107,6 +102,7 @@ function mousePressed() {
 
 function mouseDragged() {
     if (wheel.mouseStartedInsideCanvas) { 
+        isDragging = true;
         wheel.angleV = 0;
         let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
         wheel.pAngle = v.heading();
@@ -114,13 +110,16 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-    if (mousePosX != mouseX && mousePosY != mouseY) {
-        if (wheel.mouseStartedInsideCanvas) {
-            let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
-            wheel.angleV = v2.heading() - wheel.pAngle;
+    if (isDragging) {
+        if (mousePosX != mouseX && mousePosY != mouseY) {
+            if (wheel.mouseStartedInsideCanvas) {
+                let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
+                wheel.spin(v2.heading() - wheel.pAngle);
+            }
         }
-        wheel.mouseStartedInsideCanvas = false
     }
+    wheel.mouseStartedInsideCanvas = false;
+    isDragging = false;
 }
 
 // Check if mouse is inside canvas or not
