@@ -3868,7 +3868,7 @@ button.section-black:focus {
 
 label {
     font-size: 0.6rem;
-    color: black;
+    color: white;
     margin: 0;
 }
 
@@ -4777,13 +4777,13 @@ textarea[resize="horizontal"] {
  * = Maps
  */
 
-.map {
+/* .map {
     height: 400px;
     -moz-filter: grayscale(100%);
     -ms-filter: grayscale(100%);
     -o-filter: grayscale(100%);
     filter: grayscale(100%);
-}
+} */
 
 
 /**
@@ -7688,4 +7688,3 @@ a:hover,
 }
 
 
-/*# sourceMappingURL=pixel.css.map */

@@ -956,7 +956,7 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     width: 100%;
     border: 1px solid #ddd;
     display: none;
-    max-height: 500px;
+    max-height: 300px;
     overflow-y: auto;
     z-index: 1000; /* Ensure it's above other content */
 

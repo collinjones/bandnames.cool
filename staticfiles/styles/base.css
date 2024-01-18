@@ -913,18 +913,21 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     text-align: center;
     margin: auto;
     margin-bottom: 15px;
-    color: white;
-
 }
 
 .genres-table{
     margin: auto;
 }
 
-.genres-cells td{
-    border: 1px solid white;
-    border-radius: 10px;
-    width: 125px;
+.genres-cells button{
+    /* border: 1px solid white;
+    border-radius: 10px; */
+    max-width: 125px !important;
+    min-width: 100px;
+    max-height: none !important;
+    min-height: 70px;
+    z-index: 1;
+    padding: 5px;
 }
 
 .genres-cells td:hover{
@@ -937,9 +940,7 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
 .genre-combo-box {
     z-index: 1;
     margin: auto;
-    margin-top: 25px;
     position: relative;
-    width: 300px;
 }
 
 
@@ -955,9 +956,12 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     width: 100%;
     border: 1px solid #ddd;
     display: none;
-    max-height: 500px;
+    max-height: 300px;
     overflow-y: auto;
     z-index: 1000; /* Ensure it's above other content */
+
+    color: white;
+
 }
 
 .genre-category-title {
@@ -979,6 +983,10 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     color: black;
 }
 
+.genres-cells span {
+    font-family: "Windows 95", sans-serif;
+}
+
 .genre-category-content span:hover {
     background-color: #4effc156;
 }
@@ -991,4 +999,26 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
 
 #genres-header {
     margin: 0px;
+    font-weight: 3;
+}
+
+.top3-genres-button{
+    width:25px;
+}
+
+.top3-text {
+    display: none;
+}
+
+#new-genre-submit {
+    font-family: "Win95";
+    font-size: 15px;
+    padding: 0px;
+    width: 100px;
+    height: 30px;
+
+}
+
+#new-genre-label {
+    font-size: 10px;
 }
