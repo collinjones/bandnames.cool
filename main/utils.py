@@ -7,6 +7,9 @@ import random
 from .logger import SimpleLogger
 import datetime
 logger = SimpleLogger(log_file=f'{datetime.date.today()}_app.log').get_logger()
+import json
+from django.template.defaulttags import register
+from django import template
 
 def deleted_bandname_cleanup(request):
     """
@@ -332,3 +335,23 @@ def build_judgement_json(request, judgement, default_bandname_selected_text):
         }
 
     return json_response
+
+def get_genres():
+    f = open('static/main/genres/genres.json', 'r')
+    genres = json.load(f)
+    genres_cleaned = {}
+
+    for parent_genre in genres: 
+        genres_cleaned[parent_genre] = genres[parent_genre]
+        unique_list = []
+        for sub_genre in genres_cleaned[parent_genre]:
+            if sub_genre not in unique_list:
+                unique_list.append(sub_genre)
+        genres_cleaned[parent_genre] = unique_list
+
+    return genres_cleaned
+
+@register.filter
+def loadjson(data):
+    json_data = json.loads(data)
+    return json_data

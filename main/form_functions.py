@@ -1,6 +1,6 @@
 # These functions return JSON responses, either successful or failed */ 
 
-from .models import Bandname
+from .models import Bandname, GenreVote
 from django.http import JsonResponse
 from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth.models import User
@@ -241,3 +241,68 @@ def recent_bandnames(request):
         bandname['date_submitted'] = bandname['date_submitted'].strftime("%Y-%m-%d")
     
     return JsonResponse({"data": bandnames})
+
+def get_genre_info(request):
+    bandname = request.GET.get('bandname')
+    genres = list(Bandname.objects.get(bandname=bandname).genres)
+
+    genre_votes = {}
+    for genre in genres:
+        vote_count = GenreVote.objects.filter(bandname=bandname, genre=genre).count()
+        genre_votes[genre] = vote_count
+
+    # Step 3: Sort genres based on votes
+    sorted_genres = sorted(genre_votes, key=genre_votes.get)
+
+    # Step 4: Extract the top three genres
+    top_three_genres = sorted_genres[:3]
+
+    return JsonResponse({"response_msg": top_three_genres})
+
+def new_genre_submit(request):
+    if request.method == 'POST':
+
+        # Determine if genre is valid
+        genre = request.POST.get('genre')
+        can_submit = False
+        for genre_set in get_genres().values():
+            if genre in genre_set:
+                can_submit = True
+                break
+
+        if can_submit:
+            bandname = request.POST.get('bandname')
+            bandname_obj = Bandname.objects.get(bandname=bandname)
+            ip_address = None
+            user_profile = None
+
+            if request.user.is_authenticated:
+                user_profile = request.user.profile
+            else:
+                ip_address = get_client_ip(request)
+
+            # Check if the user has supplied a genre for this bandname already, return early if soqqqqqqqqqqqqqqqqqqqqqqqq
+            if GenreVote.objects.filter(user=user_profile, bandname=bandname, ip_address=ip_address).exists():
+                return JsonResponse({"response_msg": "You already submitted a genre to this bandname"})
+            
+            # Create the user:genre:band GenreVote relationship to ensure the user cannot submit more than 1 genre per bandname
+            genre_vote = GenreVote(user=user_profile, bandname=bandname_obj, genre=genre, ip_address=ip_address)
+            genre_vote.save()
+
+            # Add 1 to the score for the genre if already exists and return early
+            for key in list(bandname_obj.genres):
+                if genre.lower() == key.lower():
+                    bandname_obj.genres[key]['score'] += 1
+                    bandname_obj.save()
+                    return JsonResponse({"response_msg": f"Submitting {genre} to band {bandname}!"})
+
+            bandname_obj.genres[genre] = {
+                "score": 1,
+                "submitted_on": now().strftime("%Y-%m-%d | %H:%M:%S"),
+            }
+            bandname_obj.save()
+            return JsonResponse({"response_msg": f"Submitting {genre} to band {bandname}!"})
+        else:
+            return JsonResponse({"response_msg": "Invalid genre!"})
+    else:
+        return JsonResponse({"response_msg": "Invalid request!"})

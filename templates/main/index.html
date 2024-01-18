@@ -15,6 +15,7 @@
         bandnames["{{bandname}}"] = '{{censored_bandname}}'
     '{% endfor %}'
 
+
     // Format new bandnames to be added to the wheel
     function refresh_bn_wheel(bandnames) { 
         var refreshed_bandnames = {}
@@ -23,6 +24,28 @@
         }
         wheel.setNewBandnames(refreshed_bandnames)
     }    
+</script>
+
+<script>
+    // Adds genres to the genre dropdown
+    document.addEventListener('DOMContentLoaded', function() {
+        var genres = JSON.parse('{{ genres | escapejs }}');
+        var genre_div = '<div class="genre-category" id="no-results" style="display: none;"><div class="genre-category-title">Nothing Found</div></div>'
+        for (const parent in genres) {
+            genre_div += 
+                `<div class="genre-category">
+                    <div class="genre-category-title">${parent}</div>
+                        <div class="genre-category-content">`
+            for (let i = 0; i < genres[parent].length; i++) {
+                genre_div += 
+                    `<span>${genres[parent][i]}</span>`
+            }
+
+            genre_div += `</div></div>`
+        }
+        $(".genre-dropdown").html(genre_div)
+    });
+    
 </script>
 
 <div id = 'pillars-div'>
@@ -56,15 +79,59 @@
             <h3 class="vote-form-div cursor-horns" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
             <form enctype="multipart/form-data" method="post" id="vote-form">
                 {% csrf_token %}
-                <a onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" type="submit" draggable = false value="Submit"  id = "upvote-link">
+                <a class="form-element"  onmousedown="vote_up_clicked()" onmouseup="vote_up_resting()" onmouseout="vote_up_dragged()" type="submit" draggable = false value="Submit" id = "upvote-link">
                     <span id="upvote-text">Righteous</span>
                     <img class="noselect cursor-horns" id="upvote-button" src="static/images/uv1.png"/>
                 </a>
-                <a id = "downvote-link" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" type="submit" draggable = false value="Submit" >
+                <a class="form-element"  id = "downvote-link" href="{% url 'vote' %}" onmousedown="vote_down_clicked()" onmouseup="vote_down_resting()" onmouseout="vote_down_dragged()" type="submit" draggable = false value="Submit" >
                     <span id="downvote-text">Blasphemous</span>
                     <img class="noselect cursor-horns" id="downvote-button" src="static/images/dv1.png"/>
                 </a>
             </form>
+        </div>
+
+        <div id="genres-ui-card" class="col-12 col-lg-6 mb-4 mb-lg-0">
+            <div class="card card-tertiary">
+
+                <div class="card-header">
+                    <h3 id="genres-header">Genre - which one fits this band the best?</h3>
+                </div>
+
+                <div class="card-body">
+                    <div id="genres-div" class="genres-div">
+                        
+                        <table class="genres-table">
+                            <span class="top3-text">Select a top voted genre?</span>
+                            <tr class="genres-cells">
+                                <!-- Gets filled with top 3 genres -->
+                            </tr>
+                        </table>
+                        <span class="top3-text">or</span>
+                        <div class="genre-combo-box">
+                            <span id="new-genre-label">Suggest new genre for this bandname?</span>
+                            <form enctype="multipart/form-data" method="post" id="new-genre-submission-form">
+                                {% csrf_token %}
+                                <table>
+                                    <tr>
+                                        <td class="genre-combo-cell">
+                                            <input class="form-element" autocomplete="off" type="text" id="genre-search" placeholder="Start Typing..." disabled="">
+                                        </td>
+                                        <td>
+                                            <button id="new-genre-submit" class="btn mr-2 mb-2 btn-primary form-element" type="button" disabled="">
+                                                <span class="btn-text">Submit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <div class="genre-dropdown">
+                                <!-- Gets filled with genres and subgenres -->
+                            </div>
+                        </div>                         
+                    </div>
+                </div>
+
+            </div>
         </div>
         
         <!-- Submit bandname -->

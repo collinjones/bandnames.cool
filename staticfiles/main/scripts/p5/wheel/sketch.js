@@ -10,6 +10,7 @@ var mousePosY;
 var final_rotations;
 var spinButton;
 var doth_text = $('#doth-text')
+var genreElement = $('#genres-div')
 
 var font;
 var tick_sfx;
@@ -55,8 +56,9 @@ function draw() {
 function updateBandnameDisplay() {
     const heading = document.getElementById('bandname-selected');
     const dothText = document.getElementById('doth-text'); // Assuming doth_text is an element
-
-    if (Object.keys(wheel.bandnameSelected).length === 0) {
+    const genresElement = document.getElementById('genres-div');
+    // Hide doth text if wheel is spinning / no bandname is selected
+    if (Object.keys(wheel.bandnameSelected).length == 0) {
         dothText.style.visibility = 'hidden';
         heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click Here to Spin the Wheel! </span>";
     } else {
@@ -65,12 +67,12 @@ function updateBandnameDisplay() {
 }
 
 function updateHeading(heading) {
-    const bandnameKey = Object.keys(wheel.bandnameSelected)[0];
-    const bandnameValue = wheel.bandnameSelected[bandnameKey];
-    const rgb = getRandomRGB();
-
     if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
+        const bandnameKey = Object.keys(wheel.bandnameSelected)[0];
+        const bandnameValue = wheel.bandnameSelected[bandnameKey];
+        const rgb = getRandomRGB();
         const displayValue = profanity_filter === "True" ? bandnameValue : bandnameKey;
+
         heading.innerHTML = `<span style='color: rgb(${rgb})'>${displayValue}</span>`;
         heading.setAttribute("value", bandnameKey);
         tick_sfx.play();
@@ -134,10 +136,8 @@ function mouseInsideCanvas() {
 function handleSpinButton() {
 
     if (wheel.state == wheel.states.Spinning) {
-        console.log("Stopping wheel")
         wheel.stopWheelIfNecessary(override=true)
     } else {
-        console.log("Spinning wheel")
         wheel.spin(Math.random() * 20 + 5)
     } 
 }

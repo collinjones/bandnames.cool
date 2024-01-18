@@ -11,7 +11,9 @@ from django.shortcuts import redirect
 def index(request):
     collection_len = Bandname.objects.count()
     profanity_filter = True
-    censored_bandnames = censor_bandnames(get_random_bandnames_for_wheel(collection_len))
+    censored_bandnames = censor_bandnames(get_random_bandnames_for_wheel(collection_len)) if collection_len > 0 else []
+    genres = get_genres()
+
     
     # Sets up homepage if user is authenticated
     if request.user.is_authenticated:
@@ -29,6 +31,7 @@ def index(request):
         "title": "Bandnames.cool | Home",
         "profanity_filter": profanity_filter,
         "bandnames": censored_bandnames,
+        "genres": json.dumps(genres),
         "count": collection_len,
         "form": CreateBandname(),
         "footer_text": get_random_quip('static/main/quips/bandname_quips.txt'),

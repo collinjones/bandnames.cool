@@ -8,6 +8,89 @@ $(document).keypress(
     }
 );
 
+// Retrieves the top 3 genres for that bandname
+$(window).on('getGenresForBandname', function(e) {
+    $.ajax({
+        type: 'GET',
+        url: '/get_genre_info',
+        data: {
+            bandname: $('#bandname-selected').attr("value"),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            if (data.hasOwnProperty('response_msg')){
+                var genres_cells = $('.genres-cells')
+                
+                genres_cells.inner_html = ""
+                for (var i = 0; i < data['response_msg'].length; i++) {
+                    genres_cells.inner_html += '\
+                        <td><button onclick="selectGenreCell(\'' + data["response_msg"][i] + '\')" class="btn mr-2 mb-2 btn-primary top3-genres-buttons form-element " type="button">\
+                            <span class="btn-text">' + data["response_msg"][i] + '</span>\
+                        </button></td>\
+                    '
+                }
+
+                // Shows or removes the 'Top Genres' text depending on if there are any genres to show
+                if (data['response_msg'].length == 0) {
+                    $('.top3-text').css('display', 'none')
+                } else {
+                    $('.top3-text').css('display', 'block')
+                }
+                genres_cells.html(genres_cells.inner_html)
+            }
+        }
+    });
+});
+
+// Handles the code for submitting one of the top 3 genres for that bandname (by clicking the cell that appears)
+function selectGenreCell(genre){
+    // e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: "Applying genre to bandname..." }); 
+    $.ajax({
+        type: 'POST',
+        url: '/new_genre_submit',
+        data: {
+            bandname: $('#bandname-selected').attr("value"),
+            genre: genre,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            
+            if (data.hasOwnProperty('response_msg')){
+                $.blockUI({ message: data['response_msg']});  
+                setTimeout(function() {
+                    $.unblockUI();
+                }, unblockUI_timeout); 
+            }
+        }
+    });
+}
+
+// Code for submitting a new genre for a bandname
+$("#new-genre-submit").click(function(e) {
+    e.preventDefault(); // Stop page from refreshing
+    $.blockUI({ message: "Applying genre to bandname..." }); 
+    $.ajax({
+        type: 'POST',
+        url: '/new_genre_submit',
+        data: {
+            bandname: $('#bandname-selected').attr("value"),
+            genre: $('#genre-search').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {
+            
+            if (data.hasOwnProperty('response_msg')){
+                $('#genre-search').val("")
+                $.blockUI({ message: data['response_msg']});  
+                setTimeout(function() {
+                    $.unblockUI();
+                }, unblockUI_timeout); 
+            }
+        }
+    });
+});
+
 $("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Submitting bandname..." }); 
