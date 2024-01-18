@@ -138,6 +138,5 @@ def get_rows(request):
     
 def password_change(request):
     user = request.user 
-    print('hello')
     form = SetPasswordForm(user)
     return render(request, 'registration/password_reset_form.html', {'form': form})

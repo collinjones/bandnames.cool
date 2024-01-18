@@ -16,4 +16,6 @@ urlpatterns = [
     path('get_righteous_ratio', form_functions.get_righteous_ratio, name='get_righteous_ratio'),
     path('get_recent_bandnames', form_functions.recent_bandnames, name='get_recent_bandnames'),
     path('refresh_wheel', views.refresh_wheel, name='refresh_wheel'),
+    path('get_genre_info', form_functions.get_genre_info, name='get_genre_info'),
+    path('new_genre_submit', form_functions.new_genre_submit, name='new_genre_submit'),
 ]

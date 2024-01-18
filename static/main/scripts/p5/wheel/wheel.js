@@ -1,6 +1,7 @@
 /* p5 static/p5/wheel/wheel.js - class file containing the bandnames wheel */
 
 var doth_text;
+var genreElement;
 
 class Wheel {
 
@@ -38,7 +39,26 @@ class Wheel {
         this.bn_glow_clock = new Clock(100);
         this.alpha = 0;
         this.mouseStartedInsideCanvas = false;
+        this.genreRequestMade = false;
+        this.wheelStopActionsExecuted = false;
         this.populateWheel();
+    }
+
+    /* Main wheel logic, updates the wheel */
+    update() {
+
+        this.handleCanvasDrag();
+        this.rotateWheel();
+        this.adjustPentagramAnimationSpeed();
+        this.handleSpinning();
+        this.stopWheelIfNecessary();
+        this.handleAngleBounds();
+        this.handleAngleVelocity();
+        
+        wheel.angle += wheel.angleV;
+        wheel.angleV += wheel.angleA;
+
+        this.updateClocks();
     }
 
     setNewBandnames(bandnames) {
@@ -114,9 +134,13 @@ class Wheel {
     /* Slow the wheel down if its spinning */
     handleSpinning() {
         if (abs(this.angleV) > this.stopVelocity) {
+            this.wheelStopActionsExecuted = false;
             this.setState(this.states.Spinning)
 
             this.hideDothText();
+
+            var formElements = $('.form-element')
+            this.disableElement(formElements);
 
             // Slow the wheel down
             if (abs(this.angleV) <= this.slower_velocity_threshold){
@@ -145,7 +169,6 @@ class Wheel {
             // Angle is less than the 
             if ((this.angle > angle_slice) 
              && (this.angle < angle_slice + this.evenSeparatorDeg)) {
-
                 this.previousBandnameSelected = this.bandnameSelected;
                 this.bandnameSelected = {[keys[len - (i + 1)]]: values[len - (i + 1)]}
             }
@@ -158,12 +181,40 @@ class Wheel {
             this.angleV, this.stopVelocity
         ) || override
 
+        if(Object.keys(this.previousBandnameSelected)[0] != Object.keys(this.bandnameSelected)[0]) {
+            updateBandnameDisplay();
+            this.wheelStopActionsExecuted = false;
+        }
+
         // WHEEL STOPPED
-        if (canStopWheel) {
+        if (canStopWheel && !this.wheelStopActionsExecuted) {
+            this.wheelStopActionsExecuted = true;
             this.resetWheelState();
             this.showDothText();
             this.chooseBandname();
+
+            if(Object.keys(this.previousBandnameSelected)[0]) {
+                var formElements = $('.form-element')
+                this.enableElement(formElements);
+            }
+
+            // Fire a custom event to request the genres for the bandname
+            if(Object.keys(this.bandnameSelected).length != 0) {
+                this.getGenresForBandname();
+            }
         }
+    }
+
+    getGenresForBandname() {
+        var getGenres = new CustomEvent('getGenresForBandname');
+        window.dispatchEvent(getGenres);
+    }
+
+    disableElement(element) {
+        element.prop('disabled', true);
+    }
+    enableElement(element) {
+        element.prop("disabled", false)
     }
 
     isBelowStopVelocity(currentVelocity, thresholdVelocity) {
@@ -209,23 +260,6 @@ class Wheel {
         translate(-width/2, dist_from_top);
     }
 
-    /* Main wheel logic, updates the wheel */
-    update() {
-
-        this.handleCanvasDrag();
-        this.rotateWheel();
-        this.adjustPentagramAnimationSpeed();
-        this.handleSpinning();
-        this.stopWheelIfNecessary();
-        this.handleAngleBounds();
-        this.handleAngleVelocity();
-        
-        wheel.angle += wheel.angleV;
-        wheel.angleV += wheel.angleA;
-
-        this.updateClocks();
-    }
-
     updateClocks() {
         // tick the clocks
         this.clock.tick();
@@ -248,6 +282,7 @@ class Wheel {
             let drag_dampener = 0.25 // lower numbers make the wheel spin slower
             this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
             this.pastAngle = this.angle;
+            this.chooseBandname();
         }
     }
 

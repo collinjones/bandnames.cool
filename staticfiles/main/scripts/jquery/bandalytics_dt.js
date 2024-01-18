@@ -8,7 +8,6 @@ function reset_table(table, tableId) {
 
 function get_column_titles(data) {
     var columns = [];
-    console.log(data)
     $.each( data['data'][0], function( key, value ) {
 
         var my_item = {};
@@ -132,37 +131,6 @@ $(document).on('change','#bandalytics_selection',function(){
             }
         }); 
     }
-    else if (selectedVal == "top_bandnames_7_days") {
-        $.ajax({
-            type: 'GET',
-            url: '/top_bandnames_7_days',
-            data: {
-                user: $(this).attr("value"),
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success: function (data) {
-                if (data.hasOwnProperty('response_msg')){
-                    $('#submission-status').html(data['response_msg']);
-                }
-                reset_table(table, tableId)
-                
-                table = $(tableId).DataTable({
-                    "scrollY": "180",
-                    "scrollX": false,
-                    "paging": false,
-                    "bInfo" : false,
-                    "autoWidth": false, 
-                    "searching": false,
-                    "bDestroy": true,
-                    "order": [ 2, 'desc' ],
-                    ajax: {
-                        "type" : "GET",
-                        "url": "/top_bandnames_7_days"
-                    },
-                });
-            }
-        }); 
-    }
 
     else if (selectedVal == "righteous_ratio") {
         $.ajax({
@@ -197,7 +165,8 @@ $(document).on('change','#bandalytics_selection',function(){
             }
         }); 
     }
-    else if (selectedVal == "recent_bandnames") {
+
+    else if (selectedVal == "get_recent_bandnames") {
         $.ajax({
             type: 'GET',
             url: '/get_recent_bandnames',

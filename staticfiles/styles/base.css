@@ -611,9 +611,11 @@ table.dataTable tbody td {
 
 #bn-submission-header {
     position: absolute;
-    right: 375px;
+    right: 420px;
     color: white;
-    margin-top: 3px;
+    margin-top: 5px;
+    font-weight: 3;
+    font-size: 15px;
 }
 
 #bandname {
@@ -905,4 +907,88 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
       text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
     }
     50%  { transform: translate(0, 15px); }
+}
+
+.genres-div {
+    text-align: center;
+    margin: auto;
+    margin-bottom: 15px;
+    color: white;
+
+}
+
+.genres-table{
+    margin: auto;
+}
+
+.genres-cells td{
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 125px;
+}
+
+.genres-cells td:hover{
+    background-color: rgba(255, 255, 255, 0.16);
+}
+.genres-cells td:active{
+    background-color: rgba(159, 249, 128, 0.343);
+}
+
+.genre-combo-box {
+    z-index: 1;
+    margin: auto;
+    margin-top: 25px;
+    position: relative;
+    width: 300px;
+}
+
+
+#genre-search {
+    width: 90%;
+}
+
+.genre-dropdown {
+    position: absolute;
+    bottom: 100%; /* Position the top edge of the dropdown at the bottom edge of the input field */
+    left: 0;
+    background-color: white;
+    width: 100%;
+    border: 1px solid #ddd;
+    display: none;
+    max-height: 500px;
+    overflow-y: auto;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.genre-category-title {
+    background-color: #01147f;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.genre-category-content {
+    display: none;
+    padding: 10px;
+}
+
+.genre-category-content span {
+    display: block;
+    padding: 5px;
+    background-color: rgb(253, 173, 244);
+    color: black;
+}
+
+.genre-category-content span:hover {
+    background-color: #4effc156;
+}
+
+#genres-ui-card {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 25px;
+}
+
+#genres-header {
+    margin: 0px;
 }
