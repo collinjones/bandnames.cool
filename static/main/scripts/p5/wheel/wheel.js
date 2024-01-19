@@ -181,19 +181,21 @@ class Wheel {
     }
 
     chooseBandname() {
-        const bandnames = Object.entries(this.bandnamesOnWheel); // Assuming bandnamesOnWheel is an object
-
-        bandnames.forEach(([key, value], i) => {
-            let angle_slice = this.evenSeparatorDeg * i;
-            let isBandnameSelected = (this.angle > angle_slice) && (this.angle < angle_slice + this.evenSeparatorDeg);
-
+        const keys = Object.keys(this.bandnamesOnWheel)
+        const values = Object.values(this.bandnamesOnWheel)
+        const len = keys.length
+        
+        // For each bandname on the wheel
+        for (var i = 0; i < len; i++) {  
+            const angleRangeForCurrentBand = this.evenSeparatorDeg * i
+            const isBandnameSelected = (this.angle > angleRangeForCurrentBand) 
+                && (this.angle < angleRangeForCurrentBand + this.evenSeparatorDeg)
+    
             if (isBandnameSelected) {
                 this.previousBandnameSelected = this.bandnameSelected;
-                this.bandnameSelected = {
-                    [key]: value,
-                }
+                this.bandnameSelected = {[keys[len - (i + 1)]]: values[len - (i + 1)]}
             }
-        });
+        }
     }
 
     hasBandnameChanges() {
