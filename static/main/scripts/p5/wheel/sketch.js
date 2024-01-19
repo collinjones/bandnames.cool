@@ -13,6 +13,7 @@ var tick_sfx, vinyl_img, picker;
 var animation = [];
 var wheel_imgs = [];
 var isDragging = false;
+p5.disableFriendlyErrors = true;
 
 function setup() {
 
@@ -51,7 +52,7 @@ function draw() {
 function updateBandnameDisplay() {
     const bandnameSelectedHeader = document.getElementById('bandname-selected');
     const dothText = document.getElementById('doth-text'); // Assuming doth_text is an element
-    
+
     // Hide doth text if wheel is spinning / no bandname is selected
     if (wheel.isEmptyObject(wheel.bandnameSelected)) {
         dothText.style.visibility = 'hidden';
