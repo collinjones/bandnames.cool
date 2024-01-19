@@ -49,7 +49,7 @@ class Wheel {
         this.handleCanvasDrag();
         this.rotateWheel();
         this.adjustPentagramAnimationSpeed();
-        this.handleSpinning();
+        this.slowDownWheelAndProcessSpin();
         this.stopWheelIfNecessary();
         this.handleAngleBounds();
         this.handleAngleVelocity();
@@ -131,72 +131,119 @@ class Wheel {
         this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
     }
 
-    /* Slow the wheel down if its spinning */
-    handleSpinning() {
-        if (abs(this.angleV) > this.stopVelocity) {
-            this.wheelStopActionsExecuted = false;
-            this.setState(this.states.Spinning)
-
-            this.hideDothText();
-
-            var formElements = $('.form-element')
-            this.disableElement(formElements);
-
-            // Slow the wheel down
-            this.angleV += this.angleV * this.slowRate;
-            this.chooseBandname();  // Select the current bandname 
-            this.pastAngle = this.angle;  // Save the last angle
-        }
+    wheelIsStopped() {
+        return this.state == this.states.Stopped;
     }
 
-    /* Selects the bandname relative to what angle the wheel is at */
-    chooseBandname() {
+    slowDownWheelAndProcessSpin() {
 
-        const keys = Object.keys(this.bandnamesOnWheel)
-        const values = Object.values(this.bandnamesOnWheel)
-        const len = keys.length
-        
-        // For each bandname on the wheel
-        for (var i = 0; i < len; i++) {  
-            let angle_slice = this.evenSeparatorDeg * i
-
-            // Angle is greater than the even separator times the index of the wheel 
-            // Angle is less than the 
-            if ((this.angle > angle_slice) 
-             && (this.angle < angle_slice + this.evenSeparatorDeg)) {
-                this.previousBandnameSelected = this.bandnameSelected;
-                this.bandnameSelected = {[keys[len - (i + 1)]]: values[len - (i + 1)]}
-            }
+        if (this.wheelIsStopped()) {
+            return; // Early exit if the wheel is not spinning
         }
+    
+        this.prepareForWheelStop();
+        this.slowDownWheel();
+        this.finalizeSpin();
+    }
+    
+    // Check if the wheel is still spinning
+    isWheelSpinning() {
+        return Math.abs(this.angleV) > this.stopVelocity;
+    }
+    
+    // Prepare the UI and state for the wheel stopping
+    prepareForWheelStop() {
+        this.wheelStopActionsExecuted = false;
+        this.setState(this.states.Spinning);
+        this.hideDothText();
+        this.disableFormElements();
+    }
+
+    disableFormElements() {
+        const formElements = $('.form-element')
+        this.disableElement(formElements);
+    }
+    
+    enableFormElements() {
+        const formElements = $('.form-element')
+        this.enableElement(formElements);
+    }
+
+    // Apply the slow down rate to the wheel
+    slowDownWheel() {
+        this.angleV += this.angleV * this.slowRate;
+    }
+    
+    // Finalize the spin process by choosing a band name and updating the past angle
+    finalizeSpin() {
+        this.chooseBandname(); // Select the current band name
+        this.pastAngle = this.angle; // Save the last angle
+    }
+
+    chooseBandname() {
+        const bandnames = Object.entries(this.bandnamesOnWheel); // Assuming bandnamesOnWheel is an object
+
+        bandnames.forEach(([key, value], i) => {
+            let angle_slice = this.evenSeparatorDeg * i;
+            let isBandnameSelected = (this.angle > angle_slice) && (this.angle < angle_slice + this.evenSeparatorDeg);
+
+            if (isBandnameSelected) {
+                this.previousBandnameSelected = this.bandnameSelected;
+                this.bandnameSelected = {
+                    [key]: value,
+                }
+            }
+        });
+    }
+
+    hasBandnameChanges() {
+        return Object.keys(this.previousBandnameSelected)[0] != Object.keys(this.bandnameSelected)[0];
+    }
+    
+    isEmptyObject(obj) {
+        return Object.keys(obj).length === 0;
     }
 
     stopWheelIfNecessary(override = false) {
-
-        const canStopWheel = this.isBelowStopVelocity(
-            this.angleV, this.stopVelocity
-        ) || override
-
-        if(Object.keys(this.previousBandnameSelected)[0] != Object.keys(this.bandnameSelected)[0]) {
+        const canStopWheel = this.isBelowStopVelocity(this.angleV, this.stopVelocity) || override;
+    
+        if (this.hasBandnameChanges()) {
             updateBandnameDisplay();
-            this.wheelStopActionsExecuted = false;
         }
+    
+        if (canStopWheel) {
+            this.executeWheelStopActions();
+        }
+    }
+    
+    executeWheelStopActions() {
+        if (this.wheelStopActionsExecuted) {
+            return;
+        }
+    
+        this.wheelStopActionsExecuted = true;
+        this.resetWheelState();
+        this.showDothText();
+        this.chooseBandname();
+    
+        if (this.hasPreviousBandnameSelected()) {
+            this.enableFormElements();
+        }
+    
+        if (!this.isEmptyObject(this.bandnameSelected)) {
+            this.getGenresForBandnameWithHandling();
+        }
+    }
 
-        // WHEEL STOPPED
-        if (canStopWheel && !this.wheelStopActionsExecuted) {
-            this.wheelStopActionsExecuted = true;
-            this.resetWheelState();
-            this.showDothText();
-            this.chooseBandname();
-
-            if(Object.keys(this.previousBandnameSelected)[0]) {
-                var formElements = $('.form-element')
-                this.enableElement(formElements);
-            }
-
-            // Fire a custom event to request the genres for the bandname
-            if(Object.keys(this.bandnameSelected).length != 0) {
-                this.getGenresForBandname();
-            }
+    hasPreviousBandnameSelected() {
+        return Object.keys(this.previousBandnameSelected).length > 0;
+    }
+    
+    getGenresForBandnameWithHandling() {
+        try {
+            this.getGenresForBandname();
+        } catch (error) {
+            // Handle error
         }
     }
 
