@@ -49,28 +49,45 @@ function draw() {
 }
 
 function updateBandnameDisplay() {
-    const heading = document.getElementById('bandname-selected');
+    const bandnameSelectedHeader = document.getElementById('bandname-selected');
     const dothText = document.getElementById('doth-text'); // Assuming doth_text is an element
-    const genresElement = document.getElementById('genres-div');
+    
     // Hide doth text if wheel is spinning / no bandname is selected
-    if (Object.keys(wheel.bandnameSelected).length == 0) {
+    if (wheel.isEmptyObject(wheel.bandnameSelected)) {
         dothText.style.visibility = 'hidden';
-        heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click Here to Spin the Wheel! </span>";
+        bandnameSelectedHeader.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click Here to Spin the Wheel! </span>";
     } else {
-        updateHeading(heading);
+        updateSelectedBandnameHeader(bandnameSelectedHeader);
     }
 }
 
-function updateHeading(heading) {
+function updateSelectedBandnameHeader(heading) {
+    // Destructure bandnameSelected
+    const [bandnameKey, bandnameValue] = Object.entries(wheel.bandnameSelected)[0];
+    
     if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
-        const bandnameKey = Object.keys(wheel.bandnameSelected)[0];
-        const bandnameValue = wheel.bandnameSelected[bandnameKey];
         const rgb = getRandomRGB();
         const displayValue = profanity_filter === "True" ? bandnameValue : bandnameKey;
 
-        heading.innerHTML = `<span style='color: rgb(${rgb})'>${displayValue}</span>`;
+        // Create a new span element with the desired style
+        const spanElement = document.createElement("span");
+        spanElement.style.color = `rgb(${rgb})`;
+        spanElement.textContent = displayValue;
+
+        // Clear the heading element and append the span element
+        heading.innerHTML = "";
+        heading.appendChild(spanElement);
+
+        // Set the "value" attribute to bandnameKey
         heading.setAttribute("value", bandnameKey);
+
+        // Play the tick sound effect
         tick_sfx.play();
+
+        // Call the function to get genres for the bandname with handling
+        if(wheel.state != wheel.states.Spinning) {
+            wheel.getGenresForBandnameWithHandling();
+        }
     }
 }
 
@@ -124,12 +141,11 @@ function mouseReleased() {
 
 // Check if mouse is inside canvas or not
 function mouseInsideCanvas() {
-    let x = mouseX, y = mouseY;
-    if (touches.length > 0) { // If there are touch inputs
-        x = touches[0].x;
-        y = touches[0].y;
+    if ((mouseX > 0) && (mouseX < width) &&
+        (mouseY > 0) && (mouseY < height)) {
+        return true
     }
-    return (x > 0) && (x < width) && (y > 0) && (y < height);
+    return false
 }
 
 // Function for spin wheel button
@@ -175,36 +191,4 @@ function getRandomRGB() {
     var g = Math.floor(Math.random() * 255) + 100;
     var b = Math.floor(Math.random() * 255) + 100;
     return r + ", " + g + ", " + b
-}
-
-function touchStarted() {
-    // Equivalent to mousePressed logic
-    if (mouseInsideCanvas()) {
-        wheel.mouseStartedInsideCanvas = true;
-    }
-    return false; // Prevent default touch behavior
-}
-
-function touchMoved() {
-    // Equivalent to mouseDragged logic
-    if (wheel.mouseStartedInsideCanvas) { 
-        isDragging = true;
-        wheel.angleV = 0;
-        let v = createVector(touches[0].x - width / 2, touches[0].y - height / 2);
-        wheel.pAngle = v.heading();
-    }
-    return false; // Prevent default touch behavior
-}
-
-function touchEnded() {
-    // Equivalent to mouseReleased logic
-    if (isDragging) {
-        if (wheel.mouseStartedInsideCanvas) {
-            let v2 = createVector(touches[0].x - width / 2, touches[0].y - height / 2);
-            wheel.spin(v2.heading() - wheel.pAngle);
-        }
-    }
-    wheel.mouseStartedInsideCanvas = false;
-    isDragging = false;
-    return false; // Prevent default touch behavior
 }
