@@ -10,7 +10,6 @@ urlpatterns = [
     path('batch-create', form_functions.batch_create, name='batchCreation'),
     path('create', form_functions.create, name='create'),
     path('vote', form_functions.vote, name='vote'),
-    path('get_voted_history', form_functions.get_voted_history, name='get_voted_history'),
     path('get_top_ten_bandnames', form_functions.get_top_ten_bandnames, name='get_top_ten_bandnames'),
     path('get_top_ten_users', form_functions.get_top_ten_users, name='get_top_ten_users'),
     path('get_righteous_ratio', form_functions.get_righteous_ratio, name='get_righteous_ratio'),

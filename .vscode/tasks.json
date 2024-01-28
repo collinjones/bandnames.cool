@@ -2,13 +2,8 @@
     "version": "2.0.0",
     "tasks": [
     {
-        "label": "collectstatic",
-        "command": "python3 manage.py collectstatic",
-        "type": "shell"
-    },
-    {
-        "label": "kill_server",
-        "command": "scripts/kill_server.sh",
+        "label": "collect_static",
+        "command": "scripts/dev/collect_static.sh",
         "type": "shell"
     }]
 }

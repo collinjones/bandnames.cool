@@ -5,17 +5,28 @@
   "version": "0.2.0",
   "configurations": [
     {
+        "name": "Bandnames.cool Tests",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/manage.py",
+        "args": ["test", "--keepdb"],
+        "django": true,
+        "justMyCode": true,
+        "env": {
+          "DJANGO_DEVELOPMENT": "true"
+        }
+    },
+    {
       "name": "Bandnames.cool Dev",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/manage.py",
       "args": ["runserver",],
       "django": true,
-      "justMyCode": true,
+      "justMyCode": false,
       "env": {
         "DJANGO_DEVELOPMENT": "true"
-      },
-      "postDebugTask": "kill_server"
+      }
     },
     {
       "name": "Bandnames.cool Prod",
@@ -27,8 +38,7 @@
       "justMyCode": true,
       "env": {
         "DJANGO_DEVELOPMENT": "false"
-      },
-      "postDebugTask": "kill_server"
+      }
     },
   ]
 }

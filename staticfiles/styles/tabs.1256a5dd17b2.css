@@ -1,0 +1,47 @@
+/* Container div for the tabs */
+.tabs-container {
+    text-align: center;
+    margin: auto;
+    width: 400px;
+}
+
+.tabs-container table {
+    width: 100%;
+}
+
+.tabs-container input {
+    max-width: 300px;
+    width: 100%;
+    font-size: 1rem !important;
+}
+
+/* Container div for the buttons */
+.buttons-container {
+    overflow: hidden;
+    margin: auto;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+}
+
+.buttons-container button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 6.47px;
+    font-size: 20px;
+    color: white;
+    font-family: 'Win95';
+}
+
+.buttons-container button:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.buttons-container button.active {
+    background-color: #ccc;
+    color: black;
+}

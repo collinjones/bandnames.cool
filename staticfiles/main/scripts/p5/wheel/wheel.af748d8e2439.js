@@ -139,7 +139,7 @@ class Wheel {
 
             this.hideDothText();
 
-            var formElements = $('.form-element')
+            var formElements = $('.disable-group')
             this.disableElement(formElements);
 
             // Slow the wheel down
@@ -194,7 +194,7 @@ class Wheel {
             this.chooseBandname();
 
             if(Object.keys(this.previousBandnameSelected)[0]) {
-                var formElements = $('.form-element')
+                var formElements = $('.disable-group')
                 this.enableElement(formElements);
             }
 

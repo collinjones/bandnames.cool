@@ -2,6 +2,7 @@
 
 var doth_text;
 var genreElement;
+p5.disableFriendlyErrors = true;
 
 class Wheel {
 
@@ -20,6 +21,7 @@ class Wheel {
         this.bandnameSelected = {};          // current bandname selected
         this.previousBandnameSelected = {};  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
+        this.evenSepDiv2;
 
         /* Wheel settings */
         this.stopVelocity = 0.10;          // lower numbers stop the wheel at a higher velocity
@@ -129,6 +131,7 @@ class Wheel {
         // Depending on the # of bn on the wheel, get the degrees of an even separation 
         //  between the bandnames on the wheel
         this.evenSeparatorDeg = 360 / Object.keys(this.bandnamesOnWheel).length
+        this.evenSepDiv2 = this.evenSeparatorDeg/2
     }
 
     wheelIsStopped() {
@@ -160,12 +163,12 @@ class Wheel {
     }
 
     disableFormElements() {
-        const formElements = $('.form-element')
+        const formElements = $('.disable-group')
         this.disableElement(formElements);
     }
     
     enableFormElements() {
-        const formElements = $('.form-element')
+        const formElements = $('.disable-group')
         this.enableElement(formElements);
     }
 
@@ -181,19 +184,21 @@ class Wheel {
     }
 
     chooseBandname() {
-        const bandnames = Object.entries(this.bandnamesOnWheel); // Assuming bandnamesOnWheel is an object
-
-        bandnames.forEach(([key, value], i) => {
-            let angle_slice = this.evenSeparatorDeg * i;
-            let isBandnameSelected = (this.angle > angle_slice) && (this.angle < angle_slice + this.evenSeparatorDeg);
-
+        const keys = Object.keys(this.bandnamesOnWheel)
+        const values = Object.values(this.bandnamesOnWheel)
+        const len = keys.length
+        
+        // For each bandname on the wheel
+        for (var i = 0; i < len; i++) {  
+            const angleRangeForCurrentBand = this.evenSeparatorDeg * i
+            const isBandnameSelected = (this.angle > angleRangeForCurrentBand) 
+                && (this.angle < angleRangeForCurrentBand + this.evenSeparatorDeg)
+    
             if (isBandnameSelected) {
                 this.previousBandnameSelected = this.bandnameSelected;
-                this.bandnameSelected = {
-                    [key]: value,
-                }
+                this.bandnameSelected = {[keys[len - (i + 1)]]: values[len - (i + 1)]}
             }
-        });
+        }
     }
 
     hasBandnameChanges() {
@@ -380,6 +385,8 @@ class Wheel {
         fill(0, 0, 0, 255)
     }
 
+    
+
     /* Render the bandnames on the wheel */
     renderBandnames() {
 
@@ -391,27 +398,25 @@ class Wheel {
         }
 
         // Rotate half the even separator 
-        rotate(this.evenSeparatorDeg/2)
+        rotate(this.evenSepDiv2)
         rotate(-10)
+        
+        const num_bandnames = Object.keys(this.bandnamesOnWheel).length
+        if (profanity_filter == "True") {
+            this.drawBandnamesOnWheel(Object.values(this.bandnamesOnWheel), num_bandnames)
+        } else {
+            this.drawBandnamesOnWheel(Object.keys(this.bandnamesOnWheel), num_bandnames)
+        }
+    }
 
-        // Space out the bandnames evenly 
-        for (var i = 0; i < Object.keys(this.bandnamesOnWheel).length; i++) {
-
-            fill(0, this.angleV * 10, this.angleV * 10)
-
-            // Render with profanity off
-            if (profanity_filter == "True"){
-                text(Object.values(this.bandnamesOnWheel)[i], this.bandnameSpaceFromCenter, 0, 150, 100)
-            }
-            // Render with profanity on
-            else {
-                text(Object.keys(this.bandnamesOnWheel)[i], this.bandnameSpaceFromCenter, 0, 150, 100)
-            }
-
-            // Rotate each bandname by the even seperation in degrees
+    drawBandnamesOnWheel(bandnames, num_bandnames) {
+        for (var i = 0; i < num_bandnames; i++) {
+            text(bandnames[i], this.bandnameSpaceFromCenter, 0, 150, 100)
             rotate(this.evenSeparatorDeg)
         }
     }
+
+
 
     fadeInWheel() {
         if (this.alpha != 255){

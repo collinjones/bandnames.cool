@@ -14,7 +14,6 @@ def index(request):
     censored_bandnames = censor_bandnames(get_random_bandnames_for_wheel(collection_len)) if collection_len > 0 else []
     genres = get_genres()
 
-    
     # Sets up homepage if user is authenticated
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.id)

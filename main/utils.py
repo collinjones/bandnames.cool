@@ -5,8 +5,8 @@ from random import randint
 from django.contrib.auth.models import User
 import random
 from .logger import SimpleLogger
-import datetime
-logger = SimpleLogger(log_file=f'{datetime.date.today()}_app.log').get_logger()
+from django.utils import timezone
+logger = SimpleLogger(log_file=f'{timezone.now().strftime("%Y-%m-%d_%H:%M:%S")}_app.log').get_logger()
 import json
 from django.template.defaulttags import register
 from django import template
@@ -128,36 +128,44 @@ def censor_all_bandnames():
         bandname.bandname_censored = censor_bandname(bandname.bandname)
         bandname.save()
 
-# Creates a new bandname and saves it to the database. 
-# Returns true if successful, false otherwise. 
-def create_bandname(request, new_bandname, authenticated):
-
-    try:
-        if (Bandname.objects.get(bandname = new_bandname)):
-            return False
-    except Bandname.DoesNotExist:
-        new_bandname = Bandname(bandname = new_bandname,
-                                bandname_censored = censor_bandname(new_bandname),
-                                username = request.user.username if authenticated \
-                                                                 else "Anonymous",
-                                score = 0, 
-                                date_submitted=now().strftime("%Y-%m-%d"),
-                                ip_address = get_client_ip(request))
-        new_bandname.save()
-        return True
-
-# check_for_reject returns True if a reject word was found in bandname, False otherwise
-def check_for_reject(bandname):
-
-    auto_reject_words = open('static/main/filters/slurs.txt', "r")
-    for slur in auto_reject_words:
-        if slur.strip().lower() in bandname.strip().lower():
-            return "Slur"
+def create_bandname(request, new_bandname, authenticated, date):
+    return Bandname.objects.create(
+        bandname = new_bandname,
+        bandname_censored = censor_bandname(new_bandname),
+        username = request.user.username if authenticated \
+                                            else "Anonymous",
+        score = 0, 
+        date_submitted=date,
+        ip_address = get_client_ip(request)
+    )
     
-    if bandname == "":
-        return "Empty"
-    
-    return False
+def bandname_exists(bandname):
+    return Bandname.objects.filter(bandname=bandname).exists()
+
+# returns True if a reject word was found in bandname, False otherwise
+def is_reject_word(bandname):
+    response = {"is_valid": True, "reason": None}   
+
+    if not bandname:
+        response["is_valid"] = False
+        response["reason"] = "Please learn to read. There was no bandname to submit."
+        return response
+
+    if Bandname.objects.filter(bandname=bandname).exists():
+        response["is_valid"] = False
+        response["reason"] = "Sorry, somebody already thought of this one. Not submitted."
+        return response
+
+    REJECT_WORDS = open('static/main/filters/slurs.txt', "r")
+    bandname_normalized = bandname.strip().lower()
+    for slur in REJECT_WORDS:
+        slur = slur.replace("\n", "")
+        if slur in bandname_normalized:
+            response["is_valid"] = False
+            response["reason"] = "Rethink your life choices. Bandname not submitted."
+            return response
+
+    return response
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -285,56 +293,114 @@ def get_random_quip(fpath):
         random_quip = random_quip.replace("&&&", str(Bandname.objects.count()))
         return random_quip
     
-def build_judgement_json(request, judgement, default_bandname_selected_text):
+def build_judgement_json(request, judgement):
+    if 'bandname' not in request.POST:
+        return create_spin_wheel_response(request)
+
+    if request.POST['bandname'] == '':
+        return create_spin_wheel_response(request)
+
+    bandname = get_bandname(request)
+    if not bandname:
+        return create_spin_wheel_response(request)
+
+    user = get_authenticated_user(request)
     ip = get_client_ip(request)
-    voted = True
-    if 'bandname' in request.POST:
-        # Get the user object if authenticated
-        user = User.objects.get(pk=request.user.id) if request.user.is_authenticated else None
-        if request.POST['bandname'] != '':
-            bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-            
-            # Ensure user has not already voted on the bandname
-            if request.user.is_authenticated:
-                if bandname not in user.profile.voted_bandnames:
-                    voted = False
-            
-            # Ensure the IP address has not already voted on the bandname
-            if ip not in bandname.ip_addresses_voted:
-                voted = False
-            else:
-                voted = True
+    
+    if has_already_voted(bandname, user, ip):
+        return create_already_voted_response(bandname, request)
 
-            if not voted:
-                save_vote(judgement, bandname, ip, user)
-                refresh_list = get_random_bandnames_for_wheel(Bandname.objects.count())
-                json_response = {
-                        'vote_msg': "Voted up '" + bandname.bandname + "'"} if judgement == 'up' \
-                    else { 
-                        'vote_msg': "Voted down '" + bandname.bandname + "'"
-                }
-                json_response['bandname_json'] = {
-                    'authenticated': "False",
-                    'new_bandnames': refresh_list,
-                    'filtered_new_bandnames': [ProfanityFilter().censor(x) for x in refresh_list],
-                }
-            else:
-                json_response = { 
-                    'vote_msg': "Already voted: '" + bandname.bandname + "'", 
-                    'authenticated': request.user.is_authenticated
-                }
-        else: 
-            json_response = { 
-                'vote_msg': "Spin the wheel!", 
-                'authenticated': request.user.is_authenticated
-            }
-    else:
-        json_response = { 
-            'vote_msg': "Spin the wheel!", 
-            'authenticated': request.user.is_authenticated
+    save_vote(judgement, bandname, ip, user)
+    return create_voted_response(judgement, bandname, request)
+
+def create_spin_wheel_response(request):
+    return {
+        'vote_msg': "Spin the wheel!",
+        'authenticated': request.user.is_authenticated
+    }
+
+def get_bandname(request):
+    try:
+        return Bandname.objects.get(bandname=request.POST['bandname'])
+    except Bandname.DoesNotExist:
+        return None
+
+def get_authenticated_user(request):
+    return User.objects.get(pk=request.user.id) if request.user.is_authenticated else None
+
+def has_already_voted(bandname, user, ip):
+    if user and bandname in user.profile.voted_bandnames:
+        return True
+    return ip in bandname.ip_addresses_voted
+
+def create_already_voted_response(bandname, request):
+    return {
+        'vote_msg': f"Already voted: '{bandname.bandname}'",
+        'authenticated': request.user.is_authenticated
+    }
+
+def create_voted_response(judgement, bandname, request):
+    vote_msg = f"Voted up '{bandname.bandname}'" if judgement == 'up' else f"Voted down '{bandname.bandname}'"
+    refresh_list = get_random_bandnames_for_wheel(Bandname.objects.count())
+    return {
+        'vote_msg': vote_msg,
+        'bandname_json': {
+            'authenticated': "False",
+            'new_bandnames': refresh_list,
+            'filtered_new_bandnames': [ProfanityFilter().censor(x) for x in refresh_list],
         }
+    }
+    
+# def build_judgement_json(request, judgement):
+#     ip = get_client_ip(request)
+#     voted = True
+#     if 'bandname' in request.POST:
+#         # Get the user object if authenticated
+#         user = User.objects.get(pk=request.user.id) if request.user.is_authenticated else None
+#         if request.POST['bandname'] != '':
+#             bandname = Bandname.objects.get(bandname=request.POST['bandname'])
+            
+#             # Ensure user has not already voted on the bandname
+#             if request.user.is_authenticated:
+#                 if bandname not in user.profile.voted_bandnames:
+#                     voted = False
+            
+#             # Ensure the IP address has not already voted on the bandname
+#             if ip not in bandname.ip_addresses_voted:
+#                 voted = False
+#             else:
+#                 voted = True
 
-    return json_response
+#             if not voted:
+#                 save_vote(judgement, bandname, ip, user)
+#                 refresh_list = get_random_bandnames_for_wheel(Bandname.objects.count())
+#                 json_response = {
+#                         'vote_msg': "Voted up '" + bandname.bandname + "'"} if judgement == 'up' \
+#                     else { 
+#                         'vote_msg': "Voted down '" + bandname.bandname + "'"
+#                 }
+#                 json_response['bandname_json'] = {
+#                     'authenticated': "False",
+#                     'new_bandnames': refresh_list,
+#                     'filtered_new_bandnames': [ProfanityFilter().censor(x) for x in refresh_list],
+#                 }
+#             else:
+#                 json_response = { 
+#                     'vote_msg': "Already voted: '" + bandname.bandname + "'", 
+#                     'authenticated': request.user.is_authenticated
+#                 }
+#         else: 
+#             json_response = { 
+#                 'vote_msg': "Spin the wheel!", 
+#                 'authenticated': request.user.is_authenticated
+#             }
+#     else:
+#         json_response = { 
+#             'vote_msg': "Spin the wheel!", 
+#             'authenticated': request.user.is_authenticated
+#         }
+
+#     return json_response
 
 def get_genres():
     f = open('static/main/genres/genres.json', 'r')

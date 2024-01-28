@@ -13,6 +13,7 @@ var tick_sfx, vinyl_img, picker;
 var animation = [];
 var wheel_imgs = [];
 var isDragging = false;
+p5.disableFriendlyErrors = true;
 
 function setup() {
 
@@ -51,7 +52,7 @@ function draw() {
 function updateBandnameDisplay() {
     const bandnameSelectedHeader = document.getElementById('bandname-selected');
     const dothText = document.getElementById('doth-text'); // Assuming doth_text is an element
-    
+
     // Hide doth text if wheel is spinning / no bandname is selected
     if (wheel.isEmptyObject(wheel.bandnameSelected)) {
         dothText.style.visibility = 'hidden';
@@ -62,29 +63,19 @@ function updateBandnameDisplay() {
 }
 
 function updateSelectedBandnameHeader(heading) {
-    // Destructure bandnameSelected
     const [bandnameKey, bandnameValue] = Object.entries(wheel.bandnameSelected)[0];
     
     if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
         const rgb = getRandomRGB();
         const displayValue = profanity_filter === "True" ? bandnameValue : bandnameKey;
-
-        // Create a new span element with the desired style
         const spanElement = document.createElement("span");
         spanElement.style.color = `rgb(${rgb})`;
         spanElement.textContent = displayValue;
-
-        // Clear the heading element and append the span element
         heading.innerHTML = "";
         heading.appendChild(spanElement);
-
-        // Set the "value" attribute to bandnameKey
         heading.setAttribute("value", bandnameKey);
-
-        // Play the tick sound effect
         tick_sfx.play();
 
-        // Call the function to get genres for the bandname with handling
         if(wheel.state != wheel.states.Spinning) {
             wheel.getGenresForBandnameWithHandling();
         }

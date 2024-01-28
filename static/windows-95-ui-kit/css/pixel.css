@@ -3739,11 +3739,12 @@ button.section-black:focus {
  .card-header {
     position: relative;
     background: #808080;
-    font-size: .65rem;
-    padding: 4px;
+    font-size: 1.5rem;
     color: #C9C9C9;
     border-radius: 0;
     border: 2px solid #BDBDBD;
+    text-align: center;
+    padding:3px;
  }
 
  .card-header .icon {

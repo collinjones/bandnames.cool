@@ -24,7 +24,7 @@ $(window).on('getGenresForBandname', function(e) {
                 genres_cells.inner_html = ""
                 for (var i = 0; i < data['response_msg'].length; i++) {
                     genres_cells.inner_html += '\
-                        <td><button onclick="selectGenreCell(\'' + data["response_msg"][i] + '\')" class="btn mr-2 mb-2 btn-primary top3-genres-buttons form-element " type="button">\
+                        <td><button onclick="selectGenreCell(\'' + data["response_msg"][i] + '\')" class="btn mr-2 mb-2 btn-primary top3-genres-buttons disable-group " type="button">\
                             <span class="btn-text">' + data["response_msg"][i] + '</span>\
                         </button></td>\
                     '

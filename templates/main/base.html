@@ -32,8 +32,7 @@
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/site_wide.css' %} ">  <!-- Site Wide CSS -->
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">       <!-- Base CSS -->
         <link rel="stylesheet" type="text/css" href=" {% static 'main/styles/voting-history.css' %} "> <!-- Voting History CSS -->
-        <link rel="stylesheet" type="text/css" href=" {% static 'styles/tabs.css' %} "> <!-- Tabs CSS -->
-        <link rel="stylesheet" type="text/css" href=" {% static 'windows-95-ui-kit/css/pixel.css' %} "> <!-- Tabs CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'windows-95-ui-kit/css/pixel.css' %} "> <!-- Win95 UI CSS -->
 
 
         <!-- jQuery libraries -->
@@ -48,8 +47,6 @@
         <title> {% block title %} {% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-        <script type="text/javascript" src="{% static 'registration/scripts/profile.js' %} "></script>
-        <script type="text/javascript" src="{% static 'registration/scripts/tabs.js' %} "></script>
         <script type="text/javascript" src="{% static 'windows-95-ui-kit/js/pixel.js' %} "></script>
 
         
@@ -80,6 +77,5 @@
           document.getElementsByTagName("html")[0].style.visibility = "visible";
         });
     </script>
-    <script src="{% static 'main/scripts/genres_dropdown.js' %}"></script>
     
 </html>
