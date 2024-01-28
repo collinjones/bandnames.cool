@@ -1,0 +1,56 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en" class="default-cursor">
+
+    <head>  
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KNK42WR5H"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-5KNK42WR5H');
+        </script>
+
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="180x180" href=" {% static 'images/apple-touch-icon.png' %} ">
+        <link rel="icon" type="image/png" sizes="32x32" href=" {% static 'images/favicon-16x16.png' %} ">
+        <link rel="icon" type="image/png" sizes="16x16" href=" {% static 'images/favicon-32x32.png' %} ">
+        <link rel="manifest" href=" {% static 'images/site.webmanifest' %} ">
+
+        <!-- Website CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'styles/site_wide.css' %} ">  <!-- Site Wide CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">       <!-- Base CSS -->
+        <link rel="stylesheet" type="text/css" href=" {% static 'windows-95-ui-kit/css/pixel.css' %} "> <!-- Win95 UI CSS -->
+
+
+        <!-- jQuery libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+
+        <!-- General Settings -->
+        <meta name="viewport" content="width=device-width, initial-scale=0.89, minimum-scale=0.89" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="description" content="A community for submitting and voting on bandnames. Submit your bandname ideas here. Create an account to track your submitted bandnames.">
+        <title> {% block title %} {% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="{% static 'windows-95-ui-kit/js/pixel.js' %} "></script>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/404.css' %} ">
+    </head>
+
+    <!-- BODY -->
+    <body class = "cursor-default noselect">
+        <div id = 'pillars-div'>
+            <div id="page-not-found-div" style="text-align: center;">
+                <h3 style="color: white;">This page doesn't seem to exist...</h3>
+            </div>
+        </div>
+    </body>
+</html>

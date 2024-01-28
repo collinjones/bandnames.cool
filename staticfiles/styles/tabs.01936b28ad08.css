@@ -1,0 +1,44 @@
+/* Container div for the tabs */
+.tabs-container {
+    text-align: center;
+}
+
+/* Container div for the buttons */
+.buttons-container {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin: auto;
+    text-align: center;
+    display: inline-block;
+}
+
+.buttons-container button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 6.47px;
+    font-size: 20px;
+    color: white;
+    font-family: 'Win95';
+}
+
+.buttons-container button:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.buttons-container button.active {
+    background-color: #ccc;
+    color: black;
+}
+
+/* Content under the tab */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+    width: 65%;
+    margin: auto;
+}

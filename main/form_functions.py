@@ -5,67 +5,59 @@ from django.http import JsonResponse
 from .forms import CreateBandname, CreateBatchBandname
 from django.contrib.auth.models import User
 from accounts.models import Profile
-from django.utils.timezone import now
+from django.utils import timezone
 from datetime import date, timedelta
 from .utils import *
 import math 
 
 # `create` gets called when the user submits the bandname submission form
 def create(request):
+    """
+    Handle the creation of a new bandname.
 
-    if request.method == 'POST':
+    Args:
+    request: HttpRequest object
 
-        form = CreateBandname(request.POST)
+    Returns:
+    JsonResponse object
+    """
+    if request.method != 'POST':
+        return JsonResponse({'response_msg': 'Invalid request'})
 
-        if form.is_valid():
+    form = CreateBandname(request.POST)
+    if not form.is_valid():
+        return JsonResponse({'response_msg': 'Invalid form'})
 
-            new_bandname_str = form.cleaned_data['bandname']
+    new_bandname_str = form.cleaned_data['bandname']
 
-            # Check for rejects and return if found
-            reject_response = check_for_reject(new_bandname_str)
-            if reject_response != False:
-                if reject_response == "Empty":
-                    response = "Enter a bandname to submit"
-                elif reject_response == "Slur":
-                    response = "Please do not submit anything too vulgar"
-                else:
-                    response = "Why would you submit that?"  
-                json_response = { 
-                        'response_msg': response,
-                        'text_color': 'red'
-                }
-                return JsonResponse(json_response, safe = False)  
-            
-            # Try to create a new bandname 
-            if create_bandname(request, new_bandname_str, request.user.is_authenticated):
-                json_response = {
-                                'bandname': new_bandname_str,
-                                'username': request.user.username if request.user.is_authenticated \
-                                                                  else "Anonymous",
-                                'score': 0,
-                                'date_submitted': datetime.datetime.today(),
-                                'response_msg': "Submitted bandname: '" + new_bandname_str + "'",
-                                }
-            else:
-                json_response = { 'response_msg': 'Bandname already exists' }
+    reject_response = is_reject_word(new_bandname_str)
+    if not reject_response['is_valid']:
+        return JsonResponse({'response_msg': reject_response['reason']})
 
-        else:
-            json_response = { 'response_msg': 'Form was not valid' }
+    time_submitted = request.POST['timeDateSubmitted']
+    is_authenticated = request.user.is_authenticated
+    new_bandname_obj = create_bandname(request, new_bandname_str, is_authenticated, time_submitted)
 
-    return JsonResponse(json_response, safe = False)
-    
-# `vote` gets called when the user votes on a bandname
+    if new_bandname_obj:
+        json_response = {
+            'bandname': new_bandname_obj.bandname,
+            'username': request.user.username if is_authenticated else "Anonymous",
+            'score': new_bandname_obj.score,
+            'date_submitted': new_bandname_obj.date_submitted.strftime("%Y-%m-%d %H:%M:%S"),
+            'response_msg': f"Submitted bandname: '{new_bandname_obj.bandname}'",
+        }
+        return JsonResponse(json_response)
+    else:
+        return JsonResponse({'response_msg': 'Error creating bandname'})
+
 def vote(request):
-
-    # TODO - Get this dynamically somehow. Possibly from the request. 
-    default_bandname_selected_text = 'Click Here to Spin the Wheel!'
     json_response = { 
         'vote_msg': 'Error', 
         'authenticated': request.user.is_authenticated
     }
     
     if request.method == "POST":
-        json_response = build_judgement_json(request, request.POST['val'], default_bandname_selected_text)
+        json_response = build_judgement_json(request, request.POST['val'])
 
     return JsonResponse(json_response, safe = False) 
 
@@ -87,8 +79,9 @@ def batch_create(request):
                 batchList = read_in_list(form.cleaned_data['bandnames'], form.cleaned_data['numbered'], form.cleaned_data['dated'])
                 
                 # Check for rejects and return early if any are found
-                if check_for_reject(new_bandname_str):
-                    json_response = { 'response_msg': 'Why would you try to submit that?' }
+                reject_response = is_reject_word(new_bandname_str)
+                if reject_response['is_valid'] == False:
+                    json_response = { 'response_msg': reject_response['reason']}
                     return JsonResponse(json_response, safe = False)
                 
                 # Bandnames are good to submit at this point
@@ -97,7 +90,7 @@ def batch_create(request):
                                             bandname_censored=censor_bandname(bandname),
                                             username=request.user.username,
                                             score=0,
-                                            date_submitted=now().strftime("%Y-%m-%d"), 
+                                            date_submitted=timezone.now().strftime("%Y-%m-%d | %H:%M:%S"), 
                                             ip_address = get_client_ip(request))
                     new_bandname.save()
 
@@ -107,91 +100,6 @@ def batch_create(request):
             json_response = {"response_msg" : "Please login to submit a batch"}
 
     return JsonResponse(json_response, safe = False)
-
-def get_voted_history(request):
-    voted_bandnames_objs = []
-    if request.user.is_authenticated:
-        if request.method == "GET":
-            
-            search_query = request.GET.get('search[value]')
-            column_id = int(request.GET.get('order[0][column]'))
-            direction = request.GET.get('order[0][dir]')
-            data = []
-            voted_bandnames = request.user.profile.voted_bandnames
-            user = User.objects.get(pk=request.user.id)
-
-            # Ensure the user has voted on something before proceeding
-            if voted_bandnames != None:
-
-                # Populate the final list used by the DataTable
-                for entry in voted_bandnames.copy():
-
-                    # Try to make an entry (otherwise delete because it was probably a leftover)
-                    try:
-                        
-                        json_entry = {
-                            "bandname": censor_bandname(entry) if user.profile.profanity_filter else entry,
-                            "score": voted_bandnames[entry]['score'],
-                            "username": voted_bandnames[entry]['username'],
-                            "date_submitted": voted_bandnames[entry]['date_submitted'],
-                        }
-                        data.append(json_entry)
-                    except:
-                        del voted_bandnames[entry]
-                        
-                submission_count = len(data)
-                _start = request.GET.get('start')
-                _length = request.GET.get('length')
-                page = 0
-                length = 0
-                per_page = 10
-
-                # Process sorting and searching
-                data = sort_table(data, column_id, direction)
-                if search_query:
-                    for bandname in data.copy():
-                        if search_query.lower() not in bandname['bandname'].lower():
-                            data.remove(bandname)
-                    data = sort_table(data, column_id, direction)
-
-                if _start and _length:
-                    start = int(_start)
-                    length = int(_length)
-                    page = math.ceil(start / length) + 1
-                    per_page = length
-                    data = data[start:start + length]
-                    lookup_list = []
-
-                    # Ensuring that the name the user voted on is the same as the actual 
-                    #   score in the database
-                    for entry in data: 
-                        lookup_list.append(entry['bandname'])
-
-                    bandnames = list(Bandname.objects.filter(bandname__in=lookup_list).order_by('bandname')) 
-                    for bandname in bandnames:
-                        for voted_name in user.profile.voted_bandnames:
-                            if (bandname.bandname == voted_name):
-                                if bandname.score != user.profile.voted_bandnames[voted_name]['score']:
-                                    user.profile.voted_bandnames[voted_name]['score'] = bandname.score
-                    user.save()
-
-                response = {
-                    "data": data,
-                    "page": page,
-                    "per_page": per_page,
-                    "recordsTotal": submission_count,
-                    "recordsFiltered": submission_count,
-                }
-                return JsonResponse(response)
-
-    response = {
-        "data": voted_bandnames_objs,
-        "page": 0,
-        "per_page": 0,
-        "recordsTotal": 0,
-        "recordsFiltered": 0,
-    }
-    return JsonResponse(response)
 
 def get_top_ten_bandnames(request):
     top_ten_bandnames = list(Bandname.objects.values("username", "bandname", "score").order_by("-score")[:10])
@@ -294,7 +202,7 @@ def new_genre_submit(request):
                 if genre.lower() == key.lower():
                     bandname_obj.genres[key]['score'] += 1
                     bandname_obj.save()
-                    return JsonResponse({"response_msg": f"Submitting {genre} to band {bandname}!"})
+                    return JsonResponse({"response_msg": f"{bandname} flavored with {genre}!"})
 
             bandname_obj.genres[genre] = {
                 "score": 1,

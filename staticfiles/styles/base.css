@@ -5,7 +5,6 @@ html {
     font-family: Pixelated;
     overflow-y: scroll;
     overflow-x: hidden !important;
-    visibility: hidden;
 }
 
 body {
@@ -38,11 +37,31 @@ body {
 }
 
 input[type="text"] {
+    font-size: 16px;
+    cursor: url("../images/cursor-text.png"), auto !important;
+}
+
+input {
+    font-family: "Win95";
+}
+
+.login-field {
+    margin: 5px;
     font-family: 'Pixelated';
     font-size: 16px;
     cursor: url("../images/cursor-text.png"), auto !important;
 }
 
+.signup-form-header {
+    margin: 5px;
+}
+
+.signup-field {
+    margin: 5px;
+    font-family: 'Pixelated';
+    font-size: 16px;
+    cursor: url("../images/cursor-text.png"), auto !important;
+}
 .pixelated-font {
     font-family: 'Pixelated';
 }
@@ -68,15 +87,6 @@ a {
     
 }
 
-#user-submissions-div {
-    width: 400px;
-    height: 65%;
-    margin: auto;
-    position: relative;
-    background-color: rgba(116, 173, 112, 0.7);
-    border-radius: 25px;
-}
-
 .score-header {
     width: 100px;
 }
@@ -87,11 +97,6 @@ a {
 
 .dataTables_wrapper .dataTables_length {
     margin: 5px;
-}
-
-table.dataTable {
-    width: 100% !important;
-    margin: 0 0 !important;
 }
 
 .noselect {
@@ -144,14 +149,6 @@ table.dataTable tbody td {
     padding: 0px !important;
 }
 
-.display {
-    width: 300px !important
-}
-
-.dataTable {
-    width: 300px !important
-}
-
 .delete-button {
     width: 25px;
 }
@@ -161,9 +158,6 @@ table.dataTable tbody td {
     height: 25px;
 }
 
-/* #dataTables_wrapper{
-    height:83%;
-} */
 .tableHeaders {
     text-align: center;
 }
@@ -251,34 +245,19 @@ table.dataTable tbody td {
 }
 
 #arch-img {
-    width: 1200px;
+    width: 1167px;
     image-rendering: crisp-edges;
     position: absolute;
     height: 330px;
     z-index: 1;
     transform: translateX(-50%);
     left: 50%;
-    
 }
 
 #voting-system {
     display: inherit;
     position: relative;
-    width: 400px;
     margin: auto;
-    margin-top: 50px;
-}
-
-#bandname-submit {
-    font-family: 'Win95';
-    width: 89px;
-    background-color: transparent;
-    border: none;
-    position: absolute;
-    left: 281px;
-    font-size: 16px;
-    margin-top: 155px;
-    padding: 0;
 }
 
 #nav-div {
@@ -288,11 +267,6 @@ table.dataTable tbody td {
 
 #outer-nav-div {
     position: absolute;
-}
-
-table.dataTable thead th {
-    padding: 0 !important;
-    text-align: center !important;
 }
 
 table.dataTable tbody td {
@@ -422,41 +396,6 @@ table.dataTable tbody td {
     color: green;
 }
 
-
-
-#login-div {
-    width: 300px;
-    margin: auto;
-    text-align: center;
-    position: relative;
-}
-
-#login-form {
-    position: absolute;
-    top: 0px;
-    height: 300px;
-    right: 0px;
-}
-
-#login-img {
-    width: 300px;
-    image-rendering: crisp-edges;
-    
-}
-
-#signup-img {
-    width: 300px;
-    image-rendering: crisp-edges;
-    
-}
-
-#signup-div {
-    position: relative;
-    width: 400px;
-    text-align: center;
-    margin: auto;
-}
-
 #signup-div-content {
     position: absolute;
     top: 0;
@@ -532,7 +471,7 @@ table.dataTable tbody td {
 
 #pillars-div {
     width: 700px;
-    height: 942px;
+    height: 880px;
     margin: auto;
     position: relative;
     
@@ -544,7 +483,7 @@ table.dataTable tbody td {
     top: 0;
     overflow-x: hidden;
     overflow-y: hidden;
-    height: 942px;
+    height: 880px;
     image-rendering: crisp-edges;
     z-index: 1;
     
@@ -556,7 +495,7 @@ table.dataTable tbody td {
     top: 0;
     overflow-x: hidden;
     overflow-y: hidden;
-    height: 942px;
+    height: 880px;
     image-rendering: crisp-edges;
     z-index: 1;
     
@@ -616,17 +555,6 @@ table.dataTable tbody td {
     margin-top: 5px;
     font-weight: 3;
     font-size: 15px;
-}
-
-#bandname {
-    background-color: #fdf8ff;
-    outline: none;
-    position: absolute;
-    left: 233px;
-    width: 308px;
-    height: 16px;
-    font-family: 'Win95';
-    margin-top: 103px;
 }
 
 #post-form {
@@ -728,10 +656,8 @@ table.dataTable tbody td {
 }
 
 #profile-body{
-    position: absolute;
-    width:100%;
-    height:100%;
-    text-align: center;
+    width: 90%;
+    margin: auto;
 }
 
 #upvote-text{
@@ -787,6 +713,10 @@ table.dataTable tbody td {
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
     color: #9f9f9f !important;
+}
+
+.dataTables_wrapper table {
+    width: 100% !important;
 }
 
 #profile-body-top {
@@ -909,12 +839,6 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     50%  { transform: translate(0, 15px); }
 }
 
-.genres-div {
-    text-align: center;
-    margin: auto;
-    margin-bottom: 15px;
-}
-
 .genres-table{
     margin: auto;
 }
@@ -941,11 +865,6 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     z-index: 1;
     margin: auto;
     position: relative;
-}
-
-
-#genre-search {
-    width: 90%;
 }
 
 .genre-dropdown {
@@ -1010,7 +929,7 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     display: none;
 }
 
-#new-genre-submit {
+.submit-button{
     font-family: "Win95";
     font-size: 15px;
     padding: 0px;
@@ -1022,3 +941,40 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
 #new-genre-label {
     font-size: 10px;
 }
+
+.stat-label {
+    color: black;
+    float: right;
+}
+
+.user-stats-table {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.login-errors {
+    color: #ff4a4a;
+    width: 75%;
+    margin: auto;
+}
+
+.signup-errors {
+    color: #ff4a4a;
+    width: 70%;
+    margin: auto;
+}
+
+.type-submit-table {
+    margin: auto;
+}
+
+#bandnames-table-voted_wrapper {
+    bottom: 440px;
+    width: 70%;
+    margin: auto;
+}
+
+table th {
+    text-align: center !important;
+}
+

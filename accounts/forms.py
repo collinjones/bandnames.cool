@@ -1,8 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import SetPasswordForm, UserModel
-
-# class ProfileForm(forms.Form):
-#     profanity_filter = forms.BooleanField(required=False)
 
 class SetPasswordForm(SetPasswordForm):
     class Meta:

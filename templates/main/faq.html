@@ -43,11 +43,11 @@
 
             <h3 class="faq-text">Why are all the names I'm seeing censored? </h3>
             <p class="faq-text">A site-wide profanity filter is enabled by default. To turn off the profanity filter, 
-                please <a href="{% url 'accounts' %}">sign up</a> for an account and then navigate to the "Profile" button at the top of the 
+                please <a href="{% url 'login' %}?tab_selection=signup-div">sign up</a> for an account and then navigate to the "Profile" button at the top of the 
                 webpage, hit Settings and uncheck the "Profanity Filter" checkbox. </p>
 
             <h3 class="faq-text">Can I see the bandnames I've uploaded? </h3>
-            <p class="faq-text">Yes, you can! Currently, the only way to view the bandnames you've uploaded is to <a href="{% url 'accounts' %}">sign up</a>
+            <p class="faq-text">Yes, you can! Currently, the only way to view the bandnames you've uploaded is to <a href="{% url 'login' %}?tab_selection=signup-div">sign up</a>
                 for an account - you can then view your submitted bandnames in the "Submissions" tab of your profile page.</p>
 
             <h3 class="faq-text">What is Bandalytics? </h3>

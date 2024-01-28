@@ -6,6 +6,10 @@
 
 {% block body %}
 
+<script type="text/javascript" src="{% static 'scripts/tabs.js' %} "></script>
+<link rel="stylesheet" type="text/css" href=" {% static 'styles/tabs.css' %} "> <!-- Tabs CSS -->
+<script type="text/javascript" src="{% static 'registration/scripts/profile.js' %} "></script>
+
 <div id = 'pillars-div'>
 
     <div id="transparent-background"></div>
@@ -16,31 +20,101 @@
     
     <div id = "profile-body" style="color:white" >
 
-        <div class="tab">
-            <button class="tablinks active" onclick="openTab(event, 'Submissions')">Submissions</button>
-            <button class="tablinks" onclick="openTab(event, 'Judgements')">Judgements</button>
-            <button class="tablinks" onclick="openTab(event, 'Reset Password')">Reset Password</button>
-            <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+        <div class="buttons-container ">
+            <button class="tablinks" onclick="openTab('Stats')">Stats</button>
+            <button 
+                class="tablinks" 
+                onclick="openTab('Submissions');generateDataTable('bandnames-table-submissions', '/registration/profile/get_voted_history', 300)">Submissions
+            </button>
+
+            <button 
+                class="tablinks" 
+                onclick="openTab('Judgements');generateDataTable('bandnames-table-voted', '/registration/profile/get_user_submissions', 260)">Judgements
+            </button>
+            <button class="tablinks" onclick="openTab('Settings')">Settings</button>
+        </div>
+
+        <!-- USER STATISTICS -->
+        <div id="Stats" class="tabcontent" style="display: block;">
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="card card-tertiary">
+                    <div class="card-header">
+                        <span style="font-size: 20px;" class="ml-4">User Stats</span>
+                    </div>
+                    <div class="card-body">
+                        <table class="user-stats-table">
+                            <tr>
+                                <td>
+                                    <span class="stat-label">Username</span><br>
+                                </td>
+                                <td>
+                                    {{user}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="stat-label">Bandnames Submitted</span><br>
+                                </td>
+                                <td>
+                                    {{bn_submitted}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="stat-label">Score</span><br>
+                                </td>
+                                <td>
+                                    {{score}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="stat-label"># of righteous bandnames</span><br>
+                                </td>
+                                <td>
+                                    {{righteous_bn_count}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="stat-label"># of blasphemous bandnames</span><br>
+                                </td>
+                                <td>
+                                    {{blasphemous_bn_count}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
           
-        <div id="Submissions" class="tabcontent" style="display: block;">
-            <div id="user-submissions-div" style="color: rgb(255, 255, 255);">
-                <h2 id="profile-header" style="text-align: center; color: white;">{{ user }} | {{score}}</h1>
-                <div id = "user-submissions-table">
-                    <table id="bandnames-table-profile"  class="display dt-center">
-                        <thead>
-                            <tr>
-                                <th>Bandname</th>
-                                <th class="score-header">Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id='bandnames-table-body-profile'>
-                        </tbody>
-                    </table>
+        <!-- USER SUBMISSIONS -->
+        <div id="Submissions" class="tabcontent">
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="card card-tertiary">
+                    <div class="card-header">
+                        <span style="font-size: 20px;" class="ml-4">Submissions</span>
+                    </div>
+                    <div class="card-body">
+                        <div id = "user-submissions-table">
+                            <table id="bandnames-table-submissions"  class="display dt-center">
+                                <thead>
+                                    <tr>
+                                        <th>Bandname</th>
+                                        <th class="score-header">Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody id='bandnames-table-body-profile'>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
+        <!-- USER JUDGEMENTS -->
         <div id="Judgements" class="tabcontent">
             <div class="voted-history-div" id="voting-system">
                 <h3 id="annals-header">Annals of Judged Bandnames</h3>
@@ -56,12 +130,8 @@
                 </table>
             </div>
         </div>
-        
-        <div id="Reset Password" class="tabcontent">
-            <h3>Reset Password</h3>
-            <p>Coming soon!</p>
-        </div>
 
+        <!-- USER SETTINGS -->
         <div id="Settings" class="tabcontent">
             <form id = "profile-form">
                 {% csrf_token %}

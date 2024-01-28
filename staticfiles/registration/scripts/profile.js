@@ -1,10 +1,29 @@
 var table;
 var unblockUI_timeout = 100;
 
-function reset_table(table, tableId) {
+function reset_table(table) {
     table.clear().destroy()
-    $(tableId + " tbody").empty();
-    $(tableId + " thead").empty();
+    $(table.id + " tbody").empty();
+    $(table.id + " thead").empty();
+}
+
+function generateDataTable(id, url, height) {
+    reset_table($('#' + id).DataTable())
+    $('#' + id).DataTable({
+        "processing": true,
+        "serverSide": true,
+        "scrollY": height,
+        "scrollX": false,
+        "order": [ 1, 'desc' ],
+        ajax: {
+            "type" : "GET",
+            "url": url
+        },
+        columns: [
+            {data: "bandname"},
+            {data: "score"},
+        ]
+    });
 }
 
 $(document).ready(function () {
@@ -12,15 +31,12 @@ $(document).ready(function () {
     $('#bandnames-table-voted').DataTable({
         "processing": true,
         "serverSide": true,
-        "scrollY": "160",
+        "scrollY": "260",
         "scrollX": false,
         "order": [ 1, 'desc' ],
-        "columnDefs": [
-            { "width": "20px", "targets": 1 }
-        ],
         ajax: {
             "type" : "GET",
-            "url": "/get_voted_history"
+            "url": "/registration/profile/get_voted_history"
         },
         columns: [
             {data: "bandname"},
@@ -28,7 +44,7 @@ $(document).ready(function () {
         ]
     });
 
-    table = $('#bandnames-table-profile').DataTable({
+    table = $('#bandnames-table-submissions').DataTable({
         "processing": true,
         "serverSide": true,
         "scrollY": "340",
@@ -36,7 +52,7 @@ $(document).ready(function () {
         "order": [ 1, 'desc' ],
         ajax: {
             "type" : "GET",
-            "url": "/registration/profile/get_rows"
+            "url": "/registration/profile/get_user_submissions"
         },
         columns: [
             {data: "bandname"},
@@ -45,13 +61,13 @@ $(document).ready(function () {
     });
 
     $("#profanity_switch").click(function(e) {
-        e.preventDefault(); // Stop page from refreshing
+        e.preventDefault();
         $.blockUI({ message: null }); 
         var value = $("#profanity_switch").prop('checked')
 
         $.ajax({
             type: 'POST',
-            url: "/registration/ProfanityToggle/",
+            url: "/registration/profile/toggle_profanity/",
             data: {
                 profanity_filter: document.getElementById('profanity_switch').value,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
@@ -64,23 +80,6 @@ $(document).ready(function () {
                     $("#profanity_switch").prop('checked', true)
                 }
 
-                var tableId = "#bandalytics-table"
-                reset_table(table, tableId);
-                table = $('#bandnames-table-profile').DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "scrollY": "340",
-                    "scrollX": false,
-                    "order": [ 1, 'desc' ],
-                    ajax: {
-                        "type" : "GET",
-                        "url": "/registration/profile/get_rows"
-                    },
-                    columns: [
-                        {data: "bandname"},
-                        {data: "score"},
-                    ]
-                });
                 setTimeout(function() {
                     $.unblockUI();
                 }, unblockUI_timeout); 

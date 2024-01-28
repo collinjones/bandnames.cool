@@ -160,12 +160,12 @@ class Wheel {
     }
 
     disableFormElements() {
-        const formElements = $('.form-element')
+        const formElements = $('.disable-group')
         this.disableElement(formElements);
     }
     
     enableFormElements() {
-        const formElements = $('.form-element')
+        const formElements = $('.disable-group')
         this.enableElement(formElements);
     }
 

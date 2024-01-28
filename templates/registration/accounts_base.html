@@ -24,6 +24,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/site_wide.css' %} ">
         <link rel="stylesheet" type="text/css" href=" {% static 'styles/base.css' %} ">
+        <link rel="stylesheet" type="text/css" href=" {% static 'windows-95-ui-kit/css/pixel.css' %} "> <!-- Win95 UI CSS -->
 
         <!-- jQuery libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -36,6 +37,10 @@
         <title> {% block title %} {% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+
+        <script type="text/javascript" src="{% static 'scripts/tabs.js' %} "></script>
+        <link rel="stylesheet" type="text/css" href=" {% static 'styles/tabs.css' %} "> <!-- Tabs CSS -->
 
     </head>
 

@@ -1,12 +1,3 @@
-#bandnames-table-voted_wrapper {
-    position: absolute !important;
-    width: 310px !important;
-    bottom: 63px !important;
-    right: 47px !important;
-    height: 75%;
-}
-
-
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
     color: rgb(252, 252, 252) !important;
 }
@@ -14,13 +5,20 @@
 .dataTables_wrapper .dataTables_filter {
     float: left !important;
     text-align: left !important;
+    margin: 5px;
   }
 
-.dataTables_scrollHeadInner table{  width:100% !important; }
-
+.dataTables_scrollHeadInner table { 
+    width: 100% !important;
+    color: black;
+}
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 1px !important;
+}
+
+#dataTables_scrollHead {
+    width: 100%;
 }
 
 table.dataTable thead > tr > th.sorting::after, 

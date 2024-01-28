@@ -1,0 +1,7 @@
+#page-not-found-div {
+    text-align: center;
+    vertical-align: middle;
+    display: grid;
+    height: 50%;
+    align-content: center;
+}

@@ -12,8 +12,8 @@ class Bandname(models.Model):
     username = models.CharField(max_length=150)
     score = models.IntegerField()
     date_submitted = models.DateTimeField(auto_now_add=True)
-    ip_address = models.GenericIPAddressField(default='0.0.0.0')
-    ip_addresses_voted = ArrayField(models.GenericIPAddressField(default = '0.0.0.0'), default = ['0.0.0.0'])
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    ip_addresses_voted = ArrayField(models.GenericIPAddressField(null=True, blank=True), default=list)
     genres = JSONField(default=dict)
     
     def __str__(self):
