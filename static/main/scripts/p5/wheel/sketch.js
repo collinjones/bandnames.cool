@@ -15,6 +15,8 @@ var wheel_imgs = [];
 var isDragging = false;
 p5.disableFriendlyErrors = true;
 
+let initializeCodeRan = false;
+
 function setup() {
 
     // Setup canvas
@@ -37,49 +39,21 @@ function setup() {
     // Set the wheel tick sound fx volume
     tick_sfx.setVolume(0.1)
 
-    wheel = new Wheel(WHEEL_COLOR, bandnames, wheel_imgs)
+    // Initialize chosen bandname header
+    const bandnameSelectedHeading = document.getElementById('bandname-selected');
+    bandnameSelectedHeading.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click here to spin and stop the wheel</span>";
+    bandnameSelectedHeading.setAttribute("value", "");
+
+    wheel = new Wheel(WHEEL_COLOR, bandnames, wheel_imgs, bandnameSelectedHeading)
+
 }
 
 function draw() {
     clear();
     wheel.update();
-
-    updateBandnameDisplay();
     toggleVotingLinks();
     resetWheelOnVote();
-}
 
-function updateBandnameDisplay() {
-    const bandnameSelectedHeader = document.getElementById('bandname-selected');
-    const dothText = document.getElementById('doth-text'); // Assuming doth_text is an element
-
-    // Hide doth text if wheel is spinning / no bandname is selected
-    if (wheel.isEmptyObject(wheel.bandnameSelected)) {
-        dothText.style.visibility = 'hidden';
-        bandnameSelectedHeader.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click Here to Spin the Wheel! </span>";
-    } else {
-        updateSelectedBandnameHeader(bandnameSelectedHeader);
-    }
-}
-
-function updateSelectedBandnameHeader(heading) {
-    const [bandnameKey, bandnameValue] = Object.entries(wheel.bandnameSelected)[0];
-    
-    if (!objectsEqual(wheel.bandnameSelected, wheel.previousBandnameSelected)) {
-        const rgb = getRandomRGB();
-        const displayValue = profanity_filter === "True" ? bandnameValue : bandnameKey;
-        const spanElement = document.createElement("span");
-        spanElement.style.color = `rgb(${rgb})`;
-        spanElement.textContent = displayValue;
-        heading.innerHTML = "";
-        heading.appendChild(spanElement);
-        heading.setAttribute("value", bandnameKey);
-        tick_sfx.play();
-
-        if(wheel.state != wheel.states.Spinning) {
-            wheel.getGenresForBandnameWithHandling();
-        }
-    }
 }
 
 function toggleVotingLinks() {
@@ -95,10 +69,10 @@ function resetWheelOnVote() {
     const heading = document.getElementById('bandname-selected');
 
     if (voted) {
-        heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> No bandname selected - SPIN THE WHEEL</span>";
-        heading.setAttribute("value", "");
         wheel.reset_wheel();
         voted = false;
+        heading.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click here to spin and stop the wheel</span>";
+        heading.setAttribute("value", "");
     }
 }
 
@@ -111,9 +85,6 @@ function mousePressed() {
 function mouseDragged() {
     if (wheel.mouseStartedInsideCanvas) { 
         isDragging = true;
-        wheel.angleV = 0;
-        let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
-        wheel.pAngle = v.heading();
     }
 }
 
@@ -143,7 +114,7 @@ function mouseInsideCanvas() {
 function handleSpinButton() {
 
     if (wheel.state == wheel.states.Spinning) {
-        wheel.stopWheelIfNecessary(override=true)
+        wheel.stopWheel()
     } else {
         wheel.spin(Math.random() * 20 + 5)
     } 
@@ -163,18 +134,6 @@ function preload() {
         final_dir = dir_root + x.toString() + file_type
         this.wheel_imgs.push(loadImage(final_dir))
     }
-}
-
-function objectsEqual(obj1, obj2) {
-    var obj1_key = Object.keys(obj1)[0]
-    var obj1_value = Object.values(obj1)[0]
-    var obj2_key = Object.keys(obj2)[0]
-    var obj2_value = Object.values(obj2)[0]
-
-    if ((obj1_key == obj2_key) && (obj1_value == obj2_value)){
-        return true
-    }
-    return false
 }
 
 function getRandomRGB() {
