@@ -45,11 +45,13 @@ class Wheel {
         this.previousSegmentIndex = null;
         this.stopActionsExecuted = false;
         this.bandnameSelectedHeading = bandnameSelectedHeading;
+        this.isDragging = false;
         this.populateWheel();
     }
 
     /* Main wheel logic, updates the wheel */
     update() {
+        console.log(this.state)
         this.handleCanvasDrag();
         this.rotateWheel();
         // this.adjustPentagramAnimationSpeed();
@@ -160,6 +162,8 @@ class Wheel {
         if (this.bandnameSelectedChanged()) {
             tick_sfx.play();
         }
+
+        this.pastAngle = this.angle;
     
         // Only run this code if the wheel is spinning
         this.slowDownWheel();
@@ -202,7 +206,6 @@ class Wheel {
         this.previousBandnameSelected = this.bandnameSelected;
         this.bandnameSelected = newSelectedBandname;
         this.bandnameChangeProcessed = false;
-        // console.log(this.bandnameSelected, this.angle)
     }
 
     objectsEqual(obj1, obj2) {
@@ -239,8 +242,8 @@ class Wheel {
     executeWheelStopActions() {
         this.pastAngle = this.angle;
         this.chooseBandname();
-        this.getGenresForBandnameWithHandling();
         this.updateSelectedBandnameHeader();
+        this.getGenresForBandname();
         this.showDothText();
         this.enableFormElements();
         this.resetWheelState();
@@ -248,14 +251,6 @@ class Wheel {
 
     hasPreviousBandnameSelected() {
         return Object.keys(this.previousBandnameSelected).length > 0;
-    }
-    
-    getGenresForBandnameWithHandling() {
-        try {
-            this.getGenresForBandname();
-        } catch (error) {
-            // Handle error
-        }
     }
 
     getGenresForBandname() {
@@ -320,39 +315,57 @@ class Wheel {
         this.bn_glow_clock.tick();
     }
 
+    sumDyDx(x, y) {
+        let dy = x - pmouseY;
+        let dx = -(y - pmouseX);
+        
+        const mouseOnLeftSide = mouseX <= width/2;
+        if (mouseOnLeftSide) {
+            dy *= -1; // flip dy if mouse is on the left side of the wheel
+        }
+        return dy + dx;
+    }
+
     handleCanvasDrag() {
         if (this.mouseStartedInsideCanvas && mouseIsPressed) {
+
             // Calculate the change in mouse position
             this.angleV = 0;
-            let sumMouseChange = this.sumMouseDyDx();
-            
+            let sumMouseChange = this.sumDyDx(mouseY, mouseX);
+ 
             // Calculate the segment index and handle changes if needed
             const currentSegmentIndex = Math.floor(this.angle / this.evenSeparatorDeg) % 8;
             if (this.previousSegmentIndex !== currentSegmentIndex) {
                 tick_sfx.play();
                 this.chooseBandname();
                 this.updateSelectedBandnameHeader();
-                this.getGenresForBandnameWithHandling();
+                this.getGenresForBandname();
                 this.previousSegmentIndex = currentSegmentIndex;
             }
-    
+
             // Check if there is an ongoing drag or actual mouse movement
             if (this.isDragging || sumMouseChange !== 0) {
-                // Update the flag to indicate dragging
-                this.isDragging = true;
     
                 // Dampen the speed of the wheel while dragging and update the angle
                 let drag_dampener = 0.25; // lower numbers make the wheel spin slower
-                this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+
+                if (isTouchDevice() && this.isDragging) {
+                    this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+                } else if (isTouchDevice() && !this.isDragging) {
+                    this.angle = this.pastAngle
+                } else {
+                    this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+                }
+
                 this.handleAngleBounds(); // Ensure the angle stays within bounds
 
-                // Always update `this.pastAngle` to the latest `this.angle`
-                this.pastAngle = this.angle;
-            
                 // Additional logic for handling the drag (if any)
                 let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
                 this.pAngle = v.heading();
             }
+            
+            this.pastAngle = this.angle;
+
         } else if (this.isDragging) {
             this.isDragging = false;
         }
@@ -392,9 +405,6 @@ class Wheel {
                 this.angleV = -this.maxAngleV;
             }
         }
-    }
-
-    resetAngle(angle) {
     }
 
     /* Reset the wheel if angle crosses 360/0 degrees */
@@ -470,7 +480,7 @@ class Wheel {
 
     spin(aV) {
         this.angleV = aV;
-        this.state = this.states.Spinning;
+        this.setState(this.states.Spinning)
     }
 
     /* Calls the other render functions in the proper order */

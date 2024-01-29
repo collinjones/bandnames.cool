@@ -16,6 +16,7 @@ var isDragging = false;
 p5.disableFriendlyErrors = true;
 
 let initializeCodeRan = false;
+let touchStartTime;
 
 function setup() {
 
@@ -35,6 +36,22 @@ function setup() {
     // Setup spin button
     const spinButton = select('#bandname-selected')
     spinButton.mousePressed(handleSpinButton)
+
+    spinButton.elt.addEventListener('touchstart', function(event) {
+        event.preventDefault(); // Prevents default touch behavior
+        touchStartTime = new Date().getTime(); // Record start time
+    });
+    
+    spinButton.elt.addEventListener('touchend', function(event) {
+        event.preventDefault(); // Prevents default touch behavior
+        let touchEndTime = new Date().getTime(); // Get end time
+        let touchDuration = touchEndTime - touchStartTime; // Calculate duration
+    
+        // Trigger action only if it's a tap (short duration touch)
+        if (touchDuration < 10) { // 200 milliseconds threshold for tap
+            handleSpinButton();
+        }
+    });
 
     // Set the wheel tick sound fx volume
     tick_sfx.setVolume(0.1)
@@ -84,19 +101,27 @@ function mousePressed() {
 
 function mouseDragged() {
     if (wheel.mouseStartedInsideCanvas) { 
+        wheel.isDragging = true;
         isDragging = true;
     }
 }
 
+function mouseIsStopped() {
+    return mouseX == pmouseX && mouseY == pmouseY
+}
+
 function mouseReleased() {
-    if (isDragging) {
-        if (mousePosX != mouseX && mousePosY != mouseY) {
-            if (wheel.mouseStartedInsideCanvas) {
-                let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
-                wheel.spin(v2.heading() - wheel.pAngle);
-            }
-        }
+    // If mouse did not start inside canvas, do nothing and return
+    if (!wheel.mouseStartedInsideCanvas) {
+        return;
     }
+    // Check if the mouse was dragged
+    if (isDragging && !mouseIsStopped()) {
+        let v2 = createVector(mouseX - width / 2, mouseY - height / 2);
+        wheel.spin(v2.heading() - wheel.pAngle);
+    }
+
+    // Reset for the next interaction
     wheel.mouseStartedInsideCanvas = false;
     isDragging = false;
 }
@@ -112,7 +137,6 @@ function mouseInsideCanvas() {
 
 // Function for spin wheel button
 function handleSpinButton() {
-
     if (wheel.state == wheel.states.Spinning) {
         wheel.stopWheel()
     } else {
@@ -141,4 +165,8 @@ function getRandomRGB() {
     var g = Math.floor(Math.random() * 255) + 100;
     var b = Math.floor(Math.random() * 255) + 100;
     return r + ", " + g + ", " + b
+}
+
+function isTouchDevice() {
+    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 }
