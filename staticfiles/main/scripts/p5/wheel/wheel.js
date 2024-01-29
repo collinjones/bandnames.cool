@@ -6,13 +6,13 @@ p5.disableFriendlyErrors = true;
 
 class Wheel {
 
-    constructor(color, bandnames, wheel_imgs) {
+    constructor(color, bandnames, wheel_imgs, bandnameSelectedHeading) {
 
         this.wheel_imgs = wheel_imgs;
         this.frame_counter = 0;
 
         /* Misc. attributes */
-        this.states = { Stopped: "stopped", Spinning: "spinning" }  // States that the wheel can be in
+        this.states = { Stopped: "stopped", Spinning: "spinning", Initial: "initial" }  // States that the wheel can be in
 
         /* Bandname & Line settings */
         this.bandnames = bandnames           // Pool of bandnames to choose from
@@ -30,10 +30,10 @@ class Wheel {
         this.angle = 0;                    // initial angle of wheel
         this.pastAngle = 0;                // previous frame angle
         this.angleV = 0.0;                 // initial angle velocity
-        this.maxAngleV = 40;              // initial max angle velocity
+        this.maxAngleV = 40;               // initial max angle velocity
         this.angleA = 0;                   // initial angle acceleration
         this.color = color;                // color of the wheel 
-        this.state = this.states.Stopped;  // initial state of the wheel
+        this.state = this.states.Initial;  // initial state of the wheel
         this.rotations = 0;
         this.rotations_final = 0;
         this.clock = new Clock(100);
@@ -41,26 +41,28 @@ class Wheel {
         this.alpha = 0;
         this.mouseStartedInsideCanvas = false;
         this.genreRequestMade = false;
-        this.wheelStopActionsExecuted = false;
+        this.bandnameChangeProcessed = false;
+        this.previousSegmentIndex = null;
+        this.stopActionsExecuted = false;
+        this.bandnameSelectedHeading = bandnameSelectedHeading;
         this.populateWheel();
     }
 
     /* Main wheel logic, updates the wheel */
     update() {
-
         this.handleCanvasDrag();
         this.rotateWheel();
-        this.adjustPentagramAnimationSpeed();
-        this.slowDownWheelAndProcessSpin();
+        // this.adjustPentagramAnimationSpeed();
+        this.handleSpinning();
         this.stopWheelIfNecessary();
-        this.handleAngleBounds();
-        this.handleAngleVelocity();
-
+        this.limitAngleVelocity();
         
+        this.updateClocks();
+    }
+
+    updateRotation() {
         this.angle += this.angleV;
         this.angleV += this.angleA;
-
-        this.updateClocks();
     }
 
     setNewBandnames(bandnames) {
@@ -134,30 +136,36 @@ class Wheel {
         this.evenSepDiv2 = this.evenSeparatorDeg/2
     }
 
-    wheelIsStopped() {
+    isStopped() {
         return this.state == this.states.Stopped;
     }
+    
+    isSpinning() {
+        return this.state == this.states.Spinning;
+    }
 
-    slowDownWheelAndProcessSpin() {
+    inInitialState() {
+        return this.state == this.states.Initial;
+    }
 
-        if (this.wheelIsStopped()) {
-            return; // Early exit if the wheel is not spinning
+    handleSpinning() {
+
+        if (this.isStopped() || this.inInitialState()) {
+            return; 
+        }
+
+        this.handleAngleBounds();
+        this.stopActionsExecuted = false;
+
+        if (this.bandnameSelectedChanged()) {
+            tick_sfx.play();
         }
     
-        this.prepareForWheelStop();
+        // Only run this code if the wheel is spinning
         this.slowDownWheel();
-        this.finalizeSpin();
-    }
-    
-    // Check if the wheel is still spinning
-    isWheelSpinning() {
-        return Math.abs(this.angleV) > this.stopVelocity;
-    }
-    
-    // Prepare the UI and state for the wheel stopping
-    prepareForWheelStop() {
-        this.wheelStopActionsExecuted = false;
-        this.setState(this.states.Spinning);
+        this.updateRotation();
+        
+        // This code can be set up to only run once per spin
         this.hideDothText();
         this.disableFormElements();
     }
@@ -176,68 +184,66 @@ class Wheel {
     slowDownWheel() {
         this.angleV += this.angleV * this.slowRate;
     }
-    
-    // Finalize the spin process by choosing a band name and updating the past angle
-    finalizeSpin() {
-        this.chooseBandname(); // Select the current band name
-        this.pastAngle = this.angle; // Save the last angle
-    }
 
     chooseBandname() {
-        const keys = Object.keys(this.bandnamesOnWheel)
-        const values = Object.values(this.bandnamesOnWheel)
-        const len = keys.length
+        const keys = Object.keys(this.bandnamesOnWheel);
+        const values = Object.values(this.bandnamesOnWheel);
         
-        // For each bandname on the wheel
-        for (var i = 0; i < len; i++) {  
-            const angleRangeForCurrentBand = this.evenSeparatorDeg * i
-            const isBandnameSelected = (this.angle > angleRangeForCurrentBand) 
-                && (this.angle < angleRangeForCurrentBand + this.evenSeparatorDeg)
+        // Calculate the index of the selected bandname based on the current angle
+        const selectedIndex = Math.floor(this.angle / this.evenSeparatorDeg) % keys.length;
     
-            if (isBandnameSelected) {
-                this.previousBandnameSelected = this.bandnameSelected;
-                this.bandnameSelected = {[keys[len - (i + 1)]]: values[len - (i + 1)]}
-            }
-        }
+        // Adjust index for reverse order, as per original logic
+        const adjustedIndex = keys.length - 1 - selectedIndex;
+    
+        // Create the newSelectedBandname object
+        const newSelectedBandname = { [keys[adjustedIndex]]: values[adjustedIndex] };
+    
+        // Update the selected bandname and reset the change processed flag
+        this.previousBandnameSelected = this.bandnameSelected;
+        this.bandnameSelected = newSelectedBandname;
+        this.bandnameChangeProcessed = false;
+        // console.log(this.bandnameSelected, this.angle)
     }
 
-    hasBandnameChanges() {
-        return Object.keys(this.previousBandnameSelected)[0] != Object.keys(this.bandnameSelected)[0];
+    objectsEqual(obj1, obj2) {
+        return Object.keys(obj1)[0] == Object.keys(obj2)[0];
+    }
+    
+    bandnameSelectedChanged() {
+
+        const currentSegmentIndex = Math.floor(this.angle / this.evenSeparatorDeg) % 8;
+        if (this.previousSegmentIndex != currentSegmentIndex) {
+            this.previousSegmentIndex = currentSegmentIndex;
+            return true;
+        }
+        return false;
     }
     
     isEmptyObject(obj) {
         return Object.keys(obj).length === 0;
     }
 
-    stopWheelIfNecessary(override = false) {
-        const canStopWheel = this.isBelowStopVelocity(this.angleV, this.stopVelocity) || override;
-    
-        if (this.hasBandnameChanges()) {
-            updateBandnameDisplay();
-        }
-    
-        if (canStopWheel) {
+    stopWheel() {
+        this.angleV = 0;
+        this.setState(this.states.Stopped)
+    }
+
+    stopWheelIfNecessary() {
+        const necessaryToStopWheel = (this.isBelowStopVelocity(this.angleV, this.stopVelocity) && this.state != this.states.Initial) && !this.stopActionsExecuted;
+        if (necessaryToStopWheel) {
             this.executeWheelStopActions();
+            this.stopActionsExecuted = true;
         }
     }
     
     executeWheelStopActions() {
-        if (this.wheelStopActionsExecuted) {
-            return;
-        }
-    
-        this.wheelStopActionsExecuted = true;
-        this.resetWheelState();
-        this.showDothText();
+        this.pastAngle = this.angle;
         this.chooseBandname();
-    
-        if (this.hasPreviousBandnameSelected()) {
-            this.enableFormElements();
-        }
-    
-        if (!this.isEmptyObject(this.bandnameSelected)) {
-            this.getGenresForBandnameWithHandling();
-        }
+        this.getGenresForBandnameWithHandling();
+        this.updateSelectedBandnameHeader();
+        this.showDothText();
+        this.enableFormElements();
+        this.resetWheelState();
     }
 
     hasPreviousBandnameSelected() {
@@ -275,10 +281,10 @@ class Wheel {
 
     resetWheelState() {
         this.resetClocks()
-        this.state = this.states.Stopped
         this.rotations_final = this.rotations
         this.angleV = 0;
         this.rotations = 0 
+        this.state = this.states.Stopped;
     }
 
     showDothText() {
@@ -292,19 +298,20 @@ class Wheel {
     sumMouseDyDx() {
         let dy = mouseY - pmouseY;
         let dx = -(mouseX - pmouseX);
-        if (mouseX <= width/2) {
+        
+        const mouseOnLeftSide = mouseX <= width/2;
+        if (mouseOnLeftSide) {
             dy *= -1; // flip dy if mouse is on the left side of the wheel
         }
-        return dy + dx
+        return dy + dx;
     }
 
     rotateWheel() {
-        // Rotate the wheel (img) and bandnames
-        let dist_from_top = 50
-        translate(width/2, dist_from_top);
+        const dist_from_top_pixels = 50;
+        translate(width/2, dist_from_top_pixels);
         rotate(this.angle);
         this.render();
-        translate(-width/2, dist_from_top);
+        translate(-width/2, dist_from_top_pixels);
     }
 
     updateClocks() {
@@ -314,23 +321,54 @@ class Wheel {
     }
 
     handleCanvasDrag() {
-
-        // Dragging inside canvas
         if (this.mouseStartedInsideCanvas && mouseIsPressed) {
-
-            // Set the state to Stopped if not and reset the angle velocity
-            this.state = this.states.Stopped
+            // Calculate the change in mouse position
             this.angleV = 0;
+            let sumMouseChange = this.sumMouseDyDx();
+            
+            // Calculate the segment index and handle changes if needed
+            const currentSegmentIndex = Math.floor(this.angle / this.evenSeparatorDeg) % 8;
+            if (this.previousSegmentIndex !== currentSegmentIndex) {
+                tick_sfx.play();
+                this.chooseBandname();
+                this.updateSelectedBandnameHeader();
+                this.getGenresForBandnameWithHandling();
+                this.previousSegmentIndex = currentSegmentIndex;
+            }
+    
+            // Check if there is an ongoing drag or actual mouse movement
+            if (this.isDragging || sumMouseChange !== 0) {
+                // Update the flag to indicate dragging
+                this.isDragging = true;
+    
+                // Dampen the speed of the wheel while dragging and update the angle
+                let drag_dampener = 0.25; // lower numbers make the wheel spin slower
+                this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+                this.handleAngleBounds(); // Ensure the angle stays within bounds
 
-            // Get change in mouse position X and Y while dragging
-            let sumMouseChange = this.sumMouseDyDx()
-
-            // Dampen the speed of the wheel while dragging and update the angle
-            let drag_dampener = 0.25 // lower numbers make the wheel spin slower
-            this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
-            this.pastAngle = this.angle;
-            this.chooseBandname();
+                // Always update `this.pastAngle` to the latest `this.angle`
+                this.pastAngle = this.angle;
+            
+                // Additional logic for handling the drag (if any)
+                let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
+                this.pAngle = v.heading();
+            }
+        } else if (this.isDragging) {
+            this.isDragging = false;
         }
+        
+    }
+
+    updateSelectedBandnameHeader() {
+        const [bandnameKey, bandnameValue] = Object.entries(this.bandnameSelected)[0];
+        const rgb = getRandomRGB();
+        const displayValue = profanity_filter === "True" ? bandnameValue : bandnameKey;
+        const spanElement = document.createElement("span");
+        spanElement.style.color = `rgb(${rgb})`;
+        spanElement.textContent = displayValue;
+        this.bandnameSelectedHeading.innerHTML = "";
+        this.bandnameSelectedHeading.appendChild(spanElement);
+        this.bandnameSelectedHeading.setAttribute("value", bandnameKey);
     }
 
     adjustPentagramAnimationSpeed() {
@@ -345,7 +383,7 @@ class Wheel {
         }
     }
 
-    handleAngleVelocity() {
+    limitAngleVelocity() {
         // Update angle and angle velocity
         if (this.angleV > this.maxAngleV) {
             if (this.angleV > 0) {
@@ -362,19 +400,13 @@ class Wheel {
     /* Reset the wheel if angle crosses 360/0 degrees */
     handleAngleBounds() {
 
-        if (this.angle >= 360) {
-            this.pastAngle = 0;
-            this.angle = 0;
-            this.rotations += 1
+        if (this.angle <= 0) {
+            this.angle += 360;
+            this.pastAngle = this.angle;
         }
-
-        if (this.angle < 0) {
-            this.pastAngle = 360;
-            this.angle = 360;
-
-            if (this.rotations != 0){
-                this.rotations -= 1
-            }
+        if (this.angle > 360) {
+            this.angle -= 360;
+            this.pastAngle = this.angle;
         }
     }
 
@@ -385,7 +417,6 @@ class Wheel {
         fill(0, 0, 0, 255)
     }
 
-    
 
     /* Render the bandnames on the wheel */
     renderBandnames() {
@@ -416,8 +447,6 @@ class Wheel {
         }
     }
 
-
-
     fadeInWheel() {
         if (this.alpha != 255){
             this.alpha += 3;
@@ -429,7 +458,6 @@ class Wheel {
     renderWheel() {
 
         this.fadeInWheel();
-
         image(this.wheel_imgs[this.frame_counter], -width/2, -75 - height/2, 500, 500)
         if(this.clock.trigger()){
             this.frame_counter++;
@@ -453,5 +481,9 @@ class Wheel {
 
     get_rotations_final() {
         return this.rotations_final
+    }
+
+    bandnameIsSelected() {
+        return !this.isEmptyObject(this.bandnameSelected)
     }
 };
