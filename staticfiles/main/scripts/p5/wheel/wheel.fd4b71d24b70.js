@@ -36,6 +36,8 @@ class Wheel {
         this.state = this.states.Initial;  // initial state of the wheel
         this.rotations = 0;
         this.rotations_final = 0;
+        this.clock = new Clock(100);
+        this.bn_glow_clock = new Clock(100);
         this.alpha = 0;
         this.mouseStartedInsideCanvas = false;
         this.genreRequestMade = false;
@@ -45,19 +47,14 @@ class Wheel {
         this.bandnameSelectedHeading = bandnameSelectedHeading;
         this.isDragging = false;
         this.populateWheel();
-
-        // Clocks
-        this.randomStringGenerationClock = new Clock(50);
-        this.clock = new Clock(100);
-        this.bn_glow_clock = new Clock(100);
-        
     }
 
     /* Main wheel logic, updates the wheel */
     update() {
+        console.log(this.state)
         this.handleCanvasDrag();
         this.rotateWheel();
-        this.adjustPentagramAnimationSpeed();
+        // this.adjustPentagramAnimationSpeed();
         this.handleSpinning();
         this.stopWheelIfNecessary();
         this.limitAngleVelocity();
@@ -162,13 +159,9 @@ class Wheel {
         this.handleAngleBounds();
         this.stopActionsExecuted = false;
 
-
-        if (this.randomStringGenerationClock.trigger()) {
+        if (this.bandnameSelectedChanged()) {
             const gibber = `${this.generateRandomString(10)} ${this.generateRandomString(10)}`;
             this.updateSelectedItemHeader(gibber)
-        }
-
-        if (this.bandnameSelectedChanged()) {
             tick_sfx.play();
         }
 
@@ -279,10 +272,8 @@ class Wheel {
     }
 
     resetClocks() {
-        // Resets clocks back to their default intervals
-        
-        this.clock.resetInterval()
-        this.bn_glow_clock.resetInterval()
+        this.clock.reset_interval()
+        this.bn_glow_clock.reset_interval()
     }
 
     resetWheelState() {
@@ -324,7 +315,6 @@ class Wheel {
         // tick the clocks
         this.clock.tick();
         this.bn_glow_clock.tick();
-        this.randomStringGenerationClock.tick();
     }
 
     sumDyDx(x, y) {
@@ -352,8 +342,6 @@ class Wheel {
                 this.chooseBandname();
                 this.updateSelectedBandnameHeader();
                 this.getGenresForBandname();
-                this.showDothText();
-                this.enableFormElements();
                 this.previousSegmentIndex = currentSegmentIndex;
             }
 
@@ -413,17 +401,16 @@ class Wheel {
     adjustPentagramAnimationSpeed() {
         /* Speeds up or slows down the clock for the pentagram glow animation */
 
-        // if ((this.angleV * 8) == 0) {
-        //     this.clock.mutableInterval = this.clock.base_interval
-        //     this.bn_glow_clock.mutableInterval = this.bn_glow_clock.base_interval
-        // } else {
-        //     this.clock.mutableInterval = this.clock.base_interval / (this.angleV * 10)
-        //     this.bn_glow_clock.mutableInterval = this.bn_glow_clock.base_interval / (this.angleV * 10)
-        // }
+        if ((this.angleV * 8) == 0) {
+            this.clock.set_interval(this.clock.base_interval)
+            this.bn_glow_clock.set_interval(this.bn_glow_clock.base_interval)
+        } else {
+            this.clock.set_interval(this.clock.base_interval / (this.angleV * 10))
+            this.bn_glow_clock.set_interval(this.bn_glow_clock.base_interval / (this.angleV * 10))
+        }
     }
 
     limitAngleVelocity() {
-
         // Update angle and angle velocity
         if (this.angleV > this.maxAngleV) {
             if (this.angleV > 0) {
@@ -453,6 +440,7 @@ class Wheel {
         textSize(12);
         fill(0, 0, 0, 255)
     }
+
 
     /* Render the bandnames on the wheel */
     renderBandnames() {

@@ -78,7 +78,7 @@
         <div class = "vote-div">
             <!-- <h3 style="text-align: center; color: white; margin-bottom: 0;">Doth thou deem this bandname righteous?</h3> -->
             <h3 class="vote-form-div cursor-horns" id="bandname-selected"><img src="../../static/gifs/loading.gif" alt="loading wheel..."  width="45"/></h3>
-            <form enctype="multipart/form-data" method="post" id="vote-form">
+            <!-- <form enctype="multipart/form-data" method="post" id="vote-form">
                 {% csrf_token %}
                 <a class="disable-group" type="submit" draggable = false value="Submit" id = "upvote-link">
                     <span id="upvote-text">Righteous</span>
@@ -88,23 +88,28 @@
                     <span id="downvote-text">Blasphemous</span>
                     <img class="noselect cursor-horns" id="downvote-button" src="static/images/dv1.png" draggable="false"/>
                 </a>
-            </form>
+            </form> -->
         </div>
 
         <div class="tabs-container">
             <div class="buttons-container">
-                <button class="tablinks" onclick="openTab('submit-genre-div')">Selected Bandname Genre</button>
-                <button class="tablinks" onclick="openTab('submit-bandname-div')">Submit New Bandname</button>
+                <button class="tablinks" onclick="openTab('submit-genre-div')">Selected Bandname</button>
+                <button class="tablinks" onclick="openTab('submit-bandname-div')">Submit A New Bandname</button>
             </div>
 
             <div id="submit-genre-div" id="genres-ui-card" class="col-12 col-lg-6 mb-4 mb-lg-0 tabcontent">
                 <div class="card card-tertiary">
     
                     <div class="card-header">
-                        <span class="ml-4">Selected Bandname Genre</span>
+                        <span class="ml-4">Selected Bandname</span>
                     </div>
     
                     <div class="card-body">
+                        <span>Genre</span>
+                        <p style="margin-top: 0px;">
+                            Search for a genre that you think best fits the selected bandname, or choose from one of the top 3 suggestions.
+                        </p>
+
                         <table class="genres-table">
                             <span class="top3-text">Top Suggestions</span>
                             <tr class="genres-cells">
@@ -115,10 +120,9 @@
                         <span class="top3-text">or</span>
 
                         <div class="genre-combo-box">
-                            <span id="new-genre-label">Suggest a new one?</span>
-                            <form enctype="multipart/form-data" method="post" id="new-genre-submission-form">
-                                {% csrf_token %}
-                                <table>
+                            <table>
+                                <form enctype="multipart/form-data" method="post" id="new-genre-submission-form">
+                                    {% csrf_token %}
                                     <tr>
                                         <td>
                                             <input class="disable-group form-control w-75" autocomplete="off" type="text" id="genre-search" placeholder="Start Typing..." disabled=""/>
@@ -127,14 +131,39 @@
                                             <button disabled="" id="new-genre-submit" class="btn btn-sm mr-2 btn-primary border-dark disable-group" type="submit">Submit</button>
                                         </td>
                                     </tr>
-                                </table>
-                            </form>
+                                </form>
+                            </table>
                             <div class="genre-dropdown">
                                 <!-- Gets filled with genres and subgenres -->
                             </div>
                         </div>  
+                        <hr>
+                        <div id="judgement-div">
+                            <span>Judge</span>
+                            <p style="margin-top: 0px;">
+                                Judge the bandname to be righteous or blasphemous. Judging will refresh the wheel. 
+                            </p>
+                            <table>
+                                <form enctype="multipart/form-data" method="post" id="vote-form">
+                                    {% csrf_token %}
+                                    <tr>
+                                        <td>
+                                            <button disabled="" class="btn btn-sm mr-2 btn-primary border-dark disable-group" type="submit" value="Submit" id="upvote-link">Righteous</button>
+                                            <!-- <a class="disable-group" type="submit" draggable = false value="Submit" id = "upvote-link">
+                                                <span id="upvote-text">Righteous</span>
+                                            </a> -->
+                                        </td>
+                                        <td>
+                                            <button disabled="" class="btn btn-sm mr-2 btn-primary border-dark disable-group" type="submit" value="Submit" id="downvote-link">Blasphemous</button>
+                                            <!-- <a class="disable-group"  id = "downvote-link" href="{% url 'vote' %}" type="submit" draggable = false value="Submit" >
+                                                <span id="downvote-text">Blasphemous</span>
+                                            </a> -->
+                                        </td>
+                                    </tr>
+                                </form>
+                            </table>
+                        </div>
                     </div>
-    
                 </div>
             </div>
             <div id="submit-bandname-div" class = 'submission-contents-div tabcontent'>

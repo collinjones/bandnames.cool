@@ -127,7 +127,7 @@ $("#bandname-submit" ).click(function(e) {
 $("#upvote-link" ).click(function(e) {
 
     e.preventDefault(); // Stop page from refreshing
-    $.blockUI({ message: "Voting up..." }); 
+    $.blockUI({ message: "Judging..." }); 
     
     $.ajax({
         type: 'POST',
@@ -164,7 +164,7 @@ $("#upvote-link" ).click(function(e) {
 
 $("#downvote-link" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
-    $.blockUI({ message: "Voting down..." }); 
+    $.blockUI({ message: "Judging..." }); 
     $.ajax({
         type: 'POST',
         url: '/vote',
