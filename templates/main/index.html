@@ -47,6 +47,7 @@
             genre_div += `</div></div>`
         }
         $(".genre-dropdown").html(genre_div)
+        $("#new-bandname-genre-content").html(genre_div)
     });
 </script>
 
@@ -125,7 +126,7 @@
                                     {% csrf_token %}
                                     <tr>
                                         <td>
-                                            <input class="disable-group form-control w-75" autocomplete="off" type="text" id="genre-search" placeholder="Start Typing..." disabled=""/>
+                                            <input class="disable-group form-control w-75 genre-search" autocomplete="off" type="text" id="genre-search" placeholder="Start Typing..." disabled=""/>
                                         </td>
                                         <td>
                                             <button disabled="" id="new-genre-submit" class="btn btn-sm mr-2 btn-primary border-dark disable-group" type="submit">Submit</button>
@@ -173,19 +174,31 @@
                             <span class="ml-4">Submit New Bandname</span>
                         </div>
                         <div class="card-body">
-                            <span id="new-genre-label">Submit a new bandname to the wheel</span>
+                            <span id="new-genre-label">Submit a new bandname to the wheel. Optionally, suggest a genre to go along with it.</span>
                             <form enctype="multipart/form-data" method="post" id="post-form">
                                 {% csrf_token %}
                                 <table>
                                     <tr>
                                         <td>
-                                            <input class="form-control w-75" autocomplete="off" type="text" id="bandname" placeholder="Start Typing...">
+                                            <input class="form-control w-75" autocomplete="off" type="text" id="bandname" placeholder="Type a bandname here...">
                                         </td>
                                         <td>
-                                            <button id="bandname-submit" class="btn btn-sm mr-2 btn-primary border-dark" type="submit">Submit</button>
+                                            <button style="z-index: 0;" id="bandname-submit" class="btn btn-sm mr-2 btn-primary border-dark" type="submit">Submit</button>
                                         </td>
                                     </tr>
                                 </table>
+                                <div class="genre-combo-box">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <input id="new-bandname-genre-search" class="form-control w-75 genre-search" autocomplete="off" type="text" placeholder="Search for a genre..."/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div id="new-bandname-genre-content">
+                                        <!-- Gets filled with genres and subgenres -->
+                                    </div>
+                                </div> 
                             </form>
                         </div>
                     </div>
