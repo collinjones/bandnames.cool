@@ -28,17 +28,37 @@ def create(request):
     if not form.is_valid():
         return JsonResponse({'response_msg': 'Invalid form'})
 
-    new_bandname_str = form.cleaned_data['bandname']
+    NEW_BANDNAME = form.cleaned_data['bandname']
+    GENRE = request.POST.get('genre')
 
-    reject_response = is_reject_word(new_bandname_str)
+    reject_response = is_reject_word(NEW_BANDNAME)
     if not reject_response['is_valid']:
         return JsonResponse({'response_msg': reject_response['reason']})
 
     time_submitted = request.POST['timeDateSubmitted']
     is_authenticated = request.user.is_authenticated
-    new_bandname_obj = create_bandname(request, new_bandname_str, is_authenticated, time_submitted)
+    new_bandname_obj = create_bandname(request, NEW_BANDNAME, is_authenticated, time_submitted)
+
+    ip_address = None
+    user_profile = None
+
+    if request.user.is_authenticated:
+        user_profile = request.user.profile
+    else:
+        ip_address = get_client_ip(request)
+
+    if genre_is_valid(GENRE):
+        genre_vote = GenreVote(user=user_profile, bandname=new_bandname_obj, genre=GENRE, ip_address=ip_address)
+        genre_vote.save()
 
     if new_bandname_obj:
+        if GENRE:
+            new_bandname_obj.genres[GENRE] = {
+                    "score": 1,
+                    "submitted_on": now().strftime("%Y-%m-%d | %H:%M:%S"),
+            }
+            new_bandname_obj.save()
+            
         json_response = {
             'bandname': new_bandname_obj.bandname,
             'username': request.user.username if is_authenticated else "Anonymous",
@@ -167,18 +187,21 @@ def get_genre_info(request):
 
     return JsonResponse({"response_msg": top_three_genres})
 
+def genre_is_valid(genre):
+    for genre_set in get_genres().values():
+        if genre in genre_set:
+            return True
+    return False
+
+def userHasSubmittedGenreToBandname(user, ip_address, bandname):
+    return GenreVote.objects.filter(user=user, bandname=bandname, ip_address=ip_address).exists()
+
 def new_genre_submit(request):
     if request.method == 'POST':
 
         # Determine if genre is valid
         genre = request.POST.get('genre')
-        can_submit = False
-        for genre_set in get_genres().values():
-            if genre in genre_set:
-                can_submit = True
-                break
-
-        if can_submit:
+        if genre_is_valid(genre):
             bandname = request.POST.get('bandname')
             bandname_obj = Bandname.objects.get(bandname=bandname)
             ip_address = None
@@ -189,8 +212,8 @@ def new_genre_submit(request):
             else:
                 ip_address = get_client_ip(request)
 
-            # Check if the user has supplied a genre for this bandname already, return early if soqqqqqqqqqqqqqqqqqqqqqqqq
-            if GenreVote.objects.filter(user=user_profile, bandname=bandname, ip_address=ip_address).exists():
+            # Check if the user has supplied a genre for this bandname already, return early if so
+            if userHasSubmittedGenreToBandname(user_profile, ip_address, bandname_obj):
                 return JsonResponse({"response_msg": "You already submitted a genre to this bandname"})
             
             # Create the user:genre:band GenreVote relationship to ensure the user cannot submit more than 1 genre per bandname

@@ -549,10 +549,6 @@ table.dataTable tbody td {
     font-size: 15px;
 }
 
-#post-form {
-    font-family: "Win95";
-}
-
 #bn-submission-text{
     font-size: 14px;
     font-family: "Win95";
@@ -976,4 +972,18 @@ table th {
 
 #judgement-div button {
     width: 100%;
+}
+
+#new-bandname-genre-content {
+    position: absolute;
+    bottom: 100%;
+    left: 0px;
+    background-color: white;
+    width: 100%;
+    border: 1px solid rgb(221, 221, 221);
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    color: white;
 }

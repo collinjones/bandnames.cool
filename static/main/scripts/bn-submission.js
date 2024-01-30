@@ -101,6 +101,7 @@ $("#bandname-submit" ).click(function(e) {
         url: '/create',
         data: {
             bandname: $('#bandname').val(),
+            genre: $('#new-bandname-genre-search').val(),
             timeDateSubmitted: date,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
@@ -109,14 +110,8 @@ $("#bandname-submit" ).click(function(e) {
             if (data.hasOwnProperty('response_msg')){
                 $.blockUI({ message: data['response_msg']});  
                 $('#bandname').val("")
+                $('#new-bandname-genre-search').val("")
                 setTimeout(function() {
-                    if (data.hasOwnProperty('bandname')){ 
-                        var bn_count = $('#bandnames-count')
-                        var count = parseInt(bn_count.text().split(" ")[1])
-                        var count = count + 1
-                        bn_count.html("");
-                        bn_count.html("Bandnames: " + count)
-                    }
                     $.unblockUI();
                 }, unblockUI_timeout); 
             }
