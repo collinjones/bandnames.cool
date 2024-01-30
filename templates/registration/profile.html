@@ -24,12 +24,12 @@
             <button class="tablinks" onclick="openTab('Stats')">Stats</button>
             <button 
                 class="tablinks" 
-                onclick="openTab('Submissions');generateDataTable('bandnames-table-submissions', '/registration/profile/get_voted_history', 300)">Submissions
+                onclick="openTab('Submissions');generateDataTable('bandnames-table-submissions', '/registration/profile/get_user_submissions', 300)">Submissions
             </button>
 
             <button 
                 class="tablinks" 
-                onclick="openTab('Judgements');generateDataTable('bandnames-table-voted', '/registration/profile/get_user_submissions', 260)">Judgements
+                onclick="openTab('Judgements');generateDataTable('bandnames-table-voted', '/registration/profile/get-voted-history', 260)">Judgements
             </button>
             <button class="tablinks" onclick="openTab('Settings')">Settings</button>
         </div>
