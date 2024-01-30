@@ -33,7 +33,7 @@
     // Adds genres to the genre dropdown
     document.addEventListener('DOMContentLoaded', function() {
         var genres = JSON.parse('{{ genres | escapejs }}');
-        var genre_div = '<div class="genre-category" id="no-results" style="display: none;"><div class="genre-category-title">Nothing Found</div></div>'
+        var genre_div = '<div class="genre-category" id="no-results-selected-bandname" style="display: none;"><div class="genre-category-title">Nothing Found</div></div>'
         for (const parent in genres) {
             genre_div += 
                 `<div class="genre-category">
@@ -47,6 +47,20 @@
             genre_div += `</div></div>`
         }
         $(".genre-dropdown").html(genre_div)
+
+        var genre_div = '<div class="genre-category" id="no-results-new-bandname" style="display: none;"><div class="genre-category-title">Nothing Found</div></div>'
+        for (const parent in genres) {
+            genre_div += 
+                `<div class="genre-category">
+                    <div class="genre-category-title">${parent}</div>
+                        <div class="genre-category-content">`
+            for (let i = 0; i < genres[parent].length; i++) {
+                genre_div += 
+                    `<span>${genres[parent][i]}</span>`
+            }
+
+            genre_div += `</div></div>`
+        }
         $("#new-bandname-genre-content").html(genre_div)
     });
 </script>

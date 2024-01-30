@@ -95,7 +95,6 @@ $("#bandname-submit" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Submitting bandname..." }); 
     let date = new Date().toISOString();
-    console.log(date)
     $.ajax({
         type: 'POST',
         url: '/create',

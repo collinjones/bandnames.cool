@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Toggle the clicked category
             let categoryContent = this.nextElementSibling;
-            console.log(categoryContent)
             if (categoryContent) { // Check if nextElementSibling exists
                 categoryContent.style.display = categoryContent.style.display === 'block' ? 'none' : 'block';
             }
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let filter = searchBox.value.toLowerCase();
         let categories = document.querySelectorAll('.genre-category');
-        let noResultsElement = document.querySelector('#no-results');
+        let noResultsElement = document.querySelector('#no-results-selected-bandname');
         let anyVisible = false; // Flag to track if any options are visible
         let visibleOptionsCount = 0; // Count of visible options
     
@@ -112,11 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let submitGenreButton = document.getElementById('new-genre-submit');
     submitGenreButton.addEventListener('click', function() {
-        resetDropdown();
+        resetSelectedBandnameDropdown();
     });
 });
 
-function resetDropdown() {
+function resetSelectedBandnameDropdown() {
     let categories = document.querySelectorAll('.genre-category');
     categories.forEach(function(category) {
         category.style.display = ""; // Show all categories
@@ -131,7 +130,7 @@ function resetDropdown() {
         option.style.display = ""; // Show all options
     });
 
-    let noResultsElement = document.querySelector('#no-results');
+    let noResultsElement = document.querySelector('#no-results-selected-bandname');
     noResultsElement.style.display = "none"; // Hide the "No results" message
 }
 
@@ -179,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let filter = newBandnameGenreSearchBox.value.toLowerCase();
         let categories = document.querySelectorAll('.genre-category');
-        let noResultsElement = document.querySelector('#no-results');
+        let noResultsElement = document.querySelector('#no-results-new-bandname');
         let anyVisible = false; // Flag to track if any options are visible
         let visibleOptionsCount = 0; // Count of visible options
     
@@ -247,13 +246,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    let submitGenreButton = document.getElementById('new-genre-submit');
+    let submitGenreButton = document.getElementById('bandname-submit');
     submitGenreButton.addEventListener('click', function() {
-        resetDropdown();
+        resetNewBandnameDropdown();
     });
 });
 
-function resetDropdown() {
+function resetNewBandnameDropdown() {
     let categories = document.querySelectorAll('.genre-category');
     categories.forEach(function(category) {
         category.style.display = ""; // Show all categories
@@ -268,6 +267,6 @@ function resetDropdown() {
         option.style.display = ""; // Show all options
     });
 
-    let noResultsElement = document.querySelector('#no-results');
+    let noResultsElement = document.querySelector('#no-results-new-bandname');
     noResultsElement.style.display = "none"; // Hide the "No results" message
 }
