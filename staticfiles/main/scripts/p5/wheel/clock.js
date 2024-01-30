@@ -1,40 +1,42 @@
 class Clock {
-    constructor(interval) {
-        this.clock_started = millis();
-        this.last_trigger = millis();
-        this.current_time = millis();
-        this.immutable_interval = interval;
-        this.mutable_interval = this.base_interval ;
+    constructor(interval_ms) {
+        this.clockStarted = millis();
+        this.lastTrigger = this.clockStarted;
+        this.currentTime = this.clockStarted;
+        this.immutableInterval = interval_ms;
+        this.mutableInterval = interval_ms;
     }
 
-    reset_interval() {
-        this.mutable_interval = this.base_interval;
+    resetInterval() {
+        this.mutableInterval = this.immutableInterval;
     }
 
-    get_interval() {
-        return this.mutable_interval;
+    get interval() {
+        return this.mutableInterval;
     }
 
-    /* Sets the clock interval with a conversion from millis to sec */
-    set_interval(new_interval) {
-        this.mutable_interval = new_interval;
+    // Convert seconds to milliseconds and set the interval
+    set interval(newIntervalSec) {
+        if (typeof newIntervalSec !== 'number') {
+            throw new Error('Interval must be a number');
+        }
+        this.mutableInterval = newIntervalSec * 1000; // Converting seconds to milliseconds
     }
     
     // Update the clock
     tick() {
-      this.current_time = millis(); // Update the current time
+      this.currentTime = millis(); // Update the current time
     }
     
-    /* Resets the time since last trigger */
-    reset_trigger() {
-      this.last_trigger = millis();
+    // Resets the time since last trigger
+    resetTrigger() {
+      this.lastTrigger = millis();
     }
     
-    /* Checks If the difference between the current time and the last trigger is 
-        greater than the interval, returns True if so.  */
+    // Checks if the interval has passed since the last trigger
     trigger() {
-        if (this.current_time - this.last_trigger > this.mutable_interval) {
-            this.reset_trigger();
+        if (this.currentTime - this.lastTrigger > this.mutableInterval) {
+            this.resetTrigger();
             return true;
         }
         return false;

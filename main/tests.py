@@ -87,7 +87,7 @@ class IndexViewTest(TestCase):
         response_context = json.loads(response.content)
         
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_context['vote_msg'], "Voted up 'test_bandname'")
+        self.assertEqual(response_context['vote_msg'], "Judged 'test_bandname' to be Righteous")
         
         # Ensure score was increased
         test_bandname = Bandname.objects.get(bandname='test_bandname') 

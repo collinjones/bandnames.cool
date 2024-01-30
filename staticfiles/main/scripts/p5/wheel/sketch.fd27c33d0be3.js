@@ -68,7 +68,18 @@ function setup() {
 function draw() {
     clear();
     wheel.update();
+    toggleVotingLinks();
     resetWheelOnVote();
+
+}
+
+function toggleVotingLinks() {
+    const upvoteLink = document.getElementById("upvote-link");
+    const downvoteLink = document.getElementById("downvote-link");
+    
+    const isWheelSpinning = wheel.state === wheel.states.Spinning;
+    upvoteLink.disabled = isWheelSpinning;
+    downvoteLink.disabled = isWheelSpinning;
 }
 
 function resetWheelOnVote() {

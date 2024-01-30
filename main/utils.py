@@ -335,12 +335,13 @@ def has_already_voted(bandname, user, ip):
 
 def create_already_voted_response(bandname, request):
     return {
-        'vote_msg': f"Already voted: '{bandname.bandname}'",
+        'vote_msg': f"Already judged '{bandname.bandname}'",
         'authenticated': request.user.is_authenticated
     }
 
 def create_voted_response(judgement, bandname, request):
-    vote_msg = f"Voted up '{bandname.bandname}'" if judgement == 'up' else f"Voted down '{bandname.bandname}'"
+    vote_msg = f"Judged '{bandname.bandname}' to be Righteous" if judgement == 'up' \
+        else f"Judged '{bandname.bandname}' to be Blasphemous"
     refresh_list = get_random_bandnames_for_wheel(Bandname.objects.count())
     return {
         'vote_msg': vote_msg,

@@ -317,9 +317,7 @@ table.dataTable tbody td {
 .vote-div {
     text-align: center;
     margin: auto;
-    margin-bottom: 15px;
     width: 430px;
-    height: 175px;
 }
 
 #bandnames-wheel {
@@ -426,32 +424,12 @@ table.dataTable tbody td {
     left: 164px;
 }
 
-#upvote-link {
-    width: 200px;
-    height: 50px;
-    position: absolute;
-    left: 145px;
-}
-
-#downvote-link {
-    position: absolute;
-    width: 176px;
-    height: 50px;
-    left: 402px;
-}
 
 #downvote-button {
     width: 30px;
     position: absolute;
     left: 8px;
     top: 3px;
-}
-
-#downvote-text{
-    position: absolute;
-    top: 15px;
-    left: 68px;
-    font-size: 15px;
 }
 
 #vote-img {
@@ -674,12 +652,6 @@ table.dataTable tbody td {
     margin: auto;
 }
 
-#upvote-text{
-    position: absolute;
-    top:15px;
-    left: 68px;
-    font-size: 15px;
-}
 
 #selector {
     position: absolute;
@@ -877,13 +849,6 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     padding: 5px;
 }
 
-.genres-cells td:hover{
-    background-color: rgba(255, 255, 255, 0.16);
-}
-.genres-cells td:active{
-    background-color: rgba(159, 249, 128, 0.343);
-}
-
 .genre-combo-box {
     z-index: 1;
     margin: auto;
@@ -1001,3 +966,14 @@ table th {
     text-align: center !important;
 }
 
+#judgement-div {
+    height: 100px;
+}
+
+#judgement-div td {
+    width: 50%;
+}
+
+#judgement-div button {
+    width: 100%;
+}
