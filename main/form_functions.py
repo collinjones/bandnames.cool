@@ -21,16 +21,23 @@ def create(request):
     Returns:
     JsonResponse object
     """
+
+    # Return early if request is not POST
     if request.method != 'POST':
         return JsonResponse({'response_msg': 'Invalid request'})
 
+    # Return early if form is not valid
     form = CreateBandname(request.POST)
     if not form.is_valid():
         return JsonResponse({'response_msg': 'Invalid form'})
-
-    NEW_BANDNAME = form.cleaned_data['bandname']
+    
+    # Return early if genre is invalid
     GENRE = request.POST.get('genre')
+    if not genre_is_valid(GENRE) and GENRE != "":
+        return JsonResponse({"response_msg": "Invalid genre! Not submitting >:("})
 
+    # Return early if bandname should be rejected
+    NEW_BANDNAME = form.cleaned_data['bandname']
     reject_response = is_reject_word(NEW_BANDNAME)
     if not reject_response['is_valid']:
         return JsonResponse({'response_msg': reject_response['reason']})
@@ -47,18 +54,16 @@ def create(request):
     else:
         ip_address = get_client_ip(request)
 
-    if genre_is_valid(GENRE):
-        genre_vote = GenreVote(user=user_profile, bandname=new_bandname_obj, genre=GENRE, ip_address=ip_address)
-        genre_vote.save()
-
+    genre_vote = GenreVote(user=user_profile, bandname=new_bandname_obj, genre=GENRE, ip_address=ip_address)
+    genre_vote.save()
     if new_bandname_obj:
-        if GENRE:
-            new_bandname_obj.genres[GENRE] = {
-                    "score": 1,
-                    "submitted_on": now().strftime("%Y-%m-%d | %H:%M:%S"),
-            }
-            new_bandname_obj.save()
-            
+        new_bandname_obj.genres[GENRE] = {
+                "score": 1,
+                "submitted_on": now().strftime("%Y-%m-%d | %H:%M:%S"),
+        }
+        new_bandname_obj.save()
+
+    if new_bandname_obj:    
         json_response = {
             'bandname': new_bandname_obj.bandname,
             'username': request.user.username if is_authenticated else "Anonymous",
