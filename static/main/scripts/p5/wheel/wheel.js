@@ -39,6 +39,10 @@ class Wheel {
         this.alpha = 0;
         this.previousSegmentIndex = null;
         this.bandnameSelectedHeading = bandnameSelectedHeading;
+        this.halfWidth = width/2;
+        this.halfHeight = height/2;
+        this.drag_dampener = 0.25; // lower numbers make the wheel spin slower
+        this.mouseVector = createVector(0, 0);
 
         // Clocks
         this.randomStringGenerationClock = new Clock(50);
@@ -355,7 +359,8 @@ class Wheel {
  
             // Handle actual mouse dragging logic
             const sumMouseChange = this.sumDyDx(mouseY, mouseX);
-            if (this.isDragging || sumMouseChange !== 0) {
+            const mouseDragged = this.isDragging || sumMouseChange !== 0
+            if (mouseDragged) {
 
                 // Choose a new bandname if a new segment is selected
                 if (this.bandnameSelectedChanged()) {
@@ -363,18 +368,16 @@ class Wheel {
                 }
     
                 // Handles dragging on touch devices 
-                const drag_dampener = 0.25; // lower numbers make the wheel spin slower
-                if (isTouchDevice() && !this.isDragging) {
+                const touchDevice = isTouchDevice() && !this.isDragging
+                if (touchDevice) {
                     this.angle = this.pastAngle
                 } else {
-                    this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+                    this.angle = this.pastAngle + (sumMouseChange * this.drag_dampener);
                 }
 
                 this.handleAngleBounds(); // Ensure the angle stays within bounds
-
-                // Additional logic for handling the drag (if any)
-                let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
-                this.pAngle = v.heading();
+                this.mouseVector.set(pmouseX - this.halfWidth, pmouseY - this.halfHeight);
+                this.pAngle = this.mouseVector.heading();
             }
             
             this.pastAngle = this.angle;
@@ -435,15 +438,7 @@ class Wheel {
 
     /* Reset the wheel if angle crosses 360/0 degrees */
     handleAngleBounds() {
-
-        if (this.angle <= 0) {
-            this.angle += 360;
-            this.pastAngle = this.angle;
-        }
-        if (this.angle > 360) {
-            this.angle -= 360;
-            this.pastAngle = this.angle;
-        }
+        this.angle = ((this.angle % 360) + 360) % 360;
     }
 
     /* Settings for the text */
