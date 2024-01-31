@@ -341,13 +341,8 @@ class Wheel {
     }
 
     sumDyDx(x, y) {
-        let dy = x - pmouseY;
-        let dx = -(y - pmouseX);
-        
-        const mouseOnLeftSide = mouseX <= width/2;
-        if (mouseOnLeftSide) {
-            dy *= -1; // flip dy if mouse is on the left side of the wheel
-        }
+        const dy = (mouseX <= width / 2 ? -1 : 1) * (x - pmouseY);
+        const dx = -(y - pmouseX);
         return dy + dx;
     }
     
