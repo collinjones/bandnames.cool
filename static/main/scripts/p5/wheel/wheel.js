@@ -345,7 +345,6 @@ class Wheel {
         const dx = -(y - pmouseX);
         return dy + dx;
     }
-    
 
     handleCanvasDrag() {
         if (this.mouseStartedInsideCanvas && mouseIsPressed) {
