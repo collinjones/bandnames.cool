@@ -57,7 +57,28 @@
         {% include "main/navigation.html" %}
         {% block body %}
         {% endblock %}
+
+        <div id="steps-div">
+            <table id="links-table">
+                <img src="{% static 'images/steps.png' %}" id="steps-img">
+                <tr>
+                    <td>
+                        <a id="instagram-link" href="https://www.instagram.com/bandnames.cool/"></a>
+                    </td>
+                    <td>
+                        <a id="twitter-link" href="https://twitter.com/bandnamescool"></a>
+                    </td>
+                    <td>
+                        <a id="reddit-link" href="https://old.reddit.com/r/BandnamesDotCool/"></a>
+                    </td>
+                    <td>
+                        <a id="email-link" href="mailto:coolbandnames@bandnames.com"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </body>
+
 
     <!-- FOOTER -->
     <footer id = "copyright-footer">
@@ -67,9 +88,6 @@
             {{ footer_text }}
         </marquee>
     </footer> 
-
-    
-
 
     <!-- Load HTML element when everything has loaded -->
     <script>
