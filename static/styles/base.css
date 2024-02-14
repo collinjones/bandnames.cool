@@ -1,5 +1,5 @@
 html {
-    background-image: url("../images/background.png");
+    background-image: url("../gifs/background.gif");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -108,19 +108,12 @@ a {
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
-#submit-img {
-    width: 250px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-    image-rendering: crisp-edges;
-    
-}
-
 .odd {
     background-color: rgba(223, 223, 223, 0.44) !important;
 }
 
 .even {
-    background-color: rgba(255, 255, 255, 0.16) !important;
+    background-color: rgba(149, 149, 149, 0.279) !important;
 }
 
 #batch-inner-div {
@@ -418,12 +411,14 @@ table.dataTable tbody td {
     max-height: 100px;
 }
 
-#upvote-button {
-    width: 30px;
-    position: absolute;
-    left: 164px;
+
+#righteous-button {
+    background: #7fff7f;
 }
 
+#blasphemous-button {
+    background: #ff8989;
+}
 
 #downvote-button {
     width: 30px;
@@ -520,7 +515,7 @@ table.dataTable tbody td {
 
 #torch-gif-left {
     position: absolute;
-    left: -203px;
+    left: -185px;
     top: -168px;
     width: 156px;
     image-rendering: crisp-edges;
@@ -529,15 +524,11 @@ table.dataTable tbody td {
 
 #torch-gif-right {
     position: absolute;
-    right: -195px;
+    right: -189px;
     top: -168px;
     width: 156px;
     image-rendering: crisp-edges;
     z-index: 5;
-}
-
-#bn-submit-bg-image {
-    width: 426px;
 }
 
 #bn-submission-header {
@@ -560,77 +551,6 @@ table.dataTable tbody td {
     margin-bottom: 0px;
     margin-top: 46px;
     text-align: left;
-}
-
-#submit-form-faq-link{
-    position: absolute;
-    left: 540px;
-    width: 19px;
-    height: 17px;
-    margin-top: 5px;
-}
-
-#submit-form-profile-link{
-    position: absolute;
-    left: 381px;
-    width: 89px;
-    height: 25px;
-    font-family: "Win95";
-    margin-top: 155px;
-    text-decoration: none;
-}
-
-#submit-form-profile-text{
-    margin: 0;
-    color: black;
-}
-
-#submit-form-login-link{
-    position: absolute;
-    left: 381px;
-    width: 89px;
-    height: 25px;
-    font-family: "Win95";
-    margin-top: 155px;
-    text-decoration: none;
-}
-
-#submit-form-login-text{
-    margin: 0;
-    color: black;
-    
-}
-
-#submit-form-register-link{
-    position: absolute;
-    left: 480px;
-    width: 89px;
-    height: 25px;
-    font-family: "Win95";
-    margin-top: 155px;
-    text-decoration: none;
-}
-
-#submit-form-register-text{
-    margin: 0;
-    color: black;
-    
-}
-
-#submit-form-logout-link{
-    position: absolute;
-    left: 480px;
-    width: 89px;
-    height: 25px;
-    font-family: "Win95";
-    margin-top: 155px;
-    text-decoration: none;
-}
-
-#submit-form-logout-text{
-    margin: 0;
-    color: black;
-    
 }
 
 #transparent-background{
@@ -922,10 +842,6 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
 
 }
 
-#new-genre-label {
-    font-size: 10px;
-}
-
 .stat-label {
     color: black;
     float: right;
@@ -947,11 +863,6 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     width: 70%;
     margin: auto;
 }
-
-.type-submit-table {
-    margin: auto;
-}
-
 #bandnames-table-voted_wrapper {
     bottom: 440px;
     width: 70%;
@@ -963,7 +874,7 @@ table th {
 }
 
 #judgement-div {
-    height: 100px;
+    height: 110px;
 }
 
 #judgement-div td {
@@ -972,6 +883,9 @@ table th {
 
 #judgement-div button {
     width: 100%;
+    font-family: 'Win95';
+    font-size: 15px;
+    height: 40px;
 }
 
 #new-bandname-genre-content {

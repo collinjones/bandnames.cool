@@ -22,6 +22,11 @@ class Wheel {
         this.previousBandnameSelected = {};  // previous frame bandname
         this.evenSeparatorDeg;               // The ammount in degrees that evenly separates elements in the wheel
         this.evenSepDiv2;
+        this.previousSegmentIndex = null;
+        this.bandnameSelectedHeading = bandnameSelectedHeading;
+        this.halfWidth = width/2;
+        this.halfHeight = height/2;
+        this.drag_dampener = 0.25; // lower numbers make the wheel spin slower
 
         /* Wheel settings */
         this.stopVelocity = 0.10;          // lower numbers stop the wheel at a higher velocity
@@ -37,32 +42,34 @@ class Wheel {
         this.rotations = 0;
         this.rotations_final = 0;
         this.alpha = 0;
-        this.mouseStartedInsideCanvas = false;
-        this.genreRequestMade = false;
-        this.bandnameChangeProcessed = false;
-        this.previousSegmentIndex = null;
-        this.stopActionsExecuted = false;
-        this.bandnameSelectedHeading = bandnameSelectedHeading;
-        this.isDragging = false;
-        this.populateWheel();
+        this.mouseVector = createVector(0, 0);
 
         // Clocks
         this.randomStringGenerationClock = new Clock(50);
         this.clock = new Clock(100);
         this.bn_glow_clock = new Clock(100);
+
+        // flags
+        this.stopActionsExecuted = false;
+        this.spinActionsExectued = false;
+        this.isDragging = false;
+        this.bandnameChangeProcessed = false;
+        this.mouseStartedInsideCanvas = false;
+        this.genreRequestMade = false;
         
+        this.populateWheel();
     }
 
     /* Main wheel logic, updates the wheel */
     update() {
         this.handleCanvasDrag();
-        this.rotateWheel();
-        this.adjustPentagramAnimationSpeed();
         this.handleSpinning();
-        this.stopWheelIfNecessary();
         this.limitAngleVelocity();
-        
+
+        this.adjustPentagramAnimationSpeed();
+        this.stopWheelIfNecessary();
         this.updateClocks();
+        this.rotateWheel();
     }
 
     updateRotation() {
@@ -118,7 +125,7 @@ class Wheel {
         var random_i;
 
         // Replace char codes (like &#x27; for ' and &quot; for ")
-        var cleaned_bandnames = this.replace_char_codes(keys, values)
+        const cleaned_bandnames = this.replace_char_codes(keys, values)
         keys = cleaned_bandnames[0]
         values = cleaned_bandnames[1]
 
@@ -159,28 +166,33 @@ class Wheel {
             return; 
         }
 
+        // Handle these actions each frame
         this.handleAngleBounds();
+        this.gibberishHandler();
+        this.slowDownWheel();
+        this.updateRotation();
+        this.pastAngle = this.angle; 
         this.stopActionsExecuted = false;
 
-
-        if (this.randomStringGenerationClock.trigger()) {
-            const gibber = `${this.generateRandomString(10)} ${this.generateRandomString(10)}`;
-            this.updateSelectedItemHeader(gibber)
-        }
-
+        // Handle these actions once per bandname change
         if (this.bandnameSelectedChanged()) {
             tick_sfx.play();
         }
 
-        this.pastAngle = this.angle;
-    
-        // Only run this code if the wheel is spinning
-        this.slowDownWheel();
-        this.updateRotation();
-        
-        // This code can be set up to only run once per spin
-        this.hideDothText();
-        this.disableFormElements();
+        // Handle these actions once per spin
+        if (!this.spinActionsExectued) {
+            this.hideDothText();
+            this.disableFormElements();
+            this.spinActionsExectued = true;
+        }
+
+    }
+
+    gibberishHandler() {
+        if (this.randomStringGenerationClock.trigger()) {
+            const gibber = `${this.generateRandomString(10)} ${this.generateRandomString(10)}`;
+            this.updateSelectedItemHeader(gibber)
+        }
     }
 
     disableFormElements() {
@@ -222,7 +234,6 @@ class Wheel {
     }
     
     bandnameSelectedChanged() {
-
         const currentSegmentIndex = Math.floor(this.angle / this.evenSeparatorDeg) % 8;
         if (this.previousSegmentIndex != currentSegmentIndex) {
             this.previousSegmentIndex = currentSegmentIndex;
@@ -243,19 +254,21 @@ class Wheel {
     stopWheelIfNecessary() {
         const necessaryToStopWheel = (this.isBelowStopVelocity(this.angleV, this.stopVelocity) && this.state != this.states.Initial) && !this.stopActionsExecuted;
         if (necessaryToStopWheel) {
-            this.executeWheelStopActions();
+            this.handleBandnameSelection();
             this.stopActionsExecuted = true;
         }
     }
     
-    executeWheelStopActions() {
-        this.pastAngle = this.angle;
+    handleBandnameSelection() {
+        tick_sfx.play();
         this.chooseBandname();
         this.updateSelectedBandnameHeader();
         this.getGenresForBandname();
         this.showDothText();
         this.enableFormElements();
         this.resetWheelState();
+        this.pastAngle = this.angle;
+        this.spinActionsExectued = false;
     }
 
     hasPreviousBandnameSelected() {
@@ -328,54 +341,37 @@ class Wheel {
     }
 
     sumDyDx(x, y) {
-        let dy = x - pmouseY;
-        let dx = -(y - pmouseX);
-        
-        const mouseOnLeftSide = mouseX <= width/2;
-        if (mouseOnLeftSide) {
-            dy *= -1; // flip dy if mouse is on the left side of the wheel
-        }
+        const dy = (mouseX <= width / 2 ? -1 : 1) * (x - pmouseY);
+        const dx = -(y - pmouseX);
         return dy + dx;
     }
 
     handleCanvasDrag() {
         if (this.mouseStartedInsideCanvas && mouseIsPressed) {
 
-            // Calculate the change in mouse position
-            this.angleV = 0;
-            let sumMouseChange = this.sumDyDx(mouseY, mouseX);
+            this.stopWheel();
  
-            // Calculate the segment index and handle changes if needed
-            const currentSegmentIndex = Math.floor(this.angle / this.evenSeparatorDeg) % 8;
-            if (this.previousSegmentIndex !== currentSegmentIndex) {
-                tick_sfx.play();
-                this.chooseBandname();
-                this.updateSelectedBandnameHeader();
-                this.getGenresForBandname();
-                this.showDothText();
-                this.enableFormElements();
-                this.previousSegmentIndex = currentSegmentIndex;
-            }
+            // Handle actual mouse dragging logic
+            const sumMouseChange = this.sumDyDx(mouseY, mouseX);
+            const mouseDragged = this.isDragging || sumMouseChange !== 0
+            if (mouseDragged) {
 
-            // Check if there is an ongoing drag or actual mouse movement
-            if (this.isDragging || sumMouseChange !== 0) {
+                // Choose a new bandname if a new segment is selected
+                if (this.bandnameSelectedChanged()) {
+                    this.handleBandnameSelection();
+                }
     
-                // Dampen the speed of the wheel while dragging and update the angle
-                let drag_dampener = 0.25; // lower numbers make the wheel spin slower
-
-                if (isTouchDevice() && this.isDragging) {
-                    this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
-                } else if (isTouchDevice() && !this.isDragging) {
+                // Handles dragging on touch devices 
+                const touchDevice = isTouchDevice() && !this.isDragging
+                if (touchDevice) {
                     this.angle = this.pastAngle
                 } else {
-                    this.angle = this.pastAngle + (sumMouseChange * drag_dampener);
+                    this.angle = this.pastAngle + (sumMouseChange * this.drag_dampener);
                 }
 
                 this.handleAngleBounds(); // Ensure the angle stays within bounds
-
-                // Additional logic for handling the drag (if any)
-                let v = createVector(pmouseX - width / 2, pmouseY - height / 2);
-                this.pAngle = v.heading();
+                this.mouseVector.set(pmouseX - this.halfWidth, pmouseY - this.halfHeight);
+                this.pAngle = this.mouseVector.heading();
             }
             
             this.pastAngle = this.angle;
@@ -436,15 +432,7 @@ class Wheel {
 
     /* Reset the wheel if angle crosses 360/0 degrees */
     handleAngleBounds() {
-
-        if (this.angle <= 0) {
-            this.angle += 360;
-            this.pastAngle = this.angle;
-        }
-        if (this.angle > 360) {
-            this.angle -= 360;
-            this.pastAngle = this.angle;
-        }
+        this.angle = ((this.angle % 360) + 360) % 360;
     }
 
     /* Settings for the text */
@@ -529,11 +517,11 @@ class Wheel {
     }
     
     generateRandomString(length) {
-        let result = '';
+        let result = [];
         for (let i = 0; i < length; i++) {
-            result += this.getRandomLetter();
+            result.push(this.getRandomLetter());
         }
-        return result;
-    }
+        return result.join('');
+    }    
     
 };

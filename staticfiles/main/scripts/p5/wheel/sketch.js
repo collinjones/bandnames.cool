@@ -139,9 +139,9 @@ function preload() {
     font = loadFont('static/fonts/pixel.ttf');
     tick_sfx = loadSound('static/sounds/tick.mp3')
     const dir_root = "static/gifs/wheel/frame_";
-    let file_type = ".png";
+    const file_type = ".png";
+    const wheel_imgs_count = 26
     let final_dir = "";
-    let wheel_imgs_count = 26
 
     for (var x = 1; x <= wheel_imgs_count; x++) {
         final_dir = dir_root + x.toString() + file_type
@@ -150,11 +150,12 @@ function preload() {
 }
 
 function getRandomRGB() {
-    var r = Math.floor(Math.random() * 255) + 100;
-    var g = Math.floor(Math.random() * 255) + 100;
-    var b = Math.floor(Math.random() * 255) + 100;
-    return r + ", " + g + ", " + b
+    let r = Math.floor(Math.random() * 156) + 100; // 255 - 100 = 155, plus 1 to include 255
+    let g = Math.floor(Math.random() * 156) + 100;
+    let b = Math.floor(Math.random() * 156) + 100;
+    return `${r}, ${g}, ${b}`;
 }
+
 
 function isTouchDevice() {
     return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);

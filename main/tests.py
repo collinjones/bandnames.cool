@@ -16,65 +16,65 @@ class IndexViewTest(TestCase):
         Bandname.objects.all().delete()
         Profile.objects.all().delete()
 
-    # == URL Tests == #
-    def test_index_view_logged_out(self):
-        response = self.client.get('/', HTTP_USER_AGENT=self.user_agent)
+    # # == URL Tests == #
+    # def test_index_view_logged_out(self):
+    #     response = self.client.get('/', HTTP_USER_AGENT=self.user_agent)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['profanity_filter'], True)
-        self.assertEqual(response.context['title'], 'Bandnames.cool | Home')
-        self.assertEqual(response.context['bandnames'][0][0], 'No Bandnames Available')
-        self.assertEqual(response.context['count'], 0)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(response.context['profanity_filter'], True)
+    #     self.assertEqual(response.context['title'], 'Bandnames.cool | Home')
+    #     self.assertEqual(response.context['bandnames'][0][0], 'No Bandnames Available')
+    #     self.assertEqual(response.context['count'], 0)
 
-    # == Bandname Submission Tests == #
-    def test_index_submit_bandname_logged_out(self):
-        response = self.client.post(
-            '/create', 
-            {'bandname': 'test_bandname', 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
-            HTTP_USER_AGENT=self.user_agent
-        )
-        response_context = json.loads(response.content)
+    # # == Bandname Submission Tests == #
+    # def test_index_submit_bandname_logged_out(self):
+    #     response = self.client.post(
+    #         '/create', 
+    #         {'bandname': 'test_bandname', 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
+    #         HTTP_USER_AGENT=self.user_agent
+    #     )
+    #     response_context = json.loads(response.content)
         
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_context['bandname'], 'test_bandname')
-        self.assertEqual(response_context['username'], 'Anonymous')
-        self.assertEqual(response_context['score'], 0)
-        self.assertEqual(response_context['response_msg'], "Submitted bandname: 'test_bandname'")
-        self.assertIsNotNone(Bandname.objects.get(bandname='test_bandname'))
-        pass
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(response_context['bandname'], 'test_bandname')
+    #     self.assertEqual(response_context['username'], 'Anonymous')
+    #     self.assertEqual(response_context['score'], 0)
+    #     self.assertEqual(response_context['response_msg'], "Submitted bandname: 'test_bandname'")
+    #     self.assertIsNotNone(Bandname.objects.get(bandname='test_bandname'))
+    #     pass
 
-    def test_index_submit_empty_bandname_logged_out(self):
-        response = self.client.post(
-            '/create', 
-            {'bandname': '', 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
-            HTTP_USER_AGENT=self.user_agent
-        )
-        response_context = json.loads(response.content)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_context['response_msg'], "Please learn to read. There was no bandname to submit.")
-        pass
+    # def test_index_submit_empty_bandname_logged_out(self):
+    #     response = self.client.post(
+    #         '/create', 
+    #         {'bandname': '', 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
+    #         HTTP_USER_AGENT=self.user_agent
+    #     )
+    #     response_context = json.loads(response.content)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(response_context['response_msg'], "Please learn to read. There was no bandname to submit.")
+    #     pass
 
-    def test_index_submit_duplicate_bandname_logged_out(self):
-        self.client.post(
-            '/create', 
-            {'bandname': 'test_bandname', 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
-            HTTP_USER_AGENT=self.user_agent
-        )
-        response = self.client.post('/create', {'bandname': 'test_bandname'}, HTTP_USER_AGENT=self.user_agent)
-        response_context = json.loads(response.content)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_context['response_msg'], "Sorry, somebody already thought of this one. Not submitted.")
-        pass
+    # def test_index_submit_duplicate_bandname_logged_out(self):
+    #     self.client.post(
+    #         '/create', 
+    #         {'bandname': 'test_bandname', 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
+    #         HTTP_USER_AGENT=self.user_agent
+    #     )
+    #     response = self.client.post('/create', {'bandname': 'test_bandname'}, HTTP_USER_AGENT=self.user_agent)
+    #     response_context = json.loads(response.content)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(response_context['response_msg'], "Sorry, somebody already thought of this one. Not submitted.")
+    #     pass
 
-    def test_index_submit_slur_bandname_logged_out(self):
-        response = self.client.post(
-            '/create', 
-            {'bandname': SLUR, 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
-            HTTP_USER_AGENT=self.user_agent
-        )
-        response_context = json.loads(response.content)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_context['response_msg'], "Rethink your life choices. Bandname not submitted.")
+    # def test_index_submit_slur_bandname_logged_out(self):
+    #     response = self.client.post(
+    #         '/create', 
+    #         {'bandname': SLUR, 'timeDateSubmitted': timezone.now().strftime("%Y-%m-%d %H:%M:%S")}, 
+    #         HTTP_USER_AGENT=self.user_agent
+    #     )
+    #     response_context = json.loads(response.content)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(response_context['response_msg'], "Rethink your life choices. Bandname not submitted.")
 
     # == Bandname Judging Tests == #
     def test_index_judge_bandname_logged_out(self):

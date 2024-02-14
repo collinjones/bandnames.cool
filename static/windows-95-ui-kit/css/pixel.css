@@ -2610,12 +2610,12 @@ button.section-black:focus {
 
 .btn {
     position: relative;
-    transition: all 0.2s ease;
+    /* transition: all 0.2s ease;
     letter-spacing: 0.025em;
     font-size: .6rem;
     border-radius: 0.125rem;
     padding: .6rem 2rem;
-    max-height: 37px;
+    max-height: 37px; */
 }
 
 .btn:before,
@@ -2689,14 +2689,14 @@ button.section-black:focus {
     font-size: 0.75rem ;
 }
 
-.btn-sm,
+/* .btn-sm,
 .btn-group-sm>.btn,
 .btn-sm i,
 .btn-group-sm>.btn i {
     font-size: 0.53rem;
     padding: .4rem 1.6rem;
     max-height: 29px;
-}
+} */
 
 .btn-md,
 .btn-md i {
@@ -3868,7 +3868,6 @@ button.section-black:focus {
  */
 
 label {
-    font-size: 0.6rem;
     color: black;
     margin: 0;
 }

@@ -18,7 +18,7 @@
     <img class="noselect" draggable = false src="{% static 'images/pillar_right.png' %}" id="pillar-img-right"/>
 
     
-    <div id = "profile-body" style="color:white" >
+    <div id = "profile-body">
 
         <div class="buttons-container ">
             <button class="tablinks" onclick="openTab('Stats')">Stats</button>
@@ -133,16 +133,25 @@
 
         <!-- USER SETTINGS -->
         <div id="Settings" class="tabcontent">
-            <form id = "profile-form">
-                {% csrf_token %}
-                {{form.as_p}}
-                {% if profanity_filter == False%}
-                    <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="0"><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
-                    
-                {% else %}
-                    <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="1" checked><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
-                {% endif %}
-            </form>
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="card card-tertiary">
+                    <div class="card-header">
+                        <span style="font-size: 20px;" class="ml-4">Settings</span>
+                    </div>
+                    <div class="card-body">
+                        <form id = "profile-form">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            {% if profanity_filter == False%}
+                                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="0"><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
+                                
+                            {% else %}
+                                <input type="checkbox" id="profanity_switch" name="profanity_switch" title="Profanity Switch" value="1" checked><label id='profanity-text' for="profanity_switch">Profanity Filter</label>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
