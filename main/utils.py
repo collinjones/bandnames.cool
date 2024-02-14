@@ -294,6 +294,7 @@ def get_random_quip(fpath):
         return random_quip
     
 def build_judgement_json(request, judgement):
+    print(request.POST)
     if 'bandname' not in request.POST:
         return create_spin_wheel_response(request)
 
@@ -301,6 +302,7 @@ def build_judgement_json(request, judgement):
         return create_spin_wheel_response(request)
 
     bandname = get_bandname(request)
+    print(bandname)
     if not bandname:
         return create_spin_wheel_response(request)
 

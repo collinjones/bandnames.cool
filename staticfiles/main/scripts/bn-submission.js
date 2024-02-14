@@ -118,7 +118,7 @@ $("#bandname-submit" ).click(function(e) {
     });
 });
 
-$("#upvote-link" ).click(function(e) {
+$("#righteous-button" ).click(function(e) {
 
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Judging..." }); 
@@ -156,7 +156,7 @@ $("#upvote-link" ).click(function(e) {
     });
 });
 
-$("#downvote-link" ).click(function(e) {
+$("#blasphemous-button" ).click(function(e) {
     e.preventDefault(); // Stop page from refreshing
     $.blockUI({ message: "Judging..." }); 
     $.ajax({
