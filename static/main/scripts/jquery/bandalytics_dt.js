@@ -25,37 +25,39 @@ function get_column_titles(data) {
 
 // Gets called when page loads 
 $(document).ready(function () {
-    var selectedVal = $("#bandalytics_selection option:selected").val();
+    const selectedVal = $("#bandalytics_selection option:selected").val();
+    const url = '/' + selectedVal
+
+    console.log(selectedVal, url)
     $.ajax({
         type: 'GET',
-        url: '/get_top_ten_bandnames',
+        url: url,
         data: {
             bandname: $(this).attr("value"),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {
-            
             if (data.hasOwnProperty('response_msg')){
                 $('#submission-status').html(data['response_msg']);
             }
             var columns = get_column_titles(data)
-            if (selectedVal == "top_ten_bandnames") {
-                table = $('#bandalytics-table').DataTable({
-                    "scrollY": "180",
-                    "scrollX": false,
-                    "paging": false,
-                    "bInfo" : false,
-                    "searching": false,
-                    "autoWidth": false, 
-                    "bDestroy": true,
-                    "order": [ 2, 'desc' ],
-                    ajax: {
-                        "type" : "GET",
-                        "url": "/get_top_ten_bandnames"
-                    },
-                    "columns": columns
-                });
-            }
+
+            console.log(data, columns)
+            table = $('#bandalytics-table').DataTable({
+                "scrollY": "180",
+                "scrollX": false,
+                "paging": false,
+                "bInfo" : false,
+                "searching": false,
+                "autoWidth": false, 
+                "bDestroy": true,
+                "order": selectedVal == 'get_top_ten_users' ? [ 1, 'desc' ] : [ 2, 'desc' ],
+                ajax: {
+                    "type" : "GET",
+                    "url": url
+                },
+                "columns": columns
+            });
         }
     });    
 });
@@ -64,12 +66,13 @@ $(document).ready(function () {
 $(document).on('change','#bandalytics_selection',function(){
 
     var selectedVal = $("#bandalytics_selection option:selected").val();
-    var tableId = "#bandalytics-table"
+    const tableId = "#bandalytics-table"
+    const url = '/' + selectedVal
 
-    if (selectedVal == "top_ten_bandnames") {
+    if (selectedVal == "get_top_ten_bandnames") {
         $.ajax({
             type: 'GET',
-            url: '/get_top_ten_bandnames',
+            url: url,
             data: {
                 bandname: $(this).attr("value"),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
@@ -79,7 +82,7 @@ $(document).on('change','#bandalytics_selection',function(){
                     $('#submission-status').html(data['response_msg']);
                 }
 
-                var columns = get_column_titles(data)
+                const columns = get_column_titles(data)
                 reset_table(table, tableId)
                 table = $(tableId).DataTable({
                     "scrollY": "180",
@@ -92,17 +95,17 @@ $(document).on('change','#bandalytics_selection',function(){
                     "order": [ 2, 'desc' ],
                     ajax: {
                         "type" : "GET",
-                        "url": "/get_top_ten_bandnames"
+                        "url": url
                     },
                     "columns": columns
                 });
             }
         }); 
     }
-    else if (selectedVal == "top_ten_users") {
+    else if (selectedVal == "get_top_ten_users") {
         $.ajax({
             type: 'GET',
-            url: '/get_top_ten_users',
+            url: url,
             data: {
                 user: $(this).attr("value"),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
@@ -111,7 +114,7 @@ $(document).on('change','#bandalytics_selection',function(){
                 if (data.hasOwnProperty('response_msg')){
                     $('#submission-status').html(data['response_msg']);
                 }
-                var columns = get_column_titles(data)
+                const columns = get_column_titles(data)
                 reset_table(table, tableId)
                 table = $(tableId).DataTable({
                     "scrollY": "180",
@@ -124,7 +127,7 @@ $(document).on('change','#bandalytics_selection',function(){
                     "order": [ 1, 'desc' ],
                     ajax: {
                         "type" : "GET",
-                        "url": "/get_top_ten_users"
+                        "url": url
                     },
                     "columns": columns
                 });
@@ -132,10 +135,10 @@ $(document).on('change','#bandalytics_selection',function(){
         }); 
     }
 
-    else if (selectedVal == "righteous_ratio") {
+    else if (selectedVal == "get_righteous_ratio") {
         $.ajax({
             type: 'GET',
-            url: '/get_righteous_ratio',
+            url: url,
             data: {
                 user: $(this).attr("value"),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
@@ -144,7 +147,7 @@ $(document).on('change','#bandalytics_selection',function(){
                 if (data.hasOwnProperty('response_msg')){
                     $('#submission-status').html(data['response_msg']);
                 }
-                var columns = get_column_titles(data)
+                const columns = get_column_titles(data)
                 reset_table(table, tableId)
 
                 table = $(tableId).DataTable({
@@ -158,7 +161,7 @@ $(document).on('change','#bandalytics_selection',function(){
                     "order": [ 2, 'desc' ],
                     ajax: {
                         "type" : "GET",
-                        "url": "/get_righteous_ratio"
+                        "url": url
                     },
                     "columns": columns
                 });
@@ -166,10 +169,10 @@ $(document).on('change','#bandalytics_selection',function(){
         }); 
     }
 
-    else if (selectedVal == "get_recent_bandnames") {
+    else if (selectedVal == "recent_bandnames") {
         $.ajax({
             type: 'GET',
-            url: '/get_recent_bandnames',
+            url: url,
             data: {
                 user: $(this).attr("value"),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
@@ -178,7 +181,7 @@ $(document).on('change','#bandalytics_selection',function(){
                 if (data.hasOwnProperty('response_msg')){
                     $('#submission-status').html(data['response_msg']);
                 }
-                var columns = get_column_titles(data)
+                const columns = get_column_titles(data)
                 reset_table(table, tableId)
 
                 table = $(tableId).DataTable({
@@ -192,7 +195,7 @@ $(document).on('change','#bandalytics_selection',function(){
                     "order": [ 2, 'desc' ],
                     ajax: {
                         "type" : "GET",
-                        "url": "/get_recent_bandnames"
+                        "url": url
                     },
                     "columns": columns
                 });
