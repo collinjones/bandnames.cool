@@ -16,6 +16,8 @@ from datetime import datetime
 
 def login(request):
 
+    request.session['refresh_allowed'] = False
+
     if request.user.is_authenticated:
         return redirect("/")
     
@@ -55,6 +57,8 @@ def login(request):
         })
 
 def profile(request):
+
+    request.session['refresh_allowed'] = False
     user_submissions = Bandname.objects.filter(username=request.user).all()
     user = User.objects.get(pk=request.user.id)
 

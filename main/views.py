@@ -6,9 +6,12 @@ from .utils import *
 from .form_functions import *
 from django.utils import timezone
 from django.shortcuts import redirect
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 
 # Sets up and renders the submission page
 def index(request):
+    request.session['refresh_allowed'] = True
     collection_len = Bandname.objects.count()
     profanity_filter = True
     censored_bandnames = censor_bandnames(get_random_bandnames_for_wheel(collection_len)) if collection_len > 0 else []
@@ -38,14 +41,17 @@ def index(request):
     return render(request, "main/index.html", context=context)
 
 def bandalytics(request):
+    request.session['refresh_allowed'] = False
     return render(request, "main/bandalytics.html", context={"title": "Bandnames.cool | Bandalytics"})
 
 # Sets up and renders the FAQ page
 def faq(request):
+    request.session['refresh_allowed'] = False
     return render(request, "main/faq.html", context={"title": "Bandnames.cool | FAQ"})
 
 # Sets up and renders the batch submission page
 def batch_submit(request):
+    request.session['refresh_allowed'] = False
     context = {
         "title": "Bandnames.cool | Batch Submission",
         "form": CreateBatchBandname()
@@ -54,14 +60,10 @@ def batch_submit(request):
 
 # Refreshes the bandname wheel with new bandnames if .cool was pressed
 def refresh_wheel(request):
-    print(request.META.get('HTTP_REFERER'))
-    if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/' or \
-    request.META.get('HTTP_REFERER') == 'https://www.bandnames.cool/':
+    if request.session['refresh_allowed'] == True:
         bandnames = get_random_bandnames_for_wheel(Bandname.objects.count())
         cleaned_list = censor_bandnames(bandnames)
-        response = {
-            "bandnames": cleaned_list
-        }
+        response = {"bandnames": cleaned_list}
         return JsonResponse(response)
     else:
-        return redirect('/')
+        return HttpResponseRedirect(reverse('index'))

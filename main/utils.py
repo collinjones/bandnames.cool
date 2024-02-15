@@ -12,10 +12,11 @@ from django.template.defaulttags import register
 from django import template
 
 def deleted_bandname_cleanup(request):
-    """
-    Deletes bandnames from the user's voted_bandnames list if they have been deleted from the database.
+    """ Deletes bandnames from the user's voted_bandnames list if they have been deleted from the database.
+
     Runs each time the user visits their profile page. 
     """
+    
     bandnames = Bandname.objects.values_list(flat=True)
     current_user = User.objects.get(pk=request.user.id)
     voted_bandnames = current_user.profile.voted_bandnames
@@ -353,57 +354,6 @@ def create_voted_response(judgement, bandname, request):
             'filtered_new_bandnames': [ProfanityFilter().censor(x) for x in refresh_list],
         }
     }
-    
-# def build_judgement_json(request, judgement):
-#     ip = get_client_ip(request)
-#     voted = True
-#     if 'bandname' in request.POST:
-#         # Get the user object if authenticated
-#         user = User.objects.get(pk=request.user.id) if request.user.is_authenticated else None
-#         if request.POST['bandname'] != '':
-#             bandname = Bandname.objects.get(bandname=request.POST['bandname'])
-            
-#             # Ensure user has not already voted on the bandname
-#             if request.user.is_authenticated:
-#                 if bandname not in user.profile.voted_bandnames:
-#                     voted = False
-            
-#             # Ensure the IP address has not already voted on the bandname
-#             if ip not in bandname.ip_addresses_voted:
-#                 voted = False
-#             else:
-#                 voted = True
-
-#             if not voted:
-#                 save_vote(judgement, bandname, ip, user)
-#                 refresh_list = get_random_bandnames_for_wheel(Bandname.objects.count())
-#                 json_response = {
-#                         'vote_msg': "Voted up '" + bandname.bandname + "'"} if judgement == 'up' \
-#                     else { 
-#                         'vote_msg': "Voted down '" + bandname.bandname + "'"
-#                 }
-#                 json_response['bandname_json'] = {
-#                     'authenticated': "False",
-#                     'new_bandnames': refresh_list,
-#                     'filtered_new_bandnames': [ProfanityFilter().censor(x) for x in refresh_list],
-#                 }
-#             else:
-#                 json_response = { 
-#                     'vote_msg': "Already voted: '" + bandname.bandname + "'", 
-#                     'authenticated': request.user.is_authenticated
-#                 }
-#         else: 
-#             json_response = { 
-#                 'vote_msg': "Spin the wheel!", 
-#                 'authenticated': request.user.is_authenticated
-#             }
-#     else:
-#         json_response = { 
-#             'vote_msg': "Spin the wheel!", 
-#             'authenticated': request.user.is_authenticated
-#         }
-
-#     return json_response
 
 def get_genres():
     f = open('static/main/genres/genres.json', 'r')
