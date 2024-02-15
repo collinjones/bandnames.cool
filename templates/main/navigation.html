@@ -10,6 +10,9 @@
             <a href="/refresh_wheel">
                 <img id="website-logo-gif" onmouseleave="set_logo_static()" onmouseover="set_logo_active()" class="noselect active" draggable=false src="{% static 'gifs/cool.gif' %}" id="website-logo-gif">
             </a>
+
+            <!-- Bandname Pointer -->
+            <img id="selector" class="noselect"draggable="false" src="{% static 'images/merle_selector.png' %}"/>
         </div>
         <div class="noselect" id="nav-links">
             {% if user.is_authenticated %}
@@ -27,8 +30,6 @@
             {% endif %} 
         </div>
         
-        <!-- Bandname Pointer -->
-        <img id="selector" class="noselect"draggable="false" src="{% static 'images/merle_selector.png' %}"/>
     </div>
 </div>
 

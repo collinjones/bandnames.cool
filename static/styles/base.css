@@ -571,10 +571,10 @@ table.dataTable tbody td {
 
 #selector {
     position: absolute;
-    top: -178px;
-    left: 541px;
+    top: 118px;
+    left: 184px;
     width: 119px;
-    transform: rotate(-45deg);
+    transform: rotate(-40deg);
     z-index: 1;
 }
 
