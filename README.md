@@ -1,3 +1,4 @@
+![Bandnames.cool Website Logo](static/images/logo_final.png "Logo")
 # [bandnames.cool](https://www.bandnames.cool)
 
 bandnames.cool is a bandname aggregate website. We love cool bandnames. This website was created by a bunch of boys who loved keeping lists of cool bandnames they thought of.
