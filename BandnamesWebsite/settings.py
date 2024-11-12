@@ -151,11 +151,11 @@ if os.getenv('DJANGO_DEVELOPMENT') == 'true':
     }
     DEBUG = True
     ENVIRONMENT = "DEV"
-    
 else:
     ENVIRONMENT = "PROD"
-    print('BE CAREFUL!!\n')
 
-print(f'\n== STARTING {ENVIRONMENT} ENVIRONMENT ==\n')
+# Single place for environment logging
+print(f'\n== STARTING {ENVIRONMENT} ENVIRONMENT ==')
 print(f'Debug mode: {DEBUG}')
-print(f"Database: {DATABASES['default']}\n")
+# Don't log sensitive database information
+print(f"Database: {DATABASES['default']['NAME']}\n")
