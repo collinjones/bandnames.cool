@@ -136,7 +136,11 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 django_heroku.settings(locals())
 
-CSRF_TRUSTED_ORIGINS = ['https://*.bandnames.cool','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.bandnames.cool',
+    'https://dev.bandnames.cool',
+    'https://*.127.0.0.1'
+]
 
 # Configure connection to development database and enable debug if 
 # the DJANGO_DEVELOPMENT environment variable is set to true
