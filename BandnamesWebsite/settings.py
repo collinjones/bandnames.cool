@@ -144,7 +144,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Configure connection to development database and enable debug if 
 # the DJANGO_DEVELOPMENT environment variable is set to true
-if os.getenv('DJANGO_DEVELOPMENT') == 'true':
+if os.getenv('ENV') == 'DEV':
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
