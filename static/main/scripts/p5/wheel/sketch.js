@@ -19,50 +19,42 @@ let initializeCodeRan = false;
 let touchStartTime;
 
 function setup() {
-
-    // Setup canvas
     canvas = createCanvas(500, 350);
     canvas.parent('bandnames-wheel');
 
     const BACKGROUND_COLOR = [255, 204, 0, 0];
     const WHEEL_COLOR = color(255, 204, 0);
 
-    // Configure canvas
     angleMode(DEGREES);
     ellipseMode(CENTER);
-    background(BACKGROUND_COLOR)
-    frameRate(60);
+    background(BACKGROUND_COLOR);
+    frameRate(30); // Reduced frame rate for efficiency
 
-    // Setup spin button
-    const spinButton = select('#bandname-selected')
-    spinButton.mousePressed(handleSpinButton)
+    const spinButton = select('#bandname-selected');
+    spinButton.mousePressed(handleSpinButton);
 
     spinButton.elt.addEventListener('touchstart', function(event) {
-        event.preventDefault(); // Prevents default touch behavior
-        touchStartTime = new Date().getTime(); // Record start time
+        event.preventDefault();
+        touchStartTime = new Date().getTime();
     });
     
     spinButton.elt.addEventListener('touchend', function(event) {
-        event.preventDefault(); // Prevents default touch behavior
-        let touchEndTime = new Date().getTime(); // Get end time
-        let touchDuration = touchEndTime - touchStartTime; // Calculate duration
+        event.preventDefault();
+        let touchEndTime = new Date().getTime();
+        let touchDuration = touchEndTime - touchStartTime;
     
-        // Trigger action only if it's a tap (short duration touch)
-        if (touchDuration < 10) { // 200 milliseconds threshold for tap
+        if (touchDuration < 10) {
             handleSpinButton();
         }
     });
 
-    // Set the wheel tick sound fx volume
-    tick_sfx.setVolume(0.1)
+    tick_sfx.setVolume(0.1);
 
-    // Initialize chosen bandname header
     const bandnameSelectedHeading = document.getElementById('bandname-selected');
     bandnameSelectedHeading.innerHTML = "<span style='color:rgb(255, 100, 100)'> Click here to spin and stop the wheel</span>";
     bandnameSelectedHeading.setAttribute("value", "");
 
-    wheel = new Wheel(WHEEL_COLOR, bandnames, wheel_imgs, bandnameSelectedHeading)
-
+    wheel = new Wheel(WHEEL_COLOR, bandnames, wheel_imgs, bandnameSelectedHeading);
 }
 
 function draw() {
