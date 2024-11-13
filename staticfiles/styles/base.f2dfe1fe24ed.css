@@ -83,7 +83,7 @@ a {
 #placcard-img {
     width: 400px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     
 }
 
@@ -111,7 +111,7 @@ a {
 #submit-img {
     width: 250px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     
 }
 
@@ -141,7 +141,7 @@ a {
 #batch-img {
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     width: 450px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     
 }
 
@@ -198,21 +198,21 @@ table.dataTable tbody td {
 #scroll-img {
     width: 100%;
     height: 490px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     
 }
 
 #nav-img {
     width: 425px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     
 }
 
 #arch-sign {
     width: 527px;
     position: absolute;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 2;
     transform: translateX(-50%);
     left: 50%;
@@ -230,7 +230,7 @@ table.dataTable tbody td {
     width: 317px;
     position: absolute;
     bottom: 16px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 2;
     left: -215px;
 }
@@ -239,14 +239,14 @@ table.dataTable tbody td {
     width: 110px;
     position: absolute;
     bottom: 17px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 2;
     left: 106px;
 }
 
 #arch-img {
     width: 1167px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     position: absolute;
     height: 330px;
     z-index: 1;
@@ -434,7 +434,7 @@ table.dataTable tbody td {
 
 #vote-img {
     width: 60px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     
 }
 
@@ -448,7 +448,7 @@ table.dataTable tbody td {
 #background-hallway {
     position: absolute;
     filter: blur(2px);
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: -3;
     width: 100%;
     height: 1142px;
@@ -476,7 +476,7 @@ table.dataTable tbody td {
     overflow-x: hidden;
     overflow-y: hidden;
     height: 880px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 1;
     
 }
@@ -488,7 +488,7 @@ table.dataTable tbody td {
     overflow-x: hidden;
     overflow-y: hidden;
     height: 880px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 1;
     
 }
@@ -515,7 +515,7 @@ table.dataTable tbody td {
 #bg-image {
     position: absolute;
     width: 100%;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
 }
 
 #torch-gif-left {
@@ -523,7 +523,7 @@ table.dataTable tbody td {
     left: -203px;
     top: -168px;
     width: 156px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 5;
 }
 
@@ -532,7 +532,7 @@ table.dataTable tbody td {
     right: -195px;
     top: -168px;
     width: 156px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 5;
 }
 
@@ -789,7 +789,7 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     width: 110px;
     position: absolute;
     bottom: 17px;
-    image-rendering: crisp-edges;
+    image-rendering: auto;
     z-index: 2;
     left: 106px;
 }
