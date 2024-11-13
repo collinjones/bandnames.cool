@@ -15,25 +15,21 @@ class Clock {
         return this.mutableInterval;
     }
 
-    // Convert seconds to milliseconds and set the interval
     set interval(newIntervalSec) {
         if (typeof newIntervalSec !== 'number') {
             throw new Error('Interval must be a number');
         }
-        this.mutableInterval = newIntervalSec * 1000; // Converting seconds to milliseconds
+        this.mutableInterval = newIntervalSec * 1000;
     }
     
-    // Update the clock
     tick() {
-      this.currentTime = millis(); // Update the current time
+        this.currentTime = millis();
     }
     
-    // Resets the time since last trigger
     resetTrigger() {
-      this.lastTrigger = millis();
+        this.lastTrigger = millis();
     }
     
-    // Checks if the interval has passed since the last trigger
     trigger() {
         if (this.currentTime - this.lastTrigger > this.mutableInterval) {
             this.resetTrigger();
