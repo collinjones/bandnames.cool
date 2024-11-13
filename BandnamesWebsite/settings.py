@@ -136,7 +136,11 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 django_heroku.settings(locals())
 
-CSRF_TRUSTED_ORIGINS = ['https://*.bandnames.cool','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.bandnames.cool',
+    'https://dev.bandnames.cool',
+    'https://*.127.0.0.1'
+]
 
 # Configure connection to development database and enable debug if 
 # the DJANGO_DEVELOPMENT environment variable is set to true
@@ -151,11 +155,11 @@ if os.getenv('DJANGO_DEVELOPMENT') == 'true':
     }
     DEBUG = True
     ENVIRONMENT = "DEV"
-    
 else:
     ENVIRONMENT = "PROD"
-    print('BE CAREFUL!!\n')
 
-print(f'\n== STARTING {ENVIRONMENT} ENVIRONMENT ==\n')
+# Single place for environment logging
+print(f'\n== STARTING {ENVIRONMENT} ENVIRONMENT ==')
 print(f'Debug mode: {DEBUG}')
-print(f"Database: {DATABASES['default']}\n")
+# Don't log sensitive database information
+print(f"Database: {DATABASES['default']['NAME']}\n")
