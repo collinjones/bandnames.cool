@@ -1,3 +1,5 @@
+p5.disableFriendlyErrors = true;
+
 class Clock {
     constructor(interval_ms) {
         this.clockStarted = millis();
