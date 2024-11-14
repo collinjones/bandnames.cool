@@ -28,7 +28,6 @@ function setup() {
     angleMode(DEGREES);
     ellipseMode(CENTER);
     background(BACKGROUND_COLOR);
-    frameRate(30); // Reduced frame rate for efficiency
 
     const spinButton = select('#bandname-selected');
     spinButton.mousePressed(handleSpinButton);
