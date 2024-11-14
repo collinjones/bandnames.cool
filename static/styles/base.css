@@ -731,23 +731,22 @@ table.dataTable thead > tr > td.sorting_desc_disabled::before {
     }
 }
 
-/* .bn_animation {
-    color: #fff;
-    text-align: center;
-    -webkit-animation: bn_animation 3s ease-in-out infinite alternate;
-    -moz-animation: bn_animation 3s ease-in-out infinite alternate;
-    animation: bn_animation 3s ease-in-out infinite alternate;
-  }
-  
-@keyframes bn_animation {
+#marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    border: 2px solid black;
+    animation: scroll-left 20s linear infinite;
+}
+
+@keyframes scroll-left {
     from {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+        transform: translateX(60%);
     }
     to {
-      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+        transform: translateX(-60%);
     }
-    50%  { transform: translate(0, 15px); }
-} */
+}
 
 .genres-table{
     margin: auto;

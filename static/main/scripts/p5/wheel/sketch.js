@@ -57,9 +57,9 @@ function setup() {
 }
 
 function draw() {
-    clear();
-    wheel.update();
-    resetWheelOnVote();
+    // clear();
+    // wheel.update();
+    // resetWheelOnVote();
 }
 
 function resetWheelOnVote() {
