@@ -1,5 +1,5 @@
 html {
-    background-image: url("../gifs/background.gif");
+    background-image: url("../gifs/background.9ac3c6edd6d5.gif");
     scrollbar-color: rgba(1, 1, 1, 0.356) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
     font-family: Pixelated;
@@ -16,29 +16,29 @@ body {
 
 @font-face {
     font-family: 'Pixelated';
-    src: url('../fonts/pixel.ttf');
+    src: url("../fonts/pixel.6bb6308744b3.ttf");
 }
 
 @font-face {
     font-family: 'Win95';
-    src: url('../fonts/win95.ttf');
+    src: url("../fonts/win95.772fa67643ce.ttf");
 }
 
 .cursor-text {
-    cursor: url("../images/cursor-text.png"), auto;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto;
 }
 
 .cursor-default {
-    cursor: url("../images/cursor-default.png"), auto;
+    cursor: url("../images/cursor-default.7cf271181c71.png"), auto;
 }
 
 .cursor-horns {
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 input[type="text"] {
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 input {
@@ -49,7 +49,7 @@ input {
     margin: 5px;
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 
 .signup-form-header {
@@ -60,7 +60,7 @@ input {
     margin: 5px;
     font-family: 'Pixelated';
     font-size: 16px;
-    cursor: url("../images/cursor-text.png"), auto !important;
+    cursor: url("../images/cursor-text.2544891b807f.png"), auto !important;
 }
 .pixelated-font {
     font-family: 'Pixelated';
@@ -69,7 +69,7 @@ input {
 /* Links */
 a {
     color: #e48ce5;
-    cursor: url("../images/cursor-horns.png"), auto !important;
+    cursor: url("../images/cursor-horns.f17f5e35167c.png"), auto !important;
 }
 
 .current {
