@@ -21,6 +21,5 @@ app_name = 'bandnames.cool'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('sequencer/', include('sequencer.urls')),
     path('registration/', include('accounts.urls')),
 ]
