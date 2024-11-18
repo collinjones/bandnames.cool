@@ -486,11 +486,11 @@ class Wheel {
         const totalFrames = 26;
     
         this.fadeInWheel();
-        image(this.wheel_imgs[this.frame_counter], -width / 2, imageOffsetY - height / 2, imageWidth, imageHeight);
+        image(this.wheel_imgs[0], -width / 2, imageOffsetY - height / 2, imageWidth, imageHeight);
     
-        if (this.clock.trigger()) {
-            this.frame_counter = (this.frame_counter + 1) % totalFrames;
-        }
+        // if (this.clock.trigger()) {
+        //     this.frame_counter = (this.frame_counter + 1) % totalFrames;
+        // }
     }
 
     spin(aV) {
